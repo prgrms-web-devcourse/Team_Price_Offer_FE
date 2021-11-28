@@ -1,3 +1,82 @@
 {
-  "extends": "next/core-web-vitals"
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true,
+    "jest": true
+  },
+  "extends": ["airbnb","eslint:recommended", "plugin:react/recommended", "prettier"],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "prettier"],
+  "rules": {
+    "no-var": 2,
+    "no-alert": 0,
+    "no-console": 0,
+    "no-debugger": 0,
+    "no-empty": 0,
+    "no-useless-return": 0,
+    "global-require": 0,
+    "no-underscore-dangle": 0,
+    "curly": ["error", "all"],
+    "no-param-reassign": ["error", { "props": false }],
+    "no-unused-vars": "off",
+    "no-use-before-define": "off",
+    "no-unused-expressions": 0,
+    "arrow-body-style": "off",
+    "consistent-return": 0,
+    "no-shadow": "off",
+    "prefer-arrow-callback": "off",
+    "import/extensions": ["off"],
+    "import/no-unresolved": "off",
+    "react/jsx-filename-extension": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/display-name": "off",
+    "react/prop-types": "off",
+    "react/require-default-props": "off",
+    "react/no-unescaped-entities":0,
+    "react/prefer-stateless-function": 0,
+    "react/jsx-one-expression-per-line": 0,
+    "react/jsx-props-no-spreading": 0,
+    "react/button-has-type": "off",
+    "import/prefer-default-export": 0,
+    "import/no-extraneous-dependencies": 0,
+    "react/self-closing-comp": ["error", {
+      "component": true,
+      "html": true
+    }],
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto",
+        "arrowParens": "avoid",
+        "bracketSpacing": true,
+        "htmlWhitespaceSensitivity": "css",
+        "insertPragma": false,
+        "jsxSingleQuote": false,
+        "jsxBracketSameLine": true,
+        "printWidth": 80,
+        "proseWrap": "preserve",
+        "quoteProps": "as-needed",
+        "requirePragma": false,
+        "semi": false,
+        "singleQuote": true,
+        "tabWidth": 2,
+        "trailingComma": "all",
+        "useTabs": false,
+        "vueIndentScriptAndStyle": false
+      }
+    ]
+  },
+  "ignorePatterns": ["webpack.config.js", ".eslintrc.json"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
 }
