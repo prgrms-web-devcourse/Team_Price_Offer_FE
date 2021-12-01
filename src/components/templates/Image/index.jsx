@@ -22,6 +22,7 @@ const Image = ({
   height,
   alt,
   mode,
+  className,
   ...props
 }) => {
   const [loaded, setLoaded] = useState(false)
@@ -65,6 +66,7 @@ const Image = ({
 
   return (
     <img
+      className={className}
       onError={handleImgError}
       ref={imgRef}
       src={loaded ? src : placeholder}
