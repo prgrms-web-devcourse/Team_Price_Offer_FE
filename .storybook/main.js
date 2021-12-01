@@ -1,4 +1,5 @@
 const path = require('path');
+const resolvePath = (_path) => path.join(process.cwd(), _path)
 
 module.exports = {
   "stories": [
@@ -26,6 +27,7 @@ module.exports = {
     );
     config.resolve.alias['@pages'] = path.resolve(__dirname, '../src/pages');
     config.resolve.alias['@assets'] = path.resolve(__dirname, '../src/assets');
+    config.resolve.alias["@emotion/styled"] = resolvePath("node_modules/@emotion/styled");
     return config;
   },
 }
