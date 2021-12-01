@@ -2,10 +2,20 @@ import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 
-const Modal = ({ style, children, className }) => {
+const Modal = ({ style, children, className, width, height }) => {
+  const containerStyle = useMemo(
+    () => ({
+      width,
+      height,
+    }),
+    [width, height],
+  )
+
   return (
     <BackgroundDIM>
-      <ModalContainer style={style} className={className}>
+      <ModalContainer
+        style={{ ...style, ...containerStyle }}
+        className={className}>
         {children}
       </ModalContainer>
     </BackgroundDIM>
@@ -15,6 +25,8 @@ const Modal = ({ style, children, className }) => {
 Modal.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   className: PropTypes.string,
+  width: PropTypes.number,
+  height: PropTypes.number,
 }
 
 const BackgroundDIM = styled.div`
@@ -27,6 +39,7 @@ const BackgroundDIM = styled.div`
   left: 0;
   display: flex;
   justify-content: center;
+  align-items: center;
 `
 
 const ModalContainer = styled.div`

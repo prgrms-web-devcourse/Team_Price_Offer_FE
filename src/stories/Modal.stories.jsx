@@ -3,13 +3,16 @@ import Modal from '@components/templates/Modal'
 export default {
   title: 'Component/Modal',
   component: Modal,
-  argTypes: {},
+  argTypes: {
+    width: { control: 'number' },
+    height: { control: 'number' },
+  },
 }
-export const Default = () => {
+export const Default = args => {
   return (
     <div>
       <button>모달온</button>
-      <Modal>안냐숑</Modal>
+      <Modal {...args}>안냐숑</Modal>
     </div>
   )
 }
