@@ -1,8 +1,17 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
+import useClickAway from '@hooks/useClickAway'
 
-const Modal = ({ style, children, className, width, height }) => {
+const Modal = ({
+  style,
+  children,
+  className,
+  width,
+  height,
+  visible = false,
+  onClose,
+}) => {
   const containerStyle = useMemo(
     () => ({
       width,
@@ -11,9 +20,14 @@ const Modal = ({ style, children, className, width, height }) => {
     [width, height],
   )
 
+  const ref = useClickAway(e => {
+    onClose && onClose()
+  })
+
   return (
-    <BackgroundDIM>
+    <BackgroundDIM style={{ display: visible ? 'flex' : 'none' }}>
       <ModalContainer
+        ref={ref}
         style={{ ...style, ...containerStyle }}
         className={className}>
         {children}
@@ -24,9 +38,15 @@ const Modal = ({ style, children, className, width, height }) => {
 
 Modal.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
   className: PropTypes.string,
   width: PropTypes.number,
   height: PropTypes.number,
+  visible: PropTypes.bool,
+  onClose: PropTypes.func,
 }
 
 const BackgroundDIM = styled.div`

@@ -1,4 +1,5 @@
 import Modal from '@components/templates/Modal'
+import { useState } from 'react'
 
 export default {
   title: 'Component/Modal',
@@ -9,10 +10,14 @@ export default {
   },
 }
 export const Default = args => {
+  const [visible, setVisible] = useState(false)
+
   return (
     <div>
-      <button>모달온</button>
-      <Modal {...args}>안냐숑</Modal>
+      <button onClick={() => setVisible(true)}>모달온</button>
+      <Modal visible={visible} {...args} onClose={() => setVisible(false)}>
+        안냐숑
+      </Modal>
     </div>
   )
 }
