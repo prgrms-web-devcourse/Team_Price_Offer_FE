@@ -7,6 +7,7 @@ const Input = ({
   style,
   className,
   placeholder = '정보를 입력하세요.',
+  value,
   onChange,
 }) => {
   const inputStyle = {
@@ -18,22 +19,16 @@ const Input = ({
     padding: '1% 2%',
   }
 
-  const [inputValue, setInputValue] = useState(defaultValue)
-
-  const changeHandler = e => {
-    setInputValue(e.target.value)
-    onChange && onChange({ args: inputValue })
-  }
-
   return (
     <input
       type="text"
       name={name}
-      value={inputValue}
+      value={value}
       style={{ ...style, ...inputStyle }}
       className={className}
       placeholder={placeholder}
-      onChange={changeHandler}
+      onChange={() => onChange}
+      defaultValue={defaultValue}
     />
   )
 }

@@ -13,6 +13,7 @@ export default {
     },
     className: { control: { type: 'text' } },
     onChange: { action: 'typing' },
+    defaultValue: { control: { type: 'text' } },
   },
 }
 
