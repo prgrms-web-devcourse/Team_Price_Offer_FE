@@ -2,52 +2,36 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 
-const Button = ({
-  backgroundColor = '#F74F2A',
-  color = '#FFFFFF',
-  borderRadius = '3px',
-  width = '324px',
-  height = '50px',
-  fontSize = '16px',
-  cursor = 'pointer',
-  className,
-  children,
-  onClick,
-  ...props
-}) => {
-  const buttonStyle = {
-    backgroundColor,
-    color,
-    borderRadius,
-    width,
-    height,
-    fontSize,
-  }
-  const Click = e => {
+const Button = ({ style, className, children, onClick }) => {
+  const handleClick = e => {
     e.prevenDefault()
+    onClick()
   }
   return (
-    <CommonButton
-      className={{ className }}
-      style={{ ...props.style, ...buttonStyle }}
-      onClick={Click}>
+    <CommonButton className={className} style={style} onClick={handleClick}>
       {children}
     </CommonButton>
   )
 }
 
 Button.propTypes = {
-  width: PropTypes.number,
-  height: PropTypes.number,
-  fontSize: PropTypes.number,
-  backgroundColor: PropTypes.string,
+  style: PropTypes.objectOf(PropTypes.string),
+  className: PropTypes.string,
+  children: PropTypes.string,
   onClick: PropTypes.func,
 }
 const CommonButton = styled.button`
+  width: 324px;
+  height: 50px;
+  font-size: 16px;
+  color: #ffffff;
+  background-color: #f74f2a;
+  border-radius: 3px;
   border: none;
   display: block;
   justify-content: center;
   text-align: center;
+  cursor: pointer;
 `
 
 export default Button
