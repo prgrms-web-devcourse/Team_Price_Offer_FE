@@ -7,7 +7,7 @@ export default {
         style: {
             defaultValue: {
                 width: '180px',
-                height: '40px',
+                height: '100%',
                 color:'#000000',
                 fontSize:'14px',
                 backgroundColor:'#EEEEEE',

@@ -36,7 +36,7 @@ Message.propTypes = {
 
 const MessageBox = styled.div`
     width: 180px;
-    height: 40px;
+    height: 100%;
     color:#000000;
     font-size:14px;
     background-color:#EEEEEE;
