@@ -1,7 +1,7 @@
 import Selectbox from '../../components/templates/Selectbox'
 
 export default {
-  title: 'Components/Selectbox',
+  title: 'Component/Selectbox',
   component: Selectbox,
   argTypes: {
     style: {
