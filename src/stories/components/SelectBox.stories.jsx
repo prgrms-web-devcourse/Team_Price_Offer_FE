@@ -1,9 +1,16 @@
-import Selectbox from '../components/templates/Selectbox'
+import Selectbox from '../../components/templates/Selectbox'
 
 export default {
   title: 'Components/Selectbox',
   component: Selectbox,
   argTypes: {
+    style: {
+      defaultValue: {
+        width: '100px',
+        height: '50px',
+      },
+      control: { type: 'object' },
+    },
     name: {
       control: 'text',
     },

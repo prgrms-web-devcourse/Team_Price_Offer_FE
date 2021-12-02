@@ -2,9 +2,9 @@ import React from 'react'
 import { PropTypes } from 'prop-types'
 import styled from '@emotion/styled'
 
-function SelectBox({ width = '407px', height = '66px', options, defaultText }) {
+function SelectBox({ style, options, defaultText, className, onChange }) {
   return (
-    <Select style={{ width, height }}>
+    <Select className={className} style={style} onChange={onChange}>
       <option className="defaultoption" value="" selected disabled hidden>
         {defaultText}
       </option>
@@ -16,14 +16,19 @@ function SelectBox({ width = '407px', height = '66px', options, defaultText }) {
 }
 
 SelectBox.propTypes = {
-  defaultText: PropTypes.string,
-  width: PropTypes.number,
+  style: PropTypes.objectOf(PropTypes.string),
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
+  defaultText: PropTypes.string,
+  className: PropTypes.string,
+  onChange: PropTypes.func,
 }
 
 const Select = styled.select`
+  width: 407px;
+  height: 66px;
   cursor: pointer;
   padding-left: 20px;
+  padding-right: 20px;
   font-size: 16px;
   color: gray;
 `
