@@ -1,6 +1,6 @@
 import React from 'react'
 import { action } from '@storybook/addon-actions'
-import IconButton from '../components/templates/IconButton'
+import IconButton from '../../components/templates/IconButton'
 
 export default {
   title: 'Component/IconButton',
