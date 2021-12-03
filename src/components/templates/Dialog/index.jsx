@@ -2,24 +2,13 @@ import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 
-const Dialog = ({
-  style,
-  className,
-  visible = false,
-  items,
-  trigger,
-  onClose,
-}) => {
+const Dialog = ({ style, className, visible = false, items, onClose }) => {
   const dialogRef = useRef(null)
   const handleClickItem = name => {
     console.log(`${name}으로 router 이동 처리`)
   }
 
   const handleClickAway = ({ target }) => {
-    if (trigger.current.contains(target)) {
-      return
-    }
-
     !dialogRef?.current?.contains(target) && onClose()
   }
 
@@ -51,7 +40,6 @@ Dialog.propTypes = {
   className: PropTypes.string,
   visible: PropTypes.bool,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
-  trigger: PropTypes.shape({}).isRequired,
   onClose: PropTypes.func,
 }
 
