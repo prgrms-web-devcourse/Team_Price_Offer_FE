@@ -5,10 +5,11 @@ import styled from '@emotion/styled'
 const Radio = ({
   style,
   className,
-  name,
   onChange,
   lists,
   radioDirection = 'horizontal',
+  size = '50',
+  fontSize = '20',
 }) => {
   const [inputStatus, setInputStatus] = useState(null)
 
@@ -17,22 +18,28 @@ const Radio = ({
     onChange && onChange({ args: inputStatus })
   }
 
-  const radioList = lists.map(list => {
-    return (
-      <InputContainer key={list.value} className={radioDirection}>
-        <Input
-          type="radio"
-          name={name}
+  const radioList =
+    lists &&
+    lists.map(list => {
+      return (
+        <InputContainer
+          key={list.value}
           style={style}
-          value={list.value}
-          checked={inputStatus === list.value}
-          className={className}
-          onChange={() => handleRadiobutton(list.value)}
-        />
-        <Label htmlFor={list.value}> {list.value}</Label>
-      </InputContainer>
-    )
-  })
+          className={`${radioDirection} ${className}`}>
+          <Input
+            style={{ width: size, height: size }}
+            type="radio"
+            name={list.text}
+            value={list.value}
+            checked={inputStatus === list.value}
+            onChange={() => handleRadiobutton(list.value)}
+          />
+          <Label htmlFor={list.value} style={{ fontSize }}>
+            {list.value}
+          </Label>
+        </InputContainer>
+      )
+    })
 
   return (
     <form style={{ display: radioDirection === 'vertical' ? 'block' : 'flex' }}>
@@ -42,9 +49,9 @@ const Radio = ({
 }
 
 const Input = styled.input`
+  margin-right: 10px;
   width: 30px;
   height: 30px;
-  margin-right: 10px;
 `
 
 const InputContainer = styled.div`
@@ -68,7 +75,6 @@ const Label = styled.label`
 Radio.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   className: PropTypes.string,
-  name: PropTypes.string,
   onChange: PropTypes.func,
   lists: PropTypes.arrayOf(PropTypes.object),
   radioDirection: PropTypes.string,
