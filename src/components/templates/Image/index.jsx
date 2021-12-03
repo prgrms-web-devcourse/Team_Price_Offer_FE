@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { useState, useRef, useEffect } from 'react'
+import styled from '@emotion/styled'
 
 let observer = null
 const LOAD_IMG_EVENT_TYPE = 'loadImage'
@@ -23,6 +24,7 @@ const Image = ({
   alt,
   mode,
   className,
+  ratio,
   ...props
 }) => {
   const [loaded, setLoaded] = useState(false)
@@ -41,13 +43,11 @@ const Image = ({
     }
 
     const handleLoadImage = () => setLoaded(true)
-
     const imgElement = imgRef.current
-    imgElement &&
-      imgElement.addEventListener(LOAD_IMG_EVENT_TYPE, handleLoadImage)
+    imgElement?.addEventListener(LOAD_IMG_EVENT_TYPE, handleLoadImage)
+
     return () => {
-      imgElement &&
-        imgElement.removeEventListener(LOAD_IMG_EVENT_TYPE, handleLoadImage)
+      imgElement?.removeEventListener(LOAD_IMG_EVENT_TYPE, handleLoadImage)
     }
   }, [lazy])
 
@@ -60,12 +60,20 @@ const Image = ({
     imgRef.current && observer.observe(imgRef.current)
   }, [lazy, threshold])
   const handleImgError = e => {
-    e.target.src =
-      'https://user-images.githubusercontent.com/66211721/144287708-9f8adc66-4c14-4a4c-a1b1-dc995daa94d1.png'
+    switch (ratio) {
+      case 'rectangle-h':
+        e.target.src = require('@assets/images/no-image_ rectangle-h.png')
+        break
+      case 'rectangle-w':
+        e.target.src = require('@assets/images/no-image_ rectangle-w.png')
+        break
+      default:
+        e.target.src = require('@assets/images/no-image_square.png')
+    }
   }
 
   return (
-    <img
+    <IMG
       className={className}
       onError={handleImgError}
       ref={imgRef}
@@ -85,6 +93,11 @@ Image.propTypes = {
   height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   alt: PropTypes.string,
   mode: PropTypes.string,
+  ratio: PropTypes.string,
 }
+
+const IMG = styled.img`
+  border: 1px solid #ccc;
+`
 
 export default Image
