@@ -1,7 +1,8 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import useClickAway from '@hooks/useClickAway'
+import ReactDOM from 'react-dom'
 
 const Modal = ({
   style,
@@ -24,7 +25,16 @@ const Modal = ({
     onClose && onClose()
   })
 
-  return (
+  const topElement = useMemo(() => document.createElement('div'), [])
+  useEffect(() => {
+    document.body.append(topElement)
+
+    return () => {
+      document.body.removeChild(topElement)
+    }
+  })
+
+  return ReactDOM.createPortal(
     <BackgroundDIM style={{ display: visible ? 'flex' : 'none' }}>
       <ModalContainer
         ref={ref}
@@ -32,7 +42,8 @@ const Modal = ({
         className={className}>
         {children}
       </ModalContainer>
-    </BackgroundDIM>
+    </BackgroundDIM>,
+    topElement,
   )
 }
 
