@@ -27,7 +27,7 @@ const Input = ({
       style={{ ...style, ...inputStyle }}
       className={className}
       placeholder={placeholder}
-      onChange={onChange}
+      onChange={e => onChange({ args: e.target.value })}
       defaultValue={defaultValue}
     />
   )
