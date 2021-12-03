@@ -33,6 +33,11 @@ export const Default = () => {
   const [visible, setVisible] = useState(false)
   const buttonRef = useRef(null)
 
+  const handleClick = e => {
+    e.stopPropagation()
+    setVisible(true)
+  }
+
   const items = [
     {
       name: 'profile',
@@ -50,11 +55,10 @@ export const Default = () => {
 
   return (
     <>
-      <button ref={buttonRef} onClick={() => setVisible(true)}>
+      <button ref={buttonRef} onClick={handleClick}>
         Show
       </button>
       <Dialog
-        trigger={buttonRef}
         items={items}
         visible={visible}
         onClose={() => setVisible(false)}
