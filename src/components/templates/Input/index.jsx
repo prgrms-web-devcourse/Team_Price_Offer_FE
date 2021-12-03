@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 const Input = ({
@@ -27,7 +27,7 @@ const Input = ({
       style={{ ...style, ...inputStyle }}
       className={className}
       placeholder={placeholder}
-      onChange={() => onChange}
+      onChange={onChange}
       defaultValue={defaultValue}
     />
   )
