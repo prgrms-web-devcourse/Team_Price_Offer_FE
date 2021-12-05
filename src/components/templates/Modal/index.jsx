@@ -38,7 +38,7 @@ const Modal = ({
     <BackgroundDIM style={{ display: visible ? 'flex' : 'none' }}>
       <ModalContainer
         ref={ref}
-        style={{ ...style, ...containerStyle }}
+        style={{ ...containerStyle, ...style }}
         className={className}>
         {children}
       </ModalContainer>
