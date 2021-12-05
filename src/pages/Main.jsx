@@ -116,7 +116,31 @@ const MainPage = () => {
       address: '서울시 강북구',
       time: '2분전',
       price: '160',
-    },
+      },
+      {
+        id: 8,
+        src: '',
+        title: '급처급처',
+        address: '서울시 강북구',
+        time: '2분전',
+        price: '160',
+      },
+      {
+        id: 9,
+        src: '',
+        title: '급처급처',
+        address: '서울시 강북구',
+        time: '2분전',
+        price: '160',
+      },
+      {
+        id: 10,
+        src: '',
+        title: '급처급처',
+        address: '서울시 강북구',
+        time: '2분전',
+        price: '160',
+      },
   ]
   const categoryClick = () => {
     // alert(`${categoryList.text} 선택`)
