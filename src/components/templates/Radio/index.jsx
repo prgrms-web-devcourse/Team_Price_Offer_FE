@@ -1,45 +1,39 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 
 const Radio = ({
+  formName,
   style,
   className,
   onChange,
-  lists,
+  items,
   radioDirection = 'horizontal',
-  size = '50',
-  fontSize = '20',
+  size = '50px',
+  fontSize = '20px',
 }) => {
-  const [inputStatus, setInputStatus] = useState(null)
-
-  const handleRadiobutton = radioBtnValue => {
-    setInputStatus(radioBtnValue)
-    onChange && onChange({ args: inputStatus })
+  const handleRadiobutton = e => {
+    onChange && onChange(e)
   }
 
-  const radioList =
-    lists &&
-    lists.map(list => {
-      return (
-        <InputContainer
-          key={list.value}
-          style={style}
-          className={`${radioDirection} ${className}`}>
-          <Input
-            style={{ width: size, height: size }}
-            type="radio"
-            name={list.text}
-            value={list.value}
-            checked={inputStatus === list.value}
-            onChange={() => handleRadiobutton(list.value)}
-          />
-          <Label htmlFor={list.value} style={{ fontSize }}>
-            {list.value}
-          </Label>
-        </InputContainer>
-      )
-    })
+  const radioList = items?.map(({ code, name }) => (
+    <InputContainer
+      key={code}
+      style={style}
+      className={`${radioDirection} ${className}`}>
+      <Input
+        type="radio"
+        id={code}
+        style={{ width: size, height: size }}
+        name={formName}
+        value={code}
+        onChange={e => handleRadiobutton(e)}
+      />
+      <Label htmlFor={code} style={{ fontSize }}>
+        {name}
+      </Label>
+    </InputContainer>
+  ))
 
   return (
     <form style={{ display: radioDirection === 'vertical' ? 'block' : 'flex' }}>
@@ -69,14 +63,16 @@ const InputContainer = styled.div`
 `
 
 const Label = styled.label`
+  cursor: pointer;
   font-size: 20px;
 `
 
 Radio.propTypes = {
+  formName: PropTypes.string.isRequired,
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   className: PropTypes.string,
   onChange: PropTypes.func,
-  lists: PropTypes.arrayOf(PropTypes.object),
+  items: PropTypes.arrayOf(PropTypes.object),
   radioDirection: PropTypes.string,
 }
 

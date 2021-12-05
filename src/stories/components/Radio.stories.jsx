@@ -1,4 +1,5 @@
 import Radio from '@components/templates/Radio'
+import { action } from '@storybook/addon-actions'
 import React from 'react'
 
 export default {
@@ -7,7 +8,7 @@ export default {
   argTypes: {
     style: { control: { type: 'object' } },
     className: { type: 'text' },
-    name: { type: 'text' },
+    formName: { type: 'text' },
     radioDirection: { control: { type: 'text' } },
     size: { control: { type: 'text' } },
     fontSize: { control: { type: 'text' } },
@@ -19,18 +20,23 @@ const Template = args => <Radio {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
-  lists: [
+  formName: 'radiotest',
+  items: [
     {
-      text: '옵션 1',
-      value: 'option1',
+      code: 'option1',
+      name: '옵션 1',
     },
     {
-      text: '옵션 2',
-      value: 'option2',
+      code: 'option2',
+      name: '옵션 2',
     },
     {
-      text: '옵션 3',
-      value: 'option3',
+      code: 'option3',
+      name: '옵션 3',
     },
   ],
+  onChange: e => {
+    const { name, value } = e.target
+    action('onChange')(name, value)
+  },
 }

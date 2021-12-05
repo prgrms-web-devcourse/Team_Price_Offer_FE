@@ -4,8 +4,9 @@ import styled from '@emotion/styled'
 
 const Dialog = ({ style, className, visible = false, items, onClose }) => {
   const dialogRef = useRef(null)
-  const handleClickItem = name => {
-    console.log(`${name}으로 router 이동 처리`)
+
+  const handleClickItem = code => {
+    console.log(`${code}로 router 이동 처리`)
   }
 
   const handleClickAway = ({ target }) => {
@@ -27,8 +28,8 @@ const Dialog = ({ style, className, visible = false, items, onClose }) => {
       style={style}
       className={className}>
       {items.map(item => (
-        <li key={`test-${item.name}`}>
-          <span onClick={() => handleClickItem(item.name)}>{item.text}</span>
+        <li key={`test-${item.code}`}>
+          <span onClick={() => handleClickItem(item.code)}>{item.name}</span>
         </li>
       ))}
     </DialogWrapper>
