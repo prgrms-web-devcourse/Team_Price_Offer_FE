@@ -2,6 +2,7 @@ import Button from '@components/templates/Button'
 import IMG from '@components/templates/Image'
 import ICONBUTTON from '@components/templates/IconButton'
 import DIVIDER from '@components/templates/Divider'
+import styles from '@assets/css/Main.module.css'
 import { ReactComponent as Bestgoods } from '../assets/svg/category_bestgoods.svg'
 
 const MainPage = () => {
@@ -124,57 +125,23 @@ const MainPage = () => {
 
   return (
     <>
-      <div
-        className="header-wrapper"
-        style={{ display: 'flex', justifyContent: 'center' }}>
+      <div className={styles.headerWrapper}>
         <div
-          className="header"
-          style={{ width: '1280px', height: '102px', backgroundColor: 'black' }}
-        />
+          className={styles.header}/>
       </div>
       <div
-        className="banner-wrapper"
-        style={{ display: 'flex', justifyContent: 'center' }}>
-        <div
-          className="banner"
-          style={{
-            width: '996px',
-            height: '329px',
-            backgroundColor: '#888888',
-            alignSelf: 'center',
-            color: 'white',
-          }}>
+        className={styles.bannerWrapper}>
+        <div className={styles.banner}>
           banner
         </div>
       </div>
 
-      <div
-        className="category-wrapper"
-        style={{
-          marginTop: '50px',
-          display: 'flex',
-          justifyContent: 'center',
-        }}>
-        <div
-          className="category-List"
-          style={{
-            width: '976.39px',
-            height: '79.5px;',
-            display: 'flex',
-            justifyContent: 'center',
-            flexWrap: 'wrap',
-          }}>
+      <div className={styles.categoryWrapper}>
+        <div className={styles.categoryList}>
           {categoryList.map(categoryList => (
-            <div
-              key={categoryList.value}
-              style={{
-                width: '63.38px',
-                height: '77.5px',
-                display: 'flex',
-                justifyContent: 'center',
-                flexDirection: 'column',
-                flexGrow: '1',
-              }}>
+              <div
+              className={styles.category}
+              key={categoryList.value}>
               <ICONBUTTON
                 src={categoryList.src}
                 alt={categoryList.text}
@@ -185,74 +152,28 @@ const MainPage = () => {
                 }}
                 //   onClick={categoryClick(categoryList)}
               />
-              <div
-                className="categorytext"
-                style={{
-                  fontSize: '14px',
-                  minWidth: '98px',
-                  height: '100%',
-                  marginTop: '25px',
-                  textAlign: 'center',
-                }}>
+              <div className={styles.categorytext}>
                 {categoryList.text}
               </div>
             </div>
           ))}
         </div>
       </div>
-      <div
-        className="newgoodstext-wrapper"
-        style={{
-          marginTop: '50px',
-          display: 'flex',
-          justifyContent: 'center',
-        }}>
-        <div
-          className="newgoodstext-container"
-          style={{
-            width: '999px',
-          }}>
-          <div
-            style={{
-              fontSize: '26px',
-              fontWeight: 'Bold',
-            }}>
-            신규상품
-          </div>
-        </div>
-      </div>
-      <div
-        className="newgoods-wrapper"
-        style={{
-          padding: '0px',
-          display: 'flex',
-          justifyContent: 'center',
-        }}>
-        <ul
-          style={{
-            padding: '0px',
-            paddingInlineStart: '0px',
-            width: '999px',
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '20px',
-
-            // justifyContent: 'space-between',
-            alignContent: 'flex-start',
-            // alignItems: 'flex-start',
-            flexWrap: 'wrap',
-          }}>
+      
+    <div className={ styles.newgoodstextWrapper}>
+              <div className={styles.newgoodstextContainer}>
+                  <div
+                      className={styles.newgoodsTitle}>신규상품
+                  </div>
+              </div>
+    </div>
+    
+     <div className={styles.newgoodsWwrapper}>
+        <ul className={styles.newgoodsList}>
           {goodsList.map(goodsList => (
-            <li
-              key={goodsList.id}
-              style={{
-                margin: '0px',
-                listStyle: 'none',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                position: 'relative',
-              }}>
+              <li
+                  className={styles.newgoods}
+                  key={goodsList.id}>
               <IMG
                 src="/favicon.ico"
                 width="183px"
@@ -276,36 +197,16 @@ const MainPage = () => {
                 //   onClick={categoryClick(categoryList)}
               />
               <div>
-                <div
-                  className="info-top"
-                  style={{
-                    maxWidth: '140px',
-                    marginTop: '10px',
-                    fontSize: '14px',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                  }}>
+                      <div className={ styles.infoTop}>
                   {goodsList.title}
                 </div>
-                <div
-                  className="info-middle"
-                  style={{
-                    color: '#DDDDDD',
-                    marginTop: '7px',
-                    fontSize: '12px',
-                  }}>
+                <div className={styles.infoMiddle}>
                   {goodsList.address}
                   <DIVIDER type="vertical" style={{ color: '#DDDDDD' }} />
                   {goodsList.time}
                 </div>
                 <div
-                  className="info-bottom"
-                  style={{
-                    fontWeight: 'bold',
-                    marginTop: '18px',
-                    fontSize: '16px',
-                  }}>
+                  className={styles.infoBottom}>
                   {goodsList.price} 원
                 </div>
               </div>

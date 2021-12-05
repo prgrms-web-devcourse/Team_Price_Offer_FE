@@ -1,0 +1,116 @@
+.headerWrapper{
+    display: flex;
+    justify-content:  center;
+}
+
+.header {
+    width: 1280px;
+     height: 102px ;
+     background-color: black;
+}
+
+.bannerWrapper{
+    display: flex;
+    justify-content: center;
+    
+}
+
+.banner{
+    width: 996px;
+    height: 329px;
+    background-color: #888888;
+    align-self: center;
+    color:white;
+}
+
+.categoryWrapper{
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.categoryList{
+    width: 976.39px;
+    height: 79.5px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+}
+
+.category{
+    width: 63.38px;
+    height: 77.5px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex-grow:1;
+
+}
+
+.categorytext{
+    font-size: 14px;
+    min-width: 98px;
+    height: 100%;
+    margin-top: 25px;
+    text-align: center;
+}
+
+.newgoodstextWrapper{
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.newgoodstextContainer{
+    width: 999px;
+}
+
+.newgoodsTitle{
+font-size: 26px;
+font-weight: bold;
+}
+
+.newgoodsWwrapper{
+    padding: 0px;
+    display: flex;
+    justify-content: center;
+}
+
+.newgoodsList{
+    padding: 0px;
+    padding-inline-start: 0px;
+    width: 999px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    align-content: flex-start;
+    flex-wrap: wrap;
+}
+.newgoods{
+margin: 0px;
+list-style: none;
+display: flex;
+flex-direction: column;
+justify-content: center;
+position: relative;
+}
+
+.infoTop{
+    max-width: 140px;
+    margin-top: 10px;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.infoMiddle{
+    color: #DDDDDD;
+    margin-top: 7px;
+    font-size: 12px;
+}
+.infoBottom{
+    font-weight: bold;
+    margin-top: 18px;
+    font-size: 16px;
+}
