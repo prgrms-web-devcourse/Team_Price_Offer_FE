@@ -1,4 +1,5 @@
-.headerWrapper{
+
+.header-wrapper{
     display: flex;
     justify-content:  center;
 }
@@ -9,7 +10,8 @@
      background-color: black;
 }
 
-.bannerWrapper{
+.banner-wrapper{
+    margin-top: 20px;
     display: flex;
     justify-content: center;
     
@@ -23,14 +25,14 @@
     color:white;
 }
 
-.categoryWrapper{
+.category-wrapper{
     margin-top: 50px;
     display: flex;
     justify-content: center;
 
 }
 
-.categoryList{
+.category-list{
     width: 976.39px;
     display: flex;
     flex-wrap: wrap;
@@ -47,6 +49,7 @@
 }
 
 .categorytext{
+    font-family: Noto Sans;
     font-size: 14px;
     min-width: 93px;
     height: 100%;
@@ -54,7 +57,7 @@
     text-align: center;
 }
 
-.newgoodstextWrapper{
+.newgoodstext-wrapper{
     margin-top: 50px;
     display: flex;
     justify-content: center;
@@ -62,22 +65,22 @@
 
 }
 
-.newgoodstextContainer{
+.newgoodstext-container{
     width: 999px;
 }
 
-.newgoodsTitle{
+.newgoods-title{
 font-size: 26px;
 font-weight: bold;
 }
 
-.newgoodsWwrapper{
+.newgoods-wrapper{
     padding: 0px;
     display: flex;
     justify-content: center;
 }
 
-.newgoodsList{
+.newgoods-list{
     padding: 0px;
     padding-inline-start: 0px;
     width: 999px;
@@ -93,23 +96,25 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 position: relative;
+
+    .info-top{
+        max-width: 140px;
+        margin-top: 10px;
+        font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .info-middle{
+        color: #999999;
+        margin-top: 7px;
+        font-size: 12px;
+    }
+    .info-bottom{
+        font-weight: bold;
+        margin-top: 18px;
+        font-size: 16px;
+    }
+
 }
 
-.infoTop{
-    max-width: 140px;
-    margin-top: 10px;
-    font-size: 14px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.infoMiddle{
-    color: #999999;
-    margin-top: 7px;
-    font-size: 12px;
-}
-.infoBottom{
-    font-weight: bold;
-    margin-top: 18px;
-    font-size: 16px;
-}

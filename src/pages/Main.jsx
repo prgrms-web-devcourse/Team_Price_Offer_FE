@@ -3,7 +3,7 @@ import IMG from '@components/templates/Image'
 import ICONBUTTON from '@components/templates/IconButton'
 import DIVIDER from '@components/templates/Divider'
 import Like from '@components/templates/ToggleButton'
-import styles from '@assets/css/Main.module.css'
+import BANNER from '@components/templates/Banner'
 
 const MainPage = () => {
   const categoryList = [
@@ -148,17 +148,22 @@ const MainPage = () => {
 
   return (
     <>
-      <div className={styles.headerWrapper}>
-        <div className={styles.header} />
+      <div className="header-wrapper">
+        <div className="header" />
       </div>
-      <div className={styles.bannerWrapper}>
-        <div className={styles.banner}>banner</div>
+      <div className="banner-wrapper">
+        <BANNER
+          style={{
+            textAlign: 'center',
+            verticalAlign: 'middle',
+          }}
+        />
       </div>
 
-      <div className={styles.categoryWrapper}>
-        <div className={styles.categoryList}>
+      <div className="category-wrapper">
+        <div className="category-list">
           {categoryList.map(categoryList => (
-            <div className={styles.category} key={categoryList.value}>
+            <div className="category" key={categoryList.value}>
               <ICONBUTTON
                 src={categoryList.src}
                 alt={categoryList.text}
@@ -169,22 +174,22 @@ const MainPage = () => {
                 }}
                 //   onClick={categoryClick(categoryList)}
               />
-              <div className={styles.categorytext}>{categoryList.text}</div>
+              <div className="categorytext">{categoryList.text}</div>
             </div>
           ))}
         </div>
       </div>
 
-      <div className={styles.newgoodstextWrapper}>
-        <div className={styles.newgoodstextContainer}>
-          <div className={styles.newgoodsTitle}>신규상품</div>
+      <div className="newgoodstext-wrapper">
+        <div className="newgoodstext-container">
+          <div className="newgoods-title">신규상품</div>
         </div>
       </div>
 
-      <div className={styles.newgoodsWwrapper}>
-        <ul className={styles.newgoodsList}>
+      <div className="newgoods-wrapper">
+        <ul className="newgoods-list">
           {goodsList.map(goodsList => (
-            <li className={styles.newgoods} key={goodsList.id}>
+            <li className="newgoods" key={goodsList.id}>
               <IMG
                 src="https://picsum.photos/200"
                 width="183px"
@@ -195,7 +200,7 @@ const MainPage = () => {
                 }}
               />
               <div
-                className="likeBorder"
+                className="like-border"
                 style={{
                   position: 'absolute',
                   top: '15px',
@@ -220,13 +225,13 @@ const MainPage = () => {
                 />
               </div>
               <div>
-                <div className={styles.infoTop}>{goodsList.title}</div>
-                <div className={styles.infoMiddle}>
+                <div className="info-top">{goodsList.title}</div>
+                <div className="info-middle">
                   {goodsList.address}
                   <DIVIDER type="vertical" style={{ color: '#DDDDDD' }} />
                   {goodsList.time}
                 </div>
-                <div className={styles.infoBottom}>{goodsList.price} 원</div>
+                <div className="info-bottom">{goodsList.price} 원</div>
               </div>
             </li>
           ))}
