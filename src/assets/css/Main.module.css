@@ -27,19 +27,17 @@
     margin-top: 50px;
     display: flex;
     justify-content: center;
+
 }
 
 .categoryList{
     width: 976.39px;
-    height: 79.5px;
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
-
+    gap:32.5px 1px;
 }
 
 .category{
-    width: 63.38px;
     height: 77.5px;
     display: flex;
     justify-content: center;
@@ -50,7 +48,7 @@
 
 .categorytext{
     font-size: 14px;
-    min-width: 98px;
+    min-width: 93px;
     height: 100%;
     margin-top: 25px;
     text-align: center;
@@ -60,6 +58,8 @@
     margin-top: 50px;
     display: flex;
     justify-content: center;
+    margin-bottom: 50px;
+
 }
 
 .newgoodstextContainer{
@@ -83,8 +83,7 @@ font-weight: bold;
     width: 999px;
     display: flex;
     justify-content: center;
-    gap: 20px;
-    align-content: flex-start;
+    gap: 50px 20px;
     flex-wrap: wrap;
 }
 .newgoods{
@@ -105,7 +104,7 @@ position: relative;
     text-overflow: ellipsis;
 }
 .infoMiddle{
-    color: #DDDDDD;
+    color: #999999;
     margin-top: 7px;
     font-size: 12px;
 }
