@@ -37,17 +37,25 @@ const posting = () => {
     name: '선택하세요',
   }
 
+  const commonRadioStyle = {
+    fontSize: '18px',
+  }
+
   return (
     <div className="post_container">
       <div className="post_title">상품정보</div>
       <Divider
-        style={{ backgroundColor: 'black', width: '100%', height: '2px' }}
+        style={{
+          ...commonDividerStyle,
+          backgroundColor: 'black',
+          height: '2px',
+        }}
         marginSize={50}
       />
 
       <div className="post_subtitle">상품명</div>
       <Input
-        style={{ width: '85%', height: '65px' }}
+        style={{ ...commonInputStyle, width: '85%' }}
         placeholder="상품 제목을 입력해주세요"
         type="text"
       />
@@ -95,8 +103,8 @@ const posting = () => {
       <Radio
         items={PRODUCT_STATUS}
         formName="productStatus"
+        style={commonRadioStyle}
         size="32px"
-        fontSize="18px"
       />
       <Divider style={commonDividerStyle} marginSize={50} />
 
@@ -104,8 +112,8 @@ const posting = () => {
       <Radio
         items={ORDERWAY}
         formName="tradeMethod"
+        style={commonRadioStyle}
         size="32px"
-        fontSize="18px"
       />
       <Divider style={commonDividerStyle} marginSize={50} />
 
@@ -136,6 +144,7 @@ const posting = () => {
           fontSize: '20px',
         }}
         placeholder="상품 설명을 입력해 주세요"
+        className="post_prod_descrpt"
       />
 
       <div className="posting_button-container">
