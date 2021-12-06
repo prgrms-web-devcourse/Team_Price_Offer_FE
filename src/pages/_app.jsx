@@ -1,5 +1,6 @@
+import '../styles/reset.min.css'
+import '../styles/font.css'
 import '../styles/globals.css'
-import '@assets/css/search.css'
 
 function MyApp({ Component, pageProps }) {
   return (
