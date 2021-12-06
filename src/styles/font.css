@@ -1,0 +1,36 @@
+@font-face {
+  font-family: Noto Sans;
+  font-style: normal;
+  font-weight: normal;
+  src: url(../assets/font/Noto_Sans_KR/NotoSansKR-Regular.otf);
+}
+@font-face {
+  font-family: Noto Sans;
+  font-style: normal;
+  font-weight: 500;
+  src: url(../assets/font/Noto_Sans_KR/NotoSansKR-Medium.otf);
+}
+@font-face {
+  font-family: Noto Sans;
+  font-style: normal;
+  font-weight: 700;
+  src: url(../assets/font/Noto_Sans_KR/NotoSansKR-Bold.otf);
+}
+@font-face {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  src: url(../assets/font/Roboto/Roboto-Regular.ttf);
+}
+@font-face {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  src: url(../assets/font/Roboto/Roboto-Medium.ttf);
+}
+@font-face {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 700;
+  src: url(../assets/font/Roboto/Roboto-Bold.ttf);
+}
