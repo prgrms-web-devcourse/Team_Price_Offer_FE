@@ -1,4 +1,5 @@
 import '../styles/reset.min.css'
+import '../styles/font.css'
 import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
