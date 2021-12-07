@@ -1,8 +1,8 @@
-import '../styles/reset.min.css'
-import '../styles/font.css'
-import '../styles/globals.css'
-import '@styles/mainpage.scss'
-// import styles from '@assets/css/Main.css'
+import '@styles/common/reset.min.scss'
+import '@styles/common/font.scss'
+import '@styles/common/globals.scss'
+import '@styles/pages/search.scss'
+import '@styles/pages/main.scss'
 
 function MyApp({ Component, pageProps }) {
   return (
