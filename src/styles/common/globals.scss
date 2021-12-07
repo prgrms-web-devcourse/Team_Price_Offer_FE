@@ -1,8 +1,11 @@
+@import "./variables";
+
 html,
 body {
   margin: 0;
   font-family: Roboto, Noto Sans, Helvetica Neue, sans-serif;
   font-size: 14px;
+  color: $FONT_COLOR;
 }
 
 a {

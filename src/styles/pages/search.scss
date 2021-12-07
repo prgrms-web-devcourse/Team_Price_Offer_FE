@@ -1,7 +1,10 @@
+@import "@styles/common/variables";
+@import "@styles/common/mixins";
+
 .search {
   /* global */
   .active {
-    color: #f74f2a;
+    color: $PRIMARY_COLOR;
     font-weight: bold;
   }
 
@@ -19,7 +22,7 @@
       align-items: center;
       justify-content: center;
       padding: 50px 20px;
-      border: 1px solid #DDD;
+      border: 1px solid $BORDER_COLOR;
       border-radius: 5px;
     }
 
@@ -40,15 +43,15 @@
 
       &:nth-child(2) {
         padding: 0 30px;
-        border-left: 1px solid #ccc;
-        border-right: 1px solid #ccc;
+        border-left: 1px solid $BORDER_COLOR;
+        border-right: 1px solid $BORDER_COLOR;
       }
 
       &_title {
         margin: 0;
         padding-bottom: 15px;
         font-size: 16px;
-        border-bottom: 2px solid #000;
+        border-bottom: 2px solid;
       }
     }
 
@@ -65,7 +68,7 @@
         list-style: none;
         overflow: scroll;
         margin: 0;
-        padding: 25px 0 0 0;
+        padding: 50px 0 0 0;
 
         & .filter-cont_item{
           padding: 10px 0;
@@ -79,7 +82,7 @@
 
     &-cont_item-notice{
       margin-top: 8px !important;
-      color: #888;
+      color: $FONT_GRAY_COLOR;
     }
   }
 
@@ -102,7 +105,7 @@
 
       & span{
         margin-left: 10px;
-        color: #f74f2a;
+        color: $PRIMARY_COLOR;
       }
     }
 
@@ -122,12 +125,12 @@
         &.recent::after {
           content: '';
           margin: 0 10px;
-          border: 1px solid #ccc;
+          border: 1px solid $BORDER_COLOR;
         }
         &.price-low::after {
           content: '';
           margin: 0 10px;
-          border: 1px solid #ccc;
+          border: 1px solid $BORDER_COLOR;
         }
       }
     }
@@ -157,7 +160,7 @@
 
       &_meta {
         margin-top: 7px !important;
-        color: #888;
+        color: $FONT_GRAY_COLOR;
       }
 
       &_price {
@@ -176,8 +179,7 @@
     }
   }
 
-
-  @media screen and (max-width: 500px) {
+  @include mobile{
     /* filter */
     .filter {
       &-mask {
@@ -188,7 +190,7 @@
         z-index: 100;
         width: 100vw;
         height: 100vh;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: $OPACITY_COLOR;
 
         &.show {
           display: block;
@@ -201,7 +203,7 @@
         right: 0;
         height: 100vh;
         padding: 20px;
-        background: #fff;
+        background: $BACKGROUND_COLOR;
       }
       &-wrapper {
         padding: 0;
@@ -233,7 +235,7 @@
     /* search result - header*/
     .result-title {
       padding-bottom: 20px;
-      border-bottom: 2px solid #000;
+      border-bottom: 2px solid;
     }
 
     .result-filter {
@@ -266,7 +268,7 @@
         justify-content: center;
         width: 61px;
         height: 31px;
-        border: 1px solid #ccc;
+        border: 1px solid $BORDER_COLOR;
         border-radius: 3px;
       }
 
