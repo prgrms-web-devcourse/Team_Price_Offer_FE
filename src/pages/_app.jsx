@@ -2,7 +2,7 @@ import '@styles/common/reset.min.scss'
 import '@styles/common/font.scss'
 import '@styles/common/globals.scss'
 import '@styles/pages/search.scss'
-import '@styles/pages/main.scss'
+import '@styles/pages/index.scss'
 
 function MyApp({ Component, pageProps }) {
   return (
