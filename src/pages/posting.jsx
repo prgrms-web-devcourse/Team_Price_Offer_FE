@@ -42,8 +42,8 @@ const posting = () => {
   }
 
   return (
-    <div className="post_container">
-      <div className="post_title">상품정보</div>
+    <div className="posting">
+      <div className="post-title">상품정보</div>
       <Divider
         style={{
           ...commonDividerStyle,
@@ -53,25 +53,26 @@ const posting = () => {
         marginSize={50}
       />
 
-      <div className="post_subtitle">상품명</div>
+      <div className="posting-subtitle">상품명</div>
       <Input
         style={{ ...commonInputStyle, width: '85%' }}
         placeholder="상품 제목을 입력해주세요"
         type="text"
       />
+      <Divider style={commonDividerStyle} marginSize={50} />
 
-      <div className="post_subtitle">상품 이미지</div>
-      <div className="post_img-container">
-        <div className="post_img_main-container">
+      <div className="posting-subtitle">상품 이미지</div>
+      <div className="posting-img-container">
+        <div className="posting-img_main-container">
           <Image style={{ minWidth: '380px', minHeight: '380px' }} />
         </div>
 
-        <div className="post_img_sub-container">
-          <Image style={productImgStyle} className="post_img_sub" />
-          <Image style={productImgStyle} className="post_img_sub" />
+        <div className="posting-img_sub-container">
+          <Image style={productImgStyle} className="posting-img_sub" />
+          <Image style={productImgStyle} className="posting-img_sub" />
         </div>
 
-        <div className="post_img-guide">
+        <div className="posting-img-guide">
           * 상품 이미지는 640x640에 최적화 되어 있습니다. <br />- 이미지는
           상품등록 시 정사각형으로 짤려서 등록됩니다.
           <br /> - 이미지를 클릭 할 경우 원본이미지를 확인할 수 있습니다.
@@ -82,11 +83,11 @@ const posting = () => {
       </div>
       <Divider style={commonDividerStyle} marginSize={50} />
 
-      <div className="post_subtitle">카테고리</div>
+      <div className="posting-subtitle">카테고리</div>
       <SelectBox options={CATEGORIES} defaultOption={selectBoxdefault} />
       <Divider style={commonDividerStyle} marginSize={50} />
 
-      <div className="post_subtitle">거래지역</div>
+      <div className="posting-subtitle">거래지역</div>
       <SelectBox
         style={areaSelectBoxStyle}
         options={CATEGORIES}
@@ -98,7 +99,7 @@ const posting = () => {
         defaultOption={selectBoxdefault}
       />
       <Divider style={commonDividerStyle} marginSize={50} />
-      <div className="post_subtitle">상품상태</div>
+      <div className="posting-subtitle">상품상태</div>
 
       <Radio
         items={PRODUCT_STATUS}
@@ -108,7 +109,7 @@ const posting = () => {
       />
       <Divider style={commonDividerStyle} marginSize={50} />
 
-      <div className="post_subtitle">거래 방법</div>
+      <div className="posting-subtitle">거래 방법</div>
       <Radio
         items={ORDERWAY}
         formName="tradeMethod"
@@ -117,25 +118,25 @@ const posting = () => {
       />
       <Divider style={commonDividerStyle} marginSize={50} />
 
-      <div className="post_subtitle">수량</div>
+      <div className="posting-subtitle">수량</div>
       <Input
         style={commonInputStyle}
         placeholder="숫자만 입력해주세요"
         type="number"
       />
-      <span className="post_form_unit">개</span>
+      <span className="posting-form_unit">개</span>
       <Divider style={commonDividerStyle} marginSize={50} />
 
-      <div className="post_subtitle">가격</div>
+      <div className="posting-subtitle">가격</div>
       <Input
         style={commonInputStyle}
         placeholder="숫자만 입력해주세요"
         type="number"
       />
-      <span className="post_form_unit">원</span>
+      <span className="posting-form_unit">원</span>
       <Divider style={commonDividerStyle} marginSize={50} />
 
-      <div className="post_subtitle">상품 설명</div>
+      <div className="posting-subtitle">상품 설명</div>
       <TextArea
         style={{
           width: '100%',
@@ -144,13 +145,10 @@ const posting = () => {
           fontSize: '20px',
         }}
         placeholder="상품 설명을 입력해 주세요"
-        className="post_prod_descrpt"
       />
 
-      <div className="posting_button-container">
-        <Button
-          style={{ width: '25%', height: '70px', fontSize: '20px' }}
-          className="posting_button">
+      <div className="posting-button-container">
+        <Button style={{ width: '25%', height: '70px', fontSize: '20px' }}>
           등록하기
         </Button>
       </div>
