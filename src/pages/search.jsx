@@ -80,7 +80,7 @@ const search = props => {
                 </div>
               </div>
             </div>
-            <div className="result-filter_btn-wrapper">
+            <div className="filter-btn-wrapper">
               <Button style={{ ...btnStyle, ...resetBtnStyle }}>초기화</Button>
               <Button style={btnStyle}>필터 적용</Button>
             </div>
