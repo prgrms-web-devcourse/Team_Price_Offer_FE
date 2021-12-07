@@ -25,7 +25,6 @@ const LikeButton = ({ name, className, alt, on = false, onClick, style }) => {
   )
 }
 
-const Container = styled.div``
 const Icon = styled.img`
   width: 30px;
   height: 30px;
