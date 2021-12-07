@@ -1,19 +1,19 @@
 @import "./variables";
 
 @mixin desktop {
-    @media (min-width:#{ $bereakpoint-desktop}){
-        @content;
-    }
+	@media (min-width:#{ $bereakpoint-desktop}){
+		@content;
+	}
 }
 
 @mixin tablet {
-    @media (min-width : #{$bereakpoint-tablet}) and (max-width: #{$bereakpoint-desktop - 1px}){
-        @content;
-    }
+	@media (min-width : #{$bereakpoint-mobile}) and (max-width: #{$bereakpoint-desktop - 1px}){
+		@content;
+	}
 }
 
 @mixin mobile {
-    @media (min-width : #{$bereakpoint-mobile}) and (max-width: #{$bereakpoint-tablet - 1px}){
-        @content;
-    }
+	@media (max-width: #{$bereakpoint-mobile - 1px}){
+		@content;
+	}
 }
