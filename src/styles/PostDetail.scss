@@ -1,0 +1,162 @@
+@import "./scss/variables";
+@import "./scss/mixins";
+
+.header-wrapper{
+    margin:0px;
+    padding:0px;
+    display: flex;
+    justify-content:  center;
+
+    .header {
+        margin:0px;
+        padding:0px;
+        width: 1280px;
+        height: 102px ;
+        background-color: black;
+    }
+}
+
+
+
+.detail-info-wrapper{
+    gap:57px;
+    padding:0px;
+    padding-inline-start: 0px;    
+    margin-top: 37px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+
+
+.img-wrapper{
+    padding:0px;    
+}
+
+.post-info-wrapper{
+    padding:0px;
+
+    .post-info{
+        margin-top: 18px;
+        width:453px;
+
+        .post-info-user{
+            display: flex;
+            gap:17.99px;
+
+            .user-name{
+                font-size:18px;
+                align-content: center;
+                line-height: 47px;
+            }
+            
+        }
+    }
+
+}
+
+
+
+
+
+
+.post-info-top{
+    display: flex;
+    margin-top: 20px;
+    .post-title{
+        width: 80%;
+        font-size: 22px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .like-button{
+        margin-left: auto;
+        line-height: 30px,
+    }
+}
+
+.post-price{
+    margin-top: 20px;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.post-info-bottom{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    gap:15px;
+
+    .post-info-bottom_time{
+        display: flex;
+        gap: 24.98px;
+        .info-key{
+            font-size: 14px;
+            color:#BBBBBB;
+        }
+        
+        .info-value{
+            font-size: 14px;
+            color:#888888;
+        }
+    }
+}
+
+.info-offer-wrapper{
+    gap:55px;
+    padding:0px;
+    padding-inline-start: 0px;    
+    margin-top: 37px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .goods-info{
+        max-width: 488px;
+        padding: 0px;
+
+        .goods-info-title{
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .goods-info-content{
+            margin-top: 20px;
+            word-break: break-all;
+        
+        }
+    
+    }
+
+    
+}
+
+
+
+.offer-user-info{
+
+    margin-top: 20px;
+    margin-bottom: 20px;
+    .offer-username{
+        margin-bottom: 8px;
+    }
+    .offer-subinfo{
+        display: flex;
+    
+    }
+    .offer-address{
+        color: #888888;
+        font-size: 14px;
+    }
+    
+    .offer-price{
+        margin-left: auto;
+        line-height:1px;
+        font-size: 20px;
+    
+    }
+}
+
+
