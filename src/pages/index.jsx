@@ -190,12 +190,12 @@ const Main = () => {
           {goodsList.map(goodsList => (
             <li className="newgoods" key={goodsList.id}>
               <IMG
+                className="newgoods-img"
                 src="https://picsum.photos/200"
-                width="183px"
-                height="227px"
                 ration="rectangle-h"
                 style={{
-                  border: 'none',
+                  width: '100%',
+                  height: '227px',
                 }}
               />
               <div
