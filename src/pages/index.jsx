@@ -152,6 +152,11 @@ const Main = () => {
       </div>
       <div className="banner-wrapper">
         <BANNER
+          imgUrls={[
+            'https://picsum.photos/200',
+            'https://picsum.photos/200',
+            'https://picsum.photos/200',
+          ]}
           style={{
             textAlign: 'center',
             verticalAlign: 'middle',
