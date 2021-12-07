@@ -7,7 +7,12 @@ import styled from '@emotion/styled'
 
 SwiperCore.use([Navigation, Pagination, Autoplay]) // 추가
 
-const Banner = ({ style }) => {
+const Banner = ({ style, imgUrls }) => {
+  const createimgUrlList = () => {
+    console.log(imgUrls)
+    return imgUrls.filter(x => x !== 'null')
+  }
+  const imgUrlList = createimgUrlList()
   return (
     <StyledSwiper
       style={style}
@@ -16,23 +21,22 @@ const Banner = ({ style }) => {
       slidesPerView={1}
       navigation
       pagination={{ clickable: true }}
-      autoplay={{ delay: 3000 }} // 추가
+      autoplay={{ delay: 3000 }} // 넘어가는 시간
     >
-      <SwiperSlide>
-        Slide 1
-        <img
-          src="https://picsum.photos/200"
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'fill',
-          }}
-          alt="banner1"
-        />
-      </SwiperSlide>
-      <SwiperSlide>Slide 2</SwiperSlide>
-      <SwiperSlide>Slide 3</SwiperSlide>
-      <SwiperSlide>Slide 4</SwiperSlide>
+      {imgUrlList.map((value, key) => (
+        <SwiperSlide key={`${value}${{ key }}`}>
+          Slide test
+          <img
+            src={value}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'fill',
+            }}
+            alt={key}
+          />
+        </SwiperSlide>
+      ))}
     </StyledSwiper>
   )
 }
