@@ -8,8 +8,6 @@ const LikeButton = ({ name, className, alt, on = false, onClick, style }) => {
     ? require('@assets/images/icon/Favorite_like.svg').default.src
     : require('@assets/images/icon/Favorite_light.svg').default.src
 
-  console.log(require('@assets/images/icon/Favorite_like.svg'))
-  console.log(img)
   const handleChange = e => {
     toggle()
     onClick && onClick()
