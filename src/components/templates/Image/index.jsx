@@ -19,8 +19,6 @@ const Image = ({
   threshold = 0.5,
   placeholder,
   src,
-  width,
-  height,
   alt,
   mode,
   className,
@@ -31,8 +29,6 @@ const Image = ({
   const imgRef = useRef(null)
 
   const imageStyle = {
-    width,
-    height,
     objectFit: mode, // cover, fill, contain
   }
 

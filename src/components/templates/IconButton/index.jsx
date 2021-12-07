@@ -20,7 +20,7 @@ IconButton.propTypes = {
   className: PropTypes.string,
   alt: PropTypes.string.isRequired,
   src: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
 }
 
 const IconWrapper = styled.div`
