@@ -59,6 +59,7 @@ const Image = ({
     observer = new IntersectionObserver(onIntersection, { threshold })
     imgRef.current && observer.observe(imgRef.current)
   }, [lazy, threshold])
+
   const handleImgError = e => {
     switch (ratio) {
       case 'rectangle-h':
@@ -79,7 +80,7 @@ const Image = ({
       ref={imgRef}
       src={loaded ? src : placeholder}
       alt={alt}
-      style={{ ...props.style, ...imageStyle }}
+      style={{ ...imageStyle, ...props.style }}
     />
   )
 }
