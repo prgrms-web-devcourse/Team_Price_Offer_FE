@@ -110,8 +110,8 @@ const profile = () => {
             <span className="profile-box_area">동작구 사당동</span>
           </div>
         </div>
-        <Divider type="vertical" style={{ height: '100%' }} />
-
+        {/* <Divider type="vertical" style={{ height: '100%' }} /> */}
+        <hr className="profile-divider" />
         <ul className="profile-list">
           <li className="profile-list_item">
             <div className="profile-list_title">판매 상품</div>
