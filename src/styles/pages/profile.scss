@@ -1,253 +1,213 @@
 @import "@styles/common/variables";
 
-.profile_wrapper{
-    margin : 100px 0;
-}
+.profile {
+    margin: 100px 0;
 
-.profile_container{
-    width:100%;
-    border: 1px solid #ccc;
-    display: grid;
-    grid-template-columns: 1fr .1fr 3fr;
-    height: 200px;
-    border-radius: 3px;
-    padding: 15px 0;
-}
-
-.profile_box{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.profile_img{
-    margin-right: 10%;
-    cursor: pointer;
-}
-
-.profile_box_inform{
-    display: flex;
-    flex-direction: column;
-    margin-right: 10%;
-}
-
-.profile_nickname{
-    font-size: 26px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    cursor: pointer;
-}
-
-.profile_level{
-    font-size: 14px;
-    color: $PRIMARY_COLOR;
-    margin-bottom: 5px;
-}
-
-.profile_area{
-    font-size: 14px;
-    color: #999;
-}
-
-.profile_list_box{
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-}
-
-.profile_list_item{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    font-weight: 600;
-}
-
-.profile_list_title{
-    font-size: 20px;
-    cursor: pointer;
-    margin-bottom: 10px;
-}
-
-.profile_list_selected_title{
-    background: linear-gradient(180deg,rgba(255,255,255,0) 50%, #f7502a41 50%);
-}
-
-.profile_list_content{
-    font-size: 22px;
-    cursor: pointer;
-}
-
-//여기서 부터 컨텐츠
-
-.profile_contents{
-    margin : 60px 0;
-
-    .contents_title{
-        font-size: 26px;
-        margin-bottom: 30px;
-        font-weight: 800;
+    &-container {
+        width: 100%;
+        border: 1px solid #ccc;
+        display: grid;
+        grid-template-columns: 1.2fr .1fr 3fr;
+        height: 200px;
+        border-radius: 3px;
+        padding: 15px 0;
     }
 
-    .tab_box{
+    &-box {
         display: flex;
-        width: 100%;
-        .item_status_btn{
+        justify-content: center;
+        align-items: center;
+
+        &_img{
+            margin-right: 30px;
+        }
+
+        &_inform {
+            display: flex;
+            flex-direction: column;
+            margin-right: 10%;
+        }
+
+        &_nickname {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        &_level {
+            font-size: 14px;
+            color: $PRIMARY_COLOR;
+            margin-bottom: 5px;
+        }
+
+        &_area {
+            font-size: 14px;
+            color: #999;
+        }
+    }
+
+    &-img {
+        margin-right: 10%;
+        cursor: pointer;
+    }
+
+
+
+    &-list {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+
+        &_item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-weight: 600;
+        }
+
+        &_title {
+            font-size: 20px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        &_content {
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        &_selected {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0) 50%, #f7502a41 50%);
+        }
+    }
+
+    .result {
+
+        &-container {
+            margin: 60px 0;
+        }
+
+        &-title {
+            font-size: 26px;
+            margin-bottom: 30px;
+            font-weight: 800;
+        }
+
+        &-btn-box {
+            display: flex;
             width: 100%;
+        }
+
+        &-btn_item {
+            width: 100%;
+            padding: 15px 0;
             background-color: transparent;
             color: $FONT_GRAY_COLOR;
             border-top: 2px solid #000;
             border-bottom: 2px solid $BORDER_COLOR;
             font-weight: 500;
+
+            & selected {
+                border-bottom-color: #000;
+                color: $FONT_COLOR;
+            }
         }
 
-        .selected { 
-            border-bottom-color: #000 ;
-            color : $FONT_COLOR;
-        }
-    }
-
-    .lineup{
-        text-align: right;
-        margin: 30px 0;
-        .item { 
-            font-size : 14px;
+        &-lineup-box {
+            text-align: right;
+            margin: 30px 0;
         }
 
-        .selected {
-            color : $PRIMARY_COLOR;
-        }
-    }
-    
-    .price_offer{
-
-        
-        .products_list{
-            display : grid;
-            grid-template-columns: repeat(4, 1fr);
+        &-lineup_item{
+            font-size: 14px;
             
-            .product_item{
+            & selected {
+                color: $PRIMARY_COLOR;
+            }
+        }
+    }
+
+    .newgoods {
+        margin: 0px;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        box-sizing: border-box;
+
+        .img-container {
+            height: 300px;
+            width: 100%;
+
+        }
+
+        &-title {
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        &-wrapper {
+            width: 100%;
+            padding: 0px;
+            display: flex;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        &-list {
+            padding: 0px;
+            padding-inline-start: 0px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10% 3%;
+            box-sizing: border-box;
+
+        }
+
+        & .info {
+            &-top {
+                max-width: 140px;
+                margin-top: 10px;
+                font-size: 14px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            &-middle {
+                color: $FONT_GRAY_COLOR;
+                margin-top: 7px;
+                font-size: 12px;
+            }
+
+            &-bottom {
+                font-weight: bold;
+                margin-top: 18px;
+                font-size: 16px;
                 display: flex;
-                flex-direction: column;
-                .img-container{
+                justify-content: space-between;
 
-                    .item_img{
-                        width: 100%;
-                        cursor: pointer;
-                    }
-    
-                }
-
-                
-                .item_name{
-                    cursor: pointer;
-                    
-                }
-
-                .item_inform{
-                    .user_area{
-                        cursor: pointer;
-                    }
-
-                    .post_upload {
-                        cursor: pointer;
-                    }
-                }
-
-                .item_price{
-                    cursor: pointer;
-                }
-
-                .offer_btn{
-                    width: 52px;
-                    height: 17px;
+                .reviews-btn {
+                    width: 60px;
+                    height: 20px;
                     font-size: 10px;
                 }
             }
         }
     }
-    
 
-}
-
-.newgoods{
-    margin: 0px;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    position: relative;
-    box-sizing: border-box;
-    .img-container{
-        // min-width: 180px;
-        height: 300px;
-        width: 100%;
-
-    }
-
-    &-title{
-      font-size: 26px;
-      font-weight: bold;
-    }
-
-    &-wrapper{
-        width: 100%;
-      padding: 0px;
-      display: flex;
-      justify-content: center;
-      box-sizing: border-box;
-    }
-
-    &-list{
-      padding: 0px;
-      padding-inline-start: 0px;
-      width: 100%;
-      display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap : 10% 3%;
-    box-sizing: border-box;
-
-    }
-
-    & .info {
-      &-top {
-        max-width: 140px;
-        margin-top: 10px;
-        font-size: 14px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      &-middle{
-        color: $FONT_GRAY_COLOR;
-        margin-top: 7px;
-        font-size: 12px;
-      }
-      &-bottom{
-        font-weight: bold;
-        margin-top: 18px;
-        font-size: 16px;
-        display: flex;
-        justify-content: space-between;
-        .reviews-btn{
-            width : 60px;
-            height: 20px;
-            font-size: 10px;
+    .newgoodstext {
+        &-wrapper {
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 50px;
         }
-      }
-    }
-  }
 
-  .newgoodstext {
-    &-wrapper{
-      margin-top: 50px;
-      display: flex;
-      justify-content: center;
-      margin-bottom: 50px;
+        &-container {
+            width: 999px;
+        }
     }
-
-    &-container{
-      width: 999px;
-    }
-  }
-
+}
