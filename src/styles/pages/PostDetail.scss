@@ -214,6 +214,11 @@
 
 
 @include mobile{
+    // .container{
+    //     display: flex;
+    //     align-items: center;
+    //     justify-content: normal;
+    // }
     .header-wrapper{
         margin:0px;
         padding:0px;
@@ -231,19 +236,6 @@
     }
     
     
-    
-    .detail-info-wrapper{
-        gap:0px;
-        padding:0px;
-        padding-inline-start: 0px;    
-        margin-top: 27px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    
-    
-    
     .img-wrapper{
         max-width:350px;;
         width:100%;
@@ -257,26 +249,9 @@
             margin-top: 18px;
             width:100%;
             max-width:350px;
-    
-            .post-info-user{
-                display: flex;
-                gap:17.99px;
-    
-                .user-name{
-                    font-size:18px;
-                    align-content: center;
-                    line-height: 47px;
-                }
-                
-            }
         }
     
     }
-    
-    
-    
-    
-    
     
     .post-info-top{
         display: flex;
@@ -364,70 +339,8 @@
                     color: #888888;
                     font-size: 14px;
                 }
-            }
-        
-            
-            .offer-suggestinfo{
-                display: flex;
-                margin-left: auto;
-                justify-content: center;
-                align-items: center;
-                gap:5px;
-                .offer-price{
-                    width:100%;
-                    font-size: 20px;
-                }
-                
-                .offer-button{
-        
-                }
-                
-            }
-        
+            }        
         }
-    
-        
-        .offer-option{
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            .offer-page{
-                text-align: center;
-                width:100%
-            }
-            .offer-state{
-                margin-top: 20px;
-                display:flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                
-                .offer-state_ban{
-                    color:#888888;
-                    text-align: center;
-                }
-                .offer-ban-button{
-                    margin-top: 20px;
-                    width:100%;
-                    max-width: 214px;
-                    height: 52;
-                    background-color: #AEAEAE;
-                }
-                .offer-button{
-                    margin-top: 20px;
-                    width:100%;
-                    max-width: 214px;
-                    height: 52;
-                    background-color: $PRIMARY_COLOR;
-                }
-            }
-        }
-    
-        
-    }
-    .img-wrapper{
-        width:350px;
     }
 }
 

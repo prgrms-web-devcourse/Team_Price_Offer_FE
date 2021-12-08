@@ -88,6 +88,11 @@ const PostDetail = props => {
       <div className="detail-info-wrapper">
         <div className="img-wrapper">
           <GOODSIMG
+            imgUrls={[
+              'https://picsum.photos/200',
+              'https://picsum.photos/200',
+              null,
+            ]}
             style={{
               width: '100%',
               height: '380px',
