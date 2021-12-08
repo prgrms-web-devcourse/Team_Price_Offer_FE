@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import DIVIDER from '@components/templates/Divider'
 import Link from 'next/link'
 import Input from '@components/templates/Input'
 import IconButton from '@components/templates/IconButton'
+import Modal from '@components/templates/Modal'
 import Button from '@components/templates/Button'
 import { Global, css } from '@emotion/react'
 
@@ -18,6 +19,19 @@ const Header = ({ isLogin }) => {
   const saleImgPaht = require('@assets/images/icon/sale.svg').default.src
   const menuImgPaht = require('@assets/images/icon/menu_arrow.svg').default.src
 
+  const [visible, setVisible] = useState(false) // 모달의 초기값 false
+
+  const [isToggle, setMenu] = useState(false) // 메뉴의 초기값을 false로 설정
+
+  const [isSearchToggle, setSearch] = useState(false) // 메뉴의 초기값을 false로 설정
+
+  const toggleMenu = () => {
+    setMenu(isOpen => !isOpen) // on,off
+  }
+
+  const toggleSearch = () => {
+    setSearch(isOpenSearch => !isOpenSearch) // on,off
+  }
   return (
     <>
       <Global styles={HeaderStyle} />
@@ -26,7 +40,22 @@ const Header = ({ isLogin }) => {
           <Link href="/">
             <img src={logoImgPath} alt="logo" className="logo" />
           </Link>
-
+          {/* 모바일 검색창 */}
+          {isSearchToggle ? (
+            <Input
+              style={{ width: '100%' }}
+              className="header-search-input_mobile"
+              type="text"
+              name="search"
+              placeholder="상품명으로 원하는 물건을 검색해보세요!"
+            />
+          ) : (
+            // 토글이 아니라면 숨긴다
+            <Input
+              style={{ width: '100%', display: 'none' }}
+              className="header-search-input_mobile"
+            />
+          )}
           <div className="header-search-wrapper">
             <Input
               style={{ width: '100%' }}
@@ -35,6 +64,7 @@ const Header = ({ isLogin }) => {
               name="search"
               placeholder="상품명으로 원하는 물건을 검색해보세요!"
             />
+
             {/* <div className="header-search-icon_wrapper"> */}
             <IconButton
               className="search-button_pc"
@@ -47,11 +77,22 @@ const Header = ({ isLogin }) => {
               src={searchImgMobilePath}
               alt="user"
               style={{ width: '30px', height: '30px' }}
+              onClick={toggleSearch}
             />
             {/* </div> */}
           </div>
         </div>
         <div className="header-widget-wrapper">
+          {isToggle ? (
+            <div className="sidear-list">
+              <div className="sidebar-list_myprofile">내 프로필</div>
+              <div className="sidebar-list_mychat">내 쪽지함</div>
+              <div className="sidebar-list_logout">로그아웃</div>
+            </div>
+          ) : (
+            <div className="sidear-list" style={{ display: 'none' }} />
+          )}
+
           {isLogin ? (
             <div className="widget-islogin">
               <div className="widget-islogin_pc">
@@ -72,9 +113,11 @@ const Header = ({ isLogin }) => {
                   />
                   <div className="username">족발킬러</div>
                   <IconButton
+                    className="sidebar"
                     src={menuImgPaht}
                     alt="user"
                     style={{ width: '8px', height: '5px' }}
+                    onClick={toggleMenu}
                   />
                 </div>
               </div>
@@ -85,15 +128,20 @@ const Header = ({ isLogin }) => {
                   style={{ width: '30px', height: '30px' }}
                 />
                 <IconButton
+                  className="sidebar"
                   src={userImgPath}
                   alt="user"
                   style={{ width: '30px', height: '30px' }}
+                  onClick={toggleMenu}
                 />
               </div>
             </div>
           ) : (
             <div className="widget-login">
-              <div className="widget-login_pc">
+              <div className="widget-login_pc" onClick={() => setVisible(true)}>
+                <Modal visible={visible} onClose={() => setVisible(false)}>
+                  로그인 모달
+                </Modal>
                 <IconButton
                   src={userImgPath}
                   alt="user"
@@ -101,7 +149,12 @@ const Header = ({ isLogin }) => {
                 />
                 <div>로그인 / 회원가입</div>
               </div>
-              <button className="widget-login_mobile">
+              <button
+                className="widget-login_mobile"
+                onClick={() => setVisible(true)}>
+                <Modal visible={visible} onClose={() => setVisible(false)}>
+                  로그인 모달
+                </Modal>
                 <div className="widget-login_mobile_text">로그인</div>
               </button>
             </div>
@@ -122,10 +175,6 @@ const HeaderStyle = css`
     justify-content: space-between;
     height: 150px;
     align-items: center;
-    /* line-height: 150px; */
-    /* gap: 100px; */
-    /* flex-basis: 0;
-    flex-grow: 3; */
     .logo {
       cursor: pointer;
       width: 100px;
@@ -159,6 +208,22 @@ const HeaderStyle = css`
       display: none;
     }
   }
+  .header-search-input_mobile {
+    position: absolute;
+    left: 100px;
+    top: 100px;
+    max-width: 255px;
+    width: 100%;
+    height: 30px;
+    font-size: 9px;
+    padding: 11px 15px;
+    &::placeholder {
+      font-size: 13px;
+    }
+    @media (min-width: 706px) {
+      display: none;
+    }
+  }
 
   .search-button_pc {
     top: 6px;
@@ -182,6 +247,7 @@ const HeaderStyle = css`
   }
 
   .header-widget-wrapper {
+    position: relative;
     max-width: 216px;
     /* line-height: 150px; */
     border: 1px solid;
@@ -238,6 +304,7 @@ const HeaderStyle = css`
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
     @media (max-width: 706px) {
       display: none;
     }
@@ -264,6 +331,25 @@ const HeaderStyle = css`
   .widget-login_mobile_text {
     font-size: 13px;
     min-width: 39px;
+  }
+
+  .sidear-list {
+    position: absolute;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    padding: 8px;
+    width: 90px;
+    height: 81px;
+    border: solid black;
+    font-size: 13px;
+    top: 30px;
+    left: 101px;
+
+    @media (max-width: 706px) {
+      left: -29px;
+    }
   }
 `
 
