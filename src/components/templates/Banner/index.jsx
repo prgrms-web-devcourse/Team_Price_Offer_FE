@@ -9,9 +9,9 @@ SwiperCore.use([Navigation, Pagination, Autoplay]) // 추가
 
 const Banner = ({ style, imgUrls }) => {
   const createimgUrlList = () => {
-    console.log(imgUrls)
-    return imgUrls.filter(x => x !== 'null')
+    return imgUrls.filter(x => x !== null)
   }
+
   const imgUrlList = createimgUrlList()
   return (
     <StyledSwiper
@@ -33,13 +33,14 @@ const Banner = ({ style, imgUrls }) => {
               height: '100%',
               objectFit: 'fill',
             }}
-            alt={key}
+            alt="슬라이드 이미지"
           />
         </SwiperSlide>
       ))}
     </StyledSwiper>
   )
 }
+
 const StyledSwiper = styled(Swiper)`
   width: 996px;
   height: 329px;
