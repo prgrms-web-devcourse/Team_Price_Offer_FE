@@ -57,6 +57,12 @@
     justify-content: center;
     position: relative;
 
+    &-img{
+      max-width: 183px;
+      max-height: 227px;
+      border: none;
+    }
+
     &-title{
       font-size: 26px;
       font-weight: bold;
@@ -125,6 +131,21 @@
         display: flex;
         justify-content:  center;
         width:100%;
+      }
+    }
+
+    .newgoods{
+      margin: 0px;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+  
+      &-img{
+        max-width: 165px;
+        max-height: 211px;
+        border: none;
       }
     }
   }
