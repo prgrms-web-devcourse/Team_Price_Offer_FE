@@ -11,7 +11,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <div className="container">
       <div className="wrapper">
-        <Header />
+        <Header isLogin />
         <Component {...pageProps} />
       </div>
     </div>
