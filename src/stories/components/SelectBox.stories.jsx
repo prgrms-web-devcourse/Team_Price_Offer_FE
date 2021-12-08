@@ -11,8 +11,11 @@ export default {
       },
       control: { type: 'object' },
     },
-    name: {
+    formName: {
       control: 'text',
+    },
+    defaultOption: {
+      control: 'array',
     },
     options: {
       control: 'array',
@@ -24,14 +27,18 @@ const Template = args => <Selectbox {...args} />
 
 export const PrimaryDropdown = Template.bind({})
 PrimaryDropdown.args = {
-  defaultText: '주소를 선택하세요',
+  formName: 'formName',
+  defaultOption: {
+    code: 'none',
+    name: '주소를 선택하세요.',
+  },
   options: [
     {
-      value: '사용자',
+      code: 'user',
       name: '사용자',
     },
     {
-      value: '게시글',
+      code: 'post',
       name: '게시글',
     },
   ],

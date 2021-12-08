@@ -5,10 +5,6 @@ export default {
   component: Input,
   argTypes: {
     style: {
-      defaultValue: {
-        width: '30px',
-        height: '30px',
-      },
       control: { type: 'object' },
     },
     className: { control: { type: 'text' } },

@@ -12,16 +12,16 @@ export default {
     items: {
       defaultValue: [
         {
-          name: 'profile',
-          text: '내 프로필',
+          code: 'profile',
+          name: '내 프로필',
         },
         {
-          name: 'message',
-          text: '내 쪽지함',
+          code: 'message',
+          name: '내 쪽지함',
         },
         {
-          name: 'logout',
-          text: '로그아웃',
+          code: 'logout',
+          name: '로그아웃',
         },
       ],
       control: { type: 'array' },
@@ -40,16 +40,16 @@ export const Default = () => {
 
   const items = [
     {
-      name: 'profile',
-      text: '내 프로필',
+      code: 'profile',
+      name: '내 프로필',
     },
     {
-      name: 'message',
-      text: '내 쪽지함',
+      code: 'message',
+      name: '내 쪽지함',
     },
     {
-      name: 'logout',
-      text: '로그아웃',
+      code: 'logout',
+      name: '로그아웃',
     },
   ]
 

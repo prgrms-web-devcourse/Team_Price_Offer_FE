@@ -19,8 +19,6 @@ const Image = ({
   threshold = 0.5,
   placeholder,
   src,
-  width,
-  height,
   alt,
   mode,
   className,
@@ -31,8 +29,6 @@ const Image = ({
   const imgRef = useRef(null)
 
   const imageStyle = {
-    width,
-    height,
     objectFit: mode, // cover, fill, contain
   }
 
@@ -59,6 +55,7 @@ const Image = ({
     observer = new IntersectionObserver(onIntersection, { threshold })
     imgRef.current && observer.observe(imgRef.current)
   }, [lazy, threshold])
+
   const handleImgError = e => {
     switch (ratio) {
       case 'rectangle-h':
@@ -79,7 +76,7 @@ const Image = ({
       ref={imgRef}
       src={loaded ? src : placeholder}
       alt={alt}
-      style={{ ...props.style, ...imageStyle }}
+      style={{ ...imageStyle, ...props.style }}
     />
   )
 }

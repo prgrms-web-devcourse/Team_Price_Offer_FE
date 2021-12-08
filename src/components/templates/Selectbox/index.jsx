@@ -1,24 +1,48 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { PropTypes } from 'prop-types'
 import styled from '@emotion/styled'
 
-function SelectBox({ style, options, defaultText, className, onChange }) {
+function SelectBox({
+  formName,
+  options,
+  defaultOption,
+  style,
+  className,
+  onChange,
+}) {
+  const [selectValue, setSelectValue] = useState(defaultOption.code)
+
+  const handleChange = e => {
+    setSelectValue(e.target.value)
+    onChange && onChange(e)
+  }
+
   return (
-    <Select className={className} style={style} onChange={onChange}>
-      <option className="defaultoption" value="" selected disabled hidden>
-        {defaultText}
-      </option>
-      {options.map(({ text, value }) => (
-        <option key={value} text={text} value={value} label={value} />
+    <Select
+      name={formName}
+      style={style}
+      className={className}
+      value={selectValue}
+      onChange={handleChange}>
+      <option
+        value={defaultOption.code}
+        text={defaultOption.name}
+        label={defaultOption.name}
+        disabled
+      />
+
+      {options.map(({ code, name }) => (
+        <option key={code} value={code} text={name} label={name} />
       ))}
     </Select>
   )
 }
 
 SelectBox.propTypes = {
-  style: PropTypes.objectOf(PropTypes.string),
+  formName: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
-  defaultText: PropTypes.string,
+  defaultOption: PropTypes.arrayOf(PropTypes.object).isRequired,
+  style: PropTypes.objectOf(PropTypes.string),
   className: PropTypes.string,
   onChange: PropTypes.func,
 }
