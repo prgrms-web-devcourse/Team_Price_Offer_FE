@@ -4,6 +4,7 @@ import '@styles/common/globals.scss'
 import '@styles/pages/search.scss'
 import '@styles/pages/index.scss'
 import '@styles/pages/posting.scss'
+import '@styles/pages/message.scss'
 
 function MyApp({ Component, pageProps }) {
   return (
