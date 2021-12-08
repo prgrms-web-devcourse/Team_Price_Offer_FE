@@ -1,0 +1,27 @@
+@import "@styles/common/variables";
+@import "@styles/common/mixins";
+
+.product { 
+    &-cont{
+        max-width: 250px;
+        &_title{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        &_meta{
+            font-size: 14px;
+            color : $FONT_GRAY_COLOR;
+            margin-bottom: 12px;
+        }
+
+        &_price{
+            font-size: 18px;
+            font-weight: 800;
+        }
+    }
+}
