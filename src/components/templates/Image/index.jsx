@@ -23,6 +23,7 @@ const Image = ({
   mode,
   className,
   ratio,
+  children,
   ...props
 }) => {
   const [loaded, setLoaded] = useState(false)
@@ -76,8 +77,9 @@ const Image = ({
       ref={imgRef}
       src={loaded ? src : placeholder}
       alt={alt}
-      style={{ ...imageStyle, ...props.style }}
-    />
+      style={{ ...imageStyle, ...props.style }}>
+      {children}
+    </IMG>
   )
 }
 
