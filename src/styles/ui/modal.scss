@@ -25,6 +25,29 @@
         margin-top: 25px;
       }
 
+      &-input.email {
+        .email-wrapper {
+          display: flex;
+          align-items: center;
+        }
+
+        input {
+          flex: 1;
+          margin-right: 10px;
+        }
+
+        button {
+          width: 70px;
+          height: 40px;
+          margin-top: 15px;
+          padding: 11px;
+          border: 1px solid $BORDER_COLOR;
+          background: $BACKGROUND_COLOR;
+          font-size: 13px;
+          color: $FONT_GRAY_COLOR;
+        }
+      }
+
       &-input.password p{
         margin-top: 6px;
         font-size: 13px;
