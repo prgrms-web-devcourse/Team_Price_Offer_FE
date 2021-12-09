@@ -30,7 +30,7 @@ const Header = ({ isLogin }) => {
   const [isSearchToggle, setSearch] = useState(false) // 메뉴의 초기값을 false로 설정
 
   const dialogClick = e => {
-    // e.stopPropagation()
+    e.stopPropagation()
     setDialogVisible(true)
     console.log(dialogVisible)
   }
@@ -135,6 +135,7 @@ const Header = ({ isLogin }) => {
                     클릭
                   </button> */}
                   <Dialog
+                    className="sidear-list"
                     items={[
                       {
                         code: 'profile',
@@ -169,6 +170,7 @@ const Header = ({ isLogin }) => {
                   ref={buttonRef}
                 />
                 <Dialog
+                  className="sidear-list"
                   items={[
                     {
                       code: 'profile',
@@ -302,7 +304,7 @@ const HeaderStyle = css`
     position: relative;
     max-width: 216px;
     /* line-height: 150px; */
-    border: 1px solid;
+    border: none;
   }
   /* =====================================로그인===================================== */
   .wiget-islogin {
@@ -369,7 +371,7 @@ const HeaderStyle = css`
     width: 100%;
     height: 31px;
     padding: 5px 12px;
-    border: 1px solid;
+    border: none;
     border-radius: 3px;
     background-color: #ffffff;
     font-size: 13px;
@@ -397,10 +399,12 @@ const HeaderStyle = css`
     border: solid black;
     font-size: 13px;
     top: 30px;
-    left: 101px;
+    left: 40px;
 
     @media (max-width: 706px) {
-      left: -29px;
+      z-index: 100;
+      left: -91px;
+      height: 109px;
     }
   }
 `
