@@ -6,8 +6,6 @@ import IconButton from '@components/templates/IconButton'
 import Image from '@components/templates/Image'
 import Divider from '@components/templates/Divider'
 import useClickAway from '@hooks/useClickAway'
-import ModalLogin from '@components/ui/ModalLogin'
-import ModalSignup from '@components/ui/ModalSignup'
 import { CATEGORIES } from '../data/dummy/categories'
 import { ORDERWAY } from '../data/dummy/orderway'
 
