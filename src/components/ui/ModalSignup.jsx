@@ -45,6 +45,9 @@ const ModalSignup = ({ visible, onClose }) => {
   )
 }
 
-ModalSignup.propTypes = {}
+ModalSignup.propTypes = {
+  visible: PropTypes.bool,
+  onClose: PropTypes.func,
+}
 
 export default ModalSignup

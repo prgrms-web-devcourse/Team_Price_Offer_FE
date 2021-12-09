@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import Modal from '@components/templates/Modal'
 import Input from '@components/templates/Input'
 import Button from '@components/templates/Button'
-import { Global, css } from '@emotion/react'
 
 const ModalLogin = ({ visible, onClose }) => {
   return (
