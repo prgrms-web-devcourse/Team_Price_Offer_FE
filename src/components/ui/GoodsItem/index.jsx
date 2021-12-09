@@ -3,14 +3,16 @@ import PropTypes from 'prop-types'
 import Image from '@components/templates/Image'
 import Divider from '@components/templates/Divider'
 import Like from '@components/templates/ToggleButton'
+import Button from '@components/templates/Button'
 
-const GoodsItem = ({ src, title, time, location, price }) => {
+const GoodsItem = ({ src, title, time, location, price, btnValue = false }) => {
   const imgContainerStyle = {
     width: '100%',
     height: '300px',
     marginBottom: '10px',
     position: 'relative',
   }
+
   const imgStyle = {
     width: '100%',
     height: '100%',
@@ -27,6 +29,12 @@ const GoodsItem = ({ src, title, time, location, price }) => {
     borderRadius: '100%',
     padding: '6px',
     boxSizing: 'border-box',
+  }
+
+  const btnStyle = {
+    width: '60px',
+    height: '20px',
+    fontSize: '10px',
   }
 
   return (
@@ -62,11 +70,19 @@ const GoodsItem = ({ src, title, time, location, price }) => {
           />
           <span>{time || '시간 정보 없음'}</span>
         </div>
-        <p className="goods-cont_price">{price || '가격 정보 없음'}</p>
+        <div className="goods-cont_bottom">
+          <p className="goods-cont_price">{price || '가격 정보 없음'}</p>
+          {btnValue && (
+            <Button style={btnStyle} className="goods-cont_btn">
+              후기 보기
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   )
 }
+
 GoodsItem.propTypes = {
   src: PropTypes.string.isRequired,
   title: PropTypes.string,

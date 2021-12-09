@@ -23,6 +23,11 @@
             margin-bottom: 15px;
         }
 
+        &_bottom{
+            display: flex;
+            justify-content: space-between;
+        }
+
         &_price{
             font-size: 18px;
             font-weight: 800;
