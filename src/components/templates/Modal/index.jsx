@@ -16,7 +16,6 @@ const Modal = ({
   if (typeof window !== 'object') {
     return null
   }
-
   const containerStyle = useMemo(
     () => ({
       width,
