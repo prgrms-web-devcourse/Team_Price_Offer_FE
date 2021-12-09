@@ -8,6 +8,7 @@ import '@styles/pages/posting.scss'
 import '@styles/ui/goodsItem.scss'
 import '@styles/ui/goodsList.scss'
 import '@styles/pages/message.scss'
+import '@styles/ui/modal.scss'
 
 function MyApp({ Component, pageProps }) {
   return (

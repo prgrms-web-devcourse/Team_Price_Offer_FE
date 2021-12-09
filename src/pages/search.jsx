@@ -6,6 +6,8 @@ import IconButton from '@components/templates/IconButton'
 import Image from '@components/templates/Image'
 import Divider from '@components/templates/Divider'
 import useClickAway from '@hooks/useClickAway'
+import ModalLogin from '@components/ui/ModalLogin'
+import ModalSignup from '@components/ui/ModalSignup'
 import { CATEGORIES } from '../data/dummy/categories'
 import { ORDERWAY } from '../data/dummy/orderway'
 
@@ -13,7 +15,10 @@ const search = props => {
   const ref = useClickAway(e => {
     setIsopenedFilter(false)
   })
+
   const [isopenedFilter, setIsopenedFilter] = useState(false)
+  const [visibleLogin, setVisibleLogin] = useState(false)
+  const [visibleSignup, setVisibleSignup] = useState(false)
 
   const inputStyle = {
     width: '95px',
@@ -85,6 +90,22 @@ const search = props => {
               <Button style={btnStyle}>필터 적용</Button>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="test-modal">
+        <div>
+          <button onClick={() => setVisibleLogin(true)}>로그인</button>
+          <ModalLogin
+            visible={visibleLogin}
+            onClose={() => setVisibleLogin(false)}
+          />
+        </div>
+        <div>
+          <button onClick={() => setVisibleSignup(true)}>회원가입</button>
+          <ModalSignup
+            visible={visibleSignup}
+            onClose={() => setVisibleSignup(false)}
+          />
         </div>
       </div>
       <div className="result-container">
