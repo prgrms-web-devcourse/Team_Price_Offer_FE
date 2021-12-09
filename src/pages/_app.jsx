@@ -5,7 +5,7 @@ import '@styles/pages/search.scss'
 import '@styles/pages/index.scss'
 import '@styles/pages/postDetail.scss'
 import '@styles/pages/posting.scss'
-import '@styles/ui/productItem.scss'
+import '@styles/ui/goodsItem.scss'
 import '@styles/pages/message.scss'
 
 function MyApp({ Component, pageProps }) {

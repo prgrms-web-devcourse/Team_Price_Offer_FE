@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ProductItem from '@components/ui/ProductItem'
+import GoodsItem from '@components/ui/GoodsItem'
 
-const ProdductItemList = ({ goodsList, className }) => {
+const GoodsList = ({ goodsList, className }) => {
   return (
     <div className={`goods-wrapper ${className}`}>
       <ul className="goods-list">
         {goodsList.map(item => (
-          <ProductItem
+          <GoodsItem
             key={item.id}
             src="https://img.khan.co.kr/news/2021/08/15/l_2021081501002249400192111.webp"
             title={item.title}
@@ -20,9 +20,9 @@ const ProdductItemList = ({ goodsList, className }) => {
     </div>
   )
 }
-ProdductItemList.propTypes = {
+GoodsList.propTypes = {
   goodsList: PropTypes.arrayOf(PropTypes.object).isRequired,
   className: PropTypes.string,
 }
 
-export default ProdductItemList
+export default GoodsList

@@ -4,7 +4,7 @@ import Image from '@components/templates/Image'
 import Divider from '@components/templates/Divider'
 import Like from '@components/templates/ToggleButton'
 
-const ProductItem = ({ src, title, time, location, price }) => {
+const GoodsItem = ({ src, title, time, location, price }) => {
   const imgContainerStyle = {
     width: '100%',
     height: '300px',
@@ -30,11 +30,11 @@ const ProductItem = ({ src, title, time, location, price }) => {
   }
 
   return (
-    <div className="product">
-      <div style={imgContainerStyle} className="product-img-container">
+    <div className="goods">
+      <div style={imgContainerStyle} className="goods-img-container">
         <Image
           style={imgStyle}
-          className="product-img"
+          className="goods-img"
           src={src}
           mode="cover"
           ratio="rectangle-h"
@@ -43,7 +43,7 @@ const ProductItem = ({ src, title, time, location, price }) => {
         />
         <Like
           style={heartIconStyle}
-          className="product-icon_heart"
+          className="goods-icon_heart"
           src={require('@assets/images/icon/heart_blank.svg').default.src}
           alt="좋아요"
           onClick={() => {
@@ -51,9 +51,9 @@ const ProductItem = ({ src, title, time, location, price }) => {
           }}
         />
       </div>
-      <div className="product-cont">
-        <p className="product-cont_title">{title || '상품 이름 없음'}</p>
-        <div className="product-cont_meta">
+      <div className="goods-cont">
+        <p className="goods-cont_title">{title || '상품 이름 없음'}</p>
+        <div className="goods-cont_meta">
           <span>{location || '지역 정보 없음'}</span>
           <Divider
             type="vertical"
@@ -62,12 +62,12 @@ const ProductItem = ({ src, title, time, location, price }) => {
           />
           <span>{time || '시간 정보 없음'}</span>
         </div>
-        <p className="product-cont_price">{price || '가격 정보 없음'}</p>
+        <p className="goods-cont_price">{price || '가격 정보 없음'}</p>
       </div>
     </div>
   )
 }
-ProductItem.propTypes = {
+GoodsItem.propTypes = {
   src: PropTypes.string.isRequired,
   title: PropTypes.string,
   time: PropTypes.string,
@@ -75,4 +75,4 @@ ProductItem.propTypes = {
   price: PropTypes.number,
 }
 
-export default ProductItem
+export default GoodsItem

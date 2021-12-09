@@ -1,6 +1,6 @@
 import ICONBUTTON from '@components/templates/IconButton'
 import BANNER from '@components/templates/Banner'
-import ProductItemList from '@components/ui/ProductItemList'
+import GoodsList from '@components/ui/GoodsList'
 
 const Main = () => {
   const categoryList = [
@@ -187,7 +187,7 @@ const Main = () => {
           <div className="newgoods-title">신규상품</div>
         </div>
       </div>
-      <ProductItemList goodsList={goodsList} />
+      <GoodsList goodsList={goodsList} />
     </div>
   )
 }
