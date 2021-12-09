@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import DIVIDER from '@components/templates/Divider'
 import Link from 'next/link'
 import Input from '@components/templates/Input'
 import IconButton from '@components/templates/IconButton'
 import Modal from '@components/templates/Modal'
+import Dialog from '@components/templates/Dialog'
 import Button from '@components/templates/Button'
 import { Global, css } from '@emotion/react'
 
 const Header = ({ isLogin }) => {
-  console.log(isLogin)
   const logoImgPath = require('@assets/images/logo.svg').default.src
   const userImgPath = require('@assets/images/icon/user_circle.svg').default.src
   const searchImgPcPath = require('@assets/images/icon/search_light.svg')
@@ -21,10 +21,19 @@ const Header = ({ isLogin }) => {
 
   const [visible, setVisible] = useState(false) // 모달의 초기값 false
 
+  const [dialogVisible, setDialogVisible] = useState(false)
+
+  const buttonRef = useRef(null)
+
   const [isToggle, setMenu] = useState(false) // 메뉴의 초기값을 false로 설정
 
   const [isSearchToggle, setSearch] = useState(false) // 메뉴의 초기값을 false로 설정
 
+  const dialogClick = e => {
+    // e.stopPropagation()
+    setDialogVisible(true)
+    console.log(dialogVisible)
+  }
   const toggleMenu = () => {
     setMenu(isOpen => !isOpen) // on,off
   }
@@ -71,19 +80,22 @@ const Header = ({ isLogin }) => {
               src={searchImgPcPath}
               alt="user"
               style={{ width: '24px', height: '24px' }}
+              ref={buttonRef}
+              onClick={toggleSearch}
             />
             <IconButton
               className="search-button_mobile"
               src={searchImgMobilePath}
               alt="user"
               style={{ width: '30px', height: '30px' }}
+              // onClick={toggleSearch}
               onClick={toggleSearch}
             />
             {/* </div> */}
           </div>
         </div>
         <div className="header-widget-wrapper">
-          {isToggle ? (
+          {/* {isToggle ? (
             <div className="sidear-list">
               <div className="sidebar-list_myprofile">내 프로필</div>
               <div className="sidebar-list_mychat">내 쪽지함</div>
@@ -91,7 +103,7 @@ const Header = ({ isLogin }) => {
             </div>
           ) : (
             <div className="sidear-list" style={{ display: 'none' }} />
-          )}
+          )} */}
 
           {isLogin ? (
             <div className="widget-islogin">
@@ -117,7 +129,28 @@ const Header = ({ isLogin }) => {
                     src={menuImgPaht}
                     alt="user"
                     style={{ width: '8px', height: '5px' }}
-                    onClick={toggleMenu}
+                    onClick={dialogClick}
+                  />
+                  {/* <button>
+                    클릭
+                  </button> */}
+                  <Dialog
+                    items={[
+                      {
+                        code: 'profile',
+                        name: '내 프로필',
+                      },
+                      {
+                        code: 'message',
+                        name: '내 쪽지함',
+                      },
+                      {
+                        code: 'logout',
+                        name: '로그아웃',
+                      },
+                    ]}
+                    visible={dialogVisible}
+                    onClose={() => setDialogVisible(false)}
                   />
                 </div>
               </div>
@@ -132,7 +165,26 @@ const Header = ({ isLogin }) => {
                   src={userImgPath}
                   alt="user"
                   style={{ width: '30px', height: '30px' }}
-                  onClick={toggleMenu}
+                  onClick={dialogClick}
+                  ref={buttonRef}
+                />
+                <Dialog
+                  items={[
+                    {
+                      code: 'profile',
+                      name: '내 프로필',
+                    },
+                    {
+                      code: 'message',
+                      name: '내 쪽지함',
+                    },
+                    {
+                      code: 'logout',
+                      name: '로그아웃',
+                    },
+                  ]}
+                  visible={dialogVisible}
+                  onClose={() => setDialogVisible(false)}
                 />
               </div>
             </div>

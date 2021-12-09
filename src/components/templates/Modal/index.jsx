@@ -13,6 +13,9 @@ const Modal = ({
   visible = false,
   onClose,
 }) => {
+  if (typeof window !== 'object') {
+    return null
+  }
   const containerStyle = useMemo(
     () => ({
       width,

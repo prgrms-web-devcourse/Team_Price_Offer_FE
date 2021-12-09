@@ -147,9 +147,6 @@ const Main = () => {
 
   return (
     <div className="main">
-      <div className="header-wrapper">
-        <div className="header" />
-      </div>
       <div className="banner-wrapper">
         <BANNER
           imgUrls={[
