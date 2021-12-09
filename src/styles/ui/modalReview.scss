@@ -1,0 +1,125 @@
+@import "@styles/common/variables";
+
+.writereview{
+    font-family: Noto Sans;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    .writereview-top-wrapper{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        justify-items: center;
+        text-align: center;
+        .text-wrapper{
+            display: flex;
+            justify-content: center;
+            &-texts{
+                text-align: center;
+                display: flex;
+                text-align: center;
+                font-size: 20px;
+                font-weight: bold;
+                .seller-name{
+                    color:$PRIMARY_COLOR
+                }
+            }
+        }
+        &-explaintext{
+            margin-top: 10px;
+            text-align: center;
+            font-size: 14px;
+            color: $FONT_GRAY_COLOR;
+        }
+        
+        &-goodsbox{
+            line-height: 30px;
+            border:solid 1px #CCCCCC;
+            width: 324px;
+            height: 36px;
+            display: flex;
+            justify-content: center;
+            margin-top:20px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: $FONT_GRAY_COLOR;
+            gap:10px;
+        }
+    }
+
+    .mywritereview-middle-wrapper{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        .icon-list{
+            display: flex;
+            justify-content:space-between;
+            margin-bottom: 20px;
+            .icon{
+                :hover{
+                    fill: $PRIMARY_COLOR;
+                }
+            }
+        }
+        .writereview-area{
+            border:solid 1px black;
+            padding: 20px;
+            width: 324px;
+            height:230px;
+            ::placeholder{
+                font-family:Noto Sans;
+            }
+        }
+        .review-length{
+            margin-top: 10px;
+            margin-left: auto;
+        }
+    }
+
+    .writereview-middle-wrapper{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 30px;
+        .icon-list{
+            display: flex;
+            justify-content:space-between;
+            margin-bottom: 20px;
+            .icon{
+                :hover{
+                    fill: $PRIMARY_COLOR;
+                }
+            }
+        }
+        .writereview-area{
+            width: 324px;
+            height:230px;
+            ::placeholder{
+                font-family:Noto Sans;
+            }
+        }
+        .review-length{
+            margin-top: 10px;
+            margin-left: auto;
+        }
+    }
+    
+    .writereview-bottom-wrapper{
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+        .writereview-button{
+            border-radius: 3px;
+            margin-left: auto;
+            font-family: Noto Sans;
+            width:200px;
+            height: 50px;
+        }
+    }
+}
+
