@@ -38,10 +38,8 @@ Input.propTypes = {
 }
 
 const InputTemplate = styled.input`
-  width: 324px;
-  height: 40px;
   color: black;
-  border: 1px solid #ebebeb;
+  border: 1px solid #cccccc;
   font-size: 18px;
   padding: 1% 2%;
 `

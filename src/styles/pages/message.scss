@@ -1,0 +1,250 @@
+@import "@styles/common/variables";
+@import "@styles/common/mixins";
+
+.message {
+  display: flex;
+  justify-content: center;
+
+  &-list {
+    overflow: scroll;
+    height: calc(100vh - 90px);
+  }
+
+
+  &-list-wrapper {
+    width: 640px;
+    border: 1px solid $BORDER_COLOR;
+  }
+  &-chat-wrapper {
+    width: 640px;
+    border: 1px solid $BORDER_COLOR;
+  }
+
+  .message-avatar {
+    width: 60px;
+    height: 60px;
+  }
+
+  .message-product {
+    width: 60px;
+    height: 60px;
+    border: 1px solid $BORDER_COLOR;
+    border-radius: 5px;
+  }
+
+  .message-header {
+    height: 83px;
+    padding: 30px;
+    border-bottom: 1px solid $BORDER_COLOR;
+
+    &-title {
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    &.chat {
+      display: flex;
+      align-items: center;
+
+      img {
+        margin-left: 5px;
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+
+  .message-item {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 20px;
+    border-bottom: 1px solid $BORDER_COLOR;
+
+    &_text {
+      width: 300px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      @include mobile {
+        width: 200px;
+      }
+    }
+
+    &_left {
+      display: flex;
+      align-items: center;
+    }
+
+    &_info {
+      margin-bottom: 10px;
+    }
+
+    &_info-wrapper {
+      margin-left: 12px;
+    }
+
+    &_info-name {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    &_info-meta {
+      margin-left: 5px;
+      font-size: 12px;
+      color: $FONT_GRAY_COLOR
+    }
+  }
+
+  .message-product {
+    &_info {
+      width: 80%;
+      margin-left: 15px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+
+    &_info-price {
+      margin-top: 13px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    &_info-offer {
+      margin-left: 5px;
+      color: $PRIMARY_COLOR;
+    }
+  }
+
+  .message-chat {
+    overflow: scroll;
+    height: calc(100vh - 310px);
+
+    &_info {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      padding: 20px 25px;
+      border-bottom: 1px solid $BORDER_COLOR;
+    }
+
+    &_box {
+      max-width: 260px !important;
+    }
+
+    &_seller {
+      display: flex;
+      margin: 25px;
+
+      .message-time {
+        position: absolute;
+        bottom: 0;
+        right: -60px;
+      }
+    }
+    &_buyer {
+      display: flex;
+      justify-content: flex-end;
+      margin: 25px;
+
+      .message-time {
+        position: absolute;
+        bottom: 0;
+        left: -60px;
+      }
+
+      .message-chat_box {
+        background: $PRIMARY_COLOR;
+        color: $BACKGROUND_COLOR
+      }
+    }
+
+    .chat-wrapper {
+      position: relative;
+      margin-left: 10px;
+      font-size: 12px;
+    }
+
+    &_box {
+      display: inline-flex;
+      margin: 0px;
+      padding: 10px 14px;
+      max-width: 484px;
+      white-space: pre-wrap;
+      line-height: 150%;
+      letter-spacing: -0.02em;
+      border-radius: -14px 20px 20px;
+      background-color: #eeeeee;
+    }
+
+    &_box-wrapper:not(:first-child) {
+      margin-top: 10px;
+    }
+  }
+
+  .message-textarea-wrapper {
+    height: 120px;
+    position: relative;
+    padding: 20px 25px;
+  }
+
+  .message-textarea {
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+  }
+
+  .message-limit {
+    &_box {
+      display: flex;
+      align-items: flex-end;
+      position: absolute;
+      bottom: 30px;
+      right: 35px;
+      color: $BORDER_COLOR;
+
+      &_text {
+        font-size: 11px;
+      }
+
+      button {
+        margin-left: 10px;
+        padding: 5px 15px;
+        border: none;
+        border-radius: 3px;
+        background: $BORDER_COLOR;
+        color: $BACKGROUND_COLOR;
+      }
+    }
+  }
+
+  @include tablet {
+    &-list-wrapper {
+      height: 100vh;
+    }
+
+    &-chat-wrapper {
+      display: none;
+    }
+  }
+
+  @include mobile {
+    &-list-wrapper {
+      height: 100vh;
+    }
+
+    &-chat-wrapper {
+      // display: none;
+      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      background: $BACKGROUND_COLOR;
+    }
+  }
+}

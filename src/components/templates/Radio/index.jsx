@@ -9,8 +9,7 @@ const Radio = ({
   onChange,
   items,
   radioDirection = 'horizontal',
-  size = '50px',
-  fontSize = '20px',
+  InputClassName,
 }) => {
   const handleRadiobutton = e => {
     onChange && onChange(e)
@@ -24,14 +23,12 @@ const Radio = ({
       <Input
         type="radio"
         id={code}
-        style={{ width: size, height: size }}
+        className={InputClassName}
         name={formName}
         value={code}
         onChange={e => handleRadiobutton(e)}
       />
-      <Label htmlFor={code} style={{ fontSize }}>
-        {name}
-      </Label>
+      <Label htmlFor={code}>{name}</Label>
     </InputContainer>
   ))
 
@@ -44,8 +41,6 @@ const Radio = ({
 
 const Input = styled.input`
   margin-right: 10px;
-  width: 30px;
-  height: 30px;
 `
 
 const InputContainer = styled.div`
@@ -64,7 +59,6 @@ const InputContainer = styled.div`
 
 const Label = styled.label`
   cursor: pointer;
-  font-size: 20px;
 `
 
 Radio.propTypes = {

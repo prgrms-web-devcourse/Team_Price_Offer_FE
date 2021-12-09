@@ -5,6 +5,10 @@ import '@styles/pages/search.scss'
 import '@styles/pages/index.scss'
 import '@styles/pages/postDetail.scss'
 import '@styles/pages/posting.scss'
+import '@styles/ui/goodsItem.scss'
+import '@styles/ui/goodsList.scss'
+import '@styles/pages/message.scss'
+import '@styles/ui/modal.scss'
 import Header from '@components/ui/Header'
 
 function MyApp({ Component, pageProps }) {
