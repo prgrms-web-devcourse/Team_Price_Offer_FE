@@ -1,22 +1,26 @@
 @import "@styles/common/variables";
 @import "@styles/common/mixins";
 
-.product { 
+.goods {
     &-cont{
-        max-width: 250px;
         &_title{
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            width: 100%;
             font-size: 16px;
             font-weight: 500;
             margin-bottom: 8px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            height : 16px;
+            word-wrap : brek-word;
+            display : -webkit-box;
+            -webkit-line-clamp  : 1;
+            -webkit-box-orient: vertical;
         }
 
         &_meta{
             font-size: 14px;
             color : $FONT_GRAY_COLOR;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
         }
 
         &_price{

@@ -1,8 +1,6 @@
-import IMG from '@components/templates/Image'
 import ICONBUTTON from '@components/templates/IconButton'
-import DIVIDER from '@components/templates/Divider'
-import Like from '@components/templates/ToggleButton'
 import BANNER from '@components/templates/Banner'
+import GoodsList from '@components/ui/GoodsList'
 
 const Main = () => {
   const categoryList = [
@@ -189,58 +187,7 @@ const Main = () => {
           <div className="newgoods-title">신규상품</div>
         </div>
       </div>
-
-      <div className="newgoods-wrapper">
-        <ul className="newgoods-list">
-          {goodsList.map(goodsList => (
-            <li className="newgoods" key={goodsList.id}>
-              <IMG
-                className="newgoods-img"
-                src="https://picsum.photos/200"
-                ration="rectangle-h"
-                style={{
-                  width: '100%',
-                  height: '227px',
-                }}
-              />
-              <div
-                className="like-border"
-                style={{
-                  position: 'absolute',
-                  top: '15px',
-                  right: '10px',
-                  width: '30px',
-                  height: '30px',
-                  backgroundColor: '#FFFFFF',
-                  borderRadius: '50px',
-                }}>
-                <Like
-                  src={categoryList.src}
-                  alt={categoryList.text}
-                  style={{
-                    position: 'absolute',
-                    top: '5.3px',
-                    right: '5.1px',
-                    width: '20px',
-                    height: '20px',
-                    alignSelf: 'center',
-                  }}
-                  //   onClick={categoryClick(categoryList)}
-                />
-              </div>
-              <div>
-                <div className="info-top">{goodsList.title}</div>
-                <div className="info-middle">
-                  {goodsList.address}
-                  <DIVIDER type="vertical" style={{ color: '#DDDDDD' }} />
-                  {goodsList.time}
-                </div>
-                <div className="info-bottom">{goodsList.price} 원</div>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <GoodsList goodsList={goodsList} />
     </div>
   )
 }
