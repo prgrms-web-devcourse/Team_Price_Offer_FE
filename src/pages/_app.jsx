@@ -9,11 +9,13 @@ import '@styles/ui/goodsItem.scss'
 import '@styles/ui/goodsList.scss'
 import '@styles/pages/message.scss'
 import '@styles/ui/modal.scss'
+import Header from '@components/ui/Header'
 
 function MyApp({ Component, pageProps }) {
   return (
     <div className="container">
       <div className="wrapper">
+        <Header isLogin />
         <Component {...pageProps} />
       </div>
     </div>
