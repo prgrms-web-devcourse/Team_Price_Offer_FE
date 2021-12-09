@@ -9,7 +9,7 @@ const ModalLogin = ({ visible, onClose }) => {
     <Modal visible={visible} onClose={onClose} className="modal">
       <div className="modal-header">
         <h2>로그인</h2>
-        <p>구매자가 제안해요, Offer!</p>
+        <p className="login">구매자가 제안해요, Offer!</p>
       </div>
       <div className="modal-body">
         <div className="modal-body_form">

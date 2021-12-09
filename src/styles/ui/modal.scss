@@ -13,6 +13,11 @@
 
     p {
       margin-top: 10px;
+      color: $FONT_GRAY_COLOR;
+
+      &.login {
+        color: $FONT_COLOR;
+      }
     }
   }
 
@@ -20,6 +25,47 @@
     &_form {
       margin-top: 40px;
       margin-bottom: 40px;
+
+      input {
+        width: 100%;
+        height: 40px;
+        margin-top: 15px;
+        margin-right: 10px;
+        border-radius: 3px;
+        font-size: 13px;
+      }
+
+      select {
+        width: 100%;
+        height: 40px;
+        margin-top: 15px;
+        padding: 10px;
+        border: 1px solid $BORDER_COLOR;
+        border-radius: 3px;
+        font-size: 13px;
+      }
+
+      &-profile {
+        display: flex;
+        justify-content: center;
+        position: relative;
+      }
+
+      &-avatar {
+        width: 125px;
+        height: 125px;
+      }
+
+      &-photo {
+        position: absolute;
+        right: 105px;
+        bottom: 5px;
+        width: 30px;
+        height: 30px;
+        padding: 7px 6px 6px 6px;
+        border-radius: 100%;
+        background: $FONT_GRAY_COLOR;
+      }
 
       &-input:not(:first-child) {
         margin-top: 25px;
@@ -33,7 +79,6 @@
 
         input {
           flex: 1;
-          margin-right: 10px;
         }
 
         button {
@@ -54,10 +99,29 @@
         color: $FONT_GRAY_COLOR;
       }
 
-      input {
-        margin-top: 15px;
-        border-radius: 3px;
-        font-size: 13px;
+      &-input.offer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        h3 {
+          font-weight: bold;
+          margin-right: 15px;
+        }
+
+        input {
+          width: 170px;
+          margin-top: 0;
+        }
+      }
+
+    }
+
+    &_select-wrapper {
+      display: flex;
+
+      select:first-child {
+        margin-right: 10px;
       }
     }
 
@@ -70,6 +134,11 @@
         margin-top: 10px;
         background-color: $KAKAO_COLOR;
         color: $KAKAO_FONT_COLOR;
+      }
+
+      &.offer {
+        width: 200px;
+        margin: 0 auto;
       }
     }
   }
@@ -86,6 +155,12 @@
 
     span {
       text-decoration: underline;
+    }
+
+    &.withdrawal p{
+      float: right;
+      margin-top: -10px;
+      color: $FONT_GRAY_COLOR;
     }
   }
 }
