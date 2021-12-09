@@ -136,6 +136,11 @@ const Header = ({ isLogin }) => {
                   </button> */}
                   <Dialog
                     className="sidear-list"
+                    style={{
+                      flexGrow: '1',
+                      justifyContent: 'space-between',
+                      display: 'flex',
+                    }}
                     items={[
                       {
                         code: 'profile',
@@ -388,14 +393,16 @@ const HeaderStyle = css`
   }
 
   .sidear-list {
+    display: flex;
+    z-index: 100;
     position: absolute;
     flex-direction: column;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    justify-content: center;
     align-items: center;
-    display: flex;
     padding: 8px;
     width: 90px;
-    height: 81px;
+    height: 109px;
     border: solid black;
     font-size: 13px;
     top: 30px;
