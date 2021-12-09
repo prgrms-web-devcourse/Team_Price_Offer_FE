@@ -1,0 +1,68 @@
+@import "@styles/common/variables";
+
+.modal {
+  height: auto !important;
+
+  .modal-header {
+    text-align: center;
+
+    h2 {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    p {
+      margin-top: 10px;
+    }
+  }
+
+  .modal-body {
+    &_form {
+      margin-top: 40px;
+      margin-bottom: 40px;
+
+      &-input:not(:first-child) {
+        margin-top: 25px;
+      }
+
+      &-input.password p{
+        margin-top: 6px;
+        font-size: 13px;
+        color: $FONT_GRAY_COLOR;
+      }
+
+      input {
+        margin-top: 15px;
+        border-radius: 3px;
+        font-size: 13px;
+      }
+    }
+
+    &_btn {
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 5px;
+
+      &.kakao {
+        margin-top: 10px;
+        background-color: $KAKAO_COLOR;
+        color: $KAKAO_FONT_COLOR;
+      }
+    }
+  }
+
+  .modal-footer {
+    margin-top: 30px;
+    text-align: center;
+    line-height: 20px;
+
+    p {
+      font-size: 13px;
+      color: $FONT_GRAY_COLOR;
+    }
+
+    span {
+      text-decoration: underline;
+    }
+  }
+}

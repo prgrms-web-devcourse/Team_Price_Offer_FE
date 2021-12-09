@@ -6,6 +6,7 @@ import '@styles/pages/index.scss'
 import '@styles/pages/postDetail.scss'
 import '@styles/pages/posting.scss'
 import '@styles/pages/message.scss'
+import '@styles/ui/modal.scss'
 
 function MyApp({ Component, pageProps }) {
   return (
