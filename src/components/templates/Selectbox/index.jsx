@@ -41,15 +41,16 @@ function SelectBox({
 SelectBox.propTypes = {
   formName: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
-  defaultOption: PropTypes.arrayOf(PropTypes.object).isRequired,
+  defaultOption: PropTypes.shape({
+    code: PropTypes.string,
+    name: PropTypes.string,
+  }).isRequired,
   style: PropTypes.objectOf(PropTypes.string),
   className: PropTypes.string,
   onChange: PropTypes.func,
 }
 
 const Select = styled.select`
-  width: 407px;
-  height: 66px;
   cursor: pointer;
   padding-left: 20px;
   padding-right: 20px;

@@ -15,35 +15,20 @@ const posting = () => {
     width: '100%',
   }
 
-  const commonInputStyle = {
-    width: '40%',
-    height: '65px',
-    fontSize: '20px',
-  }
-
-  const productImgStyle = {
-    minWidth: '200px',
-    minHeight: '200px',
-  }
-
-  const areaSelectBoxStyle = {
-    width: ' 22%',
-    height: '65px',
-    marginRight: '2%',
-  }
-
   const selectBoxdefault = {
     code: 'selectBoxDefault',
     name: '선택하세요',
   }
 
-  const commonRadioStyle = {
-    fontSize: '18px',
+  const commonImgStyle = {
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#ccc',
   }
 
   return (
     <div className="posting">
-      <div className="post-title">상품정보</div>
+      <div className="posting-title">상품정보</div>
       <Divider
         style={{
           ...commonDividerStyle,
@@ -55,8 +40,8 @@ const posting = () => {
 
       <div className="posting-subtitle">상품명</div>
       <Input
-        style={{ ...commonInputStyle, width: '85%' }}
-        placeholder="상품 제목을 입력해주세요"
+        className="posting-input goods-name"
+        placeholder="상품 이름을 입력해주세요"
         type="text"
       />
       <Divider style={commonDividerStyle} marginSize={50} />
@@ -64,14 +49,32 @@ const posting = () => {
       <div className="posting-subtitle">상품 이미지</div>
       <div className="posting-img-container">
         <div className="posting-img_main-container">
-          <Image style={{ minWidth: '380px', minHeight: '380px' }} />
+          <Image
+            src="https://ext.fmkorea.com/files/attach/new/20191030/486616/22863633/2332232249/05f5960d46e1290b444d3102c2e32941.jpg"
+            style={commonImgStyle}
+            className="posting-img_main"
+            mode="cover"
+          />
         </div>
 
-        <div className="posting-img_sub-container">
-          <Image style={productImgStyle} className="posting-img_sub" />
-          <Image style={productImgStyle} className="posting-img_sub" />
+        <div className="posting-img_sub-wrapper">
+          <div className="posting-img_sub-container">
+            <Image
+              src="https://ext.fmkorea.com/files/attach/new/20191030/486616/22863633/2332232249/05f5960d46e1290b444d3102c2e32941.jpg"
+              style={commonImgStyle}
+              className="posting-img_sub"
+              mode="cover"
+            />
+          </div>
+          <div className="posting-img_sub-container">
+            <Image
+              src="https://ext.fmkorea.com/files/attach/new/20191030/486616/22863633/2332232249/05f5960d46e1290b444d3102c2e32941.jpg"
+              style={commonImgStyle}
+              className="posting-img_sub"
+              mode="cover"
+            />
+          </div>
         </div>
-
         <div className="posting-img-guide">
           * 상품 이미지는 640x640에 최적화 되어 있습니다. <br />- 이미지는
           상품등록 시 정사각형으로 짤려서 등록됩니다.
@@ -84,17 +87,24 @@ const posting = () => {
       <Divider style={commonDividerStyle} marginSize={50} />
 
       <div className="posting-subtitle">카테고리</div>
-      <SelectBox options={CATEGORIES} defaultOption={selectBoxdefault} />
+      <SelectBox
+        formName="posting-category"
+        options={CATEGORIES}
+        defaultOption={selectBoxdefault}
+        className="posting-select-box"
+      />
       <Divider style={commonDividerStyle} marginSize={50} />
 
       <div className="posting-subtitle">거래지역</div>
       <SelectBox
-        style={areaSelectBoxStyle}
+        formName="posting-location_city"
+        className="posting-select-box select-location"
         options={CATEGORIES}
         defaultOption={selectBoxdefault}
       />
       <SelectBox
-        style={areaSelectBoxStyle}
+        formName="posting-category_district"
+        className="posting-select-box select-location"
         options={CATEGORIES}
         defaultOption={selectBoxdefault}
       />
@@ -104,8 +114,8 @@ const posting = () => {
       <Radio
         items={PRODUCT_STATUS}
         formName="productStatus"
-        style={commonRadioStyle}
-        size="32px"
+        className="posting-radio"
+        InputClassName="posting-radio_input"
       />
       <Divider style={commonDividerStyle} marginSize={50} />
 
@@ -113,14 +123,14 @@ const posting = () => {
       <Radio
         items={ORDERWAY}
         formName="tradeMethod"
-        style={commonRadioStyle}
-        size="32px"
+        className="posting-radio"
+        InputClassName="posting-radio_input"
       />
       <Divider style={commonDividerStyle} marginSize={50} />
 
       <div className="posting-subtitle">수량</div>
       <Input
-        style={commonInputStyle}
+        className="posting-input"
         placeholder="숫자만 입력해주세요"
         type="number"
       />
@@ -129,7 +139,7 @@ const posting = () => {
 
       <div className="posting-subtitle">가격</div>
       <Input
-        style={commonInputStyle}
+        className="posting-input"
         placeholder="숫자만 입력해주세요"
         type="number"
       />
@@ -138,12 +148,7 @@ const posting = () => {
 
       <div className="posting-subtitle">상품 설명</div>
       <TextArea
-        style={{
-          width: '100%',
-          height: '250px',
-          marginBottom: '90px',
-          fontSize: '20px',
-        }}
+        className="posting-textarea"
         placeholder="상품 설명을 입력해 주세요"
       />
 

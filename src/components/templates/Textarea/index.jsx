@@ -21,12 +21,9 @@ TextArea.propTypes = {
 }
 
 const ComonTextArea = styled.textarea`
-  width: 324px;
-  height: 230px;
   padding: 20px;
-
+  font-family: Roboto, Noto Sans, Helvetica Neue, sans-serif;
   &::placeholder {
-    font-size: 14px;
     color: #888888;
   }
 `
