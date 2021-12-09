@@ -1,0 +1,48 @@
+@import "@styles/common/variables";
+@import "@styles/common/mixins";
+
+.goods {
+    &-wrapper {
+        width: 100%;
+        padding: 0px;
+        display: flex;
+        justify-content: center;
+        box-sizing: border-box;
+    }
+
+    &-list {
+        padding: 0px;
+        padding-inline-start: 0px;
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10% 3%;
+        box-sizing: border-box;
+        list-style: none;
+
+    }
+
+    @include small-desktop {
+
+        &-list {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    @include tablet {
+            &-list {
+                grid-template-columns: repeat(3, 1fr);
+            }
+    }
+
+    @include mobile {
+            &-list {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 4% 3%;
+            }
+    }
+}
+
+
+
+
