@@ -1,102 +1,225 @@
-.posting{
-    margin : 80px 0;
+@import "@styles/common/variables";
+@import "@styles/common/mixins";
 
-    &-title{
+.posting {
+    margin: 80px 0;
+
+    &-title {
         font-size: 26px;
         font-weight: 800;
     }
 
-    &-subtitle{
-        font-size: 20px ;
+    &-subtitle {
+        font-size: 20px;
         font-weight: 400;
-        margin : 50px 0;
+        margin: 50px 0;
     }
 
-    &-img{
-        &-container{
+    &-img {
+        &-container {
             display: grid;
-            grid-template-columns: 380px 1fr;
+            grid-template-columns: 1fr 1.7fr;
             grid-template-rows: repeat(2, 1fr);
-            gap: 40px;
+            gap: 3%;
         }
 
-        &_main-container{
+        &_main-container {
             grid-column: 1/2;
             grid-row: 1/3;
+            position: relative;
+            width: 100%;
+            height: 0;
+            overflow: hidden;
+            padding-bottom: 100%;
         }
 
-        &_sub{
-            margin-right: 40px;
+        &_main {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
         }
 
-        &-guide{
-            color: #F74F2A;
+        &_sub-wrapper{
+            width: 70%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap : 5%;
+        }
+
+        &_sub-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            overflow: hidden;
+            padding-bottom: 100%;
+        }
+
+        &_sub {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+
+            &:before {
+                content: "";
+                display: block;
+                padding-top: 100%;
+            }
+        }
+
+
+
+        &-guide {
+            margin-top: 20px;
+            color: $PRIMARY_COLOR;
             font-size: 18px;
+            line-height: 28px;
         }
     }
 
-    &-form_unit{
+    &-form_unit {
         margin-left: 10px;
         font-size: 18px;
         font-weight: 400;
     }
 
+    &-input {
+        width:40%;
+        height: 65px;
+        font-size: 20px;
 
+        &.goods-name{
+            width: 85%;
+        }
+    }
 
-    &-button-container{
+    &-radio{
+        font-size: 18px;
+
+        &_input{
+            width: 32px;
+            height: 32px;
+        }
+    }
+
+    &-textarea{
+        width: 100%;
+        height: 200px;
+        font-size: 18px;
+        margin-bottom: 50px;
+    }
+
+    &-select-box{
+        width: 80%;
+        height: 65px;
+        &.select-location{
+            width: 20%;
+            margin-right: 3%;
+        }
+    }
+
+    &-button-container {
         width: 100%;
         display: flex;
         justify-content: right;
     }
 
+    @include small-desktop{
+        &-img-guide{
+            margin-top: 10px;
+            font-size: 16px;
+            line-height: 20px;
+        }
+    }
+
+    @include tablet{
+        &-input {
+            width:65%;
+            font-size: 18px;
+        }
+
+        &-radio{
+            font-size: 20px;
+
+            &_input{
+                width: 28px;
+                height: 28px;
+            }
+        }
 
 
+        &-select-box{
+            &.select-location{
+                width: 40%;
+                margin-right: 5%;
+                margin-bottom: 3%;
+            }
+        }
 
+        &-img{
+            &-container {
+                display: block;
+            }
 
+            &_sub-wrapper{
+                margin-top: 5%;
+                width: 100%;
+            }
 
-    // @media screen and (max-width:1279px){
+            &-guide{
+                margin-top: 20px;
+                font-size: 16px;
+                line-height: 26px;
+            }
+        }
+    }
 
-    //     .post_container{
-    //         width: 90%;
-    //         margin-left: 5%;
-    //         margin-right: 5%;
-    //     }
+    @include mobile{
 
-    //     .post_title{
-    //         font-size: 18px;
-    //         font-weight: 800;
-    //     }
+        &-input {
+            width:80%;
+            font-size: 18px;
 
-    //     .post_subtitle{
-    //         font-size: 16px ;
-    //         font-weight: 400;
-    //         margin : 20px 0;
-    //     }
-        
-    //     .post_img-container{
-    //         display: flex;
-    //         flex-direction: column;
-    //     }
-        
-    //     .post_img_sub{
-    //         display: none;
-    //     }
-        
-    //     .post_img-guide{
-    //         display: none;
-    //     }
-        
-    //     .post_form_unit{
-    //         margin-left: 10px;
-    //         font-size: 18px;
-    //         font-weight: 400;
-    //     }
-        
-    //     .posting_button-container{
-    //         width: 100%;
-    //         display: flex;
-    //         justify-content: right;
-    //     }
+            &.goods-name{
+                width: 90%;
+            }
+        }
 
-    // }
+        &-radio{
+            font-size: 16px;
+
+            &_input{
+                width: 24px;
+                height: 24px;
+            }
+        }
+
+        &-select-box{
+            &.select-location{
+                width: 80%;
+                margin-right: 0;
+                margin-bottom: 3%;
+            }
+        }
+
+        &-img{
+            &-container {
+                display: block;
+            }
+
+            &_sub-wrapper{
+                margin-top: 5%;
+                width: 100%;
+            }
+
+            &-guide{
+                margin-top: 20px;
+                font-size: 16px;
+                line-height: 26px;
+            }
+        }
+    }
 }
