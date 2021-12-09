@@ -1,7 +1,7 @@
 import React from 'react'
 import Divider from '@components/templates/Divider'
 import Avatar from '@components/templates/Avatar'
-import Image from '@components/templates/Image'
+import GoodsList from '@components/ui/GoodsList'
 import Button from '@components/templates/Button'
 
 const profile = () => {
@@ -110,7 +110,6 @@ const profile = () => {
             <span className="profile-box_area">동작구 사당동</span>
           </div>
         </div>
-        {/* <Divider type="vertical" style={{ height: '100%' }} /> */}
         <hr className="profile-divider" />
         <ul className="profile-list">
           <li className="profile-list_item">
@@ -145,42 +144,8 @@ const profile = () => {
           <Divider type="vertical" />
           <span className="result-lineup_item">높은 가격순</span>
         </div>
-        <div className="newgoods-wrapper">
-          <ul className="newgoods-list">
-            {goodsList.map(goodsList => (
-              <li className="newgoods" key={goodsList.id}>
-                <div className="img-container">
-                  <Image
-                    src="https://img.khan.co.kr/news/2021/08/15/l_2021081501002249400192111.webp"
-                    // width="100%"
-                    // height="100%"
-                    ration="rectangle-h"
-                    style={{
-                      border: 'none',
-                      marginBottom: '10px',
-                      width: '100%',
-                      height: '100%',
-                    }}
-                    mode="cover"
-                  />
-                </div>
-                <div>
-                  <div className="info-top">{goodsList.title}</div>
-                  <div className="info-middle">
-                    {goodsList.address}
-                    <Divider type="vertical" style={{ color: '#DDDDDD' }} />
-                    {goodsList.time}
-                  </div>
-                  <div className="info-bottom">
-                    <span>{goodsList.price} 원</span>
-                    <Button className="reviews-btn">후기 보기</Button>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
+      <GoodsList goodsList={goodsList} className="profile-goodList" />
     </div>
   )
 }
