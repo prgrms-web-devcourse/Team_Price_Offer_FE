@@ -13,6 +13,11 @@
 
     p {
       margin-top: 10px;
+      color: $FONT_GRAY_COLOR;
+
+      &.login {
+        color: $FONT_COLOR;
+      }
     }
   }
 
@@ -94,6 +99,22 @@
         color: $FONT_GRAY_COLOR;
       }
 
+      &-input.offer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        h3 {
+          font-weight: bold;
+          margin-right: 15px;
+        }
+
+        input {
+          width: 170px;
+          margin-top: 0;
+        }
+      }
+
     }
 
     &_select-wrapper {
@@ -113,6 +134,11 @@
         margin-top: 10px;
         background-color: $KAKAO_COLOR;
         color: $KAKAO_FONT_COLOR;
+      }
+
+      &.offer {
+        width: 200px;
+        margin: 0 auto;
       }
     }
   }
