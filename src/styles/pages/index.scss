@@ -2,18 +2,9 @@
 @import "@styles/common/mixins";
 
 .main {
-  .header {
-    width: 1280px;
-    height: 102px ;
-    background-color: black;
-
-    &-wrpper {
-      display: flex;
-      justify-content:  center;
-    }
-  }
 
   .banner-wrapper{
+    width: 100%;
     margin-top: 20px;
     display: flex;
     justify-content: center;
@@ -33,120 +24,66 @@
     }
 
     &-list {
-      width: 976.39px;
-      display: flex;
-      flex-wrap: wrap;
-      gap:32.5px 1px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
     }
 
     &-text{
       font-family: Noto Sans;
       font-size: 14px;
-      min-width: 93px;
       height: 100%;
       margin-top: 25px;
       text-align: center;
     }
+
+    &-icn{
+      width: 35px;
+      height: 35px;
+      align-self: center;
+    }
   }
 
   .newgoods{
-    margin: 0px;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    position: relative;
-
-    &-img{
-      max-width: 183px;
-      max-height: 227px;
-      border: none;
-    }
-
     &-title{
+      margin: 60px 0 35px 0;
       font-size: 26px;
       font-weight: bold;
     }
 
-    &-wrapper{
-      padding: 0px;
-      display: flex;
-      justify-content: center;
-    }
+  }
 
-    &-list{
-      padding: 0px;
-      padding-inline-start: 0px;
-      width: 999px;
-      display: flex;
-      justify-content: center;
-      gap: 50px 20px;
-      flex-wrap: wrap;
-    }
 
-    & .info {
-      &-top {
-        max-width: 140px;
-        margin-top: 10px;
-        font-size: 14px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      &-middle{
-        color: $FONT_GRAY_COLOR;
-        margin-top: 7px;
+  @include small-desktop{
+    .category {
+      &-text{
         font-size: 12px;
       }
-      &-bottom{
-        font-weight: bold;
-        margin-top: 18px;
-        font-size: 16px;
+    }
+  }
+
+  @include tablet{
+    .category {
+      &-list{
+        grid-template-columns: repeat(5, 1fr);
+        gap : 40px 0;
       }
     }
   }
-
-  .newgoodstext {
-    &-wrapper{
-      margin-top: 50px;
-      display: flex;
-      justify-content: center;
-      margin-bottom: 50px;
-    }
-
-    &-container{
-      width: 999px;
-    }
-  }
-
 
   @include mobile{
-    .header {
-      width: 100%;
-      height: 102px ;
-
-      &-wrapper{
-        margin:0px;
-        display: flex;
-        justify-content:  center;
-        width:100%;
+    .category {
+      &-list{
+        grid-template-columns: repeat(5, 1fr);
+        gap : 40px 0;
       }
-    }
 
-    .newgoods{
-      margin: 0px;
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      position: relative;
-  
-      &-img{
-        max-width: 165px;
-        max-height: 211px;
-        border: none;
+      .category {
+        &-text{
+          font-size: 12px;
+        }
       }
     }
   }
+
 }
