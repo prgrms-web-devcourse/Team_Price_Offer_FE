@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Avatar from '@components/templates/Avatar'
 import Button from '@components/templates/Button'
+import Divider from '@components/templates/Divider'
 
 const reviewList = [
   {
@@ -14,6 +15,8 @@ const reviewList = [
       '급처급처급처급처급처급처급처급처급처급처급처급처급처급처급처급처급처급처급처급처',
     address: '서울시 강북구',
     time: '2분전',
+    goodsSold: true,
+    review: true,
   },
   {
     id: 2,
@@ -24,6 +27,8 @@ const reviewList = [
     title: '급처급처',
     time: '2분전',
     price: '10',
+    goodsSold: true,
+    review: true,
   },
   {
     id: 3,
@@ -33,6 +38,8 @@ const reviewList = [
     src: 'https://i.pinimg.com/736x/2b/21/0a/2b210ad8318d297115b7d95335b918ec--japan.jpg',
     title: '급처급처',
     time: '2분전',
+    goodsSold: true,
+    review: true,
   },
   {
     id: 4,
@@ -42,6 +49,8 @@ const reviewList = [
     src: 'https://i.pinimg.com/736x/2b/21/0a/2b210ad8318d297115b7d95335b918ec--japan.jpg',
     title: '급처급처',
     time: '2분전',
+    goodsSold: true,
+    review: false,
   },
   {
     id: 5,
@@ -51,6 +60,8 @@ const reviewList = [
     src: 'https://i.pinimg.com/736x/2b/21/0a/2b210ad8318d297115b7d95335b918ec--japan.jpg',
     title: '급처급처',
     time: '2분전',
+    goodsSold: true,
+    review: false,
   },
   {
     id: 6,
@@ -60,6 +71,8 @@ const reviewList = [
     src: 'https://i.pinimg.com/736x/2b/21/0a/2b210ad8318d297115b7d95335b918ec--japan.jpg',
     title: '급처급처',
     time: '2분전',
+    goodsSold: true,
+    review: true,
   },
   {
     id: 7,
@@ -69,6 +82,8 @@ const reviewList = [
     src: 'https://i.pinimg.com/736x/2b/21/0a/2b210ad8318d297115b7d95335b918ec--japan.jpg',
     title: '급처급처',
     time: '2분전',
+    goodsSold: true,
+    review: false,
   },
   {
     id: 8,
@@ -78,6 +93,8 @@ const reviewList = [
     src: 'https://i.pinimg.com/736x/2b/21/0a/2b210ad8318d297115b7d95335b918ec--japan.jpg',
     title: '급처급처',
     time: '2분전',
+    goodsSold: true,
+    review: true,
   },
   {
     id: 9,
@@ -87,6 +104,8 @@ const reviewList = [
     src: 'https://i.pinimg.com/736x/2b/21/0a/2b210ad8318d297115b7d95335b918ec--japan.jpg',
     title: '급처급처',
     time: '2분전',
+    goodsSold: true,
+    review: true,
   },
   {
     id: 10,
@@ -96,6 +115,8 @@ const reviewList = [
     src: 'https://i.pinimg.com/736x/2b/21/0a/2b210ad8318d297115b7d95335b918ec--japan.jpg',
     title: '급처급처',
     time: '2분전',
+    goodsSold: true,
+    review: true,
   },
 ]
 const review = props => {
@@ -105,12 +126,10 @@ const review = props => {
   }
 
   const avatarStyle = {
-    width: '90px',
-    height: '90px',
+    width: '85px',
+    height: '85px',
   }
-
-  const btnStyle = {
-    width: '90px',
+  const reviewBtnStyle = {
     height: '30px',
     fontSize: '14px',
   }
@@ -119,29 +138,49 @@ const review = props => {
     <div className="review">
       <ul className="review-list" style={ulStyle}>
         {reviewList.map(item => (
-          <li key={item.id} className="review-item">
-            <div className="review-profile-box">
-              <Avatar
-                src={item.src}
-                className="review-profile-img"
-                style={avatarStyle}
-              />
-              <div className="review-profile_inform">
-                <div className="review-reviewer-box">
-                  <span className="review-reviewer-name">{item.reviewer}</span>
-                  <span className="review-reviewer-level">
-                    Lv. {item.level}
-                  </span>
+          <>
+            <li key={item.id} className="review-item">
+              <div className="review-profile-box">
+                <Avatar
+                  src={item.src}
+                  className="review-profile-img"
+                  style={avatarStyle}
+                />
+                <div className="review-profile_inform">
+                  <div className="review-reviewer">
+                    <span className="review-reviewer_name">
+                      {item.reviewer}
+                    </span>
+                    <span className="review-reviewer_level">
+                      Lv. {item.level}
+                    </span>
+                  </div>
+                  <div className="review-reviewer_content">{item.content}</div>
+                  <Button className="review-goods_btn-wrapper">
+                    <div className="review-goods_btn">
+                      <div className="review-goods_btn_text">
+                        {item.goodsSold ? '판매상품' : '구매상품'}
+                        <Divider type="vertical" />
+                        {item.title}
+                      </div>
+                      <div className="review-goods_btn_icn">&gt;</div>
+                    </div>
+                  </Button>
                 </div>
-                <span>{item.content}</span>
-                <div>{item.title}</div>
               </div>
               <div className="review-side-box">
-                <span>{item.time}</span>
-                <Button style={btnStyle}>후기 남기기</Button>
+                <div style={{ width: '100%', textAlign: 'right' }}>
+                  {item.time}
+                </div>
+                <Button
+                  style={reviewBtnStyle}
+                  className={`review-review_btn ${!item.review && 'leave'}`}>
+                  {item.review === true ? '후기 보기' : '후기 남기기'}
+                </Button>
               </div>
-            </div>
-          </li>
+            </li>
+            <hr />
+          </>
         ))}
       </ul>
     </div>
