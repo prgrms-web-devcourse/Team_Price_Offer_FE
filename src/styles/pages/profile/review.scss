@@ -72,6 +72,11 @@
             text-overflow: ellipsis;
             text-align: left;
         }
+        &_icn{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     }
 
     &-review_btn{

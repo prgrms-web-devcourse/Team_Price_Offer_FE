@@ -134,6 +134,9 @@ const review = props => {
     fontSize: '14px',
   }
 
+  const arrowImgPath = require('@assets/images/icon/profile_arrow.svg').default
+    .src
+
   return (
     <div className="review">
       <ul className="review-list" style={ulStyle}>
@@ -165,7 +168,13 @@ const review = props => {
                         <Divider type="vertical" />
                         {item.title}
                       </div>
-                      <div className="review-goods_btn_icn">&gt;</div>
+                      <div className="review-goods_btn_icn">
+                        <img
+                          src={arrowImgPath}
+                          alt="arrow"
+                          className="review-goods_icon_arrow"
+                        />
+                      </div>
                     </div>
                   </Button>
                 </div>
