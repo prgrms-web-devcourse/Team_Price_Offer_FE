@@ -121,10 +121,18 @@
         }
     }
 
-    &-button-container {
-        width: 100%;
-        display: flex;
-        justify-content: right;
+    &-button{
+     width: 250px;
+     height : 60px;
+     font-size : 20px;
+     background-color: $PRIMARY_COLOR;
+     color: white;
+
+        &-container {
+            width: 100%;
+            display: flex;
+            justify-content: right;
+        }
     }
 
     @include small-desktop{
@@ -220,6 +228,11 @@
                 font-size: 16px;
                 line-height: 26px;
             }
+        }
+
+        &-button{
+            width: 200px;
+            font-size: 18px;
         }
     }
 }

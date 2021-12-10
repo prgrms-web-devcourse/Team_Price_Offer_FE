@@ -153,6 +153,7 @@ const Main = () => {
             'https://picsum.photos/200',
           ]}
           style={{
+            width: '100%',
             textAlign: 'center',
             verticalAlign: 'middle',
           }}
@@ -164,13 +165,9 @@ const Main = () => {
           {categoryList.map(categoryList => (
             <div className="category" key={categoryList.value}>
               <ICONBUTTON
+                className="category-icn"
                 src={categoryList.src}
                 alt={categoryList.text}
-                style={{
-                  width: '40px',
-                  height: '40px',
-                  alignSelf: 'center',
-                }}
                 //   onClick={categoryClick(categoryList)}
               />
               <div className="category-text">{categoryList.text}</div>
@@ -179,11 +176,7 @@ const Main = () => {
         </div>
       </div>
 
-      <div className="newgoodstext-wrapper">
-        <div className="newgoodstext-container">
-          <div className="newgoods-title">신규상품</div>
-        </div>
-      </div>
+      <div className="newgoods-title">신규상품</div>
       <GoodsList goodsList={goodsList} />
     </div>
   )

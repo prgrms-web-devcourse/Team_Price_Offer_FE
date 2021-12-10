@@ -153,9 +153,7 @@ const posting = () => {
       />
 
       <div className="posting-button-container">
-        <Button style={{ width: '25%', height: '70px', fontSize: '20px' }}>
-          등록하기
-        </Button>
+        <Button className="posting-button">등록하기</Button>
       </div>
     </div>
   )
