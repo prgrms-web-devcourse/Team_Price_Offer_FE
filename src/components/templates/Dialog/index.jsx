@@ -45,7 +45,7 @@ Dialog.propTypes = {
 }
 
 const DialogWrapper = styled.ul(({ visible }) => ({
-  display: visible ? 'block' : 'none',
+  display: visible ? 'flex' : 'none',
   position: 'absolute',
   width: '147px',
   margin: 0,
