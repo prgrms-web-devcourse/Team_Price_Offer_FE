@@ -7,13 +7,13 @@
 }
 
 @mixin small-desktop {
-	@media (min-width : #{$breakpoint-tablet}) and (max-width: #{$breakpoint-desktop - 1px}){
+	@media (min-width : #{$breakpoint-tablet}) and (max-width: #{$breakpoint-desktop }){
 		@content;
 	}
 }
 
 @mixin tablet {
-	@media (min-width : #{$breakpoint-mobile}) and (max-width: #{$breakpoint-tablet - 1px}){
+	@media (min-width : #{$breakpoint-mobile}) and (max-width: #{$breakpoint-tablet }){
 		@content;
 	}
 }
