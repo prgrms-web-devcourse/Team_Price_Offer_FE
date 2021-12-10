@@ -1,0 +1,99 @@
+@import "@styles/common/variables";
+@import "@styles/common/mixins";
+
+.review{
+    &-item{
+
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 30px 0;
+
+    }
+
+    &-profile{
+        &-box{
+            display: flex;
+            align-items: center;
+        }
+
+        &_inform{
+            margin-left: 15px;
+        }
+    }
+
+    &-reviewer{
+        margin-bottom: 5px;
+
+        &_name{
+            font-size: 16px;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+
+        &_level {
+            color: $PRIMARY_COLOR;
+            font-weight: 500;
+        }
+
+        &_content{
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+    }
+
+    &-side-box{
+        height: 85px;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: space-between;
+        justify-content: flex-end;
+    }
+
+    &-goods_btn {
+        width: 300px;
+        height: 30px;
+        color: $FONT_GRAY_COLOR;
+        border-radius: 3px;
+        font-size: 14px;
+        padding : 0 3px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &-wrapper {
+            background-color: white;
+        }
+
+        &_text{
+            width: 95%;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            text-align: left;
+        }
+        &_icn{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    &-review_btn{
+        background-color: $PRIMARY_COLOR;
+        color: white;
+        padding: 0 10px;
+
+        &.leave{
+            background-color: white;
+            color: $PRIMARY_COLOR;
+            border : 1px solid $PRIMARY_COLOR
+        }
+    }
+
+    @include mobile{
+        &-profile-img{
+            display: none;
+        }
+    }
+}

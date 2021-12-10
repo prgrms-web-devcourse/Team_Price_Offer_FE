@@ -21,11 +21,6 @@ Button.propTypes = {
   onClick: PropTypes.func,
 }
 const CommonButton = styled.button`
-  width: 324px;
-  height: 50px;
-  font-size: 16px;
-  color: #ffffff;
-  background-color: #f74f2a;
   border-radius: 3px;
   border: none;
   display: block;
