@@ -11,7 +11,10 @@ import '@styles/ui/goodsItem.scss'
 import '@styles/ui/goodsList.scss'
 import '@styles/pages/message.scss'
 import '@styles/ui/modal.scss'
+import '@styles/ui/modalConfirmBuyer.scss'
+import '@styles/ui/modalReview.scss'
 import Header from '@components/ui/Header'
+import WriteReview from '@components/ui/modal/ModalWriteReview'
 
 function MyApp({ Component, pageProps }) {
   return (
