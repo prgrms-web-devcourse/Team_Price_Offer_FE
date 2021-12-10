@@ -1,8 +1,8 @@
 import React from 'react'
 import Divider from '@components/templates/Divider'
 import Avatar from '@components/templates/Avatar'
-import GoodsList from '@components/ui/GoodsList'
 import Button from '@components/templates/Button'
+import Sale from '@pages/profile/sale'
 
 const profile = () => {
   const profileImgStyle = {
@@ -144,8 +144,10 @@ const profile = () => {
           <Divider type="vertical" />
           <span className="result-lineup_item">높은 가격순</span>
         </div>
+        <div className="result-content">
+          <Sale goodsList={goodsList} />
+        </div>
       </div>
-      <GoodsList goodsList={goodsList} className="profile-goodList" />
     </div>
   )
 }
