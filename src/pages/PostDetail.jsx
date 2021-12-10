@@ -8,7 +8,7 @@ import GOODSIMG from '@components/templates/Banner'
 import BUTTON from '@components/templates/Button'
 import Like from '../components/templates/ToggleButton'
 
-const PostDetail = props => {
+const postDetail = props => {
   const detailInfo = JSON.stringify([
     {
       id: 1,
@@ -244,6 +244,6 @@ const PostDetail = props => {
   )
 }
 
-PostDetail.propTypes = {}
+postDetail.propTypes = {}
 
-export default PostDetail
+export default postDetail
