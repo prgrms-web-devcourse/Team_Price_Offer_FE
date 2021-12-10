@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Avatar from '@components/templates/Avatar'
-import IMG from '@components/templates/Image'
 import ICONBUTTON from '@components/templates/IconButton'
 import DIVIDER from '@components/templates/Divider'
 import GOODSIMG from '@components/templates/Banner'
@@ -81,10 +80,7 @@ const postDetail = props => {
     },
   ]
   return (
-    <>
-      <div className="header-wrapper">
-        <div className="header" />
-      </div>
+    <div className="detail">
       <div className="detail-info-wrapper">
         <div className="img-wrapper">
           <GOODSIMG
@@ -123,7 +119,7 @@ const postDetail = props => {
 
             <div className="post-info-top">
               <div className="post-title">
-                산타 양말 팔아요팔아요팔아요팔아요팔아요팔아요
+                산타 양말 팔아요팔아요팔아요팔아요팔아요팔아요팔팔아요
               </div>
               {/* <ICONBUTTON
                 src="./favicon.ico"
@@ -234,13 +230,12 @@ const postDetail = props => {
               <div className="offer-state_ban">
                 예약중인 물건은 가격제안을 할 수 없어요!
               </div>
-              <BUTTON className="offer-ban-button">가격 제안하기(0/2)</BUTTON>
               <BUTTON className="offer-button">가격 제안하기(0/2)</BUTTON>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

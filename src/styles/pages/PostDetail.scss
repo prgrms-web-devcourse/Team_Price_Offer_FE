@@ -20,7 +20,7 @@
 .detail-info-wrapper{
     gap:57px;
     padding:0px;
-    padding-inline-start: 0px;    
+    padding-inline-start: 0px;
     margin-top: 37px;
     display: flex;
     flex-wrap: wrap;
@@ -32,7 +32,7 @@
 .img-wrapper{
     max-width:486px;
     width:100%;
-    padding:0px;    
+    padding:0px;
 }
 
 .post-info-wrapper{
@@ -52,7 +52,6 @@
                 align-content: center;
                 line-height: 47px;
             }
-            
         }
     }
 
@@ -69,9 +68,9 @@
     .post-title{
         width: 80%;
         font-size: 22px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        // white-space: nowrap;
+        // overflow: hidden;
+        // text-overflow: ellipsis;
     }
     .like-button{
         margin-left: auto;
@@ -98,7 +97,7 @@
             font-size: 14px;
             color:#BBBBBB;
         }
-        
+
         .info-value{
             font-size: 14px;
             color:#888888;
@@ -109,7 +108,7 @@
 .info-offer-wrapper{
     gap:55px;
     padding:0px;
-    padding-inline-start: 0px;    
+    padding-inline-start: 0px;
     margin-top: 37px;
     display: flex;
     flex-wrap: wrap;
@@ -128,30 +127,31 @@
         .goods-info-content{
             margin-top: 20px;
             word-break: break-all;
-        
+            font-size: 16px;
         }
-    
+
     }
     .offer-user-info{
-        
+
         display:flex;
         margin-top: 20px;
         margin-bottom: 20px;
-    
+
         .offer-subinfo{
             display: flex;
             flex-direction: column;
             .offer-username{
                 display: flex;
                 margin-bottom: 8px;
+                font-size: 16px;
             }
             .offer-address{
                 color: #888888;
                 font-size: 14px;
             }
         }
-    
-        
+
+
         .offer-suggestinfo{
             display: flex;
             margin-left: auto;
@@ -162,16 +162,10 @@
                 width:100%;
                 font-size: 20px;
             }
-            
-            .offer-button{
-    
-            }
-            
         }
-    
     }
 
-    
+
     .offer-option{
         margin-top: 20px;
         display: flex;
@@ -187,72 +181,45 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            
+
             .offer-state_ban{
                 color:#888888;
                 text-align: center;
-            }
-            .offer-ban-button{
-                margin-top: 20px;
-                width:100%;
-                max-width: 214px;
-                height: 52;
-                background-color: #AEAEAE;
             }
             .offer-button{
                 margin-top: 20px;
                 width:100%;
                 max-width: 214px;
-                height: 52;
+                height: 52px;
                 background-color: $PRIMARY_COLOR;
+                color : white;
+                &.ban{
+                    background-color: #AEAEAE;
+                }
             }
         }
     }
 
-    
+
 }
 
 
 @include mobile{
-    // .container{
-    //     display: flex;
-    //     align-items: center;
-    //     justify-content: normal;
-    // }
-    .header-wrapper{
-        margin:0px;
-        padding:0px;
-        display: flex;
-        justify-content:  center;
-    
-        .header {
-            margin:0px;
-            padding:0px;
-            max-width: 500px;
-            width:100%;
-            height: 102px ;
-            background-color: black;
-        }
-    }
-    
-    
     .img-wrapper{
-        max-width:350px;;
         width:100%;
-        padding:0px;    
+        padding:0px;
     }
-    
+
     .post-info-wrapper{
         padding:0px;
-    
+
         .post-info{
             margin-top: 18px;
             width:100%;
-            max-width:350px;
         }
-    
+
     }
-    
+
     .post-info-top{
         display: flex;
         margin-top: 20px;
@@ -268,19 +235,19 @@
             line-height: 30px,
         }
     }
-    
+
     .post-price{
         margin-top: 20px;
         font-size: 32px;
         font-weight: bold;
     }
-    
+
     .post-info-bottom{
         display: flex;
         flex-direction: column;
         margin-top: 20px;
         gap:15px;
-    
+
         .post-info-bottom_time{
             display: flex;
             gap: 24.98px;
@@ -288,46 +255,44 @@
                 font-size: 14px;
                 color:#BBBBBB;
             }
-            
+
             .info-value{
                 font-size: 14px;
                 color:#888888;
             }
         }
     }
-    
+
     .info-offer-wrapper{
         gap:55px;
         padding:0px;
-        padding-inline-start: 0px;    
+        padding-inline-start: 0px;
         margin-top: 37px;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-    
+
         .goods-info{
-            max-width: 350px;
             width:100%;
             padding: 0px;
-    
+
             .goods-info-title{
                 font-size: 20px;
                 font-weight: bold;
             }
-    
+
             .goods-info-content{
                 margin-top: 20px;
                 word-break: break-all;
-            
             }
-        
+
         }
         .offer-user-info{
-            
+
             display:flex;
             margin-top: 20px;
             margin-bottom: 20px;
-        
+
             .offer-subinfo{
                 display: flex;
                 flex-direction: column;
@@ -339,7 +304,7 @@
                     color: #888888;
                     font-size: 14px;
                 }
-            }        
+            }
         }
     }
 }
