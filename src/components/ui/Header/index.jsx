@@ -356,7 +356,7 @@ const HeaderStyle = css`
     padding: 0px;
     width: 100%;
     min-width: 147px;
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
