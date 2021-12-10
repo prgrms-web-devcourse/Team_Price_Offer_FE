@@ -113,7 +113,7 @@ const profile = () => {
         <hr className="profile-divider" />
         <ul className="profile-list">
           <li className="profile-list_item">
-            <div className="profile-list_title">판매 상품</div>
+            <div className="profile-list_title selected">판매 상품</div>
             <div className="profile-list_content">30</div>
           </li>
           <li className="profile-list_item">
@@ -134,11 +134,11 @@ const profile = () => {
       <div className="result-container">
         <div className="result-title">가격 제안</div>
         <div className="result-btn-box">
-          <Button className="result-btn_item">판매 중</Button>
+          <Button className="result-btn_item selected">판매 중</Button>
           <Button className="result-btn_item">판매 완료</Button>
         </div>
         <div className="result-lineup-box">
-          <span className="result-lineup_item">최신순</span>
+          <span className="result-lineup_item selected">최신순</span>
           <Divider type="vertical" />
           <span className="result-lineup_item">낮은 가격순</span>
           <Divider type="vertical" />

@@ -156,7 +156,9 @@ const review = props => {
                     </span>
                   </div>
                   <div className="review-reviewer_content">{item.content}</div>
-                  <Button className="review-goods_btn-wrapper">
+                  <Button
+                    className="review-goods_btn-wrapper"
+                    style={{ border: '1px solid #ccc' }}>
                     <div className="review-goods_btn">
                       <div className="review-goods_btn_text">
                         {item.goodsSold ? '판매상품' : '구매상품'}

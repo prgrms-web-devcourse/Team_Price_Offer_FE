@@ -71,21 +71,20 @@
             align-items: center;
             flex-direction: column;
             font-weight: 600;
-        }
+       }
 
         &_title {
             font-size: 20px;
             cursor: pointer;
             margin-bottom: 10px;
-        }
+
+            &.selected {
+                background: linear-gradient(180deg, rgba(255, 255, 255, 0) 50%, #f7502a41 50%);
+            }      }
 
         &_content {
             font-size: 22px;
             cursor: pointer;
-        }
-
-        &_selected {
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0) 50%, #f7502a41 50%);
         }
     }
 
@@ -117,7 +116,7 @@
             border-bottom: 2px solid $BORDER_COLOR;
             font-weight: 500;
 
-            & selected {
+            &.selected {
                 border-bottom-color: #000;
                 color: $FONT_COLOR;
             }
@@ -131,7 +130,7 @@
         &-lineup_item {
             font-size: 14px;
 
-            & selected {
+            &.selected {
                 color: $PRIMARY_COLOR;
             }
         }
