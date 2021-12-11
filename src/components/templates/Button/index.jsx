@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 
 const Button = ({ type, style, className, children, onClick }) => {
-  const handleClick = () => {
-    onClick && onClick()
+  const handleClick = e => {
+    onClick && onClick(e)
   }
   return (
     <CommonButton
