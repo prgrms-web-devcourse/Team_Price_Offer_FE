@@ -1,8 +1,30 @@
 import React from 'react'
 import Input from '@components/templates/Input'
 import Button from '@components/templates/Button'
+import SelectBox from '@components/templates/Selectbox'
 
 const ContentSignup = props => {
+  const locationCityDefault = {
+    name: '시를 선택해주세요',
+    code: 'city',
+  }
+
+  const locationDistrictDefault = {
+    name: '구를 선택해주세요',
+    code: 'district',
+  }
+
+  const options = [
+    {
+      code: 'user',
+      name: '사용자',
+    },
+    {
+      code: 'post',
+      name: '게시글',
+    },
+  ]
+
   return (
     <>
       <div className="modal-header">
@@ -16,7 +38,16 @@ const ContentSignup = props => {
           </div>
           <div className="modal-body_form-input address">
             <h3>주소</h3>
-            <Input name="address" placeholder="주소" />
+            <SelectBox
+              formName="location-city"
+              defaultOption={locationCityDefault}
+              options={options}
+            />
+            <SelectBox
+              formName="location-district"
+              defaultOption={locationDistrictDefault}
+              options={options}
+            />
           </div>
           <div className="modal-body_form-input email">
             <h3>이메일</h3>
