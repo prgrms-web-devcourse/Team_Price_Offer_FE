@@ -120,7 +120,11 @@
     &_select-wrapper {
       display: flex;
 
-      select:first-child {
+      div {
+        flex: 1;
+      }
+
+      div:first-child {
         margin-right: 10px;
       }
     }
