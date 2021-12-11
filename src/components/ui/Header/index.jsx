@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef,useEffect } from 'react'
 import PropTypes from 'prop-types'
 import DIVIDER from '@components/templates/Divider'
 import Link from 'next/link'
@@ -6,10 +6,21 @@ import Input from '@components/templates/Input'
 import IconButton from '@components/templates/IconButton'
 import ModalLogin from '@components/ui/modal/ModalLogin'
 import Dialog from '@components/templates/Dialog'
+import useStorage from '@utils/storage.js'
 import Button from '@components/templates/Button'
 import { Global, css } from '@emotion/react'
 
+
 const Header = ({ isLogin }) => {
+  const { setItem, getItem, removeItem, clear } = useStorage();
+
+  const data = getItem('userData')
+  // console.log(data)  
+  // console.log(data.id)
+  useEffect(() => {
+    console.log(isLogin)
+  }, [])
+  
   const logoImgPath = require('@assets/images/logo.svg').default.src
   const userImgPath = require('@assets/images/icon/user_circle.svg').default.src
   const searchImgPcPath = require('@assets/images/icon/search_light.svg')
@@ -25,8 +36,6 @@ const Header = ({ isLogin }) => {
 
   const buttonRef = useRef(null)
 
-  const [isToggle, setMenu] = useState(false) // 메뉴의 초기값을 false로 설정
-
   const [isSearchToggle, setSearch] = useState(false) // 메뉴의 초기값을 false로 설정
 
   const dialogClick = e => {
@@ -34,8 +43,9 @@ const Header = ({ isLogin }) => {
     setDialogVisible(true)
     console.log(dialogVisible)
   }
-  const toggleMenu = () => {
-    setMenu(isOpen => !isOpen) // on,off
+
+  const handleImgError = (e) => {
+    e.target.src = userImgPath;
   }
 
   const toggleSearch = () => {
@@ -91,20 +101,9 @@ const Header = ({ isLogin }) => {
               // onClick={toggleSearch}
               onClick={toggleSearch}
             />
-            {/* </div> */}
           </div>
         </div>
         <div className="header-widget-wrapper">
-          {/* {isToggle ? (
-            <div className="sidear-list">
-              <div className="sidebar-list_myprofile">내 프로필</div>
-              <div className="sidebar-list_mychat">내 쪽지함</div>
-              <div className="sidebar-list_logout">로그아웃</div>
-            </div>
-          ) : (
-            <div className="sidear-list" style={{ display: 'none' }} />
-          )} */}
-
           {isLogin ? (
             <div className="widget-islogin">
               <div className="widget-islogin_pc">
@@ -119,11 +118,11 @@ const Header = ({ isLogin }) => {
                 <DIVIDER type="vertical" style={{ color: '#DDDDDD' }} />
                 <div className="userprofile-area">
                   <IconButton
-                    src={userImgPath}
+                    src={data.profileImage}
                     alt="user"
                     style={{ width: '24px', height: '24px' }}
                   />
-                  <div className="username">족발킬러</div>
+                  <div className="username">{data.id}</div>
                   <IconButton
                     className="sidebar"
                     src={menuImgPaht}
