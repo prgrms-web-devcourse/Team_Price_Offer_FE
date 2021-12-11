@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
-import Router from "next/router";
+import Router from 'next/router'
 import { useFormik } from 'formik'
 import validate from '@utils/validation'
 import useStorage from '@utils/storage.js'
-import {authApi} from '@api/apis.js'
+import { authApi } from '@api/apis.js'
 import Button from '@components/templates/Button'
 import ModalSignup from '../ModalSignup'
 
-
 const LoginContent = () => {
-  const { setItem,getItem,removeItem,clear } = useStorage();
+  const { setItem, getItem, removeItem, clear } = useStorage()
 
   const [visible, setVisible] = useState(false) // 모달의 초기값 false
 
@@ -19,35 +18,24 @@ const LoginContent = () => {
       password: '',
     },
     validate,
-    onSubmit:  (values) => {
+    onSubmit: async values => {
       try {
-        console.log(values)
-        // data = authApi.loginEmail(values)
-        // setItem('userToken',data.token)
-        const userData = {
-            id: 1,
-            token: "jwt.token.here",
-            email: "awesomeo184@gmail.com",
-            appleLevel: 1,
-            nickname: "awesomeo184",
-            profileImage: "null",
-            address: "동대문구 회기동"
-        }
-        setItem('userData',userData)
-        setItem('userToken', 'testToken')
-        Router.push("/")
-      }
-      catch (error) {
+        console.log(JSON.stringify(values))
+        const { data } = await authApi.loginEmail(values)
+        setItem('userToken', data.member.token)
+        setItem('userData', data.member)
+        Router.push('/')
+      } catch (error) {
         console.log(error.response.data)
         alert('error.response.data')
         // if (error.response.data === 400) {
         alert('아이디 혹은 비밀번호가 맞지 않습니다.')
         return
-      }          
-    }
+      }
+    },
   })
   const onKaKaoLogin = () => {
-    authApi.loginEmail(values)
+    // authApi.loginEmail(values)
   }
   return (
     <>
@@ -80,28 +68,34 @@ const LoginContent = () => {
               onChange={formik.handleChange}
               value={formik.values.password}
             />
-          {formik.errors.password ? <div>{formik.errors.password}</div> : null}
+            {formik.errors.password ? (
+              <div>{formik.errors.password}</div>
+            ) : null}
           </div>
           <Button type="submit" className="modal-body_btn email">
             이메일로 로그인
           </Button>
         </form>
         <div className="modal-body_btn-wrapper">
-          <Button className="modal-body_btn kakao" onClick={onKaKaoLogin}>카카오로 로그인</Button>
+          <Button className="modal-body_btn kakao" onClick={onKaKaoLogin}>
+            카카오로 로그인
+          </Button>
         </div>
       </div>
       <div className="modal-footer">
         <p>
-          아직 회원이 아니신가요? <span style={{cursor:"pointer"}}onClick={() => setVisible(true)}>회원가입</span>
+          아직 회원이 아니신가요?{' '}
+          <span style={{ cursor: 'pointer' }} onClick={() => setVisible(true)}>
+            회원가입
+          </span>
         </p>
-        <ModalSignup visible={visible} onClose={() => setVisible(false)}/>
+        <ModalSignup visible={visible} onClose={() => setVisible(false)} />
         <p>
           비밀번호를 잊으셨나요? <span>비밀번호 찾기</span>
         </p>
       </div>
     </>
   )
-
 }
 
 export default LoginContent
