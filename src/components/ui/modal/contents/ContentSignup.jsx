@@ -6,7 +6,7 @@ import { authApi } from '@api/apis'
 import { useFormik } from 'formik'
 import validate from '@utils/validation'
 
-const ContentSignup = props => {
+const ContentSignup = () => {
   const formik = useFormik({
     initialValues: {
       nickname: '',
@@ -20,19 +20,30 @@ const ContentSignup = props => {
     onSubmit: async value => {
       try {
         const address = value.city.concat(' ', value.district)
-
-        delete value.city
-        delete value.district
-
-        await authApi.signUp({
+        const newValue = {
           ...value,
           address,
-        })
+        }
+
+        delete newValue.district
+        delete newValue.city
+
+        const { code } = await authApi.signUp(newValue)
+        code === 200 && alert('회원가입이 완료되었습니다')
       } catch (e) {
-        alert('SinUp Error')
+        alert('SinUp Error!')
       }
     },
   })
+
+  const fetchCheckDuplicates = async email => {
+    try {
+      const { message } = await authApi.checkDuplicates(email)
+      alert(message)
+    } catch (e) {
+      alert('Check Duplicates Error')
+    }
+  }
 
   const locationCityDefault = {
     name: '시를 선택해주세요',
@@ -55,14 +66,6 @@ const ContentSignup = props => {
     },
   ]
 
-  // const asyncSignUp = async () => {
-  //   try {
-  //     await authApi.signUp(userInfo)
-  //   } catch (e) {
-  //     alert('SinUp Error')
-  //   }
-  // }
-
   return (
     <>
       <div className="modal-header">
@@ -79,9 +82,7 @@ const ContentSignup = props => {
               onChange={formik.handleChange}
               value={formik.values.nickname}
             />
-            {formik.errors.nickname ? (
-              <div>{formik.errors.nickname}</div>
-            ) : null}
+            {formik.errors.nickname && <div>{formik.errors.nickname}</div>}
           </div>
           <div className="modal-body_form-input address">
             <h3>지역</h3>
@@ -92,7 +93,7 @@ const ContentSignup = props => {
               onChange={formik.handleChange}
               value={formik.values.city}
             />
-            {formik.errors.city ? <div>{formik.errors.city}</div> : null}
+            {formik.errors.city && <div>{formik.errors.city}</div>}
             <SelectBox
               formName="district"
               defaultOption={locationDistrictDefault}
@@ -100,9 +101,7 @@ const ContentSignup = props => {
               onChange={formik.handleChange}
               value={formik.values.district}
             />
-            {formik.errors.district ? (
-              <div>{formik.errors.district}</div>
-            ) : null}
+            {formik.errors.district && <div>{formik.errors.district}</div>}
           </div>
           <div className="modal-body_form-input email">
             <h3>이메일</h3>
@@ -114,8 +113,19 @@ const ContentSignup = props => {
                 onChange={formik.handleChange}
                 value={formik.values.email}
               />
-              {formik.errors.email ? <div>{formik.errors.email}</div> : null}
-              <Button style={{ fontSize: '12px' }}>중복검사</Button>
+              {formik.errors.email && <div>{formik.errors.email}</div>}
+              <Button
+                type="button"
+                style={{ fontSize: '12px' }}
+                onClick={() => {
+                  if (!formik.errors.email) {
+                    fetchCheckDuplicates(formik.values.email)
+                  } else {
+                    alert('이메일을 확인해 주세요!')
+                  }
+                }}>
+                중복검사
+              </Button>
             </div>
           </div>
           <div className="modal-body_form-input password">
@@ -128,9 +138,7 @@ const ContentSignup = props => {
               onChange={formik.handleChange}
               value={formik.values.password}
             />
-            {formik.errors.password ? (
-              <div>{formik.errors.password}</div>
-            ) : null}
+            {formik.errors.password && <div>{formik.errors.password}</div>}
           </div>
           <div className="modal-body_form-input password-confirm">
             <h3>비밀번호 확인</h3>
@@ -141,16 +149,12 @@ const ContentSignup = props => {
               onChange={formik.handleChange}
               value={formik.values.confirmedPassword}
             />
-            {formik.errors.confirmedPassword ? (
+            {formik.errors.confirmedPassword && (
               <div>{formik.errors.confirmedPassword}</div>
-            ) : null}
+            )}
           </div>
           <div className="modal-body_btn-wrapper">
-            <Button
-              type="submit"
-              className="modal-body_btn signup"
-              // onClick={asyncSignUp}
-            >
+            <Button type="submit" className="modal-body_btn signup">
               회원가입
             </Button>
           </div>
