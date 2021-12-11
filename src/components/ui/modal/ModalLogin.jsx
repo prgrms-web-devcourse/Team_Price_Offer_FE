@@ -6,7 +6,6 @@ import ContentSignup from '@components/ui/modal/contents/ContentSignup'
 
 const ModalLogin = ({ visible, onClose }) => {
   const [isLogin, setIsLogin] = useState(true)
-  console.log(isLogin)
   return (
     <Modal visible={visible} onClose={onClose} className="modal">
       {isLogin ? (

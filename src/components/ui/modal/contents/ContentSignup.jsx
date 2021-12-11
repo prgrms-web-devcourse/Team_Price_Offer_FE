@@ -1,9 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Input from '@components/templates/Input'
 import Button from '@components/templates/Button'
 import SelectBox from '@components/templates/Selectbox'
+import { authApi } from '@api/apis'
+import { useFormik } from 'formik'
+import validate from '@utils/validation'
 
 const ContentSignup = props => {
+  const formik = useFormik({
+    initialValues: {
+      nickname: '',
+      address: '동작구',
+      email: '',
+      password: '',
+      confirmedPassword: '',
+    },
+    validate,
+    onSubmit: async value => {
+      console.log(value)
+    },
+  })
+
   const locationCityDefault = {
     name: '시를 선택해주세요',
     code: 'city',
@@ -25,50 +42,108 @@ const ContentSignup = props => {
     },
   ]
 
+  // const asyncSignUp = async () => {
+  //   try {
+  //     await authApi.signUp(userInfo)
+  //   } catch (e) {
+  //     alert('SinUp Error')
+  //   }
+  // }
+
   return (
     <>
       <div className="modal-header">
         <h2>회원가입</h2>
       </div>
       <div className="modal-body">
-        <div className="modal-body_form">
+        <form onSubmit={formik.handleSubmit} className="modal-body_form">
           <div className="modal-body_form-input nickname">
             <h3>닉네임</h3>
-            <Input name="nickname" placeholder="닉네임 (2~15자)" />
+            <Input
+              type="text"
+              name="nickname"
+              placeholder="닉네임 (2~15자)"
+              onChange={formik.handleChange}
+              value={formik.values.nickname}
+            />
+            {formik.errors.nickname ? (
+              <div>{formik.errors.nickname}</div>
+            ) : null}
           </div>
           <div className="modal-body_form-input address">
-            <h3>주소</h3>
+            <h3>지역</h3>
             <SelectBox
-              formName="location-city"
+              formName="address1"
               defaultOption={locationCityDefault}
               options={options}
+              onChange={formik.handleChange}
+              value={formik.values.address1}
             />
+            {formik.errors.address1 ? (
+              <div>{formik.errors.address1}</div>
+            ) : null}
             <SelectBox
-              formName="location-district"
+              formName="address2"
               defaultOption={locationDistrictDefault}
               options={options}
+              onChange={formik.handleChange}
+              value={formik.values.address2}
             />
+            {formik.errors.address2 ? (
+              <div>{formik.errors.address2}</div>
+            ) : null}
           </div>
           <div className="modal-body_form-input email">
             <h3>이메일</h3>
             <div className="email-wrapper">
-              <Input name="email" placeholder="이메일" />
+              <Input
+                type="text"
+                name="email"
+                placeholder="이메일"
+                onChange={formik.handleChange}
+                value={formik.values.email}
+              />
+              {formik.errors.email ? <div>{formik.errors.email}</div> : null}
               <Button style={{ fontSize: '12px' }}>중복검사</Button>
             </div>
           </div>
           <div className="modal-body_form-input password">
             <h3>비밀번호</h3>
             <p>영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.</p>
-            <Input name="password" placeholder="비밀번호" />
+            <Input
+              type="text"
+              name="password"
+              placeholder="비밀번호"
+              onChange={formik.handleChange}
+              value={formik.values.password}
+            />
+            {formik.errors.password ? (
+              <div>{formik.errors.password}</div>
+            ) : null}
           </div>
           <div className="modal-body_form-input password-confirm">
             <h3>비밀번호 확인</h3>
-            <Input name="passwordConfirm" placeholder="비밀번호 확인" />
+            <Input
+              type="text"
+              name="confirmedPassword"
+              placeholder="비밀번호 확인"
+              onChange={formik.handleChange}
+              value={formik.values.confirmedPassword}
+            />
+            {formik.errors.confirmedPassword ? (
+              <div>{formik.errors.confirmedPassword}</div>
+            ) : null}
           </div>
-        </div>
-        <div className="modal-body_btn-wrapper">
-          <Button className="modal-body_btn signup">회원가입</Button>
-        </div>
+          <div className="modal-body_btn-wrapper">
+            <Button
+              type="submit"
+              className="modal-body_btn signup"
+              // onClick={asyncSignUp}
+            >
+              회원가입
+            </Button>
+          </div>
+        </form>
       </div>
     </>
   )
