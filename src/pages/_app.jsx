@@ -14,13 +14,12 @@ import '@styles/ui/modal.scss'
 import '@styles/ui/modalConfirmBuyer.scss'
 import '@styles/ui/modalReview.scss'
 import Header from '@components/ui/Header'
-import WriteReview from '@components/ui/modal/ModalWriteReview'
 
 function MyApp({ Component, pageProps }) {
   return (
     <div className="container">
       <div className="wrapper">
-        <Header isLogin />
+        <Header isLogin={false} />
         <Component {...pageProps} />
       </div>
     </div>
