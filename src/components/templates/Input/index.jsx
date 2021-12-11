@@ -5,23 +5,24 @@ import styled from '@emotion/styled'
 const Input = ({
   type,
   name,
-  value,
+  value = '',
   defaultValue = '',
   style,
   className,
   placeholder = '정보를 입력하세요.',
   onChange,
+  noSpace = false,
 }) => {
   return (
     <InputTemplate
       type={type}
       name={name}
-      value={value}
+      value={noSpace ? value.replace(/\s/g, '') : value}
       defaultValue={defaultValue}
       style={style}
       className={className}
       placeholder={placeholder}
-      onChange={e => onChange(e)}
+      onChange={onChange}
     />
   )
 }

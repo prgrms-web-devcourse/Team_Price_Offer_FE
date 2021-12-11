@@ -10,14 +10,27 @@ const ContentSignup = props => {
   const formik = useFormik({
     initialValues: {
       nickname: '',
-      address: '동작구',
+      city: '',
+      district: '',
       email: '',
       password: '',
       confirmedPassword: '',
     },
     validate,
     onSubmit: async value => {
-      console.log(value)
+      try {
+        const address = value.city.concat(' ', value.district)
+
+        delete value.city
+        delete value.district
+
+        await authApi.signUp({
+          ...value,
+          address,
+        })
+      } catch (e) {
+        alert('SinUp Error')
+      }
     },
   })
 
@@ -73,24 +86,22 @@ const ContentSignup = props => {
           <div className="modal-body_form-input address">
             <h3>지역</h3>
             <SelectBox
-              formName="address1"
+              formName="city"
               defaultOption={locationCityDefault}
               options={options}
               onChange={formik.handleChange}
-              value={formik.values.address1}
+              value={formik.values.city}
             />
-            {formik.errors.address1 ? (
-              <div>{formik.errors.address1}</div>
-            ) : null}
+            {formik.errors.city ? <div>{formik.errors.city}</div> : null}
             <SelectBox
-              formName="address2"
+              formName="district"
               defaultOption={locationDistrictDefault}
               options={options}
               onChange={formik.handleChange}
-              value={formik.values.address2}
+              value={formik.values.district}
             />
-            {formik.errors.address2 ? (
-              <div>{formik.errors.address2}</div>
+            {formik.errors.district ? (
+              <div>{formik.errors.district}</div>
             ) : null}
           </div>
           <div className="modal-body_form-input email">
