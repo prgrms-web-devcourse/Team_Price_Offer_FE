@@ -1,12 +1,20 @@
 import React, { useEffect, useRef } from 'react'
+import Router from "next/router";
 import PropTypes from 'prop-types'
+import useStorage from '@utils/storage.js'
 import styled from '@emotion/styled'
 
 const Dialog = ({ style, className, visible = false, items, onClose }) => {
   const dialogRef = useRef(null)
+  const { setItem,getItem,removeItem,clear } = useStorage();
 
   const handleClickItem = code => {
     console.log(`${code}로 router 이동 처리`)
+    if (code === 'logout') {
+      clear()
+    }
+    Router.push(0)
+
   }
 
   const handleClickAway = ({ target }) => {
