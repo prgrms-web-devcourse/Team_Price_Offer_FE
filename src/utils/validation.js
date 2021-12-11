@@ -11,7 +11,7 @@ const validate = values => {
   }
 
   if (!values.password) {
-    errors.email = 'Required'
+    errors.password = 'Required'
   }
 
   return errors
