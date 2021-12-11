@@ -4,7 +4,7 @@ import DIVIDER from '@components/templates/Divider'
 import Link from 'next/link'
 import Input from '@components/templates/Input'
 import IconButton from '@components/templates/IconButton'
-import Modal from '@components/templates/Modal'
+import ModalLogin from '@components/ui/modal/ModalLogin'
 import Dialog from '@components/templates/Dialog'
 import Button from '@components/templates/Button'
 import { Global, css } from '@emotion/react'
@@ -194,9 +194,6 @@ const Header = ({ isLogin }) => {
           ) : (
             <div className="widget-login">
               <div className="widget-login_pc" onClick={() => setVisible(true)}>
-                <Modal visible={visible} onClose={() => setVisible(false)}>
-                  로그인 모달
-                </Modal>
                 <IconButton
                   src={userImgPath}
                   alt="user"
@@ -207,11 +204,11 @@ const Header = ({ isLogin }) => {
               <button
                 className="widget-login_mobile"
                 onClick={() => setVisible(true)}>
-                <Modal visible={visible} onClose={() => setVisible(false)}>
-                  로그인 모달
-                </Modal>
                 <div className="widget-login_mobile_text">로그인</div>
               </button>
+              <ModalLogin visible={visible} onClose={() => setVisible(false)}>
+                로그인 모달
+              </ModalLogin>
             </div>
           )}
         </div>
