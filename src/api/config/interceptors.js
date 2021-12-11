@@ -35,7 +35,7 @@ export const setInterceptors = (withAuth, instance) => {
         const token = 'token'
 
         config.headers = {
-          authorization: token || null,
+          token: token || null,
         }
         return config
       },
