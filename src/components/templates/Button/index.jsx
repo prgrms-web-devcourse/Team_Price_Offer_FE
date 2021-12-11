@@ -4,8 +4,7 @@ import styled from '@emotion/styled'
 
 const Button = ({ style, className, children, onClick }) => {
   const handleClick = e => {
-    e.prevenDefault()
-    onClick()
+    onClick(e)
   }
   return (
     <CommonButton className={className} style={style} onClick={handleClick}>
