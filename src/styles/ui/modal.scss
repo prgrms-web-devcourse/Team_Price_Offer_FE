@@ -129,6 +129,13 @@
       font-size: 16px;
       font-weight: 600;
       border-radius: 5px;
+      width: 180px;
+      height: 50px;
+
+      &-wrapper{
+        display: flex;
+        justify-content: center;
+      }
 
       &.kakao {
         margin-top: 10px;
@@ -139,6 +146,13 @@
       &.offer {
         width: 200px;
         margin: 0 auto;
+      }
+
+      &.signup {
+        width: 180px;
+        height: 50px;
+        background-color: $PRIMARY_COLOR;
+        color:white;
       }
     }
   }

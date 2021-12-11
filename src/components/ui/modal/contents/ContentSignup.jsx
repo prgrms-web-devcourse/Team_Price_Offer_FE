@@ -53,7 +53,7 @@ const ContentSignup = props => {
             <h3>이메일</h3>
             <div className="email-wrapper">
               <Input name="email" placeholder="이메일" />
-              <Button>중복검사</Button>
+              <Button style={{ fontSize: '12px' }}>중복검사</Button>
             </div>
           </div>
           <div className="modal-body_form-input password">
@@ -67,7 +67,7 @@ const ContentSignup = props => {
           </div>
         </div>
         <div className="modal-body_btn-wrapper">
-          <Button className="modal-body_btn">회원가입</Button>
+          <Button className="modal-body_btn signup">회원가입</Button>
         </div>
       </div>
     </>
