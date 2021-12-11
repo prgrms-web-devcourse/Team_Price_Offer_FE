@@ -21,7 +21,7 @@ const Input = ({
       style={style}
       className={className}
       placeholder={placeholder}
-      onChange={e => onChange({ args: e.target.value })}
+      onChange={e => onChange(e)}
     />
   )
 }
