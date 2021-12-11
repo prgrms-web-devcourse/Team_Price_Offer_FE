@@ -25,17 +25,27 @@
             margin-right: 30px;
         }
 
+        &_cofig {
+            display: flex;
+            align-items: center;
+        }
+
         &_inform {
             display: flex;
             flex-direction: column;
             margin-right: 10%;
         }
 
+        &_icon {
+            width: 17px;
+            height: 17px;
+            margin-left: 5px;
+        }
+
         &_nickname {
             font-size: 26px;
             font-weight: 600;
             margin-bottom: 10px;
-            cursor: pointer;
         }
 
         &_level {
