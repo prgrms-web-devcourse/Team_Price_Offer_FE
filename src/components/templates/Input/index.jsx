@@ -6,7 +6,6 @@ const Input = ({
   type,
   name,
   value,
-  defaultValue = '',
   style,
   className,
   placeholder = '정보를 입력하세요.',
@@ -17,11 +16,10 @@ const Input = ({
       type={type}
       name={name}
       value={value}
-      defaultValue={defaultValue}
       style={style}
       className={className}
       placeholder={placeholder}
-      onChange={e => onChange(e)}
+      onChange={onChange}
     />
   )
 }
@@ -30,7 +28,6 @@ Input.propTypes = {
   type: PropTypes.string,
   name: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  defaultValue: PropTypes.string,
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   className: PropTypes.string,
   placeholder: PropTypes.string,
