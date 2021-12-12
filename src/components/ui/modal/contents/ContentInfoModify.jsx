@@ -1,19 +1,22 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import Input from '@components/templates/Input'
 import SelectBox from '@components/templates/Selectbox'
-import IconButton from '@components/templates/IconButton'
 import Button from '@components/templates/Button'
-import Avatar from '@components/templates/Avatar'
 import { CATEGORIES } from '@data/dummy/categories'
 import validate from '@utils/validation'
 import { useFormik } from 'formik'
-import { userApi } from '@api/apis'
+import { userApi, imgApi } from '@api/apis'
+import ImageUploader from '@components/templates/ImageUploader'
 
 const selectBoxdefault = {
   code: 'selectBoxDefault',
   name: '선택하세요',
 }
+
 const ContentInfoModify = () => {
+  const noImagePath = require('@assets/images/no-image_square.png').default.src
+  const photoIconPath = require('@assets/images/icon/photo.svg').default.src
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -24,14 +27,30 @@ const ContentInfoModify = () => {
     onSubmit: async values => {
       const userInfo = {
         nickname: values.email,
-        address1: `${values.address1} ${values.address2}`,
-        profileImage: '',
+        address: `${values.address1} ${values.address2}`,
+        profileImageUrl: profileImgRef.current.src,
       }
 
       const res = await userApi.modifyUserInfo(userInfo)
-      console.log(res)
+
+      if (Number(res.status) === 200) {
+        console.log(res)
+      }
     },
   })
+
+  const profileImgRef = useRef(null)
+
+  const handleProfileImgChange = async e => {
+    const formData = new FormData()
+    formData.append('image', e.target.files[0])
+
+    const res = await imgApi.convertImg(formData)
+
+    if (Number(res.code) === 200) {
+      profileImgRef.current.src = res.data.imageUrl
+    }
+  }
 
   return (
     <>
@@ -42,18 +61,19 @@ const ContentInfoModify = () => {
         <form onSubmit={formik.handleSubmit}>
           <div className="modal-body_form">
             <div className="modal-body_form-profile">
-              <div>
-                <Avatar
-                  src="https://picsum.photos/200"
-                  alt="avatar"
-                  className="modal-body_form-avatar"
-                />
-                <div className="modal-body_form-photo">
-                  <IconButton
-                    src={require('@assets/images/icon/photo.svg').default.src}
+              <ImageUploader onChange={handleProfileImgChange}>
+                <div className="modal-body_form-photo-wrapper">
+                  <img
+                    ref={profileImgRef}
+                    src={noImagePath}
+                    alt="avatar"
+                    className="modal-body_form-avatar"
                   />
+                  <div className="modal-body_form-photo">
+                    <img src={photoIconPath} alt="photo_upload" />
+                  </div>
                 </div>
-              </div>
+              </ImageUploader>
             </div>
             <div className="modal-body_form-input email">
               <h3>이메일</h3>

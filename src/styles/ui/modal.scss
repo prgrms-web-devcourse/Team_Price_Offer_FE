@@ -52,8 +52,14 @@
       }
 
       &-avatar {
+        border-radius: 100%;
+        border: 2px solid $BORDER_COLOR;
         width: 125px;
         height: 125px;
+      }
+
+      &-photo-wrapper {
+        cursor: pointer;
       }
 
       &-photo {
@@ -65,6 +71,11 @@
         padding: 7px 6px 6px 6px;
         border-radius: 100%;
         background: $FONT_GRAY_COLOR;
+
+        img {
+          width: 17px;
+          height: 17px;
+        }
       }
 
       &-input:not(:first-child) {
