@@ -21,6 +21,10 @@ module.exports = {
       '../src/components',
     );
     config.resolve.alias['@hooks'] = path.resolve(__dirname, '../src/hooks');
+    config.resolve.alias['@api'] = path.resolve(
+      __dirname,
+      '../src/api',
+    );
     config.resolve.alias['@contexts'] = path.resolve(
       __dirname,
       '../src/contexts',
