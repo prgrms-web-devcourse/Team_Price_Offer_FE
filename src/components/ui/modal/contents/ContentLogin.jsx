@@ -1,16 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Router from 'next/router'
 import { useFormik } from 'formik'
 import validate from '@utils/validation'
 import useStorage from '@utils/storage.js'
 import { authApi } from '@api/apis.js'
 import Button from '@components/templates/Button'
-import ModalSignup from '../ModalSignup'
 
 const LoginContent = () => {
-  const { setItem, getItem, removeItem, clear } = useStorage()
-
-  const [visible, setVisible] = useState(false) // 모달의 초기값 false
+  const { setItem } = useStorage()
 
   const formik = useFormik({
     initialValues: {
@@ -24,19 +21,14 @@ const LoginContent = () => {
         const { data } = await authApi.loginEmail(values)
         setItem('userToken', data.member.token)
         setItem('userData', data.member)
-        Router.push('/')
+        Router.push(0)
       } catch (error) {
-        console.log(error.response.data)
-        alert('error.response.data')
-        // if (error.response.data === 400) {
         alert('아이디 혹은 비밀번호가 맞지 않습니다.')
         return
       }
     },
   })
-  const onKaKaoLogin = () => {
-    // authApi.loginEmail(values)
-  }
+  const onKaKaoLogin = () => {}
   return (
     <>
       <div className="modal-header">
