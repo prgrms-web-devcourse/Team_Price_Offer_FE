@@ -1,3 +1,7 @@
+import useStorage from '@utils/storage.js'
+
+const { getItem } = useStorage()
+
 const convertResponse = res => {
   const response = {
     code: '',
@@ -32,7 +36,7 @@ export const setInterceptors = (withAuth, instance) => {
   if (withAuth) {
     instance.interceptors.request.use(
       config => {
-        const token = 'token'
+        const token = getItem('userToken')
 
         config.headers = {
           token: token || null,

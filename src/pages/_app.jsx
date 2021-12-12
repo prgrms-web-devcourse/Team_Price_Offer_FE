@@ -19,7 +19,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <div className="container">
       <div className="wrapper">
-        <Header isLogin={false} />
+        <Header />
         <Component {...pageProps} />
       </div>
     </div>
