@@ -16,6 +16,10 @@ const convertResponse = res => {
       throw new Error('404 Error')
     }
 
+    if (Number(res.data.code) !== 200) {
+      alert(res.data.message)
+    }
+
     response.code = res.data.code
     response.message = res.data.message
     response.data = res.data.data
@@ -23,6 +27,8 @@ const convertResponse = res => {
     response.code = '600'
     response.message = '알 수 없는 에러가 발생했습니다!'
     response.data = null
+
+    alert(response.message)
   }
 
   return response
@@ -35,7 +41,7 @@ export const setInterceptors = (withAuth, instance) => {
         const token = getItem('userToken')
 
         config.headers = {
-          authorization: token || null,
+          token: token || null,
         }
         return config
       },

@@ -2,12 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 
-const Button = ({ style, className, children, onClick }) => {
+const Button = ({ type, style, className, children, onClick }) => {
   const handleClick = e => {
-    onClick(e)
+    onClick && onClick(e)
   }
   return (
-    <CommonButton className={className} style={style} onClick={handleClick}>
+    <CommonButton
+      type={type}
+      className={className}
+      style={style}
+      onClick={handleClick}>
       {children}
     </CommonButton>
   )

@@ -82,18 +82,6 @@ const LoginContent = () => {
           </Button>
         </div>
       </div>
-      <div className="modal-footer">
-        <p>
-          아직 회원이 아니신가요?{' '}
-          <span style={{ cursor: 'pointer' }} onClick={() => setVisible(true)}>
-            회원가입
-          </span>
-        </p>
-        <ModalSignup visible={visible} onClose={() => setVisible(false)} />
-        <p>
-          비밀번호를 잊으셨나요? <span>비밀번호 찾기</span>
-        </p>
-      </div>
     </>
   )
 }
