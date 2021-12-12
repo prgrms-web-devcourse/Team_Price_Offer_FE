@@ -5,8 +5,7 @@ import styled from '@emotion/styled'
 const Input = ({
   type,
   name,
-  value = '',
-  defaultValue = '',
+  value,
   style,
   className,
   placeholder = '정보를 입력하세요.',
@@ -17,8 +16,7 @@ const Input = ({
     <InputTemplate
       type={type}
       name={name}
-      value={noSpace ? value.replace(/\s/g, '') : value}
-      defaultValue={defaultValue}
+      value={value}
       style={style}
       className={className}
       placeholder={placeholder}
@@ -31,7 +29,6 @@ Input.propTypes = {
   type: PropTypes.string,
   name: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  defaultValue: PropTypes.string,
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   className: PropTypes.string,
   placeholder: PropTypes.string,

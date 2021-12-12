@@ -63,7 +63,7 @@ const Main = () => {
         '급처급처급처급처급처급처급처급처급처급처급처급처급처급처급처급처급처급처급처급처',
       address: '서울시 강북구',
       time: '2분전',
-      price: '160',
+      price: 160,
     },
     {
       id: 2,
@@ -71,7 +71,7 @@ const Main = () => {
       title: '급처급처',
       address: '서울시 강북구',
       time: '2분전',
-      price: '160',
+      price: 160,
     },
     {
       id: 3,
@@ -79,7 +79,7 @@ const Main = () => {
       title: '급처급처',
       address: '서울시 강북구',
       time: '2분전',
-      price: '160',
+      price: 160,
     },
     {
       id: 4,
@@ -87,7 +87,7 @@ const Main = () => {
       title: '급처급처',
       address: '서울시 강북구',
       time: '2분전',
-      price: '160',
+      price: 160,
     },
     {
       id: 5,
@@ -95,7 +95,7 @@ const Main = () => {
       title: '급처급처',
       address: '서울시 강북구',
       time: '2분전',
-      price: '160',
+      price: 160,
     },
     {
       id: 6,
@@ -103,7 +103,7 @@ const Main = () => {
       title: '급처급처',
       address: '서울시 강북구',
       time: '2분전',
-      price: '160',
+      price: 160,
     },
     {
       id: 7,
@@ -111,7 +111,7 @@ const Main = () => {
       title: '급처급처',
       address: '서울시 강북구',
       time: '2분전',
-      price: '160',
+      price: 160,
     },
     {
       id: 8,
@@ -119,7 +119,7 @@ const Main = () => {
       title: '급처급처',
       address: '서울시 강북구',
       time: '2분전',
-      price: '160',
+      price: 160,
     },
     {
       id: 9,
@@ -127,7 +127,7 @@ const Main = () => {
       title: '급처급처',
       address: '서울시 강북구',
       time: '2분전',
-      price: '160',
+      price: 160,
     },
     {
       id: 10,
@@ -135,7 +135,7 @@ const Main = () => {
       title: '급처급처',
       address: '서울시 강북구',
       time: '2분전',
-      price: '160',
+      price: 160,
     },
   ]
   const categoryClick = () => {

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Modal from '@components/templates/Modal'
 import ContentLogin from '@components/ui/modal/contents/ContentLogin'

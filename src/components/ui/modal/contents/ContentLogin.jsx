@@ -5,6 +5,7 @@ import validate from '@utils/validation'
 import useStorage from '@utils/storage.js'
 import { authApi } from '@api/apis.js'
 import Button from '@components/templates/Button'
+import Input from '@components/templates/Input'
 
 const LoginContent = () => {
   const { setItem } = useStorage()
@@ -39,7 +40,7 @@ const LoginContent = () => {
         <form onSubmit={formik.handleSubmit} className="modal-body_form">
           <div className="modal-body_form-input email">
             <h3>이메일</h3>
-            <input
+            <Input
               type="text"
               id="email"
               name="email"
@@ -52,8 +53,8 @@ const LoginContent = () => {
           <div className="modal-body_form-input password">
             <h3>비밀번호</h3>
             <p>영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.</p>
-            <input
-              type="text"
+            <Input
+              type="password"
               id="password"
               name="password"
               placeholder="비밀번호"
