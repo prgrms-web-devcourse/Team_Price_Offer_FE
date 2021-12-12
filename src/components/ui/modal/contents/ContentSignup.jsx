@@ -72,7 +72,10 @@ const ContentSignup = () => {
         <h2>회원가입</h2>
       </div>
       <div className="modal-body">
-        <form onSubmit={formik.handleSubmit} className="modal-body_form">
+        <form
+          style={{ marginTop: '15px', marginBottom: '15px' }}
+          onSubmit={formik.handleSubmit}
+          className="modal-body_form">
           <div className="modal-body_form-input nickname">
             <h3>닉네임</h3>
             <Input
@@ -82,7 +85,9 @@ const ContentSignup = () => {
               onChange={formik.handleChange}
               value={formik.values.nickname}
             />
-            {formik.errors.nickname && <div>{formik.errors.nickname}</div>}
+            <div className="modal-body_form-validation">
+              {formik.errors.nickname}
+            </div>
           </div>
           <div className="modal-body_form-input address">
             <h3>지역</h3>
@@ -93,7 +98,9 @@ const ContentSignup = () => {
               onChange={formik.handleChange}
               value={formik.values.city}
             />
-            {formik.errors.city && <div>{formik.errors.city}</div>}
+            <div className="modal-body_form-validation">
+              {formik.errors.city}
+            </div>
             <SelectBox
               formName="district"
               defaultOption={locationDistrictDefault}
@@ -101,7 +108,9 @@ const ContentSignup = () => {
               onChange={formik.handleChange}
               value={formik.values.district}
             />
-            {formik.errors.district && <div>{formik.errors.district}</div>}
+            <div className="modal-body_form-validation">
+              {formik.errors.district}
+            </div>
           </div>
           <div className="modal-body_form-input email">
             <h3>이메일</h3>
@@ -113,7 +122,7 @@ const ContentSignup = () => {
                 onChange={formik.handleChange}
                 value={formik.values.email}
               />
-              {formik.errors.email && <div>{formik.errors.email}</div>}
+
               <Button
                 type="button"
                 style={{ fontSize: '12px' }}
@@ -127,33 +136,40 @@ const ContentSignup = () => {
                 중복검사
               </Button>
             </div>
+            <div className="modal-body_form-validation">
+              {formik.errors.email}
+            </div>
           </div>
           <div className="modal-body_form-input password">
             <h3>비밀번호</h3>
             <p>영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.</p>
             <Input
-              type="text"
+              type="password"
               name="password"
               placeholder="비밀번호"
               onChange={formik.handleChange}
               value={formik.values.password}
             />
-            {formik.errors.password && <div>{formik.errors.password}</div>}
+            <div className="modal-body_form-validation">
+              {formik.errors.password}
+            </div>
           </div>
-          <div className="modal-body_form-input password-confirm">
+          <div
+            style={{ marginTop: '15px' }}
+            className="modal-body_form-input password-confirm">
             <h3>비밀번호 확인</h3>
             <Input
-              type="text"
+              type="password"
               name="confirmedPassword"
               placeholder="비밀번호 확인"
               onChange={formik.handleChange}
               value={formik.values.confirmedPassword}
             />
-            {formik.errors.confirmedPassword && (
-              <div>{formik.errors.confirmedPassword}</div>
-            )}
+            <div className="modal-body_form-validation">
+              {formik.errors.confirmedPassword}
+            </div>
           </div>
-          <div className="modal-body_btn-wrapper">
+          <div style={{ marginTop: '15px' }} className="modal-body_btn-wrapper">
             <Button type="submit" className="modal-body_btn signup">
               회원가입
             </Button>

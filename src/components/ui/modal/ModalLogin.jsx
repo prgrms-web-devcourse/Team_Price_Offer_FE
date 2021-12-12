@@ -12,7 +12,10 @@ const ModalLogin = ({ visible, onClose }) => {
   }, [visible])
 
   return (
-    <Modal visible={visible} onClose={onClose} className="modal">
+    <Modal
+      visible={visible}
+      onClose={onClose}
+      className={`modal ${isLogin ? 'login' : 'signup'}`}>
       {isLogin ? (
         <div className="login-content">
           <ContentLogin />
