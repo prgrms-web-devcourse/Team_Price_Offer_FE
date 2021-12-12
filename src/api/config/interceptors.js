@@ -1,8 +1,6 @@
 import useStorage from '@utils/storage.js'
 
-
-const { setItem, getItem, removeItem, clear } = useStorage();
-
+const { getItem } = useStorage()
 
 const convertResponse = res => {
   const response = {
