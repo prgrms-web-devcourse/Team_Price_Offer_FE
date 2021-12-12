@@ -1,28 +1,31 @@
 const useStorage = () => {
-  const isBrowser = (() => typeof window !== 'undefined')();
+  const isBrowser = (() => typeof window !== 'undefined')()
 
-  const getItem = (key) => {
-    return isBrowser ? window.sessionStorage.getItem(key):'';
+  const getItem = key => {
+    if (key === 'userData') {
+      return isBrowser ? JSON.parse(window.sessionStorage.getItem(key)) : ''
+    }
+    return isBrowser ? window.sessionStorage.getItem(key) : ''
   }
 
   const setItem = (key, value) => {
     if (isBrowser) {
-      window.sessionStorage.setItem(key,  JSON.stringify(value));
-      return true;
+      window.sessionStorage.setItem(key, JSON.stringify(value))
+      return true
     }
-    return false;
+    return false
   }
 
-  const removeItem = (key) => {
+  const removeItem = key => {
     if (isBrowser) {
-      window.sessionStorage.removeItem(key);
+      window.sessionStorage.removeItem(key)
       return true
     }
   }
 
   const clear = () => {
     if (isBrowser) {
-      window.sessionStorage.clear();
+      window.sessionStorage.clear()
       return true
     }
   }
@@ -31,8 +34,8 @@ const useStorage = () => {
     getItem,
     setItem,
     removeItem,
-    clear
+    clear,
   }
 }
 
-export default useStorage;
+export default useStorage

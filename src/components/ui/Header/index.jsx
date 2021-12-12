@@ -1,5 +1,4 @@
-import React, { useState, useRef,useEffect } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, useRef, useEffect } from 'react'
 import DIVIDER from '@components/templates/Divider'
 import Link from 'next/link'
 import Input from '@components/templates/Input'
@@ -7,20 +6,31 @@ import IconButton from '@components/templates/IconButton'
 import ModalLogin from '@components/ui/modal/ModalLogin'
 import Dialog from '@components/templates/Dialog'
 import useStorage from '@utils/storage.js'
-import Button from '@components/templates/Button'
 import { Global, css } from '@emotion/react'
+import Avatar from '@components/templates/Avatar'
 
+const Header = () => {
+  const { getItem } = useStorage()
 
-const Header = ({ isLogin }) => {
-  const { setItem, getItem, removeItem, clear } = useStorage();
+  const [isLogin, setIsLogin] = useState(false)
 
-  const data = getItem('userData')
-  // console.log(data)  
-  // console.log(data.id)
   useEffect(() => {
-    console.log(isLogin)
-  }, [])
-  
+    if (getItem('userToken') === null) {
+      console.log('isLoginState:', isLogin)
+      setIsLogin(false)
+    } else {
+      setIsLogin(true)
+      console.log('isLoginState:', isLogin)
+    }
+  }, [getItem('userToken')])
+
+  let userData
+  if (getItem('userData') === null) {
+    userData = { nickname: null }
+  } else {
+    userData = getItem('userData')
+  }
+
   const logoImgPath = require('@assets/images/logo.svg').default.src
   const userImgPath = require('@assets/images/icon/user_circle.svg').default.src
   const searchImgPcPath = require('@assets/images/icon/search_light.svg')
@@ -43,10 +53,7 @@ const Header = ({ isLogin }) => {
     setDialogVisible(true)
     console.log(dialogVisible)
   }
-
-  const handleImgError = (e) => {
-    e.target.src = userImgPath;
-  }
+  console.log(userImgPath)
 
   const toggleSearch = () => {
     setSearch(isOpenSearch => !isOpenSearch) // on,off
@@ -61,13 +68,15 @@ const Header = ({ isLogin }) => {
           </Link>
           {/* 모바일 검색창 */}
           {isSearchToggle ? (
-            <Input
-              style={{ width: '100%' }}
-              className="header-search-input_mobile"
-              type="text"
-              name="search"
-              placeholder="상품명으로 원하는 물건을 검색해보세요!"
-            />
+            <>
+              <Input
+                style={{ width: '100%' }}
+                className="header-search-input_mobile"
+                type="text"
+                name="search"
+                placeholder="상품명으로 원하는 물건을 검색해보세요!"
+              />
+            </>
           ) : (
             // 토글이 아니라면 숨긴다
             <Input
@@ -83,22 +92,17 @@ const Header = ({ isLogin }) => {
               name="search"
               placeholder="상품명으로 원하는 물건을 검색해보세요!"
             />
-
-            {/* <div className="header-search-icon_wrapper"> */}
             <IconButton
               className="search-button_pc"
               src={searchImgPcPath}
               alt="user"
               style={{ width: '24px', height: '24px' }}
-              ref={buttonRef}
-              onClick={toggleSearch}
             />
             <IconButton
               className="search-button_mobile"
               src={searchImgMobilePath}
               alt="user"
               style={{ width: '30px', height: '30px' }}
-              // onClick={toggleSearch}
               onClick={toggleSearch}
             />
           </div>
@@ -117,12 +121,8 @@ const Header = ({ isLogin }) => {
                 </div>
                 <DIVIDER type="vertical" style={{ color: '#DDDDDD' }} />
                 <div className="userprofile-area">
-                  <IconButton
-                    src={data.profileImage}
-                    alt="user"
-                    style={{ width: '24px', height: '24px' }}
-                  />
-                  <div className="username">{data.id}</div>
+                  <Avatar src={userData.profileImage} />
+                  <div className="username">{userData.nickname}</div>
                   <IconButton
                     className="sidebar"
                     src={menuImgPaht}
@@ -130,9 +130,6 @@ const Header = ({ isLogin }) => {
                     style={{ width: '8px', height: '5px' }}
                     onClick={dialogClick}
                   />
-                  {/* <button>
-                    클릭
-                  </button> */}
                   <Dialog
                     className="sidear-list"
                     style={{ justifyContent: 'space-between' }}
@@ -221,7 +218,6 @@ Header.propTypes = {}
 const HeaderStyle = css`
   .header-wrapper {
     background: #ffffff;
-    border: 1px solid;
     display: flex;
     justify-content: space-between;
     height: 150px;
@@ -363,12 +359,13 @@ const HeaderStyle = css`
 
   .widget-login_mobile {
     display: none;
+    font-family: noto-sans;
     cursor: pointer;
     max-width: 61px;
     width: 100%;
     height: 31px;
     padding: 5px 12px;
-    border: none;
+    border: solid 1px black;
     border-radius: 3px;
     background-color: #ffffff;
     font-size: 13px;
@@ -389,7 +386,6 @@ const HeaderStyle = css`
     z-index: 100;
     position: absolute;
     flex-direction: column;
-    /* justify-content: space-between; */
     justify-content: center;
     align-items: center;
     padding: 8px;
