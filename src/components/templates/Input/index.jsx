@@ -10,6 +10,7 @@ const Input = ({
   className,
   placeholder = '정보를 입력하세요.',
   onChange,
+  noSpace = false,
 }) => {
   return (
     <InputTemplate

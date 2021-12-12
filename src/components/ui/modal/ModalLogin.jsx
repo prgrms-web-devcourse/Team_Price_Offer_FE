@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Modal from '@components/templates/Modal'
 import ContentLogin from '@components/ui/modal/contents/ContentLogin'
@@ -6,9 +6,16 @@ import ContentSignup from '@components/ui/modal/contents/ContentSignup'
 
 const ModalLogin = ({ visible, onClose }) => {
   const [isLogin, setIsLogin] = useState(true)
-  console.log(isLogin)
+
+  useEffect(() => {
+    !visible && setIsLogin(true)
+  }, [visible])
+
   return (
-    <Modal visible={visible} onClose={onClose} className="modal">
+    <Modal
+      visible={visible}
+      onClose={onClose}
+      className={`modal ${isLogin ? 'login' : 'signup'}`}>
       {isLogin ? (
         <div className="login-content">
           <ContentLogin />

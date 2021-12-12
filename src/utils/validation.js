@@ -10,6 +10,22 @@ const validate = values => {
   if (!/^[A-Z0-9._%+-]+@[A-Z0-s9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
     errors.email = '이메일 형식이 아닙니다.'
   }
+  if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/i.test(values.password)) {
+    errors.password = '비밀번호 조건을 확인해 주세요'
+  }
+
+  if (!values.password && values.confirmedPassword) {
+    errors.confirmedPassword = '비밀번호를 입력해 주세요'
+  } else if (values.password && values.password !== values.confirmedPassword) {
+    errors.confirmedPassword = '비밀번호가 일치하지 않습니다'
+  }
+
+  if (
+    values.nickname &&
+    (values.nickname.length < 2 || values.nickname.length > 15)
+  ) {
+    errors.nickname = '닉네임 문자 개수를 확인해 주세요 (2~15자)'
+  }
 
   return errors
 }
