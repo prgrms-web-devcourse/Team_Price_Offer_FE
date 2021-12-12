@@ -1,20 +1,34 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import Router from 'next/router'
 import { useFormik } from 'formik'
 import validate from '@utils/validation'
+import useStorage from '@utils/storage.js'
+import { authApi } from '@api/apis.js'
 import Button from '@components/templates/Button'
 
 const LoginContent = () => {
+  const { setItem } = useStorage()
+
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
     },
     validate,
-    onSubmit: values => {
-      alert(JSON.stringify(values, null, 2))
+    onSubmit: async values => {
+      try {
+        console.log(JSON.stringify(values))
+        const { data } = await authApi.loginEmail(values)
+        setItem('userToken', data.member.token)
+        setItem('userData', data.member)
+        Router.push(0)
+      } catch (error) {
+        alert('아이디 혹은 비밀번호가 맞지 않습니다.')
+        return
+      }
     },
   })
+  const onKaKaoLogin = () => {}
   return (
     <>
       <div className="modal-header">
@@ -46,13 +60,18 @@ const LoginContent = () => {
               onChange={formik.handleChange}
               value={formik.values.password}
             />
+            {formik.errors.password ? (
+              <div>{formik.errors.password}</div>
+            ) : null}
           </div>
           <Button type="submit" className="modal-body_btn email">
             이메일로 로그인
           </Button>
         </form>
         <div className="modal-body_btn-wrapper">
-          <Button className="modal-body_btn kakao">카카오로 로그인</Button>
+          <Button className="modal-body_btn kakao" onClick={onKaKaoLogin}>
+            카카오로 로그인
+          </Button>
         </div>
       </div>
     </>
