@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import DIVIDER from '@components/templates/Divider'
 import Link from 'next/link'
 import Input from '@components/templates/Input'
@@ -43,8 +43,6 @@ const Header = () => {
   const [visible, setVisible] = useState(false) // 모달의 초기값 false
 
   const [dialogVisible, setDialogVisible] = useState(false)
-
-  const buttonRef = useRef(null)
 
   const [isSearchToggle, setSearch] = useState(false) // 메뉴의 초기값을 false로 설정
 
@@ -164,7 +162,6 @@ const Header = () => {
                   alt="user"
                   style={{ width: '30px', height: '30px' }}
                   onClick={dialogClick}
-                  ref={buttonRef}
                 />
                 <Dialog
                   className="sidear-list"

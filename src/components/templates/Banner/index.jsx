@@ -24,7 +24,7 @@ const Banner = ({ style, imgUrls }) => {
       autoplay={{ delay: 3000 }} // 넘어가는 시간
     >
       {imgUrlList.map((value, key) => (
-        <SwiperSlide key={`${value}${{ key }}`}>
+        <SwiperSlide key={`${value}${Math.random()}`}>
           Slide test
           <img
             src={value}
