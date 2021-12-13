@@ -33,6 +33,7 @@ const AuthProvider = ({ children }) => {
     handleWithDrawal,
     handleLogout,
     handleGetUserInfo,
+    handleModifyUserInfo,
     handleLoadingOn,
     handleLoadingOff,
   } = useActions(dispatch)
@@ -60,6 +61,7 @@ const AuthProvider = ({ children }) => {
         handleWithDrawal,
         handleLogout,
         handleGetUserInfo,
+        handleModifyUserInfo,
         handleLoadingOn,
         handleLoadingOff,
       }}>
