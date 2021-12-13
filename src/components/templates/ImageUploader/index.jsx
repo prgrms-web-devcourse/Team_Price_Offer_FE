@@ -1,18 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const ImageUploader = ({ style, className, onChange, children }) => {
+const ImageUploader = ({ id, style, className, onChange, children }) => {
   const handleChange = async e => {
     onChange && onChange(e)
   }
 
   return (
-    <label htmlFor="upload">
+    <label htmlFor={id}>
       <span style={{ cursor: 'pointer', ...style }} className={className}>
         {children}
       </span>
       <input
-        id="upload"
+        id={id}
         type="file"
         accept="img/*"
         onChange={handleChange}
@@ -23,6 +23,7 @@ const ImageUploader = ({ style, className, onChange, children }) => {
 }
 
 ImageUploader.propTypes = {
+  id: PropTypes.string,
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   className: PropTypes.string,
   onChange: PropTypes.func,
