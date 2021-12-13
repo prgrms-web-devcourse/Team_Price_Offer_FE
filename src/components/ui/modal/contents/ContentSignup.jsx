@@ -91,17 +91,24 @@ const ContentSignup = () => {
           </div>
           <div className="modal-body_form-input address">
             <h3>지역</h3>
-            <SelectBox
+            {/* <SelectBox
               formName="city"
               defaultOption={locationCityDefault}
               options={options}
+              onChange={formik.handleChange}
+              value={formik.values.city}
+            /> */}
+            <Input
+              type="text"
+              name="city"
+              placeholder="시 구 순으로 입력 해주세요."
               onChange={formik.handleChange}
               value={formik.values.city}
             />
             <div className="modal-body_form-validation">
               {formik.errors.city}
             </div>
-            <SelectBox
+            {/* <SelectBox
               formName="district"
               defaultOption={locationDistrictDefault}
               options={options}
@@ -110,7 +117,7 @@ const ContentSignup = () => {
             />
             <div className="modal-body_form-validation">
               {formik.errors.district}
-            </div>
+            </div> */}
           </div>
           <div className="modal-body_form-input email">
             <h3>이메일</h3>
