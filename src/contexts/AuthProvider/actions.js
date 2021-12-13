@@ -14,9 +14,26 @@ import {
 } from './types'
 
 const useActions = dispatch => {
+  const { setItem, clear } = useStorage()
+
   const handleEmailLogin = useCallback(async userInfo => {
     try {
-    } catch (e) {}
+      const res = await authApi.loginEmail(userInfo)
+
+      if (Number(res.code) !== 200) {
+        alert('로그인에 실패하셨습니다!')
+        return
+      }
+
+      const userData = res.data.member
+      const { token } = res.data.member
+
+      setItem('userData', userData)
+      setItem('token', token)
+      dispatch({ type: LOGIN_EMAIL, payload: { userData, token } })
+    } catch (e) {
+      alert('아이디 혹은 비밀번호가 맞지 않습니다!')
+    }
   }, [])
 
   const handleKakaoLogin = useCallback(async userInfo => {
@@ -26,22 +43,84 @@ const useActions = dispatch => {
 
   const handleSignup = useCallback(async userInfo => {
     try {
-    } catch (e) {}
+      const res = await authApi.signUp(userInfo)
+
+      if (Number(res.code) !== 200) {
+        alert('회원가입에 실패하셨습니다!')
+        return
+      }
+
+      const userData = res.data.member
+      const { token } = res.data.member
+
+      setItem('userData', userData)
+      setItem('token', token)
+      dispatch({ type: SIGNUP, payload: { userData, token } })
+    } catch (e) {
+      alert('회원가입에 실패하셨습니다!')
+    }
   }, [])
 
-  const handleWithDrawal = useCallback(async userInfo => {
+  const handleWithDrawal = useCallback(async password => {
     try {
-    } catch (e) {}
+      const res = await authApi.withdrawal(password)
+
+      if (Number(res.code) !== 200) {
+        alert('회원탈퇴에 실패하셨습니다!')
+        return
+      }
+
+      clear()
+      dispatch({ type: WITHDRAWAL })
+    } catch (e) {
+      alert('회원탈퇴에 실패하셨습니다!')
+    }
   }, [])
 
-  const handleLogout = useCallback(async userInfo => {
+  const handleLogout = useCallback(async () => {
     try {
-    } catch (e) {}
+      clear()
+      dispatch({ type: LOGOUT })
+    } catch (e) {
+      alert('로그아웃에 실패하셨습니다!')
+    }
   }, [])
 
-  const handleGetUserInfo = useCallback(async userInfo => {
+  const handleGetUserInfo = useCallback(async () => {
     try {
-    } catch (e) {}
+      const res = await authApi.getUserInfo()
+
+      if (Number(res.code) !== 200) {
+        alert('회원정보 조회에 실패하셨습니다!')
+        return
+      }
+
+      const userData = res.data.member
+      const { token } = res.data.member
+
+      setItem('userData', userData)
+      setItem('token', token)
+      dispatch({ type: GET_USERINFO, payload: { userData, token } })
+    } catch (e) {
+      alert('회원정보 조회에 실패하셨습니다!')
+    }
+  }, [])
+
+  const handleModifyUserInfo = useCallback(async userInfo => {
+    try {
+      const res = await authApi.modifyUserInfo(userInfo)
+
+      if (Number(res.code) !== 200) {
+        alert('회원정보 수정에 실패하셨습니다!')
+        return
+      }
+
+      const userData = res.data.member
+      const { token } = res.data.member
+      dispatch({ type: MODIFY_USERINFO, payload: { userData, token } })
+    } catch (e) {
+      alert('회원정보 수정에 실패하셨습니다!')
+    }
   }, [])
 
   const handleLoadingOn = useCallback(async () => {
@@ -59,6 +138,7 @@ const useActions = dispatch => {
     handleWithDrawal,
     handleLogout,
     handleGetUserInfo,
+    handleModifyUserInfo,
     handleLoadingOn,
     handleLoadingOff,
   }
