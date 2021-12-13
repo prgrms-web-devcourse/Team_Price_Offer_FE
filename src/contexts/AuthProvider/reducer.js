@@ -1,6 +1,7 @@
 import React from 'react'
+import initialState from './initalstate'
 import {
-  SIGNUP,
+  FETCH_USER,
   WITHDRAWAL,
   LOGIN_EMAIL,
   LOGIN_KAKAO,
@@ -13,7 +14,7 @@ import {
 
 const AuthReducer = (state, { type, payload }) => {
   switch (type) {
-    case SIGNUP:
+    case FETCH_USER:
       return {
         ...state,
         userData: { ...state.userData, ...payload.userData },
@@ -33,10 +34,7 @@ const AuthReducer = (state, { type, payload }) => {
       }
     case WITHDRAWAL:
     case LOGOUT:
-      return {
-        userData: null,
-        token: null,
-      }
+      return initialState
     case GET_USERINFO:
       return {
         ...state,
