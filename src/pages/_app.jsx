@@ -14,15 +14,18 @@ import '@styles/ui/modal.scss'
 import '@styles/ui/modalConfirmBuyer.scss'
 import '@styles/ui/modalReview.scss'
 import Header from '@components/ui/Header'
+import AuthProvider from '@contexts/AuthProvider'
 
 function MyApp({ Component, pageProps }) {
   return (
-    <div className="container">
-      <div className="wrapper">
-        <Header />
-        <Component {...pageProps} />
+    <AuthProvider>
+      <div className="container">
+        <div className="wrapper">
+          <Header />
+          <Component {...pageProps} />
+        </div>
       </div>
-    </div>
+    </AuthProvider>
   )
 }
 
