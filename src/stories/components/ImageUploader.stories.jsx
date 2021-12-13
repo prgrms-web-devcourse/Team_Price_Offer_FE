@@ -39,7 +39,7 @@ export const Default = () => {
   }
 
   return (
-    <ImageUploader onChange={handleChange}>
+    <ImageUploader id="test1" onChange={handleChange}>
       <span>
         <img ref={imgRef} style={imgStyle} src={imgUrl} alt="" />
       </span>

@@ -22,13 +22,13 @@ const Radio = ({
       className={`${radioDirection} ${className}`}>
       <Input
         type="radio"
-        id={code}
+        id={(code, name)}
         className={InputClassName}
         name={formName}
         value={code}
         onChange={e => handleRadiobutton(e)}
       />
-      <Label htmlFor={code}>{name}</Label>
+      <Label htmlFor={(code, name)}>{name}</Label>
     </InputContainer>
   ))
 

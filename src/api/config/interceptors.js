@@ -31,6 +31,8 @@ export const setInterceptors = (withAuth, instance) => {
     instance.interceptors.request.use(
       config => {
         const token = getItem('userToken')
+          ? getItem('userToken').replaceAll('"', '')
+          : null
 
         config.headers = {
           token: token || null,
