@@ -8,10 +8,11 @@ import Dialog from '@components/templates/Dialog'
 import useStorage from '@hooks/useStorage'
 import { Global, css } from '@emotion/react'
 import Avatar from '@components/templates/Avatar'
+import { useRouter } from 'next/router'
 
 const Header = () => {
   const { getItem } = useStorage()
-
+  const router = useRouter()
   const [isLogin, setIsLogin] = useState(false)
 
   useEffect(() => {
@@ -29,6 +30,19 @@ const Header = () => {
     userData = { nickname: null }
   } else {
     userData = getItem('userData')
+  }
+
+  const handleSearchRouting = async e => {
+    if (e.key === 'Enter') {
+      const { value } = e.target
+
+      router.push({
+        pathname: '/search',
+        query: {
+          title: value,
+        },
+      })
+    }
   }
 
   const logoImgPath = require('@assets/images/logo.svg').default.src
@@ -73,6 +87,7 @@ const Header = () => {
                 type="text"
                 name="search"
                 placeholder="상품명으로 원하는 물건을 검색해보세요!"
+                onKeyUp={handleSearchRouting}
               />
             </>
           ) : (
@@ -89,6 +104,7 @@ const Header = () => {
               type="text"
               name="search"
               placeholder="상품명으로 원하는 물건을 검색해보세요!"
+              onKeyUp={handleSearchRouting}
             />
             <IconButton
               className="search-button_pc"
