@@ -1,6 +1,7 @@
 const ICON_TYPES = {
   logo: require('@assets/images/logo.svg').default.src,
-  categoryBestGoods: require('@assets/images/icon/user_circle.svg').default.src,
+  categoryBestGoods: require('@assets/images/icon/category_bestgoods.svg')
+    .default.src,
   categoryBook: require('@assets/images/icon/category_book.svg').default.src,
   categoryFurniture: require('@assets/images/icon/category_furniture.svg')
     .default.src,
@@ -35,5 +36,6 @@ const ICON_TYPES = {
   searchLight: require('@assets/images/icon/search_light.svg').default.src,
   user: require('@assets/images/icon/user.svg').default.src,
   userCircle: require('@assets/images/icon/user_circle.svg').default.src,
+  noImg: require('@assets/images/no-image_square.png').default.src,
 }
 export { ICON_TYPES }
