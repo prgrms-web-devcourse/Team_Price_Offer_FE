@@ -8,11 +8,23 @@ import Dialog from '@components/templates/Dialog'
 import useStorage from '@hooks/useStorage'
 import { Global, css } from '@emotion/react'
 import Avatar from '@components/templates/Avatar'
-import { useRouter } from 'next/router'
+import {
+  LOGO,
+  USER_CIRCLE,
+  SEARCH_LIGHT,
+  SEARCH_BLACK,
+  SALE,
+  MENU_ARROW,
+} from '@utils/constant/icon'
 
 const Header = () => {
+  const logoImgPath = LOGO
+  const userImgPath = USER_CIRCLE
+  const searchImgPcPath = SEARCH_LIGHT
+  const searchImgMobilePath = SEARCH_BLACK
+  const saleImgPaht = SALE
+  const menuImgPaht = MENU_ARROW
   const { getItem } = useStorage()
-  const router = useRouter()
   const [isLogin, setIsLogin] = useState(false)
 
   useEffect(() => {
@@ -31,28 +43,6 @@ const Header = () => {
   } else {
     userData = getItem('userData')
   }
-
-  const handleSearchRouting = async e => {
-    if (e.key === 'Enter') {
-      const { value } = e.target
-
-      router.push({
-        pathname: '/search',
-        query: {
-          title: value,
-        },
-      })
-    }
-  }
-
-  const logoImgPath = require('@assets/images/logo.svg').default.src
-  const userImgPath = require('@assets/images/icon/user_circle.svg').default.src
-  const searchImgPcPath = require('@assets/images/icon/search_light.svg')
-    .default.src
-  const searchImgMobilePath = require('@assets/images/icon/search_black.svg')
-    .default.src
-  const saleImgPaht = require('@assets/images/icon/sale.svg').default.src
-  const menuImgPaht = require('@assets/images/icon/menu_arrow.svg').default.src
 
   const [visible, setVisible] = useState(false) // 모달의 초기값 false
 
@@ -87,7 +77,6 @@ const Header = () => {
                 type="text"
                 name="search"
                 placeholder="상품명으로 원하는 물건을 검색해보세요!"
-                onKeyUp={handleSearchRouting}
               />
             </>
           ) : (
@@ -104,7 +93,6 @@ const Header = () => {
               type="text"
               name="search"
               placeholder="상품명으로 원하는 물건을 검색해보세요!"
-              onKeyUp={handleSearchRouting}
             />
             <IconButton
               className="search-button_pc"

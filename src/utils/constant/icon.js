@@ -1,6 +1,6 @@
 export const LOGO = require('@assets/images/logo.svg').default.src
 export const CATEGORY_BEST_GOODS =
-  require('@assets/images/icon/user_circle.svg').default.src
+  require('@assets/images/icon/category_bestgoods.svg').default.src
 export const CATEGORY_BOOKS = require('@assets/images/icon/category_book.svg')
   .default.src
 export const CATEGORY_FORNITURE =
@@ -50,3 +50,4 @@ export const SEARCH_LIGHT = require('@assets/images/icon/search_light.svg')
 export const USER = require('@assets/images/icon/user.svg').default.src
 export const USER_CIRCLE = require('@assets/images/icon/user_circle.svg')
   .default.src
+export const NOIMG = require('@assets/images/no-image_square.png').default.src

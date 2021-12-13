@@ -206,11 +206,12 @@ const posting = () => {
         <Divider style={commonDividerStyle} marginSize={50} />
 
         <div className="posting-subtitle">거래지역</div>
-        <SelectBox
-          formName="tradeArea"
-          className="posting-select-box select-location"
-          options={CATEGORIES}
-          defaultOption={selectBoxdefault}
+        <Input
+          id="tradeArea"
+          name="tradeArea"
+          className="posting-input"
+          placeholder="시 구 순으로 입력 해주세요."
+          type="text"
           onChange={formik.handleChange}
           value={formik.values.tradeArea}
         />
