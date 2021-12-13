@@ -7,7 +7,7 @@ import AuthReducer from './reducer'
 import useActions from './actions'
 
 const initialState = {
-  isLoading: true,
+  isLoading: false,
   token: null,
   userData: {
     id: null,
@@ -23,8 +23,6 @@ export const AuthContext = createContext()
 
 const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AuthReducer, initialState)
-
-  console.log(state)
 
   const {
     handleEmailLogin,
