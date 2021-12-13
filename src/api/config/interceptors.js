@@ -1,4 +1,4 @@
-import useStorage from '@utils/storage.js'
+import useStorage from '@hooks/useStorage'
 
 const { getItem } = useStorage()
 

@@ -5,7 +5,7 @@ import styled from '@emotion/styled'
 const IconButton = ({ style, className, alt, src, onClick }) => {
   const handleClick = e => {
     e.preventDefault()
-    onClick(e)
+    onClick && onClick(e)
   }
 
   return (

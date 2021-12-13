@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import Router from 'next/router'
 import PropTypes from 'prop-types'
-import useStorage from '@utils/storage.js'
+import useStorage from '@hooks/useStorage'
 import styled from '@emotion/styled'
 
 const Dialog = ({ style, className, visible = false, items, onClose }) => {

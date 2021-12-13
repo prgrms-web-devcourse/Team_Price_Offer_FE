@@ -5,7 +5,7 @@ import Input from '@components/templates/Input'
 import IconButton from '@components/templates/IconButton'
 import ModalLogin from '@components/ui/modal/ModalLogin'
 import Dialog from '@components/templates/Dialog'
-import useStorage from '@utils/storage.js'
+import useStorage from '@hooks/useStorage'
 import { Global, css } from '@emotion/react'
 import Avatar from '@components/templates/Avatar'
 

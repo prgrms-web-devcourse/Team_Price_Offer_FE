@@ -1,5 +1,5 @@
 const useStorage = () => {
-  const isBrowser = (() => typeof window !== 'undefined')()
+  const isBrowser = typeof window !== 'undefined'
 
   const getItem = key => {
     if (key === 'userData') {
