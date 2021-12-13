@@ -1,4 +1,4 @@
-export const SIGNUP = 'SIGNUP'
+export const FETCH_USER = 'FETCH_USER'
 export const WITHDRAWAL = 'WITHDRAWAL'
 export const LOGIN_EMAIL = 'LOGIN_EMAIL'
 export const LOGIN_KAKAO = 'LOGIN_KAKAO'
