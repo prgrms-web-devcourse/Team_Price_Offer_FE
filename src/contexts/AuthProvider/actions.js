@@ -41,7 +41,7 @@ const useActions = dispatch => {
       dispatch({ type: LOGIN_EMAIL, payload: { userData, token } })
       dispatch({ type: LOADING_OFF })
     } catch (e) {
-      alert('아이디 혹은 비밀번호가 맞지 않습니다!')
+      alert('로그인에 실패하셨습니다!')
     }
   }, [])
 
@@ -113,11 +113,9 @@ const useActions = dispatch => {
       }
 
       const userData = res.data.member
-      const { token } = res.data.member
 
       setItem('userData', userData)
-      setItem('token', token)
-      dispatch({ type: GET_USERINFO, payload: { userData, token } })
+      dispatch({ type: GET_USERINFO, payload: { userData } })
       dispatch({ type: LOADING_OFF })
     } catch (e) {
       alert('회원정보 조회에 실패하셨습니다!')
@@ -135,8 +133,7 @@ const useActions = dispatch => {
       }
 
       const userData = res.data.member
-      const { token } = res.data.member
-      dispatch({ type: MODIFY_USERINFO, payload: { userData, token } })
+      dispatch({ type: MODIFY_USERINFO, payload: { userData } })
       dispatch({ type: LOADING_OFF })
     } catch (e) {
       alert('회원정보 수정에 실패하셨습니다!')
