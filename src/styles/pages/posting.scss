@@ -4,6 +4,13 @@
 .posting {
     margin: 80px 0;
 
+    &-validation{
+        color : $PRIMARY_COLOR;
+        margin-top: 5px;
+        font-size: 14px;
+        min-height: 14px;
+    }
+
     &-title {
         font-size: 26px;
         font-weight: 800;

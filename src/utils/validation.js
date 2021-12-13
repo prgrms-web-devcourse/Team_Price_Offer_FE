@@ -5,7 +5,7 @@ const validate = values => {
   const haveNickname = fieldKeys.includes('nickname')
   const havePassword = fieldKeys.includes('password')
   const haveConfirmedPassword = fieldKeys.includes('confirmedPassword')
-
+  const haveNumber = fieldKeys.includes('price', 'quantity')
   fieldKeys.forEach(value => {
     if (!values[value]) {
       errors[value] = '필수값을 입력해주세요!'
@@ -35,6 +35,12 @@ const validate = values => {
     (values.nickname.length < 2 || values.nickname.length > 15)
   ) {
     errors.nickname = '닉네임 문자 개수를 확인해 주세요 (2~15자)'
+  }
+  if (haveNumber && typeof values.price !== 'number') {
+    errors.price = '숫자만 입력해주세요.'
+  }
+  if (haveNumber && typeof values.quantity !== 'number') {
+    errors.quantity = '숫자만 입력해주세요.'
   }
 
   return errors
