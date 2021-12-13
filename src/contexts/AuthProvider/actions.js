@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import useStorage from '@hooks/useStorage'
 import { authApi } from '@api/apis'
 import {
-  SIGNUP,
+  FETCH_USER,
   WITHDRAWAL,
   LOGIN_EMAIL,
   LOGIN_KAKAO,
@@ -14,7 +14,14 @@ import {
 } from './types'
 
 const useActions = dispatch => {
-  const { setItem, clear } = useStorage()
+  const { getItem, setItem, clear } = useStorage()
+
+  useMemo(async () => {
+    const userData = getItem('userData')
+    const token = getItem('token')
+
+    dispatch({ type: FETCH_USER, payload: { userData, token } })
+  }, [])
 
   const handleEmailLogin = useCallback(async userInfo => {
     try {
@@ -46,19 +53,19 @@ const useActions = dispatch => {
   const handleSignup = useCallback(async userInfo => {
     try {
       dispatch({ type: LOADING_ON })
-      const res = await authApi.signUp(userInfo)
+      const signupRes = await authApi.signUp(userInfo)
 
-      if (Number(res.code) !== 200) {
+      if (Number(signupRes.code) !== 200) {
         alert('회원가입에 실패하셨습니다!')
         return
       }
 
-      const userData = res.data.member
-      const { token } = res.data.member
+      const loginUserInfo = {
+        email: signupRes.data.member.email,
+        password: userInfo.password,
+      }
 
-      setItem('userData', userData)
-      setItem('token', token)
-      dispatch({ type: SIGNUP, payload: { userData, token } })
+      await handleEmailLogin(loginUserInfo)
       dispatch({ type: LOADING_OFF })
     } catch (e) {
       alert('회원가입에 실패하셨습니다!')
@@ -88,6 +95,7 @@ const useActions = dispatch => {
       dispatch({ type: LOADING_ON })
       clear()
       dispatch({ type: LOGOUT })
+      alert('정상적으로 로그아웃 되었습니다!')
       dispatch({ type: LOADING_OFF })
     } catch (e) {
       alert('로그아웃에 실패하셨습니다!')
