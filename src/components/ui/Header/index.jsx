@@ -14,7 +14,8 @@ import {
   SEARCH_BLACK,
   SALE,
   MENU_ARROW,
-} from '@utils/constant/icon'
+  NO_IMAGE_SQUARE,
+} from '@utils/constant'
 import { useAuthContext } from '@hooks/useAuthContext'
 
 const Header = () => {
@@ -87,7 +88,10 @@ const Header = () => {
               </div>
               <Divider type="vertical" style={{ color: '#DDDDDD' }} />
               <div className="userprofile-area">
-                <Avatar src={profileImage} />
+                <Avatar
+                  style={iconBtnStyleLg}
+                  src={profileImage || NO_IMAGE_SQUARE}
+                />
                 <div className="username">{nickname}</div>
                 <IconButton
                   className="sidebar"
