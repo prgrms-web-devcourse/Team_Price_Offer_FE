@@ -7,9 +7,7 @@ import validate from '@utils/validation'
 import { useFormik } from 'formik'
 import { userApi, imgApi } from '@api/apis'
 import ImageUploader from '@components/templates/ImageUploader'
-import { ICON_TYPES } from '@utils/constant/icon'
-
-const { photo, noImg } = ICON_TYPES
+import { PHOTO, NOIMG } from '@utils/constant/icon'
 
 const selectBoxdefault = {
   code: 'selectBoxDefault',
@@ -17,8 +15,8 @@ const selectBoxdefault = {
 }
 
 const ContentInfoModify = () => {
-  const noImagePath = noImg
-  const photoIconPath = photo
+  const noImagePath = NOIMG
+  const photoIconPath = PHOTO
 
   const formik = useFormik({
     initialValues: {

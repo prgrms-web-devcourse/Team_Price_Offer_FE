@@ -8,18 +8,22 @@ import Dialog from '@components/templates/Dialog'
 import useStorage from '@hooks/useStorage'
 import { Global, css } from '@emotion/react'
 import Avatar from '@components/templates/Avatar'
-import { ICON_TYPES } from '@utils/constant/icon'
-
-const { logo, userCircle, searchLight, searchBlack, sale, menuArrow } =
-  ICON_TYPES
+import {
+  LOGO,
+  USER_CIRCLE,
+  SEARCH_LIGHT,
+  SEARCH_BLACK,
+  SALE,
+  MENU_ARROW,
+} from '@utils/constant/icon'
 
 const Header = () => {
-  const logoImgPath = logo
-  const userImgPath = userCircle
-  const searchImgPcPath = searchLight
-  const searchImgMobilePath = searchBlack
-  const saleImgPaht = sale
-  const menuImgPaht = menuArrow
+  const logoImgPath = LOGO
+  const userImgPath = USER_CIRCLE
+  const searchImgPcPath = SEARCH_LIGHT
+  const searchImgMobilePath = SEARCH_BLACK
+  const saleImgPaht = SALE
+  const menuImgPaht = MENU_ARROW
   const { getItem } = useStorage()
 
   const [isLogin, setIsLogin] = useState(false)

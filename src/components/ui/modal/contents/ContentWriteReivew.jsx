@@ -3,13 +3,11 @@ import DIVIDER from '@components/templates/Divider'
 import Iconbutton from '@components/templates/IconButton'
 import TextArea from '@components/templates/Textarea'
 import Button from '@components/templates/Button'
-import { ICON_TYPES } from '@utils/constant/icon'
+import { REVIEWSOSO, REVIEWGOOD, REVIEWBAD } from '@utils/constant/icon'
 
-const { reviewsoso, reviewGood, reviewBad } = ICON_TYPES
-
-const goodImgurl = reviewGood
-const sosoImgurl = reviewsoso
-const badImgurl = reviewBad
+const goodImgurl = REVIEWGOOD
+const sosoImgurl = REVIEWSOSO
+const badImgurl = REVIEWBAD
 
 const ContentWriteReivew = props => {
   return (
