@@ -16,6 +16,7 @@ import {
   SALE,
   MENU_ARROW,
 } from '@utils/constant/icon'
+import { useRouter } from 'next/router'
 
 const Header = () => {
   const logoImgPath = LOGO
@@ -26,6 +27,7 @@ const Header = () => {
   const menuImgPaht = MENU_ARROW
   const { getItem } = useStorage()
   const [isLogin, setIsLogin] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
     if (getItem('userToken') === null) {
@@ -57,6 +59,19 @@ const Header = () => {
   }
   console.log(userImgPath)
 
+  const handleSearchRouting = async e => {
+    if (e.key === 'Enter') {
+      const { value } = e.target
+
+      router.push({
+        pathname: '/search',
+        query: {
+          title: value,
+        },
+      })
+    }
+  }
+
   const toggleSearch = () => {
     setSearch(isOpenSearch => !isOpenSearch) // on,off
   }
@@ -77,6 +92,7 @@ const Header = () => {
                 type="text"
                 name="search"
                 placeholder="상품명으로 원하는 물건을 검색해보세요!"
+                onKeyUp={handleSearchRouting}
               />
             </>
           ) : (
@@ -93,6 +109,7 @@ const Header = () => {
               type="text"
               name="search"
               placeholder="상품명으로 원하는 물건을 검색해보세요!"
+              onKeyUp={handleSearchRouting}
             />
             <IconButton
               className="search-button_pc"
