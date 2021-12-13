@@ -5,8 +5,10 @@ import ICONBUTTON from '@components/templates/IconButton'
 import DIVIDER from '@components/templates/Divider'
 import GOODSIMG from '@components/templates/Banner'
 import BUTTON from '@components/templates/Button'
+import { ICON_TYPES } from '@utils/constant/icon'
 import Like from '../components/templates/ToggleButton'
 
+const { offer } = ICON_TYPES
 const postDetail = props => {
   const detailInfo = JSON.stringify([
     {
@@ -209,10 +211,7 @@ const postDetail = props => {
               <div className="offer-suggestinfo">
                 {' '}
                 <div className="offer-price">600원</div>
-                <ICONBUTTON
-                  className="offer-button"
-                  src={require('../assets/images/icon/offer.svg').default.src}
-                />
+                <ICONBUTTON className="offer-button" src={offer} />
               </div>
             </div>
           </div>

@@ -3,10 +3,13 @@ import DIVIDER from '@components/templates/Divider'
 import Iconbutton from '@components/templates/IconButton'
 import TextArea from '@components/templates/Textarea'
 import Button from '@components/templates/Button'
+import { ICON_TYPES } from '@utils/constant/icon'
 
-const goodImgurl = require('@assets/images/icon/review_good.svg').default.src
-const sosoImgurl = require('@assets/images/icon/review_soso.svg').default.src
-const badImgurl = require('@assets/images/icon/review_bad.svg').default.src
+const { reviewsoso, reviewGood, reviewBad } = ICON_TYPES
+
+const goodImgurl = reviewGood
+const sosoImgurl = reviewsoso
+const badImgurl = reviewBad
 
 const ContentMyReview = props => {
   return (

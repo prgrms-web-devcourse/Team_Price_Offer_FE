@@ -3,10 +3,10 @@ import Avatar from '@components/templates/Avatar'
 import MessageBox from '@components/templates/Message'
 import TextArea from '@components/templates/Textarea'
 import IconButton from '@components/templates/IconButton'
+import { ICON_TYPES } from '@utils/constant/icon'
 
+const { fetch } = ICON_TYPES
 const MessagePage = () => {
-  const fetchImgPath = require('@assets/images/icon/fetch.svg').default.src
-
   return (
     <div className="message">
       <div className="message-list-wrapper">
@@ -281,7 +281,7 @@ const MessagePage = () => {
       <div className="message-chat-wrapper">
         <div className="message-header chat">
           <h2 className="message-header-title">황금요정님과의 쪽지</h2>
-          <IconButton src={fetchImgPath} alt="fetch" />
+          <IconButton src={fetch} alt="fetch" />
         </div>
         <div className="message-body">
           <div className="message-chat_info">

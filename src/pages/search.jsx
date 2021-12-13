@@ -5,8 +5,11 @@ import Button from '@components/templates/Button'
 import IconButton from '@components/templates/IconButton'
 import useClickAway from '@hooks/useClickAway'
 import GoodsList from '@components/ui/GoodsList'
+import { ICON_TYPES } from '@utils/constant/icon'
 import { CATEGORIES } from '../data/dummy/categories'
 import { ORDERWAY } from '../data/dummy/orderway'
+
+const { filter } = ICON_TYPES
 
 const goodsList = [
   {
@@ -182,7 +185,7 @@ const search = props => {
                 <span>필터</span>
                 <IconButton
                   className="result-filter_btn-icon"
-                  src={require('@assets/images/icon/filter.svg').default.src}
+                  src={filter}
                   alt="필터"
                   onClick={() => {
                     console.log('필터')

@@ -1,11 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
+import { ICON_TYPES } from '@utils/constant/icon'
+
+const { user } = ICON_TYPES
 
 const Avatar = ({ style, className, src }) => {
   return (
     <AvatarWrapper style={style} className={className} src={src}>
-      <img src={src || require('@assets/images/icon/user.svg')} alt="avatar" />
+      <img src={user} alt="avatar" />
     </AvatarWrapper>
   )
 }

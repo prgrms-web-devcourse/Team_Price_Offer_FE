@@ -1,12 +1,12 @@
 import styled from '@emotion/styled'
 import useToggle from '@hooks/useToggle'
+import { ICON_TYPES } from '@utils/constant/icon'
 
+const { FavoriteLike, FavoriteLight } = ICON_TYPES
 const LikeButton = ({ name, className, alt, on = false, onClick, style }) => {
   const [checked, toggle] = useToggle(on)
 
-  const img = checked
-    ? require('@assets/images/icon/Favorite_like.svg').default.src
-    : require('@assets/images/icon/Favorite_light.svg').default.src
+  const img = checked ? FavoriteLike : FavoriteLight
 
   const handleChange = e => {
     toggle()

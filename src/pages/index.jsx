@@ -1,58 +1,72 @@
 import ICONBUTTON from '@components/templates/IconButton'
 import BANNER from '@components/templates/Banner'
 import GoodsList from '@components/ui/GoodsList'
+import { ICON_TYPES } from '@utils/constant/icon'
+
+const {
+  categoryBestGoods,
+  categoryBook,
+  categoryFurniture,
+  categoryGame,
+  categoryLifegoods,
+  categoryPetgoods,
+  categoryShare,
+  categorySports,
+  categoryWomengoods,
+  categoryWomenwear,
+} = ICON_TYPES
 
 const Main = () => {
   const categoryList = [
     {
       value: 1,
       text: '인기상품',
-      src: require('../assets/images/icon/category_bestgoods.svg').default.src,
+      src: categoryBestGoods,
     },
     {
       value: 2,
       text: '여성의류',
-      src: require('../assets/images/icon/category_womenwear.svg').default.src,
+      src: categoryWomenwear,
     },
     {
       value: 3,
       text: '여성잡화',
-      src: require('../assets/images/icon/category_womengoods.svg').default.src,
+      src: categoryWomengoods,
     },
     {
       value: 4,
       text: '생활 가전',
-      src: require('../assets/images/icon/category_lifegoods.svg').default.src,
+      src: categoryLifegoods,
     },
     {
       value: 5,
       text: '가구/인테리어',
-      src: require('../assets/images/icon/category_furniture.svg').default.src,
+      src: categoryFurniture,
     },
     {
       value: 6,
       text: '게임/취미',
-      src: require('../assets/images/icon/category_game.svg').default.src,
+      src: categoryGame,
     },
     {
       value: 7,
       text: '도서',
-      src: require('../assets/images/icon/category_book.svg').default.src,
+      src: categoryBook,
     },
     {
       value: 8,
       text: '스포츠/레저',
-      src: require('../assets/images/icon/category_sports.svg').default.src,
+      src: categorySports,
     },
     {
       value: 9,
       text: '반려동물 제품',
-      src: require('../assets/images/icon/category_petgoods.svg').default.src,
+      src: categoryPetgoods,
     },
     {
       value: 10,
       text: '나눔',
-      src: require('../assets/images/icon/category_share.svg').default.src,
+      src: categoryShare,
     },
   ]
   const goodsList = [
