@@ -1,4 +1,3 @@
-// Provider
 import React, { createContext, useReducer } from 'react'
 import PropTypes from 'prop-types'
 import Header from '@components/ui/Header'
@@ -24,33 +23,6 @@ const AuthProvider = ({ children }) => {
     handleLoadingOff,
   } = useActions(dispatch)
 
-  if (state.isLoading) {
-    return (
-      <AuthContext.Provider
-        value={{
-          state,
-          handleEmailLogin,
-          handleKakaoLogin,
-          handleSignup,
-          handleWithDrawal,
-          handleLogout,
-          handleGetUserInfo,
-          handleModifyUserInfo,
-          handleLoadingOn,
-          handleLoadingOff,
-        }}>
-        <div className="container">
-          <div className="wrapper">
-            <Header />
-            <div className="spinner-wrapper">
-              <Spinner loading={state.isLoading} size={70} />
-            </div>
-          </div>
-        </div>
-      </AuthContext.Provider>
-    )
-  }
-
   return (
     <AuthContext.Provider
       value={{
@@ -65,7 +37,18 @@ const AuthProvider = ({ children }) => {
         handleLoadingOn,
         handleLoadingOff,
       }}>
-      {children}
+      {state.isLoading ? (
+        <div className="container">
+          <div className="wrapper">
+            <Header />
+            <div className="spinner-wrapper">
+              <Spinner loading={state.isLoading} size={70} />
+            </div>
+          </div>
+        </div>
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
   )
 }
