@@ -1,19 +1,16 @@
 import React, { useEffect, useRef } from 'react'
-import Router from 'next/router'
 import PropTypes from 'prop-types'
-import useStorage from '@hooks/useStorage'
 import styled from '@emotion/styled'
+import { useAuthContext } from '@hooks/useAuthContext'
 
 const Dialog = ({ style, className, visible = false, items, onClose }) => {
   const dialogRef = useRef(null)
-  const { clear } = useStorage()
+  const { handleLogout } = useAuthContext()
 
-  const handleClickItem = code => {
-    console.log(`${code}로 router 이동 처리`)
+  const handleClickItem = async code => {
     if (code === 'logout') {
-      clear()
-      Router.push(0)
-      alert('정상적으로 로그아웃 되었습니다!')
+      await handleLogout()
+      return
     }
   }
 

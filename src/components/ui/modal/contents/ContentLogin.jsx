@@ -1,14 +1,13 @@
 import React from 'react'
-import Router from 'next/router'
 import { useFormik } from 'formik'
 import validate from '@utils/validation'
-import useStorage from '@hooks/useStorage'
 import { authApi } from '@api/apis.js'
 import Button from '@components/templates/Button'
 import Input from '@components/templates/Input'
+import { useAuthContext } from '@hooks/useAuthContext'
 
 const LoginContent = () => {
-  const { setItem } = useStorage()
+  const { handleEmailLogin, handleKakaoLogin } = useAuthContext()
 
   const formik = useFormik({
     initialValues: {
@@ -16,20 +15,15 @@ const LoginContent = () => {
       password: '',
     },
     validate,
-    onSubmit: async values => {
-      try {
-        console.log(JSON.stringify(values))
-        const { data } = await authApi.loginEmail(values)
-        setItem('userToken', data.member.token)
-        setItem('userData', data.member)
-        Router.push(0)
-      } catch (error) {
-        alert('아이디 혹은 비밀번호가 맞지 않습니다.')
-        return
-      }
+    onSubmit: async userInfo => {
+      await handleEmailLogin(userInfo)
     },
   })
-  const onKaKaoLogin = () => {}
+
+  const onKaKaoLogin = async () => {
+    await handleKakaoLogin()
+  }
+
   return (
     <>
       <div className="modal-header">
