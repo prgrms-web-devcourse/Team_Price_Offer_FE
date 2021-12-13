@@ -10,6 +10,7 @@ const Input = ({
   className,
   placeholder = '정보를 입력하세요.',
   onChange,
+  onKeyUp,
   noSpace = false,
 }) => {
   return (
@@ -21,6 +22,7 @@ const Input = ({
       className={className}
       placeholder={placeholder}
       onChange={onChange}
+      onKeyUp={onKeyUp}
     />
   )
 }
@@ -33,6 +35,7 @@ Input.propTypes = {
   className: PropTypes.string,
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
+  onKeyUp: PropTypes.func,
 }
 
 const InputTemplate = styled.input`
