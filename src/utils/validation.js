@@ -6,6 +6,7 @@ const validate = values => {
   const havePassword = fieldKeys.includes('password')
   const haveConfirmedPassword = fieldKeys.includes('confirmedPassword')
   const haveNumber = fieldKeys.includes('price', 'quantity')
+
   fieldKeys.forEach(value => {
     if (!values[value]) {
       errors[value] = '필수값을 입력해주세요!'
