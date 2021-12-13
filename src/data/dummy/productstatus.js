@@ -1,10 +1,10 @@
 export const PRODUCT_STATUS = [
   {
-    code: 'new',
+    code: '2',
     name: '새상품',
   },
   {
-    code: 'used',
+    code: '4',
     name: '중고상품',
   },
 ]
