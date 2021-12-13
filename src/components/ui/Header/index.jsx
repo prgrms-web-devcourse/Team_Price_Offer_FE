@@ -8,8 +8,22 @@ import Dialog from '@components/templates/Dialog'
 import useStorage from '@hooks/useStorage'
 import { Global, css } from '@emotion/react'
 import Avatar from '@components/templates/Avatar'
+import {
+  LOGO,
+  USER_CIRCLE,
+  SEARCH_LIGHT,
+  SEARCH_BLACK,
+  SALE,
+  MENU_ARROW,
+} from '@utils/constant/icon'
 
 const Header = () => {
+  const logoImgPath = LOGO
+  const userImgPath = USER_CIRCLE
+  const searchImgPcPath = SEARCH_LIGHT
+  const searchImgMobilePath = SEARCH_BLACK
+  const saleImgPaht = SALE
+  const menuImgPaht = MENU_ARROW
   const { getItem } = useStorage()
 
   const [isLogin, setIsLogin] = useState(false)
@@ -30,15 +44,6 @@ const Header = () => {
   } else {
     userData = getItem('userData')
   }
-
-  const logoImgPath = require('@assets/images/logo.svg').default.src
-  const userImgPath = require('@assets/images/icon/user_circle.svg').default.src
-  const searchImgPcPath = require('@assets/images/icon/search_light.svg')
-    .default.src
-  const searchImgMobilePath = require('@assets/images/icon/search_black.svg')
-    .default.src
-  const saleImgPaht = require('@assets/images/icon/sale.svg').default.src
-  const menuImgPaht = require('@assets/images/icon/menu_arrow.svg').default.src
 
   const [visible, setVisible] = useState(false) // 모달의 초기값 false
 
