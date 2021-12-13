@@ -16,20 +16,20 @@ const AuthReducer = (state, { type, payload }) => {
     case SIGNUP:
       return {
         ...state,
-        userData: {},
-        token: '',
+        userData: { ...state.userData, ...payload.userData },
+        token: payload.token,
       }
     case LOGIN_EMAIL:
       return {
         ...state,
-        userData: {},
-        token: '',
+        userData: { ...state.userData, ...payload.userData },
+        token: payload.token,
       }
     case LOGIN_KAKAO:
       return {
         ...state,
-        userData: {},
-        token: '',
+        userData: { ...state.userData, ...payload.userData },
+        token: payload.token,
       }
     case WITHDRAWAL:
     case LOGOUT:
@@ -40,13 +40,12 @@ const AuthReducer = (state, { type, payload }) => {
     case GET_USERINFO:
       return {
         ...state,
-        userData: {},
-        token: null,
+        userData: { ...state.userData, ...payload.userData },
       }
     case MODIFY_USERINFO:
       return {
         ...state,
-        userData: {},
+        userData: { ...state.userData, ...payload.userData },
       }
     case LOADING_ON:
       return {
@@ -59,7 +58,7 @@ const AuthReducer = (state, { type, payload }) => {
         isLoading: false,
       }
     default:
-      return state
+      throw new Error(`액션에 정의된 타입이 없습니다! ${type}`)
   }
 }
 
