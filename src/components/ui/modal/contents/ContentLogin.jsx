@@ -29,7 +29,16 @@ const LoginContent = () => {
       }
     },
   })
-  const onKaKaoLogin = () => {}
+
+  const onKaKaoLogin = () => {
+    const { KAKAO_API_HOST } = process.env
+    const { KAKAO_API_KEY } = process.env
+    const { KAKAO_REDIRECT_URI } = process.env
+
+    const redirectUrl = `${KAKAO_API_HOST}/oauth/authorize?client_id=${KAKAO_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`
+    window.location.href = redirectUrl
+  }
+
   return (
     <>
       <div className="modal-header">
