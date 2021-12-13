@@ -45,9 +45,17 @@ const useActions = dispatch => {
     }
   }, [])
 
-  const handleKakaoLogin = useCallback(async userInfo => {
+  const handleKakaoLogin = useCallback(async () => {
     try {
-    } catch (e) {}
+      const { KAKAO_API_HOST } = process.env
+      const { KAKAO_API_KEY } = process.env
+      const { KAKAO_REDIRECT_URI } = process.env
+
+      const redirectUrl = `${KAKAO_API_HOST}/oauth/authorize?client_id=${KAKAO_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`
+      window.location.href = redirectUrl
+    } catch (e) {
+      alert('카카오 로그인에 실패하셨습니다!')
+    }
   }, [])
 
   const handleSignup = useCallback(async userInfo => {
