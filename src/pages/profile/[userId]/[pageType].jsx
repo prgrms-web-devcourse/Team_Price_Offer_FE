@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react'
-
+import Link from 'next/dist/client/link'
 import Avatar from '@components/templates/Avatar'
 import IconButton from '@components/templates/IconButton'
 import ModalInfoModify from '@components/ui/modal/ModalInfoModify'
 import PageContents from '@pages/profile/contents'
+import { CONFIG } from '@utils/constant'
 
 export const getServerSideProps = async context => ({
   props: {
@@ -13,16 +14,11 @@ export const getServerSideProps = async context => ({
 })
 
 const ProfilePage = ({ userId, pageType }) => {
-  const configIconPath = require('@assets/images/icon/config.svg').default.src
   const [visibleConfigModal, setVisibleConfigModal] = useState(false)
-
-  const checkCurrentPage = useCallback(pageTypeElem => {
-    return pageType === pageTypeElem ? 'selected' : ''
-  }, [])
 
   useEffect(() => {
     console.log(userId, pageType)
-  }, [])
+  }, [userId, pageType])
 
   const profileImgStyle = {
     width: '100px',
@@ -44,7 +40,7 @@ const ProfilePage = ({ userId, pageType }) => {
               <span className="profile-box_nickname">히텧</span>
               <IconButton
                 className="profile-box_icon"
-                src={configIconPath}
+                src={CONFIG}
                 alt="회원정보 수정"
                 onClick={() => setVisibleConfigModal(true)}
               />
@@ -59,33 +55,54 @@ const ProfilePage = ({ userId, pageType }) => {
         </div>
         <hr className="profile-divider" />
         <ul className="profile-list">
-          <li className="profile-list_item">
-            <div className={`profile-list_title ${checkCurrentPage('sale')}`}>
-              판매 상품
-            </div>
-            <div className="profile-list_content">30</div>
-          </li>
-          <li className="profile-list_item">
-            <div className={`profile-list_title ${checkCurrentPage('like')}`}>
-              찜한 상품
-            </div>
-            <div className="profile-list_content">60</div>
-          </li>
-          <li className="profile-list_item">
-            <div className={`profile-list_title ${checkCurrentPage('offer')}`}>
-              가격 제안
-            </div>
-            <div className="profile-list_content">30</div>
-          </li>
-          <li className="profile-list_item">
-            <div className={`profile-list_title ${checkCurrentPage('review')}`}>
-              거래 후기
-            </div>
-            <div className="profile-list_content">30</div>
-          </li>
+          <Link href={`/profile/${userId}/sale`}>
+            <li className="profile-list_item">
+              <div
+                className={`profile-list_title ${
+                  pageType === 'sale' ? 'selected' : ''
+                }
+                `}>
+                판매 상품
+              </div>
+              <div className="profile-list_content">30</div>
+            </li>
+          </Link>
+          <Link href={`/profile/${userId}/like`}>
+            <li className="profile-list_item">
+              <div
+                className={`profile-list_title ${
+                  pageType === 'like' ? 'selected' : ''
+                }`}>
+                찜한 상품
+              </div>
+              <div className="profile-list_content">60</div>
+            </li>
+          </Link>
+          <Link href={`/profile/${userId}/offer`}>
+            <li className="profile-list_item">
+              <div
+                className={`profile-list_title ${
+                  pageType === 'offer' ? 'selected' : ''
+                }`}>
+                가격 제안
+              </div>
+              <div className="profile-list_content">30</div>
+            </li>
+          </Link>
+          <Link href={`/profile/${userId}/review`}>
+            <li className="profile-list_item">
+              <div
+                className={`profile-list_title ${
+                  pageType === 'review' ? 'selected' : ''
+                }`}>
+                거래 후기
+              </div>
+              <div className="profile-list_content">30</div>
+            </li>
+          </Link>
         </ul>
       </div>
-      <PageContents pageType={pageType} />
+      <PageContents userId={userId} pageType={pageType} />
     </div>
   )
 }
