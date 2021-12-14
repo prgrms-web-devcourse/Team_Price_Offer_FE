@@ -1,8 +1,8 @@
 export const GOODSLIST = [
   {
     id: 1,
-    mainImageUrl: 'string',
-    title: 'string',
+    mainImageUrl: null,
+    title: '판매중',
     price: 36500,
     tradeArea: '서울시 강남구',
     tradeStatus: {
@@ -15,8 +15,8 @@ export const GOODSLIST = [
   },
   {
     id: 2,
-    mainImageUrl: 'string',
-    title: 'string',
+    mainImageUrl: null,
+    title: null,
     price: 36500,
     tradeArea: '서울시 강남구',
     tradeStatus: {
@@ -29,8 +29,8 @@ export const GOODSLIST = [
   },
   {
     id: 3,
-    mainImageUrl: 'string',
-    title: 'string',
+    mainImageUrl: null,
+    title: null,
     price: 36500,
     tradeArea: '서울시 강남구',
     tradeStatus: {
@@ -46,8 +46,8 @@ export const GOODSLIST = [
 export const GOODSLIST_SELLING = [
   {
     id: 1,
-    mainImageUrl: 'string',
-    title: 'string',
+    mainImageUrl: null,
+    title: null,
     price: 36500,
     tradeArea: '서울시 강남구',
     tradeStatus: {
@@ -60,8 +60,8 @@ export const GOODSLIST_SELLING = [
   },
   {
     id: 2,
-    mainImageUrl: 'string',
-    title: 'string',
+    mainImageUrl: null,
+    title: null,
     price: 36500,
     tradeArea: '서울시 강남구',
     tradeStatus: {
@@ -74,8 +74,8 @@ export const GOODSLIST_SELLING = [
   },
   {
     id: 3,
-    mainImageUrl: 'string',
-    title: 'string',
+    mainImageUrl: null,
+    title: null,
     price: 36500,
     tradeArea: '서울시 강남구',
     tradeStatus: {
@@ -91,7 +91,7 @@ export const GOODSLIST_SELLING = [
 export const GOODSLIST_COMPLETED = [
   {
     id: 1,
-    mainImageUrl: 'string',
+    mainImageUrl: null,
     title: '난 솔닷',
     price: 5000,
     tradeArea: '사랑시 고백구',
@@ -105,7 +105,7 @@ export const GOODSLIST_COMPLETED = [
   },
   {
     id: 2,
-    mainImageUrl: 'string',
+    mainImageUrl: null,
     title: '나두 솔닷',
     price: 8000,
     tradeArea: '사랑시 고백구',
@@ -119,7 +119,7 @@ export const GOODSLIST_COMPLETED = [
   },
   {
     id: 3,
-    mainImageUrl: 'string',
+    mainImageUrl: null,
     title: '나까지 솔닷',
     price: 10000,
     tradeArea: '사랑시 고백구',
