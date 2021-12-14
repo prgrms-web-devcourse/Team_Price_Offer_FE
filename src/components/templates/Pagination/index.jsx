@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import { PRIMARY } from '@utils/constant'
@@ -10,24 +10,36 @@ import {
 const Pagination = ({
   btnStyle,
   className,
-  blockNum = 10,
   postListLength = 155,
   postPerPage = 10,
   paginate,
-  prevPage,
-  nextPage,
 }) => {
   const imgStyle = {
     cursor: 'pointer',
   }
-
+  const currentPage = useRef(1)
+  const blockNum = useRef(10)
   const maxPageNumber = Math.ceil(postListLength / postPerPage) - 1
   const pageNumbers = Array.from(
     { length: maxPageNumber },
     (_, index) => index + 1,
   )
 
-  console.log(PRIMARY)
+  const hadleClickPageNum = num => {
+    paginate(num)
+    currentPage.current = num
+    console.log('하이', num)
+  }
+  const prevPage = () => {
+    currentPage.current - 1 > 0 && (currentPage.current -= 1)
+    console.log(currentPage)
+  }
+
+  const nextPage = () => {
+    currentPage.current + 1 < maxPageNumber + 1 && (currentPage.current += 1)
+    console.log(currentPage)
+  }
+  // const showPageArray = pageNumbers.splice(currentPage)
 
   return (
     <Ul>
@@ -37,11 +49,11 @@ const Pagination = ({
         </span>
       </Li>
       {pageNumbers.map(num => (
-        <Li key={num}>
+        <Li key={num} className={num === currentPage && 'selected'}>
           <button
             style={btnStyle}
             className={className}
-            onClick={() => paginate(num)}>
+            onClick={() => hadleClickPageNum(num)}>
             {num}
           </button>
         </Li>
