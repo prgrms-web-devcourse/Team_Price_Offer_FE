@@ -8,8 +8,6 @@ import Review from './Review'
 import Sale from './Sale'
 
 const ProfileContents = ({ pageType }) => {
-  const router = useRouter()
-
   const SpinnerStyle = {
     display: 'flex',
     justifyContent: 'center',
@@ -25,7 +23,10 @@ const ProfileContents = ({ pageType }) => {
     case 'sale':
       return <Sale />
     default:
-      router.push('/')
+      if (process.browser) {
+        const router = useRouter()
+        router.push('/')
+      }
 
       return (
         <div style={SpinnerStyle}>
