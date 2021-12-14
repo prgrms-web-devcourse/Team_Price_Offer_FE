@@ -43,7 +43,7 @@ const Header = () => {
       router.push({
         pathname: '/search',
         query: {
-          title: searchWord,
+          title: searchWord.trim(),
         },
       })
 
