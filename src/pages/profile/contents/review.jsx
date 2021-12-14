@@ -119,7 +119,7 @@ const reviewList = [
     review: true,
   },
 ]
-const review = props => {
+const Review = props => {
   const ulStyle = {
     listStyle: 'none',
     fontSize: '14px',
@@ -198,6 +198,4 @@ const review = props => {
   )
 }
 
-review.propTypes = {}
-
-export default review
+export default Review

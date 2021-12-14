@@ -1,13 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import GoodsList from '@components/ui/GoodsList'
+import { GOODSLIST } from '@data/dummy/goodsList'
 
-const offer = ({ goodsList }) => {
-  return <GoodsList goodsList={goodsList} className="offer-goodList" />
+const Offer = () => {
+  return <GoodsList goodsList={GOODSLIST} className="offer-goodList" />
 }
 
-offer.propTypes = {
-  goodsList: PropTypes.arrayOf(PropTypes.string),
-}
-
-export default offer
+export default Offer

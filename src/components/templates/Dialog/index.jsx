@@ -12,7 +12,7 @@ const Dialog = ({ style, className, visible = false, items, onClose }) => {
 
   const handleClickItem = async code => {
     if (code === 'profile') {
-      router.push(`/profile/${state.userData.id}`)
+      router.push(`/profile/${state.userData.id}/sale`)
       return
     }
 
