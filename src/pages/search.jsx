@@ -12,7 +12,8 @@ import { CATEGORIES } from '../data/dummy/categories'
 import { ORDERWAY } from '../data/dummy/orderway'
 
 const search = props => {
-  const { title } = useRouter().query || ''
+  const router = useRouter()
+  const { title } = router.query
   const [filters, setFilters] = useState({
     categoryId: null,
     minPrice: null,
@@ -42,6 +43,10 @@ const search = props => {
   }
 
   useEffect(() => {
+    if (!title) {
+      router.push('/')
+      return
+    }
     fetchGoodsListApi()
   }, [title])
 
