@@ -11,15 +11,19 @@ export const authApi = {
 }
 
 export const userApi = {
-  getLikeArticles: ({ memberId, params }) =>
+  getUserLikeArticles: ({ memberId, params }) =>
     auth.get(`/members/${memberId}/profiles/articles/likes`, { params }),
-  getTradingAtricles: ({ memberId, params }) =>
-    instance.get(`/articles?memberId=${memberId}&status=trading`, { params }),
-  getCompletedArticles: ({ memberId, params }) =>
-    instance.get(`/articles?memberId=${memberId}&status=completed`, { params }),
-  getBuyReviews: memberId =>
+  getUserTradingAtricles: ({ memberId, params }) =>
+    instance.get(`/articles?memberId=${memberId}&tradeStatusCode=4`, {
+      params,
+    }),
+  getUserCompletedArticles: ({ memberId, params }) =>
+    instance.get(`/articles?memberId=${memberId}&tradeStatusCode=8`, {
+      params,
+    }),
+  getUserBuyReviews: memberId =>
     instance.get(`/reviews?memberId=${memberId}&status=buy`),
-  getSellReviews: memberId =>
+  getUserSellReviews: memberId =>
     instance.get(`/reviews?memberId=${memberId}&status=sell`),
   postReview: ({ offerId, memberId, content }) =>
     auth.post(`/reviews/offers/${offerId}?toMember=${memberId}`, content),
@@ -39,6 +43,8 @@ export const articleApi = {
   editArticle: articleInfo => auth.put('/articles', articleInfo),
   getArticle: ({ articleId, params }) =>
     instance.get(`/articles${articleId ? `/${articleId}` : ''}`, { params }),
+  getTradingAtricles: params =>
+    auth.get('/articles?tradeStatusCode=4', { params }),
   getArticleOfCategory: ({ categoryCode, params }) =>
     instance.get(`/articles?categoryCode=${categoryCode}`, { params }),
   getOffersList: articleId => instance.get(`/articles/${articleId}/offers`),
