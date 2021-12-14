@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import Divider from '@components/templates/Divider'
 import Link from 'next/link'
 import Input from '@components/templates/Input'
@@ -17,15 +17,17 @@ import {
   NO_IMAGE_SQUARE,
 } from '@utils/constant'
 import { useAuthContext } from '@hooks/useAuthContext'
-import Router from 'next/router'
+import { useRouter } from 'next/router'
 
 const Header = () => {
   const { state } = useAuthContext()
+  const router = useRouter()
   const { nickname, profileImage } = state.userData
 
   const [visible, setVisible] = useState(false)
   const [dialogVisible, setDialogVisible] = useState(false)
   const [isSearchToggle, setSearch] = useState(false)
+  const [searchWord, setSearchWord] = useState('')
 
   const iconBtnStyleLg = { width: '30px', height: '30px' }
   const iconBtnStyleMd = { width: '24px', height: '24px' }
@@ -36,17 +38,16 @@ const Header = () => {
     setDialogVisible(true)
   }
 
-  const handleSearchRouting = async e => {
-    if (e.key === 'Enter') {
-      const { value } = e.target
-
-      Router.push({
+  const handleSearchRouting = () => {
+    searchWord &&
+      router.push({
         pathname: '/search',
         query: {
-          title: value,
+          title: searchWord,
         },
       })
-    }
+
+    setSearchWord('')
   }
 
   return (
@@ -62,7 +63,9 @@ const Header = () => {
             type="text"
             name="search"
             placeholder="상품명으로 원하는 물건을 검색해보세요!"
-            onKeyUp={handleSearchRouting}
+            value={searchWord || ''}
+            onChange={e => setSearchWord(e.target.value)}
+            onKeyUp={e => e.key === 'Enter' && handleSearchRouting()}
           />
         ) : (
           <Input
@@ -77,7 +80,9 @@ const Header = () => {
             type="text"
             name="search"
             placeholder="상품명으로 원하는 물건을 검색해보세요!"
-            onKeyUp={handleSearchRouting}
+            value={searchWord || ''}
+            onChange={e => setSearchWord(e.target.value)}
+            onKeyUp={e => e.key === 'Enter' && handleSearchRouting()}
           />
           <IconButton
             className="search-button_pc"
@@ -91,7 +96,10 @@ const Header = () => {
             src={SEARCH_BLACK}
             alt="user"
             style={iconBtnStyleLg}
-            onClick={() => setSearch(isOpenSearch => !isOpenSearch)}
+            onClick={() => {
+              !searchWord && setSearch(isOpenSearch => !isOpenSearch)
+              searchWord && handleSearchRouting()
+            }}
           />
         </div>
       </div>
