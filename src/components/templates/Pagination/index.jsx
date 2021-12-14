@@ -8,6 +8,7 @@ import {
 } from '@utils/constant/icon'
 
 const Pagination = ({
+  btnStyle,
   className,
   blockNum = 10,
   postListLength = 155,
@@ -45,38 +46,86 @@ const Pagination = ({
     }
   }
 
+  const containerStyle = {
+    backgroundColor: 'white',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+
+  const ulStyle = {
+    margin: '0 20px',
+    minWidth: '340px',
+    display: 'flex',
+    justifyContent: 'center',
+  }
+
+  const listStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: '0 2px',
+    backgroundColor: 'white',
+  }
+
+  const defaultBtnStyle = {
+    border: 'none',
+    padding: '20%',
+    borderRadius: '100%',
+    width: '30px',
+    height: '30px',
+    fontSize: '14px',
+    cursor: 'pointer',
+    ...btnStyle,
+  }
+
   return (
-    <Ul>
-      <Li>
-        <span onClick={prevPage}>
-          <img src={PAGINATION_ARROW_LEFT} alt="이전페이지" />
-        </span>
-      </Li>
-      {pageNumbers
-        .filter(num => num >= startPage.current && num <= endPage.current)
-        .map(num => (
-          <Li key={num} className={num === currentPage && 'selected'}>
-            <button
-              className={className}
-              onClick={() => hadleClickPageNum(num)}>
-              {num}
-            </button>
-          </Li>
-        ))}
-      <Li>
-        <span onClick={nextPage}>
-          <img src={PAGINATION_ARROW_RIGHT} alt="다음페이지" />
-        </span>
-      </Li>
-    </Ul>
+    <PaginationContainer style={containerStyle} className={className}>
+      <span onClick={prevPage} style={{ cursor: 'pointer' }}>
+        <img src={PAGINATION_ARROW_LEFT} alt="이전페이지" />
+      </span>
+      <Ul style={ulStyle}>
+        {pageNumbers
+          .filter(num => num >= startPage.current && num <= endPage.current)
+          .map(num => (
+            <Li style={listStyle} key={num}>
+              <Btn
+                style={defaultBtnStyle}
+                className={num === currentPage.current && 'selected'}
+                onClick={() => hadleClickPageNum(num)}>
+                {num}
+              </Btn>
+            </Li>
+          ))}
+      </Ul>
+      <span onClick={nextPage} style={{ cursor: 'pointer' }}>
+        <img src={PAGINATION_ARROW_RIGHT} alt="다음페이지" />
+      </span>
+    </PaginationContainer>
   )
 }
+
+const PaginationContainer = styled.div``
 
 const Ul = styled.ul`
   list-style: none;
 `
 const Li = styled.li`
   float: left;
+`
+
+const Btn = styled.button`
+  background-color: white;
+  &:hover {
+    background-color: ${PRIMARY};
+    color: white;
+    transition: 0.3s;
+  }
+
+  &.selected {
+    background-color: ${PRIMARY};
+    color: white;
+  }
 `
 
 Pagination.propTypes = {}
