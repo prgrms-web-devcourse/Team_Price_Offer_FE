@@ -2,15 +2,50 @@ import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import { useAuthContext } from '@hooks/useAuthContext'
+import useStorage from '@hooks/useStorage'
+import { articleApi } from '@api/apis'
+import router from 'next/router'
 
 const Dialog = ({ style, className, visible = false, items, onClose }) => {
   const dialogRef = useRef(null)
   const { handleLogout } = useAuthContext()
+  const { getItem, setItem, clear } = useStorage()
 
   const handleClickItem = async code => {
     if (code === 'logout') {
       await handleLogout()
       return
+    }
+
+    if (code === 2) {
+      const postId = getItem('postId')
+      const res = await articleApi.changeTradeStatus({
+        articleId: postId,
+        option: {
+          code: 2,
+        },
+      })
+      router.push(-1)
+    }
+    if (code === 4) {
+      const postId = getItem('postId')
+      const res = await articleApi.changeTradeStatus({
+        articleId: postId,
+        option: {
+          code: 4,
+        },
+      })
+      router.push(0)
+    }
+    if (code === 8) {
+      const postId = getItem('postId')
+      const res = await articleApi.changeTradeStatus({
+        articleId: postId,
+        option: {
+          code: 8,
+        },
+      })
+      router.push(0)
     }
   }
 

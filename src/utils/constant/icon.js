@@ -51,3 +51,5 @@ export const USER = require('@assets/images/icon/user.svg').default.src
 export const USER_CIRCLE = require('@assets/images/icon/user_circle.svg')
   .default.src
 export const NOIMG = require('@assets/images/no-image_square.png').default.src
+export const OPTIONS = require('@assets/images/icon/Status_options.svg').default
+  .src

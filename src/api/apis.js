@@ -51,6 +51,7 @@ export const articleApi = {
     auth.post(`	/articles/${articleId}/offers`, price),
   selectOffer: offerId => auth.patch(`/articles/offers/${offerId}`),
   getArticlesInfos: instance.get('articles/infos'),
+  getArticleUserID: articleId => instance.get(`/articles/${articleId}`),
 }
 
 export const messageApi = {

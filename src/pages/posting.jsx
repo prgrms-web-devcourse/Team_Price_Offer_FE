@@ -101,7 +101,7 @@ const posting = () => {
       }
       console.log(userInfo)
       const res = await articleApi.editArticle(userInfo)
-
+      console.log(res)
       if (Number(res.code) === 200) {
         console.log(res)
         alert('게시글 등록 완료')
