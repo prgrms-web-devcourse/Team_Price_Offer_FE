@@ -4,9 +4,9 @@ const initialState = {
   userData: {
     id: null,
     email: null,
-    appleLevel: null,
+    offerLevel: null,
     nickname: null,
-    profileImage: null,
+    profileImageUrl: null,
     address: null,
     sellingArticleCount: null,
     likedArticleCount: null,

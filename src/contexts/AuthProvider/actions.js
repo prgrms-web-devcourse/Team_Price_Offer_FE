@@ -9,6 +9,7 @@ import {
   LOGOUT,
   GET_USERINFO,
   MODIFY_USERINFO,
+  GET_USERPROFILE,
   LOADING_ON,
   LOADING_OFF,
 } from './types'
@@ -148,6 +149,56 @@ const useActions = dispatch => {
     }
   }, [])
 
+  const handleGetUserProfile = useCallback(async () => {
+    try {
+      dispatch({ type: LOADING_ON })
+
+      // const res = await authApi.getUserProfile()
+
+      // if (Number(res.code) !== 200) {
+      //   alert('프로필 조회에 실패하셨습니다!')
+      //   return
+      // }
+
+      const res = {
+        code: 200,
+        message: '성공',
+        data: {
+          member: {
+            id: 1,
+            offerLevel: 1,
+            nickname: 'awesomeo184',
+            profileImageUrl: 'aws.bucket.url',
+            address: '동대문구 회기동',
+          },
+          sellingArticleCount: 30,
+          likedArticleCount: 60,
+          offerCount: 60,
+          reviewCount: 60,
+        },
+      }
+
+      const {
+        sellingArticleCount,
+        likedArticleCount,
+        offerCount,
+        reviewCount,
+      } = res.data
+
+      const userData = {
+        sellingArticleCount,
+        likedArticleCount,
+        offerCount,
+        reviewCount,
+      }
+
+      dispatch({ type: GET_USERPROFILE, payload: { userData } })
+      dispatch({ type: LOADING_OFF })
+    } catch (e) {
+      alert('프로필 조회에 실패하셨습니다!')
+    }
+  }, [])
+
   const handleLoadingOn = useCallback(async () => {
     dispatch({ type: LOADING_ON })
   }, [])
@@ -163,6 +214,7 @@ const useActions = dispatch => {
     handleWithDrawal,
     handleLogout,
     handleGetUserInfo,
+    handleGetUserProfile,
     handleModifyUserInfo,
     handleLoadingOn,
     handleLoadingOff,

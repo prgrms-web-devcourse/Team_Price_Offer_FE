@@ -8,6 +8,7 @@ import {
   LOGOUT,
   GET_USERINFO,
   MODIFY_USERINFO,
+  GET_USERPROFILE,
   LOADING_ON,
   LOADING_OFF,
 } from './types'
@@ -41,6 +42,11 @@ const AuthReducer = (state, { type, payload }) => {
         userData: { ...state.userData, ...payload.userData },
       }
     case MODIFY_USERINFO:
+      return {
+        ...state,
+        userData: { ...state.userData, ...payload.userData },
+      }
+    case GET_USERPROFILE:
       return {
         ...state,
         userData: { ...state.userData, ...payload.userData },
