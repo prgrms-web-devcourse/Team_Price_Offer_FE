@@ -119,7 +119,7 @@ const reviewList = [
     review: true,
   },
 ]
-const Review = props => {
+const Review = ({ userId }) => {
   const ulStyle = {
     listStyle: 'none',
     fontSize: '14px',
@@ -216,6 +216,10 @@ const Review = props => {
       </div>
     </div>
   )
+}
+
+Review.propTypes = {
+  userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }
 
 export default Review

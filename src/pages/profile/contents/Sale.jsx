@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
 import Divider from '@components/templates/Divider'
 import Button from '@components/templates/Button'
 import GoodsList from '@components/ui/GoodsList'
 import { GOODSLIST } from '@data/dummy/goodsList'
 
-const Sale = () => {
+const Sale = ({ userId }) => {
+  console.log(userId)
+
+  useEffect(() => {}, [])
+
   return (
     <div className="result-container">
       <div className="result-title">가격 제안</div>
@@ -24,6 +29,10 @@ const Sale = () => {
       </div>
     </div>
   )
+}
+
+Sale.propTypes = {
+  userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }
 
 export default Sale
