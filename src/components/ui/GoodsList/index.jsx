@@ -3,16 +3,27 @@ import PropTypes from 'prop-types'
 import GoodsItem from '@components/ui/GoodsItem'
 
 const GoodsList = ({ goodsList, className }) => {
+  if (!goodsList || !goodsList.length) {
+    return (
+      <div className={`goods-wrapper ${className}`}>
+        <ul className="goods-list" />
+      </div>
+    )
+  }
+
   return (
     <div className={`goods-wrapper ${className}`}>
       <ul className="goods-list">
-        {goodsList.map(item => (
+        {goodsList?.map(item => (
           <GoodsItem
             key={item.id}
-            src="https://img.khan.co.kr/news/2021/08/15/l_2021081501002249400192111.webp"
+            id={item.id}
+            isLiked={item.isLiked}
+            src={item.mainImageUrl}
             title={item.title}
-            location={item.address}
-            time={item.time}
+            tradeArea={item.tradeArea}
+            tradeStatus={item.tradeStatus}
+            modifiedDate={item.modifiedDate}
             price={item.price}
           />
         ))}
