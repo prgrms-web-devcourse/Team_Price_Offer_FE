@@ -1,0 +1,189 @@
+@import "../common/variables";
+@import "../common/mixins";
+
+.header-wrapper {
+  background: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  height: 150px;
+  align-items: center;
+  .logo {
+    cursor: pointer;
+    width: 100px;
+
+    @media (max-width: 706px) {
+      width: 66px;
+      height: 34px;
+    }
+  }
+}
+
+.header-search-wrapper {
+  position: relative;
+  max-width: 479px;
+  width: 100%;
+}
+
+.header-right {
+  width: 100%;
+  display: flex;
+  gap: 31px;
+}
+
+.header-search-input {
+  max-width: 479px;
+  width: 100%;
+  height: 40px;
+  font-size: 16px;
+  padding: 11px 15px;
+  @media (max-width: 706px) {
+    display: none;
+  }
+}
+.header-search-input_mobile {
+  position: absolute;
+  left: 100px;
+  top: 100px;
+  max-width: 255px;
+  width: 100%;
+  height: 30px;
+  font-size: 9px;
+  padding: 11px 15px;
+  &::placeholder {
+    font-size: 13px;
+  }
+  @media (min-width: 706px) {
+    display: none;
+  }
+}
+
+.search-button_pc {
+  top: 6px;
+  left: 93%;
+  position: absolute;
+  @media (max-width: 706px) {
+    display: none;
+  }
+}
+.search-button_mobile {
+  top: 3px;
+  left: 93%;
+  position: absolute;
+  @media (min-width: 706px) {
+    display: none;
+  }
+  @media (max-width: 706px) {
+    position: static;
+    margin-left: auto;
+  }
+}
+
+.header-widget-wrapper {
+  position: relative;
+  max-width: 216px;
+  /* line-height: 150px; */
+  border: none;
+}
+/* =====================================로그인===================================== */
+.wiget-islogin {
+}
+
+.widget-islogin_pc {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  min-width: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  @media (max-width: 706px) {
+    display: none;
+  }
+}
+
+.sale-area {
+  display: flex;
+  align-items: center;
+}
+
+.userprofile-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0px;
+}
+.widget-islogin_mobile {
+  align-items: center;
+  display: none;
+  max-width: 61px;
+  width: 100%;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.9);
+  @media (max-width: 706px) {
+    display: flex;
+  }
+}
+/* =====================================비로그인===================================== */
+.wiget-login {
+}
+
+.widget-login_pc {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  min-width: 147px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  @media (max-width: 706px) {
+    display: none;
+  }
+}
+
+.widget-login_mobile {
+  display: none;
+  font-family: noto-sans;
+  cursor: pointer;
+  max-width: 61px;
+  width: 100%;
+  height: 31px;
+  padding: 8px 12px;
+  border: solid 1px black;
+  border-radius: 3px;
+  background-color: #ffffff;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.9);
+
+  @media (max-width: 706px) {
+    display: flex;
+    justify-content: center;
+  }
+}
+.widget-login_mobile_text {
+  font-size: 13px;
+  min-width: 39px;
+}
+
+.sidear-list {
+  display: flex;
+  z-index: 100;
+  position: absolute;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  width: 90px;
+  height: 109px;
+  border: solid black;
+  font-size: 13px;
+  top: 30px;
+  left: 40px;
+
+  @media (max-width: 706px) {
+    z-index: 100;
+    left: -91px;
+    height: 109px;
+  }
+}

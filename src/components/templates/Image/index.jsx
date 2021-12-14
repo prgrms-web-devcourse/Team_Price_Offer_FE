@@ -59,10 +59,10 @@ const Image = ({
   const handleImgError = e => {
     switch (ratio) {
       case 'rectangle-h':
-        e.target.src = require('@assets/images/no-image_ rectangle-h.png')
+        e.target.src = require('@assets/images/no-image_rectangle-h.png')
         break
       case 'rectangle-w':
-        e.target.src = require('@assets/images/no-image_ rectangle-w.png')
+        e.target.src = require('@assets/images/no-image_rectangle-w.png')
         break
       default:
         e.target.src = require('@assets/images/no-image_square.png')

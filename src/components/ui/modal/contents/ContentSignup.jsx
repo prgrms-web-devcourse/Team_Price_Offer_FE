@@ -1,70 +1,32 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Input from '@components/templates/Input'
 import Button from '@components/templates/Button'
-import SelectBox from '@components/templates/Selectbox'
 import { authApi } from '@api/apis'
 import { useFormik } from 'formik'
 import validate from '@utils/validation'
+import { useAuthContext } from '@hooks/useAuthContext'
 
 const ContentSignup = () => {
+  const { handleSignup } = useAuthContext()
+
   const formik = useFormik({
     initialValues: {
       nickname: '',
-      city: '',
-      district: '',
+      address: '',
       email: '',
       password: '',
       confirmedPassword: '',
     },
     validate,
-    onSubmit: async value => {
-      try {
-        const address = value.city.concat(' ', value.district)
-        const newValue = {
-          ...value,
-          address,
-        }
-
-        delete newValue.district
-        delete newValue.city
-
-        const { code } = await authApi.signUp(newValue)
-        code === 200 && alert('회원가입이 완료되었습니다')
-      } catch (e) {
-        alert('SinUp Error!')
-      }
+    onSubmit: async userInfo => {
+      await handleSignup(userInfo)
     },
   })
 
-  const fetchCheckDuplicates = async email => {
-    try {
-      const { message } = await authApi.checkDuplicates(email)
-      alert(message)
-    } catch (e) {
-      alert('Check Duplicates Error')
-    }
+  const checkDuplicates = async email => {
+    const { message } = await authApi.checkDuplicates(email)
+    return alert(message)
   }
-
-  const locationCityDefault = {
-    name: '시를 선택해주세요',
-    code: 'city',
-  }
-
-  const locationDistrictDefault = {
-    name: '구를 선택해주세요',
-    code: 'district',
-  }
-
-  const options = [
-    {
-      code: 'user',
-      name: '사용자',
-    },
-    {
-      code: 'post',
-      name: '게시글',
-    },
-  ]
 
   return (
     <>
@@ -91,33 +53,16 @@ const ContentSignup = () => {
           </div>
           <div className="modal-body_form-input address">
             <h3>지역</h3>
-            {/* <SelectBox
-              formName="city"
-              defaultOption={locationCityDefault}
-              options={options}
-              onChange={formik.handleChange}
-              value={formik.values.city}
-            /> */}
             <Input
               type="text"
-              name="city"
+              name="address"
               placeholder="시 구 순으로 입력 해주세요."
               onChange={formik.handleChange}
-              value={formik.values.city}
+              value={formik.values.address}
             />
             <div className="modal-body_form-validation">
-              {formik.errors.city}
+              {formik.errors.address}
             </div>
-            {/* <SelectBox
-              formName="district"
-              defaultOption={locationDistrictDefault}
-              options={options}
-              onChange={formik.handleChange}
-              value={formik.values.district}
-            />
-            <div className="modal-body_form-validation">
-              {formik.errors.district}
-            </div> */}
           </div>
           <div className="modal-body_form-input email">
             <h3>이메일</h3>
@@ -135,7 +80,7 @@ const ContentSignup = () => {
                 style={{ fontSize: '12px' }}
                 onClick={() => {
                   if (!formik.errors.email) {
-                    fetchCheckDuplicates(formik.values.email)
+                    checkDuplicates(formik.values.email)
                   } else {
                     alert('이메일을 확인해 주세요!')
                   }

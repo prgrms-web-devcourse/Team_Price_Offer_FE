@@ -42,7 +42,7 @@ export const REVIEW_GOOD = require('@assets/images/icon/review_good.svg')
   .default.src
 export const REVIEW_SOSO = require('@assets/images/icon/review_soso.svg')
   .default.src
-export const SLAE = require('@assets/images/icon/sale.svg').default.src
+export const SALE = require('@assets/images/icon/sale.svg').default.src
 export const SEARCH_BLACK = require('@assets/images/icon/search_black.svg')
   .default.src
 export const SEARCH_LIGHT = require('@assets/images/icon/search_light.svg')

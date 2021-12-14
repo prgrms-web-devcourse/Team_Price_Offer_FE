@@ -5,12 +5,12 @@ export const authApi = {
   loginEmail: userInfo => instance.post('/members/login', userInfo),
   loginKakao: userInfo => instance.post('/login', userInfo),
   checkDuplicates: email => instance.get(`/members?email=${email}`),
-  withdrawal: () => auth.delete('/members'),
+  withdrawal: password => auth.delete('/members', password),
+  getUserInfo: () => auth.get('/members/me'),
+  modifyUserInfo: userInfo => auth.patch('/members/me', userInfo),
 }
 
 export const userApi = {
-  getUserInfo: () => auth.get('/members/me'),
-  modifyUserInfo: userInfo => auth.patch('/members/me', userInfo),
   getLikeArticles: ({ memberId, params }) =>
     auth.get(`/members/${memberId}/profiles/articles/likes`, { params }),
   getTradingAtricles: ({ memberId, params }) =>
