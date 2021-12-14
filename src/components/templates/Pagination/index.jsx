@@ -8,18 +8,17 @@ import {
 } from '@utils/constant/icon'
 
 const Pagination = ({
-  btnStyle,
   className,
+  blockNum = 10,
   postListLength = 155,
   postPerPage = 10,
   paginate,
+  setStartPage,
 }) => {
-  const imgStyle = {
-    cursor: 'pointer',
-  }
   const currentPage = useRef(1)
-  const blockNum = useRef(10)
-  const maxPageNumber = Math.ceil(postListLength / postPerPage) - 1
+  const startPage = useRef(1)
+  const endPage = useRef(postPerPage)
+  const maxPageNumber = Math.ceil(postListLength / postPerPage)
   const pageNumbers = Array.from(
     { length: maxPageNumber },
     (_, index) => index + 1,
@@ -28,39 +27,45 @@ const Pagination = ({
   const hadleClickPageNum = num => {
     paginate(num)
     currentPage.current = num
-    console.log('하이', num)
   }
+
   const prevPage = () => {
-    currentPage.current - 1 > 0 && (currentPage.current -= 1)
-    console.log(currentPage)
+    if (startPage.current - blockNum > 0) {
+      startPage.current -= blockNum
+      endPage.current -= blockNum
+      setStartPage(startPage.current)
+    }
   }
 
   const nextPage = () => {
-    currentPage.current + 1 < maxPageNumber + 1 && (currentPage.current += 1)
-    console.log(currentPage)
+    if (startPage.current + blockNum < maxPageNumber + 1) {
+      startPage.current += blockNum
+      endPage.current += blockNum
+      setStartPage(startPage.current)
+    }
   }
-  // const showPageArray = pageNumbers.splice(currentPage)
 
   return (
     <Ul>
       <Li>
         <span onClick={prevPage}>
-          <img style={imgStyle} src={PAGINATION_ARROW_LEFT} alt="이전페이지" />
+          <img src={PAGINATION_ARROW_LEFT} alt="이전페이지" />
         </span>
       </Li>
-      {pageNumbers.map(num => (
-        <Li key={num} className={num === currentPage && 'selected'}>
-          <button
-            style={btnStyle}
-            className={className}
-            onClick={() => hadleClickPageNum(num)}>
-            {num}
-          </button>
-        </Li>
-      ))}
+      {pageNumbers
+        .filter(num => num >= startPage.current && num <= endPage.current)
+        .map(num => (
+          <Li key={num} className={num === currentPage && 'selected'}>
+            <button
+              className={className}
+              onClick={() => hadleClickPageNum(num)}>
+              {num}
+            </button>
+          </Li>
+        ))}
       <Li>
         <span onClick={nextPage}>
-          <img style={imgStyle} src={PAGINATION_ARROW_RIGHT} alt="다음페이지" />
+          <img src={PAGINATION_ARROW_RIGHT} alt="다음페이지" />
         </span>
       </Li>
     </Ul>
