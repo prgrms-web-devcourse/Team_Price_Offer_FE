@@ -4,7 +4,8 @@ import Avatar from '@components/templates/Avatar'
 import IconButton from '@components/templates/IconButton'
 import ModalInfoModify from '@components/ui/modal/ModalInfoModify'
 import PageContents from '@pages/profile/contents'
-import { CONFIG } from '@utils/constant'
+import { CONFIG, NOIMG } from '@utils/constant'
+import { useAuthContext } from '@hooks/useAuthContext'
 
 export const getServerSideProps = async context => ({
   props: {
@@ -14,11 +15,48 @@ export const getServerSideProps = async context => ({
 })
 
 const ProfilePage = ({ userId, pageType }) => {
+  const { state, handleGetUserProfile } = useAuthContext()
+  const { userData } = state
+  const [userInfo, setUserInfo] = useState({
+    isMyAcount: false,
+  })
   const [visibleConfigModal, setVisibleConfigModal] = useState(false)
 
+  useEffect(async () => {
+    if (Number(userData.id) === Number(userId)) {
+      setUserInfo({
+        ...userInfo,
+        ...userData,
+        isMyAcount: true,
+      })
+      await handleGetUserProfile()
+      return
+    }
+
+    setUserInfo({
+      ...userInfo,
+      id: userId,
+      nickname: '타사용자',
+      offerLevel: 1,
+      address: '서울시 동작구',
+      profileImageUrl: null,
+      sellingArticleCount: 0,
+      likedArticleCount: 0,
+      offerCount: 0,
+      reviewCount: 0,
+      isMyAcount: false,
+    })
+  }, [])
+
   useEffect(() => {
-    console.log(userId, pageType)
-  }, [userId, pageType])
+    if (Number(userData.id) === Number(userId)) {
+      setUserInfo(prevState => ({
+        ...userData,
+        isMyAcount: prevState.isMyAcount,
+      }))
+      return
+    }
+  }, [state.userData])
 
   const profileImgStyle = {
     width: '100px',
@@ -33,24 +71,30 @@ const ProfilePage = ({ userId, pageType }) => {
           <Avatar
             className="profile-box_img"
             style={profileImgStyle}
-            src="https://w.namu.la/s/69388e6fe9921a1ed22ef19263516ab891b1cc90862c126cde56f200b29a84e3f3d9e56055f0d09c3d42b44ad7d2b0b19194150da1dc6fae31efb66dd4b85d7047660f1da1f6a0d73ecbe134e12e8ba9"
+            src={userInfo.profileImageUrl || NOIMG}
           />
           <div className="profile-box_inform">
             <div className="profile-box_cofig">
-              <span className="profile-box_nickname">히텧</span>
-              <IconButton
-                className="profile-box_icon"
-                src={CONFIG}
-                alt="회원정보 수정"
-                onClick={() => setVisibleConfigModal(true)}
-              />
-              <ModalInfoModify
-                visible={visibleConfigModal}
-                onClose={() => setVisibleConfigModal(false)}
-              />
+              <span className="profile-box_nickname">{userInfo.nickname}</span>
+              {userInfo.isMyAcount && (
+                <>
+                  <IconButton
+                    className="profile-box_icon"
+                    src={CONFIG}
+                    alt="회원정보 수정"
+                    onClick={() => setVisibleConfigModal(true)}
+                  />
+                  <ModalInfoModify
+                    visible={visibleConfigModal}
+                    onClose={() => setVisibleConfigModal(false)}
+                  />
+                </>
+              )}
             </div>
-            <span className="profile-box_level">Level 1</span>
-            <span className="profile-box_area">동작구 사당동</span>
+            <span className="profile-box_level">
+              Level {userInfo.offerLevel || 1}
+            </span>
+            <span className="profile-box_area">{userInfo.address}</span>
           </div>
         </div>
         <hr className="profile-divider" />
@@ -64,7 +108,9 @@ const ProfilePage = ({ userId, pageType }) => {
                 `}>
                 판매 상품
               </div>
-              <div className="profile-list_content">30</div>
+              <div className="profile-list_content">
+                {userInfo.sellingArticleCount || 0}
+              </div>
             </li>
           </Link>
           <Link href={`/profile/${userId}/like`}>
@@ -75,7 +121,9 @@ const ProfilePage = ({ userId, pageType }) => {
                 }`}>
                 찜한 상품
               </div>
-              <div className="profile-list_content">60</div>
+              <div className="profile-list_content">
+                {userInfo.likedArticleCount || 0}
+              </div>
             </li>
           </Link>
           <Link href={`/profile/${userId}/offer`}>
@@ -86,7 +134,9 @@ const ProfilePage = ({ userId, pageType }) => {
                 }`}>
                 가격 제안
               </div>
-              <div className="profile-list_content">30</div>
+              <div className="profile-list_content">
+                {userInfo.offerCount || 0}
+              </div>
             </li>
           </Link>
           <Link href={`/profile/${userId}/review`}>
@@ -97,7 +147,9 @@ const ProfilePage = ({ userId, pageType }) => {
                 }`}>
                 거래 후기
               </div>
-              <div className="profile-list_content">30</div>
+              <div className="profile-list_content">
+                {userInfo.reviewCount || 0}
+              </div>
             </li>
           </Link>
         </ul>

@@ -6,8 +6,6 @@ import GoodsList from '@components/ui/GoodsList'
 import { GOODSLIST } from '@data/dummy/goodsList'
 
 const Sale = ({ userId }) => {
-  console.log(userId)
-
   useEffect(() => {}, [])
 
   return (
