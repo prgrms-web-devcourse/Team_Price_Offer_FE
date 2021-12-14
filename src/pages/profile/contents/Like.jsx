@@ -8,7 +8,7 @@ import { GOODSLIST } from '@data/dummy/goodsList'
 const Like = ({ userId }) => {
   return (
     <div className="result-container">
-      <div className="result-title">가격 제안</div>
+      <div className="result-title">찜한 상품</div>
       <div className="result-btn-box">
         <Button className="result-btn_item selected">판매 중</Button>
         <Button className="result-btn_item">판매 완료</Button>
