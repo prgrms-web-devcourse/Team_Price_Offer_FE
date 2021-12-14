@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import Divider from '@components/templates/Divider'
+import React, { useCallback, useEffect, useState } from 'react'
+
 import Avatar from '@components/templates/Avatar'
-import Button from '@components/templates/Button'
 import IconButton from '@components/templates/IconButton'
 import ModalInfoModify from '@components/ui/modal/ModalInfoModify'
 import PageContents from '@pages/profile/contents'
@@ -16,6 +15,10 @@ export const getServerSideProps = async context => ({
 const ProfilePage = ({ userId, pageType }) => {
   const configIconPath = require('@assets/images/icon/config.svg').default.src
   const [visibleConfigModal, setVisibleConfigModal] = useState(false)
+
+  const checkCurrentPage = useCallback(pageTypeElem => {
+    return pageType === pageTypeElem ? 'selected' : ''
+  }, [])
 
   useEffect(() => {
     console.log(userId, pageType)
@@ -57,41 +60,32 @@ const ProfilePage = ({ userId, pageType }) => {
         <hr className="profile-divider" />
         <ul className="profile-list">
           <li className="profile-list_item">
-            <div className="profile-list_title selected">판매 상품</div>
+            <div className={`profile-list_title ${checkCurrentPage('sale')}`}>
+              판매 상품
+            </div>
             <div className="profile-list_content">30</div>
           </li>
           <li className="profile-list_item">
-            <div className="profile-list_title">찜한 상품</div>
+            <div className={`profile-list_title ${checkCurrentPage('like')}`}>
+              찜한 상품
+            </div>
             <div className="profile-list_content">60</div>
           </li>
           <li className="profile-list_item">
-            <div className="profile-list_title">가격 제안</div>
+            <div className={`profile-list_title ${checkCurrentPage('offer')}`}>
+              가격 제안
+            </div>
             <div className="profile-list_content">30</div>
           </li>
           <li className="profile-list_item">
-            <div className="profile-list_title">거래 후기</div>
+            <div className={`profile-list_title ${checkCurrentPage('review')}`}>
+              거래 후기
+            </div>
             <div className="profile-list_content">30</div>
           </li>
         </ul>
       </div>
-
-      <div className="result-container">
-        <div className="result-title">가격 제안</div>
-        <div className="result-btn-box">
-          <Button className="result-btn_item selected">판매 중</Button>
-          <Button className="result-btn_item">판매 완료</Button>
-        </div>
-        <div className="result-lineup-box">
-          <span className="result-lineup_item selected">최신순</span>
-          <Divider type="vertical" />
-          <span className="result-lineup_item">낮은 가격순</span>
-          <Divider type="vertical" />
-          <span className="result-lineup_item">높은 가격순</span>
-        </div>
-        <div className="result-content">
-          <PageContents pageType={pageType} />
-        </div>
-      </div>
+      <PageContents pageType={pageType} />
     </div>
   )
 }

@@ -138,62 +138,82 @@ const Review = props => {
     .src
 
   return (
-    <div className="review">
-      <ul className="review-list" style={ulStyle}>
-        {reviewList.map(item => (
-          <>
-            <li key={item.id} className="review-item">
-              <div className="review-profile-box">
-                <Avatar
-                  src={item.src}
-                  className="review-profile-img"
-                  style={avatarStyle}
-                />
-                <div className="review-profile_inform">
-                  <div className="review-reviewer">
-                    <span className="review-reviewer_name">
-                      {item.reviewer}
-                    </span>
-                    <span className="review-reviewer_level">
-                      Lv. {item.level}
-                    </span>
-                  </div>
-                  <div className="review-reviewer_content">{item.content}</div>
-                  <Button
-                    className="review-goods_btn-wrapper"
-                    style={{ border: '1px solid #ccc' }}>
-                    <div className="review-goods_btn">
-                      <div className="review-goods_btn_text">
-                        {item.goodsSold ? '판매상품' : '구매상품'}
-                        <Divider type="vertical" />
-                        {item.title}
+    <div className="result-container">
+      <div className="result-title">거래 후기</div>
+      <div className="result-btn-box">
+        <Button className="result-btn_item selected">판매 후기</Button>
+        <Button className="result-btn_item">구매 후기</Button>
+      </div>
+      <div className="result-lineup-box">
+        <span className="result-lineup_item selected">최신순</span>
+        <Divider type="vertical" />
+        <span className="result-lineup_item">낮은 가격순</span>
+        <Divider type="vertical" />
+        <span className="result-lineup_item">높은 가격순</span>
+      </div>
+      <div className="result-content">
+        <div className="review">
+          <ul className="review-list" style={ulStyle}>
+            {reviewList.map(item => (
+              <>
+                <li key={item.id} className="review-item">
+                  <div className="review-profile-box">
+                    <Avatar
+                      src={item.src}
+                      className="review-profile-img"
+                      style={avatarStyle}
+                    />
+                    <div className="review-profile_inform">
+                      <div className="review-reviewer">
+                        <span className="review-reviewer_name">
+                          {item.reviewer}
+                        </span>
+                        <span className="review-reviewer_level">
+                          Lv. {item.level}
+                        </span>
                       </div>
-                      <div className="review-goods_btn_icn">
-                        <img
-                          src={arrowImgPath}
-                          alt="arrow"
-                          className="review-goods_icon_arrow"
-                        />
+                      <div className="review-reviewer_content">
+                        {item.content}
                       </div>
+                      <Button
+                        className="review-goods_btn-wrapper"
+                        style={{ border: '1px solid #ccc' }}>
+                        <div className="review-goods_btn">
+                          <div className="review-goods_btn_text">
+                            {item.goodsSold ? '판매상품' : '구매상품'}
+                            <Divider type="vertical" />
+                            {item.title}
+                          </div>
+                          <div className="review-goods_btn_icn">
+                            <img
+                              src={arrowImgPath}
+                              alt="arrow"
+                              className="review-goods_icon_arrow"
+                            />
+                          </div>
+                        </div>
+                      </Button>
                     </div>
-                  </Button>
-                </div>
-              </div>
-              <div className="review-side-box">
-                <div style={{ width: '100%', textAlign: 'right' }}>
-                  {item.time}
-                </div>
-                <Button
-                  style={reviewBtnStyle}
-                  className={`review-review_btn ${!item.review && 'leave'}`}>
-                  {item.review === true ? '후기 보기' : '후기 남기기'}
-                </Button>
-              </div>
-            </li>
-            <hr />
-          </>
-        ))}
-      </ul>
+                  </div>
+                  <div className="review-side-box">
+                    <div style={{ width: '100%', textAlign: 'right' }}>
+                      {item.time}
+                    </div>
+                    <Button
+                      style={reviewBtnStyle}
+                      className={`review-review_btn ${
+                        !item.review && 'leave'
+                      }`}>
+                      {item.review === true ? '후기 보기' : '후기 남기기'}
+                    </Button>
+                  </div>
+                </li>
+                <hr />
+              </>
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
   )
 }
