@@ -10,17 +10,21 @@ import {
 const Pagination = ({
   btnStyle,
   className,
+  blockNum = 10,
   postListLength = 155,
   postPerPage = 10,
   paginate,
+  prevPage,
+  nextPage,
 }) => {
   const imgStyle = {
     cursor: 'pointer',
   }
 
+  const maxPageNumber = Math.ceil(postListLength / postPerPage) - 1
   const pageNumbers = Array.from(
-    { length: postListLength / postPerPage },
-    (item, index) => index + 1,
+    { length: maxPageNumber },
+    (_, index) => index + 1,
   )
 
   console.log(PRIMARY)
@@ -28,21 +32,24 @@ const Pagination = ({
   return (
     <Ul>
       <Li>
-        <img style={imgStyle} src={PAGINATION_ARROW_LEFT} alt="이전페이지" />
+        <span onClick={prevPage}>
+          <img style={imgStyle} src={PAGINATION_ARROW_LEFT} alt="이전페이지" />
+        </span>
       </Li>
       {pageNumbers.map(num => (
         <Li key={num}>
           <button
             style={btnStyle}
             className={className}
-            // onClick={() => paginate(num)}
-          >
+            onClick={() => paginate(num)}>
             {num}
           </button>
         </Li>
       ))}
       <Li>
-        <img style={imgStyle} src={PAGINATION_ARROW_RIGHT} alt="다음페이지" />
+        <span onClick={nextPage}>
+          <img style={imgStyle} src={PAGINATION_ARROW_RIGHT} alt="다음페이지" />
+        </span>
       </Li>
     </Ul>
   )
