@@ -7,6 +7,8 @@ export const authApi = {
   checkDuplicates: email => instance.get(`/members?email=${email}`),
   withdrawal: password => auth.delete('/members', password),
   getUserInfo: () => auth.get('/members/me'),
+  getUserProfile: () => auth.get('/members/mypage'),
+  getOtherUserProfile: merberId => instance.get(`/members/${merberId}`),
   modifyUserInfo: userInfo => auth.patch('/members/me', userInfo),
 }
 
