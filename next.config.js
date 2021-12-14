@@ -1,6 +1,15 @@
 const path = require('path')
 
 module.exports = {
+  async redirects() {
+    return [
+      {
+        source: '/profile/contents/:path*',
+        destination: '/',
+        permanent: true,
+      },
+    ]
+  },
   env: {
     BASE_API_HOST: 'http://54.180.35.183:8080',
     KAKAO_API_HOST: 'https://kauth.kakao.com',

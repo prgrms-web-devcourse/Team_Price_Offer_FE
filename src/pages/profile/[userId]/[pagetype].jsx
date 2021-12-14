@@ -2,21 +2,24 @@ import React, { useEffect, useState } from 'react'
 import Divider from '@components/templates/Divider'
 import Avatar from '@components/templates/Avatar'
 import Button from '@components/templates/Button'
-import Sale from '@pages/profile/sale'
+// import Sale from '@pages/profile/sale'
 import IconButton from '@components/templates/IconButton'
 import ModalInfoModify from '@components/ui/modal/ModalInfoModify'
 import { GOODSLIST } from '@data/dummy/goodsList'
 
 export const getServerSideProps = async context => ({
-  props: { userId: context.query.userId },
+  props: {
+    userId: context.query.userId,
+    pagetype: context.query.pagetype,
+  },
 })
 
-const ProfilePage = ({ userId }) => {
+const ProfilePage = ({ userId, pagetype }) => {
   const configIconPath = require('@assets/images/icon/config.svg').default.src
   const [visibleConfigModal, setVisibleConfigModal] = useState(false)
 
   useEffect(() => {
-    console.log(userId)
+    console.log(userId, pagetype)
   }, [])
 
   const profileImgStyle = {
@@ -87,7 +90,7 @@ const ProfilePage = ({ userId }) => {
           <span className="result-lineup_item">높은 가격순</span>
         </div>
         <div className="result-content">
-          <Sale goodsList={GOODSLIST} />
+          {/* <Sale goodsList={GOODSLIST} /> */}
         </div>
       </div>
     </div>
