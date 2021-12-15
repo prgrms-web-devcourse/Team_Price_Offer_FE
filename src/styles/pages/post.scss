@@ -353,6 +353,8 @@
 
 .status-wrapper{
     display: flex;
+    position: relative;
+
 }
 .status-list {
     display: flex;
@@ -366,12 +368,12 @@
     height: 109px;
     border: solid black;
     font-size: 13px;
-    top: 300px;
-    left: 1115px;
+    top: 30px;
+    left: 300px;
   
     @media (max-width: 706px) {
       z-index: 100;
-      left: -91px;
+      left: 300px;
       height: 109px;
     }
   }
