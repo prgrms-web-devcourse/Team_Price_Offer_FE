@@ -8,6 +8,7 @@ import GoodsList from '@components/ui/GoodsList'
 import { FILTER } from '@utils/constant/icon'
 import { articleApi } from '@api/apis'
 import { useRouter } from 'next/router'
+import Pagination from '@components/templates/Pagination'
 import { CATEGORIES } from '../data/dummy/categories'
 import { ORDERWAY } from '../data/dummy/orderway'
 
@@ -34,21 +35,22 @@ const search = props => {
     })
   }
 
-  const fetchGoodsListApi = async () => {
-    const { data } = await articleApi.searchArticles({
-      ...filters,
-      title,
-    })
-    title && setGoodsList(data.elements)
-  }
-
   useEffect(() => {
     if (!title) {
       router.push('/')
       return
     }
-    fetchGoodsListApi()
+
+    fetchGoodsListApi(title)
   }, [title])
+
+  const fetchGoodsListApi = useCallback(async title => {
+    const { data } = await articleApi.searchArticles({
+      title,
+      ...filters,
+    })
+    title && setGoodsList(data.elements)
+  }, [])
 
   const [isopenedFilter, setIsopenedFilter] = useState(false)
 
@@ -177,6 +179,7 @@ const search = props => {
         <div className="result-body">
           {title && <GoodsList goodsList={goodsList} />}
         </div>
+        <Pagination />
       </div>
     </div>
   )
