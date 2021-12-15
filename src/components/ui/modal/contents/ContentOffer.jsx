@@ -25,6 +25,7 @@ const ContentOffer = props => {
       console.log(res)
       if (Number(res.code) === 200) {
         alert(`${values.offerPrice} 원 오퍼 완료!.`)
+        window.location.reload()
         router.push(0)
       } else {
         alert(res.message)
