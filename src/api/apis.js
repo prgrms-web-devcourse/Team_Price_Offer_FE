@@ -24,11 +24,12 @@ export const userApi = {
       params,
     }),
   getUserBuyReviews: memberId =>
-    instance.get(`/reviews?memberId=${memberId}&status=buy`),
+    instance.get(`/reviews?memberId=${memberId}&role=buyer`),
   getUserSellReviews: memberId =>
-    instance.get(`/reviews?memberId=${memberId}&status=sell`),
-  postReview: ({ offerId, memberId, content }) =>
-    auth.post(`/reviews/offers/${offerId}?toMember=${memberId}`, content),
+    instance.get(`/reviews?memberId=${memberId}&role=seller`),
+  getUserReview: articleId => auth.get(`/reviews/me?articleId=${articleId}`),
+  postReview: ({ articleId, payload }) =>
+    auth.post(`/reviews?articleId=${articleId}`, payload),
 }
 
 export const reviewApi = {
