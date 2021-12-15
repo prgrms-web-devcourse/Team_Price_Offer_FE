@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
 import Avatar from '@components/templates/Avatar'
 import ICONBUTTON from '@components/templates/IconButton'
 import DIVIDER from '@components/templates/Divider'
@@ -8,24 +7,30 @@ import BUTTON from '@components/templates/Button'
 import Dialog from '@components/templates/Dialog'
 import { STATUSLIST } from '@data/dummy/postStatusdialogList'
 import { OFFER, OPTIONS } from '@utils/constant/icon'
-import { useRouter } from 'next/router'
 import { articleApi } from '@api/apis'
 import { useAuthContext } from '@hooks/useAuthContext'
 import { timeForToday } from '@utils/functions'
 import useStorage from '@hooks/useStorage'
 import SelectBox from '@components/templates/Selectbox'
 import ModalOffer from '@components/ui/modal/ModalOffer'
-import Like from '../components/templates/ToggleButton'
+import ModalLogin from '@components/ui/modal/ModalLogin'
+import ModalConfirmBuyer from '@components/ui/modal/ModalConfirmBuyer'
+import Like from '@components/templates/ToggleButton'
 
+export const getServerSideProps = async context => {
+  // const { data } = await articleApi.getArticleUserID(context.query.id)
+  return {
+    props: {
+      postId: context.query.id,
+      // data,
+    },
+  }
+}
 const { getItem, setItem, clear } = useStorage()
 
-const Post = props => {
+const Post = ({ postId, data }) => {
   const { state } = useAuthContext()
   const userId = state.userData.id
-  const router = useRouter()
-  // const { postId } = router.query
-  const postId = 9
-
   setItem('postId', postId)
   const [dialogVisible, setDialogVisible] = useState(false)
   const [postData, setPostData] = useState([{}])
@@ -35,12 +40,15 @@ const Post = props => {
   const [offerList, setOfferList] = useState([{}])
   const [isMounted, setMounted] = useState(false)
   const [visible, setVisible] = useState(false)
+  const [loginVisible, setLoginVisible] = useState(false)
+  const [confirmVisible, setConfirmVisible] = useState(false)
 
   useEffect(async () => {
     const imageUrls = await articleApi.getImgUrlList(postId)
     const { data } = await articleApi.getArticleUserID(postId)
     const offerList = await articleApi.getOffersList(postId)
-    await setPostData(data.article)
+
+    setPostData(data.article)
     setimgUrls(imageUrls.data.imageUrls)
     setOfferList(offerList.data)
     data.article.author.id === userId ? setisWriter(true) : setisWriter(false)
@@ -48,15 +56,14 @@ const Post = props => {
       ? setTradeStatus(true)
       : setTradeStatus(false)
     setMounted(true)
-  }, [state, tradeStatus])
+  }, [state])
 
-  console.log('1')
-
-  // console.log('거래상태:', tradeStatus)
-  // console.log('게시글 작성자 여부', isWriter)
+  console.log('거래상태:', tradeStatus)
+  console.log('게시글 작성자 여부', isWriter)
   console.log('포스트 데이터', postData)
   console.log('포스트 이미지 데이터', imgUrls)
   console.log('오퍼 목록', offerList)
+
   const dialogClick = e => {
     e.stopPropagation()
     setDialogVisible(true)
@@ -64,14 +71,15 @@ const Post = props => {
 
   const handleChange = async e => {
     const code = Number(e.target.value)
-    const postId = getItem('postId')
-    console.log(code)
+    const getPostId = postId
+    console.log(getPostId)
 
     if (code === 2) {
       // 예약중
       if (confirm('예약중으로 변경하시겠습니까?')) {
+        console.log(getPostId)
         const res = await articleApi.changeTradeStatus({
-          articleId: postId,
+          articleId: getPostId,
           option: {
             code: 2,
           },
@@ -85,7 +93,7 @@ const Post = props => {
       // 판매중
       if (confirm('예약을 취소하고 판매중으로 변경하시겠습니까?')) {
         const res = await articleApi.changeTradeStatus({
-          articleId: postId,
+          articleId: getPostId,
           option: {
             code: 4,
           },
@@ -99,18 +107,18 @@ const Post = props => {
       // 거래완료
       if (confirm('거래완료를 누르면 되돌릴 수 없습니다. 계속하시겠습니까?')) {
         const res = await articleApi.changeTradeStatus({
-          articleId: postId,
+          articleId: getPostId,
           option: {
             code: 8,
           },
         })
         setTradeStatus(false)
+        setConfirmVisible(true)
       } else {
         e.target.value = await postData.tradeStatus.code
       }
     }
   }
-  console.log(postData.isLiked)
 
   return (
     <div className="detail">
@@ -311,7 +319,7 @@ const Post = props => {
                         </div>
                         <div className="offer-time" />
                       </div> */}
-                      {offerList.elements.map((offererList, index) => (
+                      {offerList.elements.map(offererList => (
                         <div className="offer-user-info" key={offererList.id}>
                           <div className="offer-subinfo">
                             <div className="offer-username">
@@ -372,14 +380,25 @@ const Post = props => {
                         <>
                           <BUTTON
                             className="offer-button"
-                            onClick={() => setVisible(true)}>
-                            가격 제안하기(0/2)
+                            onClick={() =>
+                              state.token
+                                ? setVisible(true)
+                                : setLoginVisible(true)
+                            }>
+                            {/* isWritingAvailableFromCurrentMember */}
+                            가격 제안하기({offerList.pageInfo.totalElementCount}
+                            /2)
                           </BUTTON>
                           <ModalOffer
                             visible={visible}
                             onClose={() => setVisible(false)}>
                             오퍼모달
                           </ModalOffer>
+                          <ModalLogin
+                            visible={loginVisible}
+                            onClose={() => setLoginVisible(false)}>
+                            로그인 모달
+                          </ModalLogin>
                         </>
                       )}
                     </>
@@ -396,6 +415,12 @@ const Post = props => {
       ) : (
         ''
       )}
+      <ModalConfirmBuyer
+        visible={confirmVisible}
+        onClose={() => setConfirmVisible(false)}
+        postId={postId}>
+        구매자 확정 모달
+      </ModalConfirmBuyer>
     </div>
   )
 }
@@ -403,3 +428,11 @@ const Post = props => {
 Post.propTypes = {}
 
 export default Post
+
+// export async function getStaticPaths() {
+//   // Return a list of possible value for id
+// }
+
+// export async function getStaticProps({ params }) {
+//   // Fetch necessary data for the blog post using params.id
+// }

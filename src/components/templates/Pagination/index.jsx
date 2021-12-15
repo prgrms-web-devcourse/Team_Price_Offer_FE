@@ -12,7 +12,7 @@ const Pagination = ({
   className,
   blockNum = 10,
   postListLength = 155,
-  size = 10,
+  size = 10, // 페이지에 몇개 포스팅
   paginate,
   setStartPage,
 }) => {

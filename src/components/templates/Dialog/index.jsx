@@ -19,6 +19,14 @@ const Dialog = ({ style, className, visible = false, items, onClose }) => {
 
     if (code === 'modify') {
       alert('게시글 수정')
+      const getPostId = getItem('postId').replaceAll('"', '')
+      // router.push({
+      //   pathname: '/posting',
+      //   query: {
+      //     postId: getPostId,
+      //   },
+      // })
+      router.push(`/posting/${getPostId}`)
     }
 
     if (code === 'delete') {

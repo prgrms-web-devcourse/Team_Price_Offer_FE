@@ -12,8 +12,19 @@ import { CATEGORIES } from '@data/dummy/categories'
 import { ORDERWAY } from '@data/dummy/orderway'
 import { PRODUCT_STATUS } from '@data/dummy/productstatus'
 import { useFormik } from 'formik'
+import router from 'next/router'
 
-const posting = () => {
+export const getServerSideProps = async context => {
+  // const { data } = await articleApi.getArticleUserID(context.query.id)
+  return {
+    props: {
+      postId: context.query.id,
+      // data,
+    },
+  }
+}
+
+const posting = ({ postId }) => {
   const commonDividerStyle = {
     width: '100%',
   }
@@ -88,7 +99,7 @@ const posting = () => {
         imgRef3.current.src === imgSrc ? null : imgRef1.current.src
 
       const userInfo = {
-        id: null,
+        id: postId,
         title: values.title,
         content: values.content,
         categoryCode: values.category,
@@ -101,10 +112,10 @@ const posting = () => {
       }
       console.log(userInfo)
       const res = await articleApi.editArticle(userInfo)
-      console.log(res)
       if (Number(res.code) === 200) {
         console.log(res)
         alert('게시글 등록 완료')
+        router.push(`/post/${res.data.id}`)
       }
     },
   })
