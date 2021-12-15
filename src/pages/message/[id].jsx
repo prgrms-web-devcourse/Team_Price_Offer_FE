@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Avatar from '@components/templates/Avatar'
 import MessageBox from '@components/templates/Message'
 import TextArea from '@components/templates/Textarea'
 import IconButton from '@components/templates/IconButton'
 import { FETCH } from '@utils/constant/icon'
+import { messageApi } from '@api/apis'
+import Image from '@components/templates/Image'
 
 const fetchImgurl = FETCH
 
@@ -16,7 +18,33 @@ export const getServerSideProps = async context => {
 }
 
 const MessagePage = ({ userId }) => {
-  console.log(userId)
+  const [messageBoxList, setMessageBoxList] = useState(null)
+  const [currentPage, setcurrentPage] = useState(1)
+
+  const fetchMessageBox = useCallback(async () => {
+    const { data } = await messageApi.getMessageBox
+    const { elements, pageInfo } = data
+
+    setMessageBoxList(elements)
+  }, [messageBoxList])
+
+  const fetchSelectedMessageRoom = useCallback(async () => {
+    const { data } = await messageApi
+  })
+
+  useEffect(() => {
+    fetchMessageBox()
+  }, [])
+
+  // message: {content: "저랑 겋래해요 !!!", createdDate: "2021-12-16T03:45:41"}
+  // content: "저랑 겋래해요 !!!"
+  // createdDate: "2021-12-16T03:45:41"
+  // messageRoomId: 3
+  // productImageUrl: "https://team4-offer.s3.ap-northeast-2.amazonaws.com/profileImage/20211215_0240186.jpg"
+  // userInfo: {nickName: "nonono", profileImageUrl: null, address: "새벽두시"}
+  // address: "새벽두시"
+  // nickName: "nonono"
+  // profileImageUrl: null
   return (
     <div className="message">
       <div className="message-list-wrapper">
@@ -25,266 +53,36 @@ const MessagePage = ({ userId }) => {
         </div>
         <div className="message-body">
           <div className="message-list">
-            <div className="message-item">
-              <div className="message-item_left">
-                <Avatar
-                  className="message-avatar"
-                  src="https://picsum.photos/100"
-                  alt="avatar"
-                />
-                <div className="message-item_info-wrapper">
-                  <p className="message-item_info">
-                    <span className="message-item_info-name">황금효정</span>
-                    <span className="message-item_info-meta">
-                      관악구 봉천동 · 2분전
-                    </span>
-                  </p>
-                  <p className="message-item_text">
-                    팔렸습니다
-                    ㅠasdassadsadasdasssssasdasdsasdsadsadsadasdassssssadsadasdassssssadsadasdasssssㅠ
-                  </p>
+            {messageBoxList &&
+              messageBoxList.map(messageBox => (
+                <div className="message-item" key={messageBox.messageRoomId}>
+                  <div className="message-item_left">
+                    <Avatar
+                      className="message-avatar"
+                      src={messageBox.userInfo.profileImageUrl}
+                      alt="avatar"
+                    />
+                    <div className="message-item_info-wrapper">
+                      <p className="message-item_info">
+                        <span className="message-item_info-name">
+                          {messageBox.userInfo.nickName}
+                        </span>
+                        <span className="message-item_info-meta">
+                          {messageBox.userInfo.address} · 2분전
+                        </span>
+                      </p>
+                      <p className="message-item_text">
+                        {messageBox.message.content}
+                      </p>
+                    </div>
+                  </div>
+                  <Image
+                    className="message-product"
+                    src={messageBox.productImageUrl}
+                    alt="product"
+                  />
                 </div>
-              </div>
-              <img
-                className="message-product"
-                src="https://picsum.photos/100"
-                alt="product"
-              />
-            </div>
-            <div className="message-item">
-              <div className="message-item_left">
-                <Avatar
-                  className="message-avatar"
-                  src="https://picsum.photos/100"
-                  alt="avatar"
-                />
-                <div className="message-item_info-wrapper">
-                  <p className="message-item_info">
-                    <span className="message-item_info-name">황금효정</span>
-                    <span className="message-item_info-meta">
-                      관악구 봉천동 · 2분전
-                    </span>
-                  </p>
-                  <p className="message-item_text">
-                    팔렸습니다
-                    ㅠasdassadsadasdasssssasdasdsasdsadsadsadasdassssssadsadasdassssssadsadasdasssssㅠ
-                  </p>
-                </div>
-              </div>
-              <img
-                className="message-product"
-                src="https://picsum.photos/100"
-                alt="product"
-              />
-            </div>
-            <div className="message-item">
-              <div className="message-item_left">
-                <Avatar
-                  className="message-avatar"
-                  src="https://picsum.photos/100"
-                  alt="avatar"
-                />
-                <div className="message-item_info-wrapper">
-                  <p className="message-item_info">
-                    <span className="message-item_info-name">황금효정</span>
-                    <span className="message-item_info-meta">
-                      관악구 봉천동 · 2분전
-                    </span>
-                  </p>
-                  <p className="message-item_text">
-                    팔렸습니다
-                    ㅠasdassadsadasdasssssasdasdsasdsadsadsadasdassssssadsadasdassssssadsadasdasssssㅠ
-                  </p>
-                </div>
-              </div>
-              <img
-                className="message-product"
-                src="https://picsum.photos/100"
-                alt="product"
-              />
-            </div>
-            <div className="message-item">
-              <div className="message-item_left">
-                <Avatar
-                  className="message-avatar"
-                  src="https://picsum.photos/100"
-                  alt="avatar"
-                />
-                <div className="message-item_info-wrapper">
-                  <p className="message-item_info">
-                    <span className="message-item_info-name">황금효정</span>
-                    <span className="message-item_info-meta">
-                      관악구 봉천동 · 2분전
-                    </span>
-                  </p>
-                  <p className="message-item_text">
-                    팔렸습니다
-                    ㅠasdassadsadasdasssssasdasdsasdsadsadsadasdassssssadsadasdassssssadsadasdasssssㅠ
-                  </p>
-                </div>
-              </div>
-              <img
-                className="message-product"
-                src="https://picsum.photos/100"
-                alt="product"
-              />
-            </div>
-            <div className="message-item">
-              <div className="message-item_left">
-                <Avatar
-                  className="message-avatar"
-                  src="https://picsum.photos/100"
-                  alt="avatar"
-                />
-                <div className="message-item_info-wrapper">
-                  <p className="message-item_info">
-                    <span className="message-item_info-name">황금효정</span>
-                    <span className="message-item_info-meta">
-                      관악구 봉천동 · 2분전
-                    </span>
-                  </p>
-                  <p className="message-item_text">
-                    팔렸습니다
-                    ㅠasdassadsadasdasssssasdasdsasdsadsadsadasdassssssadsadasdassssssadsadasdasssssㅠ
-                  </p>
-                </div>
-              </div>
-              <img
-                className="message-product"
-                src="https://picsum.photos/100"
-                alt="product"
-              />
-            </div>
-            <div className="message-item">
-              <div className="message-item_left">
-                <Avatar
-                  className="message-avatar"
-                  src="https://picsum.photos/100"
-                  alt="avatar"
-                />
-                <div className="message-item_info-wrapper">
-                  <p className="message-item_info">
-                    <span className="message-item_info-name">황금효정</span>
-                    <span className="message-item_info-meta">
-                      관악구 봉천동 · 2분전
-                    </span>
-                  </p>
-                  <p className="message-item_text">
-                    팔렸습니다
-                    ㅠasdassadsadasdasssssasdasdsasdsadsadsadasdassssssadsadasdassssssadsadasdasssssㅠ
-                  </p>
-                </div>
-              </div>
-              <img
-                className="message-product"
-                src="https://picsum.photos/100"
-                alt="product"
-              />
-            </div>
-            <div className="message-item">
-              <div className="message-item_left">
-                <Avatar
-                  className="message-avatar"
-                  src="https://picsum.photos/100"
-                  alt="avatar"
-                />
-                <div className="message-item_info-wrapper">
-                  <p className="message-item_info">
-                    <span className="message-item_info-name">황금효정</span>
-                    <span className="message-item_info-meta">
-                      관악구 봉천동 · 2분전
-                    </span>
-                  </p>
-                  <p className="message-item_text">
-                    팔렸습니다
-                    ㅠasdassadsadasdasssssasdasdsasdsadsadsadasdassssssadsadasdassssssadsadasdasssssㅠ
-                  </p>
-                </div>
-              </div>
-              <img
-                className="message-product"
-                src="https://picsum.photos/100"
-                alt="product"
-              />
-            </div>
-            <div className="message-item">
-              <div className="message-item_left">
-                <Avatar
-                  className="message-avatar"
-                  src="https://picsum.photos/100"
-                  alt="avatar"
-                />
-                <div className="message-item_info-wrapper">
-                  <p className="message-item_info">
-                    <span className="message-item_info-name">황금효정</span>
-                    <span className="message-item_info-meta">
-                      관악구 봉천동 · 2분전
-                    </span>
-                  </p>
-                  <p className="message-item_text">
-                    팔렸습니다
-                    ㅠasdassadsadasdasssssasdasdsasdsadsadsadasdassssssadsadasdassssssadsadasdasssssㅠ
-                  </p>
-                </div>
-              </div>
-              <img
-                className="message-product"
-                src="https://picsum.photos/100"
-                alt="product"
-              />
-            </div>
-            <div className="message-item">
-              <div className="message-item_left">
-                <Avatar
-                  className="message-avatar"
-                  src="https://picsum.photos/100"
-                  alt="avatar"
-                />
-                <div className="message-item_info-wrapper">
-                  <p className="message-item_info">
-                    <span className="message-item_info-name">황금효정</span>
-                    <span className="message-item_info-meta">
-                      관악구 봉천동 · 2분전
-                    </span>
-                  </p>
-                  <p className="message-item_text">
-                    팔렸습니다
-                    ㅠasdassadsadasdasssssasdasdsasdsadsadsadasdassssssadsadasdassssssadsadasdasssssㅠ
-                  </p>
-                </div>
-              </div>
-              <img
-                className="message-product"
-                src="https://picsum.photos/100"
-                alt="product"
-              />
-            </div>
-            <div className="message-item">
-              <div className="message-item_left">
-                <Avatar
-                  className="message-avatar"
-                  src="https://picsum.photos/100"
-                  alt="avatar"
-                />
-                <div className="message-item_info-wrapper">
-                  <p className="message-item_info">
-                    <span className="message-item_info-name">황금효정</span>
-                    <span className="message-item_info-meta">
-                      관악구 봉천동 · 2분전
-                    </span>
-                  </p>
-                  <p className="message-item_text">
-                    팔렸습니다
-                    ㅠasdassadsadasdasssssasdasdsasdsadsadsadasdassssssadsadasdassssssadsadasdasssssㅠ
-                  </p>
-                </div>
-              </div>
-              <img
-                className="message-product"
-                src="https://picsum.photos/100"
-                alt="product"
-              />
-            </div>
+              ))}
           </div>
         </div>
       </div>
