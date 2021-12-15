@@ -364,16 +364,24 @@ const Post = props => {
                 <div className="offer-state">
                   {tradeStatus ? (
                     <>
-                      <BUTTON
-                        className="offer-button"
-                        onClick={() => setVisible(true)}>
-                        가격 제안하기(0/2)
-                      </BUTTON>
-                      <ModalOffer
-                        visible={visible}
-                        onClose={() => setVisible(false)}>
-                        오퍼모달
-                      </ModalOffer>
+                      {isWriter ? (
+                        <div className="offer-state_ban">
+                          글 작성자는 오퍼를 할 수 없어요!
+                        </div>
+                      ) : (
+                        <>
+                          <BUTTON
+                            className="offer-button"
+                            onClick={() => setVisible(true)}>
+                            가격 제안하기(0/2)
+                          </BUTTON>
+                          <ModalOffer
+                            visible={visible}
+                            onClose={() => setVisible(false)}>
+                            오퍼모달
+                          </ModalOffer>
+                        </>
+                      )}
                     </>
                   ) : (
                     <div className="offer-state_ban">
