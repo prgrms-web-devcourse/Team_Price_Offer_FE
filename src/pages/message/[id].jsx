@@ -20,31 +20,71 @@ export const getServerSideProps = async context => {
 const MessagePage = ({ userId }) => {
   const [messageBoxList, setMessageBoxList] = useState(null)
   const [currentPage, setcurrentPage] = useState(1)
+  const [messageList, setMessageList] = useState(null)
+  const [messageRoomInfo, setMessageRoomInfo] = useState(null)
 
   const fetchMessageBox = useCallback(async () => {
     const { data } = await messageApi.getMessageBox
-    const { elements, pageInfo } = data
 
-    setMessageBoxList(elements)
-  }, [messageBoxList])
+    setMessageBoxList(data.elements || null)
+  }, [])
 
-  const fetchSelectedMessageRoom = useCallback(async () => {
-    const { data } = await messageApi
-  })
+  const fetchSelectedMessageRoom = useCallback(async messageRoomId => {
+    const roomInfoRes = await messageApi.getMessageRoomInfo({ messageRoomId })
+    const messageListRes = await messageApi.getMessageList({
+      messageRoomId,
+      params: {
+        page: 1,
+        size: 10,
+      },
+    })
+
+    setMessageRoomInfo(() => roomInfoRes.data)
+    setMessageList(() => messageListRes.data.elements)
+  }, [])
 
   useEffect(() => {
     fetchMessageBox()
   }, [])
 
-  // message: {content: "저랑 겋래해요 !!!", createdDate: "2021-12-16T03:45:41"}
-  // content: "저랑 겋래해요 !!!"
-  // createdDate: "2021-12-16T03:45:41"
-  // messageRoomId: 3
-  // productImageUrl: "https://team4-offer.s3.ap-northeast-2.amazonaws.com/profileImage/20211215_0240186.jpg"
-  // userInfo: {nickName: "nonono", profileImageUrl: null, address: "새벽두시"}
-  // address: "새벽두시"
-  // nickName: "nonono"
-  // profileImageUrl: null
+  const printList =
+    messageList &&
+    messageList.map(message =>
+      message.isSendMessage ? (
+        <div className="message-chat_seller">
+          <Avatar
+            className="message-avatar"
+            src={messageRoomInfo.messagePartnerInfo.profileImageUrl}
+            alt="avatar"
+          />
+          <div className="chat-wrapper">
+            <div className="message-wrapper">
+              <div className="message-chat_box-wrapper">
+                <MessageBox className="message-chat_box">
+                  {message.content}
+                </MessageBox>
+              </div>
+              {/* <div className="message-chat_box-wrapper">
+              <MessageBox className="message-chat_box">잠시만요~</MessageBox>
+            </div> */}
+            </div>
+            <span className="message-time">{message.createdDate}</span>
+          </div>
+        </div>
+      ) : (
+        <div className="message-chat_buyer">
+          <div className="chat-wrapper">
+            <span className="message-time">{message.createdDate}</span>
+            <div className="message-wrapper">
+              <MessageBox className="message-chat_box">
+                {message.content}
+              </MessageBox>
+            </div>
+          </div>
+        </div>
+      ),
+    )
+
   return (
     <div className="message">
       <div className="message-list-wrapper">
@@ -55,7 +95,12 @@ const MessagePage = ({ userId }) => {
           <div className="message-list">
             {messageBoxList &&
               messageBoxList.map(messageBox => (
-                <div className="message-item" key={messageBox.messageRoomId}>
+                <div
+                  className="message-item"
+                  key={messageBox.messageRoomId}
+                  onClick={() =>
+                    fetchSelectedMessageRoom(messageBox.messageRoomId)
+                  }>
                   <div className="message-item_left">
                     <Avatar
                       className="message-avatar"
@@ -86,212 +131,57 @@ const MessagePage = ({ userId }) => {
           </div>
         </div>
       </div>
+
       <div className="message-chat-wrapper">
-        <div className="message-header chat">
-          <h2 className="message-header-title">황금요정님과의 쪽지</h2>
-          <IconButton src={fetchImgurl} alt="fetch" />
-        </div>
-        <div className="message-body">
-          <div className="message-chat_info">
-            <img
-              className="message-product"
-              src="https://picsum.photos/100"
-              alt="product"
-            />
-            <div className="message-product_info">
-              <span className="message-product_info-title">
-                신발 수납(슈박스), 화장품 수납 + 적재 가능신발 수납(슈박스),
-                화장품 수납 + 적재 가능 신발 수납(슈박스), 화장품 수납 + 적재
-                가능
-              </span>
-              <p className="message-product_info-price">
-                <span className="message-product_info-default">1,000원</span>
-                <span className="message-product_info-offer">
-                  (제안가: 800원)
-                </span>
-              </p>
+        {messageList && messageRoomInfo && (
+          <>
+            <div className="message-header chat">
+              <h2 className="message-header-title">
+                {messageRoomInfo.messagePartnerInfo.nickName}과의 쪽지
+              </h2>
+              <IconButton src={fetchImgurl} alt="fetch" />
             </div>
-          </div>
-          <div className="message-chat_cont">
-            <div className="message-chat">
-              <div className="message-chat_seller">
-                <Avatar
-                  className="message-avatar"
+            <div className="message-body">
+              <div className="message-chat_info">
+                <img
+                  className="message-product"
                   src="https://picsum.photos/100"
-                  alt="avatar"
+                  alt="product"
                 />
-                <div className="chat-wrapper">
-                  <div className="message-wrapper">
-                    <div className="message-chat_box-wrapper">
-                      <MessageBox className="message-chat_box">
-                        다음 주말 괜찮으실까요?
-                      </MessageBox>
-                    </div>
-                    <div className="message-chat_box-wrapper">
-                      <MessageBox className="message-chat_box">
-                        잠시만요~
-                      </MessageBox>
-                    </div>
-                  </div>
-                  <span className="message-time">오후 9:41</span>
+                <div className="message-product_info">
+                  <span className="message-product_info-title">
+                    {messageRoomInfo.articleInfo.title}
+                  </span>
+                  <p className="message-product_info-price">
+                    <span className="message-product_info-default">
+                      {messageRoomInfo.articleInfo.price}
+                    </span>
+                    <span className="message-product_info-offer">
+                      (제안가: {messageRoomInfo.articleInfo.offerPrice}
+                      원)
+                    </span>
+                  </p>
                 </div>
               </div>
-              <div className="message-chat_buyer">
-                <div className="chat-wrapper">
-                  <span className="message-time">오후 9:41</span>
-                  <div className="message-wrapper">
-                    <MessageBox className="message-chat_box">
-                      죄송합니다 ㅠㅠ
-                    </MessageBox>
-                  </div>
-                </div>
-              </div>
-              <div className="message-chat_seller">
-                <Avatar
-                  className="message-avatar"
-                  src="https://picsum.photos/100"
-                  alt="avatar"
-                />
-                <div className="chat-wrapper">
-                  <div className="message-wrapper">
-                    <div className="message-chat_box-wrapper">
-                      <MessageBox className="message-chat_box">
-                        다음 주말 괜찮으실까요?
-                      </MessageBox>
+              <div className="message-chat_cont">
+                <div className="message-chat">{messageList && printList}</div>
+                <div className="message-textarea-wrapper">
+                  <TextArea
+                    placeholder="메시지를 입력해주세요."
+                    className="message-textarea"
+                  />
+                  <div className="message-limit_box">
+                    <div className="message-limit_text">
+                      <span className="message-limit_current">0</span>
+                      <span>/ 100</span>
                     </div>
-                    <div className="message-chat_box-wrapper">
-                      <MessageBox className="message-chat_box">
-                        잠시만요~
-                      </MessageBox>
-                    </div>
-                  </div>
-                  <span className="message-time">오후 9:41</span>
-                </div>
-              </div>
-              <div className="message-chat_buyer">
-                <div className="chat-wrapper">
-                  <span className="message-time">오후 9:41</span>
-                  <div className="message-wrapper">
-                    <MessageBox className="message-chat_box">
-                      죄송합니다 ㅠㅠ
-                    </MessageBox>
-                  </div>
-                </div>
-              </div>
-              <div className="message-chat_seller">
-                <Avatar
-                  className="message-avatar"
-                  src="https://picsum.photos/100"
-                  alt="avatar"
-                />
-                <div className="chat-wrapper">
-                  <div className="message-wrapper">
-                    <div className="message-chat_box-wrapper">
-                      <MessageBox className="message-chat_box">
-                        다음 주말 괜찮으실까요?
-                      </MessageBox>
-                    </div>
-                    <div className="message-chat_box-wrapper">
-                      <MessageBox className="message-chat_box">
-                        잠시만요~
-                      </MessageBox>
-                    </div>
-                  </div>
-                  <span className="message-time">오후 9:41</span>
-                </div>
-              </div>
-              <div className="message-chat_buyer">
-                <div className="chat-wrapper">
-                  <span className="message-time">오후 9:41</span>
-                  <div className="message-wrapper">
-                    <MessageBox className="message-chat_box">
-                      죄송합니다 ㅠㅠ
-                    </MessageBox>
-                  </div>
-                </div>
-              </div>
-              <div className="message-chat_seller">
-                <Avatar
-                  className="message-avatar"
-                  src="https://picsum.photos/100"
-                  alt="avatar"
-                />
-                <div className="chat-wrapper">
-                  <div className="message-wrapper">
-                    <div className="message-chat_box-wrapper">
-                      <MessageBox className="message-chat_box">
-                        다음 주말 괜찮으실까요?
-                      </MessageBox>
-                    </div>
-                    <div className="message-chat_box-wrapper">
-                      <MessageBox className="message-chat_box">
-                        잠시만요~
-                      </MessageBox>
-                    </div>
-                  </div>
-                  <span className="message-time">오후 9:41</span>
-                </div>
-              </div>
-              <div className="message-chat_buyer">
-                <div className="chat-wrapper">
-                  <span className="message-time">오후 9:41</span>
-                  <div className="message-wrapper">
-                    <MessageBox className="message-chat_box">
-                      죄송합니다 ㅠㅠ
-                    </MessageBox>
-                  </div>
-                </div>
-              </div>
-              <div className="message-chat_seller">
-                <Avatar
-                  className="message-avatar"
-                  src="https://picsum.photos/100"
-                  alt="avatar"
-                />
-                <div className="chat-wrapper">
-                  <div className="message-wrapper">
-                    <div className="message-chat_box-wrapper">
-                      <MessageBox className="message-chat_box">
-                        다음 주말 괜찮으실까요?다음 주말 괜찮으실까요?다음 주말
-                        괜찮으실까요?다음 주말 괜찮으실까요?다음 주말
-                        괜찮으실까요?
-                      </MessageBox>
-                    </div>
-                    <div className="message-chat_box-wrapper">
-                      <MessageBox className="message-chat_box">
-                        잠시만요~
-                      </MessageBox>
-                    </div>
-                  </div>
-                  <span className="message-time">오후 9:41</span>
-                </div>
-              </div>
-              <div className="message-chat_buyer">
-                <div className="chat-wrapper">
-                  <span className="message-time">오후 9:41</span>
-                  <div className="message-wrapper">
-                    <MessageBox className="message-chat_box">
-                      죄송합니다 ㅠㅠ
-                    </MessageBox>
+                    <button>전송</button>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="message-textarea-wrapper">
-              <TextArea
-                placeholder="메시지를 입력해주세요."
-                className="message-textarea"
-              />
-              <div className="message-limit_box">
-                <div className="message-limit_text">
-                  <span className="message-limit_current">0</span>
-                  <span>/ 100</span>
-                </div>
-                <button>전송</button>
-              </div>
-            </div>
-          </div>
-        </div>
+          </>
+        )}
       </div>
     </div>
   )
