@@ -12,22 +12,24 @@ const Pagination = ({
   className,
   blockNum = 10,
   postListLength = 155,
-  postPerPage = 10,
+  size = 10,
   paginate,
   setStartPage,
 }) => {
   const currentPage = useRef(1)
   const startPage = useRef(1)
-  const endPage = useRef(postPerPage)
-  const maxPageNumber = Math.ceil(postListLength / postPerPage)
+  const endPage = useRef(blockNum)
+  const maxPageNumber = Math.ceil(postListLength / size)
   const pageNumbers = Array.from(
     { length: maxPageNumber },
     (_, index) => index + 1,
   )
 
   const hadleClickPageNum = num => {
-    paginate(num)
-    currentPage.current = num
+    if (num !== currentPage.current) {
+      paginate(num)
+      currentPage.current = num
+    }
   }
 
   const prevPage = () => {
@@ -35,6 +37,7 @@ const Pagination = ({
       startPage.current -= blockNum
       endPage.current -= blockNum
       setStartPage(startPage.current)
+      currentPage.current = startPage.current
     }
   }
 
@@ -43,54 +46,22 @@ const Pagination = ({
       startPage.current += blockNum
       endPage.current += blockNum
       setStartPage(startPage.current)
+      currentPage.current = startPage.current
     }
   }
 
-  const containerStyle = {
-    backgroundColor: 'white',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
-
-  const ulStyle = {
-    margin: '0 20px',
-    minWidth: '340px',
-    display: 'flex',
-    justifyContent: 'center',
-  }
-
-  const listStyle = {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: '0 2px',
-    backgroundColor: 'white',
-  }
-
-  const defaultBtnStyle = {
-    border: 'none',
-    padding: '20%',
-    borderRadius: '100%',
-    width: '30px',
-    height: '30px',
-    fontSize: '14px',
-    cursor: 'pointer',
-    ...btnStyle,
-  }
-
   return (
-    <PaginationContainer style={containerStyle} className={className}>
+    <PaginationContainer className={className}>
       <span onClick={prevPage} style={{ cursor: 'pointer' }}>
         <img src={PAGINATION_ARROW_LEFT} alt="이전페이지" />
       </span>
-      <Ul style={ulStyle}>
+      <Ul>
         {pageNumbers
           .filter(num => num >= startPage.current && num <= endPage.current)
           .map(num => (
-            <Li style={listStyle} key={num}>
+            <Li key={num}>
               <Btn
-                style={defaultBtnStyle}
+                style={btnStyle}
                 className={num === currentPage.current && 'selected'}
                 onClick={() => hadleClickPageNum(num)}>
                 {num}
@@ -105,17 +76,39 @@ const Pagination = ({
   )
 }
 
-const PaginationContainer = styled.div``
+const PaginationContainer = styled.div`
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 
 const Ul = styled.ul`
   list-style: none;
+  margin: 0 20px;
+  min-width: 340px;
+  display: flex;
+  justify-content: center;
 `
 const Li = styled.li`
+  background-color: white;
   float: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 2px;
 `
 
 const Btn = styled.button`
   background-color: white;
+  border: none;
+  padding: 20%;
+  border-radius: 100%;
+  width: 30px;
+  height: 30px;
+  font-size: 14px;
+  cursor: pointer;
+
   &:hover {
     background-color: ${PRIMARY};
     color: white;
