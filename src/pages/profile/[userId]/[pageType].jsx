@@ -6,6 +6,9 @@ import ModalInfoModify from '@components/ui/modal/ModalInfoModify'
 import PageContents from '@pages/profile/contents'
 import { CONFIG, NOIMG } from '@utils/constant'
 import { useAuthContext } from '@hooks/useAuthContext'
+import { authApi } from '@api/apis'
+import Spinner from '@components/templates/Spinner'
+import styled from '@emotion/styled'
 
 export const getServerSideProps = async context => ({
   props: {
@@ -15,43 +18,49 @@ export const getServerSideProps = async context => ({
 })
 
 const ProfilePage = ({ userId, pageType }) => {
-  const { state, handleGetUserProfile } = useAuthContext()
-  const { userData } = state
+  const { state } = useAuthContext()
+  const [isLoading, setIsLoading] = useState(true)
+  const [isMyAcount, setisMyAcount] = useState(false)
   const [userInfo, setUserInfo] = useState({
-    isMyAcount: false,
+    id: null,
+    email: null,
+    offerLevel: null,
+    nickname: null,
+    profileImageUrl: null,
+    address: null,
+    sellingArticleCount: null,
+    likedArticleCount: null,
+    offerCount: null,
+    reviewCount: null,
   })
   const [visibleConfigModal, setVisibleConfigModal] = useState(false)
 
   useEffect(async () => {
-    if (Number(userData.id) === Number(userId)) {
-      setUserInfo({
-        ...userInfo,
-        ...userData,
-        isMyAcount: true,
-      })
-      await handleGetUserProfile()
-      return
-    }
+    const res =
+      Number(state.userData.id) === Number(userId)
+        ? await authApi.getUserProfile()
+        : await authApi.getOtherUserProfile(userId)
 
     setUserInfo({
       ...userInfo,
-      id: userId,
-      nickname: '타사용자',
-      offerLevel: 1,
-      address: '서울시 동작구',
-      profileImageUrl: null,
-      sellingArticleCount: 0,
-      likedArticleCount: 0,
-      offerCount: 0,
-      reviewCount: 0,
-      isMyAcount: false,
+      ...res.data.member,
+      sellingArticleCount: res.data.sellingArticleCount,
+      likedArticleCount: res.data.likedArticleCount,
+      offerCount: res.data.offerCount,
+      reviewCount: res.data.reviewCount,
     })
+
+    setIsLoading(false)
+    if (Number(state.userData.id) === Number(userId)) {
+      setisMyAcount(true)
+      return
+    }
   }, [])
 
   useEffect(() => {
-    if (Number(userData.id) === Number(userId)) {
+    if (Number(state.userData.id) === Number(userId)) {
       setUserInfo(prevState => ({
-        ...userData,
+        ...state.userData,
         isMyAcount: prevState.isMyAcount,
       }))
       return
@@ -64,12 +73,18 @@ const ProfilePage = ({ userId, pageType }) => {
     objectFit: 'cover',
   }
 
+  if (isLoading) {
+    return (
+      <SpinnerWrapper>
+        <Spinner isLoading={isLoading} />
+      </SpinnerWrapper>
+    )
+  }
+
   return (
     <div className="profile">
       <div
-        className={`profile-container${
-          !userInfo.isMyAcount ? ' other-profile' : ''
-        }`}>
+        className={`profile-container${!isMyAcount ? ' other-profile' : ''}`}>
         <div className="profile-box">
           <Avatar
             className="profile-box_img"
@@ -79,7 +94,7 @@ const ProfilePage = ({ userId, pageType }) => {
           <div className="profile-box_inform">
             <div className="profile-box_cofig">
               <span className="profile-box_nickname">{userInfo.nickname}</span>
-              {userInfo.isMyAcount && (
+              {isMyAcount && (
                 <>
                   <IconButton
                     className="profile-box_icon"
@@ -116,7 +131,7 @@ const ProfilePage = ({ userId, pageType }) => {
               </div>
             </li>
           </Link>
-          {userInfo.isMyAcount && (
+          {isMyAcount && (
             <>
               <Link href={`/profile/${userId}/like`}>
                 <li className="profile-list_item">
@@ -165,5 +180,12 @@ const ProfilePage = ({ userId, pageType }) => {
     </div>
   )
 }
+
+const SpinnerWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+`
 
 export default ProfilePage
