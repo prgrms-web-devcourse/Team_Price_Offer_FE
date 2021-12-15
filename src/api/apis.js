@@ -46,12 +46,12 @@ export const articleApi = {
   changeTradeStatus: ({ articleId, option }) =>
     auth.patch(`/articles/${articleId}/tradeStatus`, option),
   deleteArticle: articleId => auth.delete(`/articles/${articleId}`),
-  toggleLikeArticle: articleId => auth.patch(`/articles/${articleId}/like`),
+  toggleLikeArticle: articleId => auth.put(`/articles/${articleId}/like`),
   postOffer: ({ articleId, price }) =>
-    auth.post(`	/articles/${articleId}/offers`, price),
+    auth.post(`/articles/${articleId}/offers`, price),
   selectOffer: offerId => auth.patch(`/articles/offers/${offerId}`),
   getArticlesInfos: instance.get('articles/infos'),
-  getArticleUserID: articleId => instance.get(`/articles/${articleId}`),
+  getArticleUserID: articleId => auth.get(`/articles/${articleId}`),
 }
 
 export const messageApi = {
