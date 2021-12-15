@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import Modal from '@components/templates/Modal'
 import ContentcomfrimBuyer from '@components/ui/modal/contents/ContentConfirmBuyer'
 
-const ConfrimBuyer = ({ visible, onClose }) => {
+const ConfrimBuyer = ({ visible, onClose, postId }) => {
   return (
     <Modal visible={visible} onClose={onClose} className="modal">
-      <ContentcomfrimBuyer />
+      <ContentcomfrimBuyer postId={postId} />
     </Modal>
   )
 }

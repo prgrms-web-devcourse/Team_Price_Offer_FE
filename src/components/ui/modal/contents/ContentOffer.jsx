@@ -17,7 +17,7 @@ const ContentOffer = props => {
     validate,
     onSubmit: async values => {
       const res = await articleApi.postOffer({
-        articleId: getItem('postId'),
+        articleId: getItem('postId').replaceAll('"', ''),
         price: {
           price: values.offerPrice,
         },

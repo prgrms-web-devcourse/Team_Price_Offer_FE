@@ -10,7 +10,10 @@ const LikeButton = ({ name, className, alt, onClick, isLiked, style }) => {
   const [checked, toggle] = useToggle(isLiked)
 
   console.log(isLiked)
-  const postId = getItem('postId')
+
+  const postId = getItem('postId').replace('"', '')
+
+  console.log(postId)
 
   const img = checked ? FAVORITE_LIKE : FAVORITE_LIGHT
 
