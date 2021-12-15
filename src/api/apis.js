@@ -54,11 +54,17 @@ export const articleApi = {
 }
 
 export const messageApi = {
-  postMessageToOffer: () => {},
-  postMessageToUser: () => {},
-  postMessageToSeller: () => {},
-  deleteMsg: () => {},
-  getMessages: () => {},
+  postMessageToOffer: ({ memberId, offerId, params }) =>
+    auth.post(`/messages/member/${memberId}/offerId/${offerId}`, { params }),
+  postMessage: ({ messageRoodId, params }) =>
+    auth.post(`/messages/messageRoom/${messageRoodId}`, { params }),
+  getMessageList: ({ messageRoomId, params }) =>
+    auth.get(`/messages/messageRoom/${messageRoomId}/contents`, { params }),
+  getMessageRoomInfo: ({ messageRoomId }) =>
+    auth.get(`/messages/messageRoom/${messageRoomId}/messageRoomInfo`),
+  deleteMessageBox: ({ messageRoomId }) =>
+    auth.delete(`	/messages/messageRoomId/${messageRoomId}`),
+  getMessageBox: auth.get('/messages/messageBox'),
 }
 
 export const imgApi = {
