@@ -20,6 +20,7 @@ import { useAuthContext } from '@hooks/useAuthContext'
 import { useRouter } from 'next/router'
 
 const Header = () => {
+  const router = useRouter()
   const { state } = useAuthContext()
   const { nickname, profileImageUrl } = state.userData
 
