@@ -121,6 +121,14 @@ const Btn = styled.button`
   }
 `
 
-Pagination.propTypes = {}
+Pagination.propTypes = {
+  btnStyle: PropTypes.objectOf(PropTypes.string),
+  className: PropTypes.string,
+  blockNum: PropTypes.number,
+  postListLength: PropTypes.number,
+  size: PropTypes.number,
+  paginate: PropTypes.func,
+  setStartPage: PropTypes.func,
+}
 
 export default Pagination
