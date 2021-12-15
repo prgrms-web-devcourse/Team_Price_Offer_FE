@@ -22,7 +22,7 @@ import { useRouter } from 'next/router'
 const Header = () => {
   const { state } = useAuthContext()
   const router = useRouter()
-  const { nickname, profileImage } = state.userData
+  const { nickname, profileImage, id } = state.userData
 
   const [visible, setVisible] = useState(false)
   const [dialogVisible, setDialogVisible] = useState(false)
@@ -41,7 +41,7 @@ const Header = () => {
   const handleSearchRouting = () => {
     searchWord &&
       router.push({
-        pathname: '/search',
+        pathname: `/search/${id}`,
         query: {
           title: searchWord.trim(),
         },

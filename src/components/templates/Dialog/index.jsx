@@ -2,15 +2,20 @@ import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import { useAuthContext } from '@hooks/useAuthContext'
+import Router from 'next/router'
 
 const Dialog = ({ style, className, visible = false, items, onClose }) => {
   const dialogRef = useRef(null)
   const { handleLogout } = useAuthContext()
 
   const handleClickItem = async code => {
+    console.log(code)
     if (code === 'logout') {
       await handleLogout()
       return
+    }
+    if (code === 'message') {
+      Router.push('/message')
     }
   }
 
