@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/dist/client/link'
 import Avatar from '@components/templates/Avatar'
 import IconButton from '@components/templates/IconButton'
@@ -15,6 +15,11 @@ export const getServerSideProps = async context => ({
 
 const ProfilePage = ({ userId, pageType }) => {
   const [visibleConfigModal, setVisibleConfigModal] = useState(false)
+  const [userInfo, setUserInfo] = useState({
+    isMyAcount: false,
+    likedArticleCount: 0,
+    offerCount: 0,
+  })
 
   useEffect(() => {
     console.log(userId, pageType)
@@ -28,7 +33,10 @@ const ProfilePage = ({ userId, pageType }) => {
 
   return (
     <div className="profile">
-      <div className="profile-container">
+      <div
+        className={`profile-container${
+          !userInfo.isMyAcount ? ' other-profile' : ''
+        }`}>
         <div className="profile-box">
           <Avatar
             className="profile-box_img"
@@ -53,7 +61,7 @@ const ProfilePage = ({ userId, pageType }) => {
             <span className="profile-box_area">동작구 사당동</span>
           </div>
         </div>
-        <hr className="profile-divider" />
+        <div className="profile-divider" />
         <ul className="profile-list">
           <Link href={`/profile/${userId}/sale`}>
             <li className="profile-list_item">
@@ -67,28 +75,36 @@ const ProfilePage = ({ userId, pageType }) => {
               <div className="profile-list_content">30</div>
             </li>
           </Link>
-          <Link href={`/profile/${userId}/like`}>
-            <li className="profile-list_item">
-              <div
-                className={`profile-list_title ${
-                  pageType === 'like' ? 'selected' : ''
-                }`}>
-                찜한 상품
-              </div>
-              <div className="profile-list_content">60</div>
-            </li>
-          </Link>
-          <Link href={`/profile/${userId}/offer`}>
-            <li className="profile-list_item">
-              <div
-                className={`profile-list_title ${
-                  pageType === 'offer' ? 'selected' : ''
-                }`}>
-                가격 제안
-              </div>
-              <div className="profile-list_content">30</div>
-            </li>
-          </Link>
+          {userInfo.isMyAcount && (
+            <>
+              <Link href={`/profile/${userId}/like`}>
+                <li className="profile-list_item">
+                  <div
+                    className={`profile-list_title ${
+                      pageType === 'like' ? 'selected' : ''
+                    }`}>
+                    찜한 상품
+                  </div>
+                  <div className="profile-list_content">
+                    {userInfo.likedArticleCount || 0}
+                  </div>
+                </li>
+              </Link>
+              <Link href={`/profile/${userId}/offer`}>
+                <li className="profile-list_item">
+                  <div
+                    className={`profile-list_title ${
+                      pageType === 'offer' ? 'selected' : ''
+                    }`}>
+                    가격 제안
+                  </div>
+                  <div className="profile-list_content">
+                    {userInfo.offerCount || 0}
+                  </div>
+                </li>
+              </Link>
+            </>
+          )}
           <Link href={`/profile/${userId}/review`}>
             <li className="profile-list_item">
               <div
