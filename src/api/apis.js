@@ -13,8 +13,8 @@ export const authApi = {
 }
 
 export const userApi = {
-  getUserLikeArticles: ({ memberId, params }) =>
-    auth.get(`/members/${memberId}/profiles/articles/likes`, { params }),
+  getUserLikeArticles: params =>
+    auth.get('/articles/like-articles', { params }),
   getUserTradingAtricles: ({ memberId, params }) =>
     instance.get(`/articles?memberId=${memberId}&tradeStatusCode=4`, {
       params,
