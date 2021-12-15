@@ -6,7 +6,17 @@ import IconButton from '@components/templates/IconButton'
 import { FETCH } from '@utils/constant/icon'
 
 const fetchImgurl = FETCH
-const MessagePage = () => {
+
+export const getServerSideProps = async context => {
+  return {
+    props: {
+      userId: context.query.id,
+    },
+  }
+}
+
+const MessagePage = ({ userId }) => {
+  console.log(userId)
   return (
     <div className="message">
       <div className="message-list-wrapper">
