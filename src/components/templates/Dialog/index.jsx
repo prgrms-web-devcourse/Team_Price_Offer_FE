@@ -6,16 +6,19 @@ import Router from 'next/router'
 
 const Dialog = ({ style, className, visible = false, items, onClose }) => {
   const dialogRef = useRef(null)
-  const { handleLogout } = useAuthContext()
+  const { handleLogout, state } = useAuthContext()
+  const { id } = state.userData
+  // const router = useRouter
 
   const handleClickItem = async code => {
     console.log(code)
+    console.log(id)
     if (code === 'logout') {
       await handleLogout()
       return
     }
     if (code === 'message') {
-      Router.push('/message')
+      Router.push(`/message/${id}`)
     }
   }
 
