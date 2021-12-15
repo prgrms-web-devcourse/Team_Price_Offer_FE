@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 
-const Button = ({ type, style, className, children, onClick }) => {
+const Button = ({ type, style, className, children, onClick, name, value }) => {
   const handleClick = e => {
     onClick && onClick(e)
   }
@@ -11,6 +11,8 @@ const Button = ({ type, style, className, children, onClick }) => {
       type={type}
       className={className}
       style={style}
+      name={name}
+      value={value}
       onClick={handleClick}>
       {children}
     </CommonButton>
