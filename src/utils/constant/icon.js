@@ -53,3 +53,7 @@ export const USER_CIRCLE = require('@assets/images/icon/user_circle.svg')
 export const NOIMG = require('@assets/images/no-image_square.png').default.src
 export const OPTIONS = require('@assets/images/icon/Status_options.svg').default
   .src
+export const PAGINATION_ARROW_LEFT =
+  require('@assets/images/icon/pagination_arrow_left.svg').default.src
+export const PAGINATION_ARROW_RIGHT =
+  require('@assets/images/icon/pagination_arrow_right.svg').default.src
