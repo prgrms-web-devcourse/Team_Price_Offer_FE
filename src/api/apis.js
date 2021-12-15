@@ -3,7 +3,7 @@ import { instance, auth } from '@api/index'
 export const authApi = {
   signUp: userInfo => instance.post('/members', userInfo),
   loginEmail: userInfo => instance.post('/members/login', userInfo),
-  loginKakao: userInfo => instance.post('/login', userInfo),
+  loginKakao: code => instance.get(`/oauth/callback/kakao?code=${code}`),
   checkDuplicates: email => instance.get(`/members?email=${email}`),
   withdrawal: password => auth.delete('/members', password),
   getUserInfo: () => auth.get('/members/me'),
