@@ -17,35 +17,19 @@ const Dialog = ({ style, className, visible = false, items, onClose }) => {
       return
     }
 
-    if (code === 2) {
-      const postId = getItem('postId')
-      const res = await articleApi.changeTradeStatus({
-        articleId: postId,
-        option: {
-          code: 2,
-        },
-      })
-      router.push(-1)
+    if (code === 'modify') {
+      alert('게시글 수정')
     }
-    if (code === 4) {
-      const postId = getItem('postId')
-      const res = await articleApi.changeTradeStatus({
-        articleId: postId,
-        option: {
-          code: 4,
-        },
-      })
-      router.push(0)
-    }
-    if (code === 8) {
-      const postId = getItem('postId')
-      const res = await articleApi.changeTradeStatus({
-        articleId: postId,
-        option: {
-          code: 8,
-        },
-      })
-      router.push(0)
+
+    if (code === 'delete') {
+      if (confirm('정말 삭제하시겠습니까?')) {
+        const res = await articleApi.deleteArticle
+        if (Number(res.code) === 200) {
+          alert('게시글이 삭제 되었습니다.')
+        }
+      } else {
+        router.push(0)
+      }
     }
   }
 
