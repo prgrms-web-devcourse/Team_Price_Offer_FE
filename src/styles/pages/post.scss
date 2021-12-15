@@ -127,6 +127,28 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    .not-offer-wrapper{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .offer-state_ban{
+        color:#888888;
+        text-align: center;
+    }
+
+    .offer-button{
+        margin-top: 20px;
+        width:100%;
+        max-width: 214px;
+        height: 52px;
+        background-color: $PRIMARY_COLOR;
+        color : white;
+        &.ban{
+            background-color: #AEAEAE;
+        }
+    }
 
     .goods-info{
         max-width: 488px;
@@ -201,7 +223,7 @@
                 text-align: center;
             }
             .offer-button{
-                margin-top: 20px;
+                margin-bottom: 20px;
                 width:100%;
                 max-width: 214px;
                 height: 52px;
