@@ -14,6 +14,7 @@ import { useAuthContext } from '@hooks/useAuthContext'
 import { timeForToday } from '@utils/functions'
 import useStorage from '@hooks/useStorage'
 import SelectBox from '@components/templates/Selectbox'
+import ModalOffer from '@components/ui/modal/ModalOffer'
 import Like from '../components/templates/ToggleButton'
 
 const { getItem, setItem, clear } = useStorage()
@@ -31,64 +32,85 @@ const Post = props => {
   const [isWriter, setisWriter] = useState(false)
   const [imgUrls, setimgUrls] = useState([])
   const [tradeStatus, setTradeStatus] = useState(false)
+  const [offerList, setOfferList] = useState([{}])
   const [isMounted, setMounted] = useState(false)
+  const [visible, setVisible] = useState(false)
 
   useEffect(async () => {
     const imageUrls = await articleApi.getImgUrlList(postId)
     const { data } = await articleApi.getArticleUserID(postId)
+    const offerList = await articleApi.getOffersList(postId)
     await setPostData(data.article)
-    await setimgUrls(imageUrls.data.imageUrls)
+    setimgUrls(imageUrls.data.imageUrls)
+    setOfferList(offerList.data)
     data.article.author.id === userId ? setisWriter(true) : setisWriter(false)
     data.article.tradeStatus.name === '판매중'
       ? setTradeStatus(true)
       : setTradeStatus(false)
     setMounted(true)
-  }, [state])
+  }, [state, tradeStatus])
 
-  console.log('거래상태:', tradeStatus)
-  console.log('게시글 작성자 여부', isWriter)
+  console.log('1')
+
+  // console.log('거래상태:', tradeStatus)
+  // console.log('게시글 작성자 여부', isWriter)
   console.log('포스트 데이터', postData)
   console.log('포스트 이미지 데이터', imgUrls)
-
+  console.log('오퍼 목록', offerList)
   const dialogClick = e => {
     e.stopPropagation()
     setDialogVisible(true)
   }
 
   const handleChange = async e => {
-    const code = parseInt(e.target.value)
+    const code = Number(e.target.value)
     const postId = getItem('postId')
     console.log(code)
 
     if (code === 2) {
-      alert(code)
-      const res = await articleApi.changeTradeStatus({
-        articleId: postId,
-        option: {
-          code: 2,
-        },
-      })
-      router.push(0)
+      // 예약중
+      if (confirm('예약중으로 변경하시겠습니까?')) {
+        const res = await articleApi.changeTradeStatus({
+          articleId: postId,
+          option: {
+            code: 2,
+          },
+        })
+        setTradeStatus(false)
+      } else {
+        e.target.value = await postData.tradeStatus.code
+      }
     }
     if (code === 4) {
-      const res = await articleApi.changeTradeStatus({
-        articleId: postId,
-        option: {
-          code: 4,
-        },
-      })
-      router.push(0)
+      // 판매중
+      if (confirm('예약을 취소하고 판매중으로 변경하시겠습니까?')) {
+        const res = await articleApi.changeTradeStatus({
+          articleId: postId,
+          option: {
+            code: 4,
+          },
+        })
+        setTradeStatus(true)
+      } else {
+        e.target.value = await postData.tradeStatus.code
+      }
     }
     if (code === 8) {
-      const res = await articleApi.changeTradeStatus({
-        articleId: postId,
-        option: {
-          code: 8,
-        },
-      })
-      router.push(0)
+      // 거래완료
+      if (confirm('거래완료를 누르면 되돌릴 수 없습니다. 계속하시겠습니까?')) {
+        const res = await articleApi.changeTradeStatus({
+          articleId: postId,
+          option: {
+            code: 8,
+          },
+        })
+        setTradeStatus(false)
+      } else {
+        e.target.value = await postData.tradeStatus.code
+      }
     }
   }
+  console.log(postData.isLiked)
 
   return (
     <div className="detail">
@@ -160,34 +182,6 @@ const Post = props => {
                           name: postData.tradeStatus.name,
                         }}
                       />
-                      <select
-                        style={{
-                          fontSize: '10px',
-                          width: '100px',
-                          height: '30px',
-                        }}
-                        className="status2"
-                        defaultOption={{
-                          code: postData.tradeStatus.code,
-                          name: postData.tradeStatus.name,
-                        }}
-                        onChange={handleChange}>
-                        <option
-                          value={postData.tradeStatus.code}
-                          text={postData.tradeStatus.name}
-                          label={postData.tradeStatus.name}
-                          disabled
-                        />
-
-                        {STATUSLIST.map(({ code, name }) => (
-                          <option
-                            key={code}
-                            value={code}
-                            text={name}
-                            label={name}
-                          />
-                        ))}
-                      </select>
                       <ICONBUTTON
                         className="options"
                         src={OPTIONS}
@@ -202,11 +196,11 @@ const Post = props => {
                         style={{ justifyContent: 'space-between' }}
                         items={[
                           {
-                            code: 1,
+                            code: 'modify',
                             name: '게시글 수정',
                           },
                           {
-                            code: 99,
+                            code: 'delete',
                             name: '게시글 삭제',
                           },
                         ]}
@@ -237,6 +231,7 @@ const Post = props => {
                       height: '25px',
                       lineHeight: '30px',
                     }}
+                    isLiked={postData.isLiked}
                   />
                 </div>
 
@@ -255,7 +250,9 @@ const Post = props => {
                   </div>
                   <div className="post-info-bottom_time">
                     <div className="info-key">상품상태</div>
-                    <div className="info-value">{postData.tradeArea}</div>
+                    <div className="info-value">
+                      {postData.productStatus.name}
+                    </div>
                   </div>
                   <div className="post-info-bottom_time">
                     <div className="info-key">거래방식</div>
@@ -304,18 +301,55 @@ const Post = props => {
                             <div className={styles.offerPrice}>{offerList.price}</div>
                         </div>
                         ))} */}
-                <div className="offer-user-info">
-                  <div className="offer-subinfo">
-                    <div className="offer-username">산타</div>
-                    <div className="offer-address">제주서귀포시 • 1시간전</div>
-                    <div className="offer-time" />
+                {offerList.elements.length > 0 ? (
+                  <>
+                    <div className="offer-user-infos">
+                      {/* <div className="offer-subinfo">
+                        <div className="offer-username">산타</div>
+                        <div className="offer-address">
+                          제주서귀포시 • 1시간전
+                        </div>
+                        <div className="offer-time" />
+                      </div> */}
+                      {offerList.elements.map((offererList, index) => (
+                        <div className="offer-user-info" key={offererList.id}>
+                          <div className="offer-subinfo">
+                            <div className="offer-username">
+                              {offererList.offerer.nickname}
+                            </div>
+                            <div className="offer-address">
+                              <div className="address">
+                                {offererList.offerer.address}
+                              </div>
+                              <div className="offer-time">
+                                {timeForToday(offererList.createdDate)}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="offer-suggestinfo">
+                            <div className="offer-price">
+                              {offererList.price} 원
+                            </div>
+                            {isWriter && (
+                              <ICONBUTTON
+                                className="offer-send-button"
+                                style={{ width: '30px', height: '30px' }}
+                                src={OFFER}
+                              />
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    {/* <BUTTON className="offer-button">가격 제안하기(0/2)</BUTTON> */}
+                  </>
+                ) : (
+                  <div className="not-offer-wrapper">
+                    <div className="offer-state_ban">
+                      아직 제시된 가격이 없어요 가격을 제시해 볼까요?
+                    </div>
                   </div>
-                  <div className="offer-suggestinfo">
-                    {' '}
-                    <div className="offer-price">600원</div>
-                    <ICONBUTTON className="offer-button" src={OFFER} />
-                  </div>
-                </div>
+                )}
               </div>
               <DIVIDER
                 type="horizontal"
@@ -328,10 +362,24 @@ const Post = props => {
               <div className="offer-option">
                 <div className="offer-page">1 2 3</div>
                 <div className="offer-state">
-                  <div className="offer-state_ban">
-                    예약중인 물건은 가격제안을 할 수 없어요!
-                  </div>
-                  <BUTTON className="offer-button">가격 제안하기(0/2)</BUTTON>
+                  {tradeStatus ? (
+                    <>
+                      <BUTTON
+                        className="offer-button"
+                        onClick={() => setVisible(true)}>
+                        가격 제안하기(0/2)
+                      </BUTTON>
+                      <ModalOffer
+                        visible={visible}
+                        onClose={() => setVisible(false)}>
+                        오퍼모달
+                      </ModalOffer>
+                    </>
+                  ) : (
+                    <div className="offer-state_ban">
+                      예약중인 물건은 가격제안을 할 수 없어요!
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
