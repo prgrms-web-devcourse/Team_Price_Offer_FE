@@ -141,7 +141,8 @@ const useActions = dispatch => {
         return
       }
 
-      const userData = res.data.member
+      const userData = { ...getItem('userData'), ...res.data.member }
+      setItem('userData', userData)
       dispatch({ type: MODIFY_USERINFO, payload: { userData } })
       dispatch({ type: LOADING_OFF })
     } catch (e) {
@@ -186,12 +187,14 @@ const useActions = dispatch => {
       } = res.data
 
       const userData = {
+        ...getItem('userData'),
         sellingArticleCount,
         likedArticleCount,
         offerCount,
         reviewCount,
       }
 
+      setItem('userData', userData)
       dispatch({ type: GET_USERPROFILE, payload: { userData } })
       dispatch({ type: LOADING_OFF })
     } catch (e) {
