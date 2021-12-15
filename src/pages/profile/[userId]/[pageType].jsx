@@ -66,7 +66,10 @@ const ProfilePage = ({ userId, pageType }) => {
 
   return (
     <div className="profile">
-      <div className="profile-container">
+      <div
+        className={`profile-container${
+          !userInfo.isMyAcount ? ' other-profile' : ''
+        }`}>
         <div className="profile-box">
           <Avatar
             className="profile-box_img"
@@ -97,7 +100,7 @@ const ProfilePage = ({ userId, pageType }) => {
             <span className="profile-box_area">{userInfo.address}</span>
           </div>
         </div>
-        <hr className="profile-divider" />
+        <div className="profile-divider" />
         <ul className="profile-list">
           <Link href={`/profile/${userId}/sale`}>
             <li className="profile-list_item">
@@ -113,32 +116,36 @@ const ProfilePage = ({ userId, pageType }) => {
               </div>
             </li>
           </Link>
-          <Link href={`/profile/${userId}/like`}>
-            <li className="profile-list_item">
-              <div
-                className={`profile-list_title ${
-                  pageType === 'like' ? 'selected' : ''
-                }`}>
-                찜한 상품
-              </div>
-              <div className="profile-list_content">
-                {userInfo.likedArticleCount || 0}
-              </div>
-            </li>
-          </Link>
-          <Link href={`/profile/${userId}/offer`}>
-            <li className="profile-list_item">
-              <div
-                className={`profile-list_title ${
-                  pageType === 'offer' ? 'selected' : ''
-                }`}>
-                가격 제안
-              </div>
-              <div className="profile-list_content">
-                {userInfo.offerCount || 0}
-              </div>
-            </li>
-          </Link>
+          {userInfo.isMyAcount && (
+            <>
+              <Link href={`/profile/${userId}/like`}>
+                <li className="profile-list_item">
+                  <div
+                    className={`profile-list_title ${
+                      pageType === 'like' ? 'selected' : ''
+                    }`}>
+                    찜한 상품
+                  </div>
+                  <div className="profile-list_content">
+                    {userInfo.likedArticleCount || 0}
+                  </div>
+                </li>
+              </Link>
+              <Link href={`/profile/${userId}/offer`}>
+                <li className="profile-list_item">
+                  <div
+                    className={`profile-list_title ${
+                      pageType === 'offer' ? 'selected' : ''
+                    }`}>
+                    가격 제안
+                  </div>
+                  <div className="profile-list_content">
+                    {userInfo.offerCount || 0}
+                  </div>
+                </li>
+              </Link>
+            </>
+          )}
           <Link href={`/profile/${userId}/review`}>
             <li className="profile-list_item">
               <div
