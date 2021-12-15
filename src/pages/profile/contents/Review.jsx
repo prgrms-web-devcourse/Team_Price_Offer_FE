@@ -1,125 +1,37 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import Avatar from '@components/templates/Avatar'
 import Button from '@components/templates/Button'
 import Divider from '@components/templates/Divider'
+import { userApi } from '@api/apis'
 
-const reviewList = [
-  {
-    id: 1,
-    reviewer: '황금효정',
-    level: '1',
-    content: '쿨거래 좌요 좌요잉',
-    src: 'https://i.pinimg.com/736x/2b/21/0a/2b210ad8318d297115b7d95335b918ec--japan.jpg',
-    title:
-      '급처급처급처급처급처급처급처급처급처급처급처급처급처급처급처급처급처급처급처급처',
-    address: '서울시 강북구',
-    time: '2분전',
-    goodsSold: true,
-    review: true,
-  },
-  {
-    id: 2,
-    reviewer: '황금효정',
-    level: '1',
-    content: '쿨거래 좌요 좌요잉',
-    src: 'https://i.pinimg.com/736x/2b/21/0a/2b210ad8318d297115b7d95335b918ec--japan.jpg',
-    title: '급처급처',
-    time: '2분전',
-    price: '10',
-    goodsSold: true,
-    review: true,
-  },
-  {
-    id: 3,
-    reviewer: '황금효정',
-    level: '1',
-    content: '쿨거래 좌요 좌요잉',
-    src: 'https://i.pinimg.com/736x/2b/21/0a/2b210ad8318d297115b7d95335b918ec--japan.jpg',
-    title: '급처급처',
-    time: '2분전',
-    goodsSold: true,
-    review: true,
-  },
-  {
-    id: 4,
-    reviewer: '황금효정',
-    level: '1',
-    content: '쿨거래 좌요 좌요잉',
-    src: 'https://i.pinimg.com/736x/2b/21/0a/2b210ad8318d297115b7d95335b918ec--japan.jpg',
-    title: '급처급처',
-    time: '2분전',
-    goodsSold: true,
-    review: false,
-  },
-  {
-    id: 5,
-    reviewer: '황금효정',
-    level: '1',
-    content: '쿨거래 좌요 좌요잉',
-    src: 'https://i.pinimg.com/736x/2b/21/0a/2b210ad8318d297115b7d95335b918ec--japan.jpg',
-    title: '급처급처',
-    time: '2분전',
-    goodsSold: true,
-    review: false,
-  },
-  {
-    id: 6,
-    reviewer: '황금효정',
-    level: '1',
-    content: '쿨거래 좌요 좌요잉',
-    src: 'https://i.pinimg.com/736x/2b/21/0a/2b210ad8318d297115b7d95335b918ec--japan.jpg',
-    title: '급처급처',
-    time: '2분전',
-    goodsSold: true,
-    review: true,
-  },
-  {
-    id: 7,
-    reviewer: '황금효정',
-    level: '1',
-    content: '쿨거래 좌요 좌요잉',
-    src: 'https://i.pinimg.com/736x/2b/21/0a/2b210ad8318d297115b7d95335b918ec--japan.jpg',
-    title: '급처급처',
-    time: '2분전',
-    goodsSold: true,
-    review: false,
-  },
-  {
-    id: 8,
-    reviewer: '황금효정',
-    level: '1',
-    content: '쿨거래 좌요 좌요잉',
-    src: 'https://i.pinimg.com/736x/2b/21/0a/2b210ad8318d297115b7d95335b918ec--japan.jpg',
-    title: '급처급처',
-    time: '2분전',
-    goodsSold: true,
-    review: true,
-  },
-  {
-    id: 9,
-    reviewer: '황금효정',
-    level: '1',
-    content: '쿨거래 좌요 좌요잉',
-    src: 'https://i.pinimg.com/736x/2b/21/0a/2b210ad8318d297115b7d95335b918ec--japan.jpg',
-    title: '급처급처',
-    time: '2분전',
-    goodsSold: true,
-    review: true,
-  },
-  {
-    id: 10,
-    reviewer: '황금효정',
-    level: '1',
-    content: '쿨거래 좌요 좌요잉',
-    src: 'https://i.pinimg.com/736x/2b/21/0a/2b210ad8318d297115b7d95335b918ec--japan.jpg',
-    title: '급처급처',
-    time: '2분전',
-    goodsSold: true,
-    review: true,
-  },
-]
 const Review = ({ userId }) => {
+  const [goodsList, setGoodsList] = useState([])
+  const [goodsListStatus, setGoodsListStatus] = useState({
+    isSellingReview: true,
+  })
+
+  useEffect(async () => {
+    if (goodsListStatus.isSellingReview) {
+      const res = await userApi.getUserSellReviews(userId)
+
+      if (Number(res.code) !== 200) {
+        return alert('판매후기 조회 시, 문제가 발생하였습니다!')
+      }
+
+      setGoodsList(res.data.elements)
+      return
+    }
+
+    const res = await userApi.getUserBuyReviews(userId)
+
+    if (Number(res.code) !== 200) {
+      return alert('구매후기 상품 조회 시, 문제가 발생하였습니다!')
+    }
+
+    setGoodsList(res.data.elements)
+  }, [goodsListStatus])
+
   const ulStyle = {
     listStyle: 'none',
     fontSize: '14px',
@@ -141,8 +53,20 @@ const Review = ({ userId }) => {
     <div className="result-container">
       <div className="result-title">거래 후기</div>
       <div className="result-btn-box">
-        <Button className="result-btn_item selected">판매 후기</Button>
-        <Button className="result-btn_item">구매 후기</Button>
+        <Button
+          onClick={() => setGoodsListStatus({ isSellingReview: true })}
+          className={`result-btn_item ${
+            goodsListStatus.isSellingReview ? 'selected' : ''
+          }`}>
+          판매 후기
+        </Button>
+        <Button
+          onClick={() => setGoodsListStatus({ isSellingReview: false })}
+          className={`result-btn_item ${
+            !goodsListStatus.isSellingReview ? 'selected' : ''
+          }`}>
+          구매 후기
+        </Button>
       </div>
       <div className="result-lineup-box">
         <span className="result-lineup_item selected">최신순</span>
@@ -154,7 +78,7 @@ const Review = ({ userId }) => {
       <div className="result-content">
         <div className="review">
           <ul className="review-list" style={ulStyle}>
-            {reviewList.map(item => (
+            {/* {reviewList.map(item => (
               <>
                 <li key={item.id} className="review-item">
                   <div className="review-profile-box">
@@ -210,7 +134,7 @@ const Review = ({ userId }) => {
                 </li>
                 <hr />
               </>
-            ))}
+            ))} */}
           </ul>
         </div>
       </div>
