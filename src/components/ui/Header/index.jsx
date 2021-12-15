@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 import Divider from '@components/templates/Divider'
 import Link from 'next/link'
 import Input from '@components/templates/Input'
