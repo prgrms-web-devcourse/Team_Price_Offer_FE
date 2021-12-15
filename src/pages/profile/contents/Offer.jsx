@@ -1,10 +1,11 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Divider from '@components/templates/Divider'
 import Button from '@components/templates/Button'
 import GoodsList from '@components/ui/GoodsList'
 import { GOODSLIST } from '@data/dummy/goodsList'
 
-const Like = () => {
+const Offer = ({ userId }) => {
   return (
     <div className="result-container">
       <div className="result-title">가격 제안</div>
@@ -20,10 +21,14 @@ const Like = () => {
         <span className="result-lineup_item">높은 가격순</span>
       </div>
       <div className="result-content">
-        <GoodsList goodsList={GOODSLIST} className="Like-goodList" />
+        <GoodsList goodsList={GOODSLIST} className="offer-goodList" />
       </div>
     </div>
   )
 }
 
-export default Like
+Offer.propTypes = {
+  userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+}
+
+export default Offer

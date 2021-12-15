@@ -20,7 +20,7 @@ import { useAuthContext } from '@hooks/useAuthContext'
 
 const Header = () => {
   const { state } = useAuthContext()
-  const { nickname, profileImage } = state.userData
+  const { nickname, profileImageUrl } = state.userData
 
   const [visible, setVisible] = useState(false)
   const [dialogVisible, setDialogVisible] = useState(false)
@@ -90,7 +90,7 @@ const Header = () => {
               <div className="userprofile-area">
                 <Avatar
                   style={iconBtnStyleLg}
-                  src={profileImage || NO_IMAGE_SQUARE}
+                  src={profileImageUrl || NO_IMAGE_SQUARE}
                 />
                 <div className="username">{nickname}</div>
                 <IconButton

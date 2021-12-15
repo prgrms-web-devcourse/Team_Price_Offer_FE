@@ -19,6 +19,7 @@ const AuthProvider = ({ children }) => {
     handleLogout,
     handleGetUserInfo,
     handleModifyUserInfo,
+    handleGetUserProfile,
     handleLoadingOn,
     handleLoadingOff,
   } = useActions(dispatch)
@@ -34,6 +35,7 @@ const AuthProvider = ({ children }) => {
         handleLogout,
         handleGetUserInfo,
         handleModifyUserInfo,
+        handleGetUserProfile,
         handleLoadingOn,
         handleLoadingOff,
       }}>
