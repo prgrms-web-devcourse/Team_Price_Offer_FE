@@ -2,6 +2,9 @@ import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import { useAuthContext } from '@hooks/useAuthContext'
+import useStorage from '@hooks/useStorage'
+import { articleApi } from '@api/apis'
+import router from 'next/router'
 import { useRouter } from 'next/dist/client/router'
 
 const Dialog = ({ style, className, visible = false, items, onClose }) => {
@@ -9,6 +12,7 @@ const Dialog = ({ style, className, visible = false, items, onClose }) => {
   const router = useRouter()
   const dialogRef = useRef(null)
   const { handleLogout } = useAuthContext()
+  const { getItem, setItem, clear } = useStorage()
 
   const handleClickItem = async code => {
     if (code === 'profile') {
@@ -19,6 +23,25 @@ const Dialog = ({ style, className, visible = false, items, onClose }) => {
     if (code === 'logout') {
       await handleLogout()
       return
+    }
+
+    if (code === 'modify') {
+      alert('게시글 수정')
+      const getPostId = getItem('postId').replaceAll('"', '')
+      router.push(`/posting/${getPostId}`)
+    }
+
+    if (code === 'delete') {
+      const getPostId = getItem('postId').replaceAll('"', '')
+      if (confirm('정말 삭제하시겠습니까?')) {
+        const res = await articleApi.deleteArticle(getPostId)
+        if (Number(res.code) === 200) {
+          alert('게시글이 삭제 되었습니다.')
+          router.push('/')
+        } else {
+          alert(res.message)
+        }
+      }
     }
   }
 

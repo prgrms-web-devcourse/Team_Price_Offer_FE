@@ -10,11 +10,11 @@ import {
 const Pagination = ({
   btnStyle,
   className,
-  blockNum = 5,
-  postListLength = 260,
-  size = 10,
-  paginate,
-  setStartPage,
+  blockNum = 10, // 몇페이지씩 나오냐
+  postListLength = 155,
+  size = 10, // 페이지에 몇개 포스팅
+  paginate, // 클릭했을때 작동하는 함수(api 바꿀때)
+  setStartPage, // 현재페이지가 어딧는지 만들고,
 }) => {
   const currentPage = useRef(1)
   const startPage = useRef(1)

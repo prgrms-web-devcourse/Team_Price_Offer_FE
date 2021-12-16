@@ -56,20 +56,27 @@ export const articleApi = {
     auth.get('/articles?tradeStatusCode=4', { params }),
   getArticleOfCategory: ({ categoryCode, params }) =>
     instance.get(`/articles?categoryCode=${categoryCode}`, { params }),
-  getOffersList: articleId => instance.get(`/articles/${articleId}/offers`),
+  getOffersList: articleId => auth.get(`/articles/${articleId}/offers`),
+  getOfferListPage: ({ articleId, params }) =>
+    auth.get(`/articles/${articleId}/offers`, { params }),
   getImgUrlList: articleId => instance.get(`/articles/${articleId}/imageUrls`),
   changeTradeStatus: ({ articleId, option }) =>
     auth.patch(`/articles/${articleId}/tradeStatus`, option),
   deleteArticle: articleId => auth.delete(`/articles/${articleId}`),
-  toggleLikeArticle: articleId => auth.patch(`/articles/${articleId}/like`),
+  toggleLikeArticle: articleId => auth.put(`/articles/${articleId}/like`),
   postOffer: ({ articleId, price }) =>
-    auth.post(`	/articles/${articleId}/offers`, price),
+    auth.post(`/articles/${articleId}/offers`, price),
   selectOffer: offerId => auth.patch(`/articles/offers/${offerId}`),
+  getArticleUserID: articleId => auth.get(`/articles/${articleId}`),
   getArticlesInfos: () => instance.get('articles/infos'),
 }
 
 export const messageApi = {
-  postMessageToOffer: () => {},
+  postMessageToOffer: ({ memberId, offerId, articleId, content }) =>
+    auth.post(
+      `/messages/member/${memberId}/offerId/${offerId}?articleId=${articleId}`,
+      content,
+    ),
   postMessageToUser: () => {},
   postMessageToSeller: () => {},
   deleteMsg: () => {},

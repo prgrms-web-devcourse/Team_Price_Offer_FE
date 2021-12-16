@@ -8,6 +8,10 @@ import styled from '@emotion/styled'
 SwiperCore.use([Navigation, Pagination, Autoplay]) // 추가
 
 const Banner = ({ style, imgUrls }) => {
+  const onError = e => {
+    e.target.src =
+      'https://user-images.githubusercontent.com/66211721/146362506-d1c96afd-ba9b-48a9-822c-92c5628f5f46.png'
+  }
   const createimgUrlList = () => {
     return imgUrls.filter(x => x !== null)
   }
@@ -25,8 +29,8 @@ const Banner = ({ style, imgUrls }) => {
     >
       {imgUrlList.map((value, key) => (
         <SwiperSlide key={`${value}${Math.random()}`}>
-          Slide test
           <img
+            onError={onError}
             src={value}
             style={{
               width: '100%',
