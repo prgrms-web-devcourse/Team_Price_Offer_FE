@@ -18,7 +18,7 @@ import ModalConfirmBuyer from '@components/ui/modal/ModalConfirmBuyer'
 import ModalChat from '@components/ui/modal/ModalChat'
 import Pagination from '@components/templates/Pagination'
 import Like from '@components/ui/InPostToggle'
-import { USER_CIRCLE } from '@utils/constant'
+import { USER_CIRCLE, USER } from '@utils/constant'
 
 export const getServerSideProps = async context => {
   // const { data } = await articleApi.getArticleUserID(context.query.id)
@@ -173,7 +173,7 @@ const Post = ({ postId, data }) => {
               <div className="post-info">
                 <div className="post-info-user">
                   <Avatar
-                    src={postData.author.profileImageUrl || USER_CIRCLE}
+                    src={postData.author.profileImageUrl || USER}
                     style={{ width: '46.97px', height: '47px' }}
                   />
                   <div className="user-name">{postData.author.nickname}</div>

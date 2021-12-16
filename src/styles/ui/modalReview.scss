@@ -47,6 +47,14 @@
             font-size: 14px;
             color: $FONT_GRAY_COLOR;
             gap:10px;
+            .goodsbox-title{
+                max-width:70px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+
+            }
+
         }
     }
 
@@ -122,6 +130,9 @@
             width:200px;
             height: 50px;
         }
+    }
+    .error{
+        color: red;
     }
 }
 
