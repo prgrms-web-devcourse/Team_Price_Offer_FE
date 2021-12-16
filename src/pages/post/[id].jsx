@@ -18,6 +18,7 @@ import ModalConfirmBuyer from '@components/ui/modal/ModalConfirmBuyer'
 import ModalChat from '@components/ui/modal/ModalChat'
 import Pagination from '@components/templates/Pagination'
 import Like from '@components/ui/InPostToggle'
+import { USER_CIRCLE } from '@utils/constant'
 
 export const getServerSideProps = async context => {
   // const { data } = await articleApi.getArticleUserID(context.query.id)
@@ -71,7 +72,7 @@ const Post = ({ postId, data }) => {
   // console.log('게시글 작성자 여부', isWriter)
   // console.log('포스트 데이터', postData)
   // console.log('포스트 이미지 데이터', imgUrls)
-  console.log('오퍼 목록', offerList)
+  // console.log('오퍼 목록', offerList)
 
   const dialogClick = e => {
     e.stopPropagation()
@@ -81,12 +82,12 @@ const Post = ({ postId, data }) => {
   const handleChange = async e => {
     const code = Number(e.target.value)
     const getPostId = postId
-    console.log(getPostId)
+    // console.log(getPostId)
 
     if (code === 2) {
       // 예약중
       if (confirm('예약중으로 변경하시겠습니까?')) {
-        console.log(getPostId)
+        // console.log(getPostId)
         const res = await articleApi.changeTradeStatus({
           articleId: getPostId,
           option: {
@@ -172,7 +173,7 @@ const Post = ({ postId, data }) => {
               <div className="post-info">
                 <div className="post-info-user">
                   <Avatar
-                    src="https://picsum.photos/200"
+                    src={postData.author.profileImageUrl || USER_CIRCLE}
                     style={{ width: '46.97px', height: '47px' }}
                   />
                   <div className="user-name">{postData.author.nickname}</div>

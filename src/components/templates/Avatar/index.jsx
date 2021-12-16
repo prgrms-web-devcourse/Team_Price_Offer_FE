@@ -1,12 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import USER from '@utils/constant/icon'
+import { USER_CIRCLE } from '@utils/constant'
 
 const Avatar = ({ style, className, src }) => {
+  const [profileImg, setprofileImg] = useState(src)
+
+  const onError = e => {
+    e.target.src = USER
+  }
+  console.log('src', src)
   return (
-    <AvatarWrapper style={style} className={className} src={src}>
-      <img src={src} alt="avatar" />
+    <AvatarWrapper
+      onError={onError}
+      style={style}
+      className={className}
+      src={src}>
+      <img src={src} alt="avatar" onError={onError} />
     </AvatarWrapper>
   )
 }

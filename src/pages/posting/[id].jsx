@@ -63,9 +63,9 @@ const posting = ({ postId }) => {
         imgRef3.current.src = res.data?.imageUrl
         return
       }
-      return
+    } else {
+      alert(res.message)
     }
-
     const reader = new FileReader()
     reader.readAsDataURL(imageFile)
 
@@ -74,6 +74,8 @@ const posting = ({ postId }) => {
     }
   }
 
+  const defaultimgSrc =
+    'https://user-images.githubusercontent.com/66211721/146362506-d1c96afd-ba9b-48a9-822c-92c5628f5f46.png'
   const imgSrc =
     'https://user-images.githubusercontent.com/66211721/145774500-c62d1410-03d4-4a39-9deb-7d9580153a68.png'
 
@@ -92,11 +94,11 @@ const posting = ({ postId }) => {
     validate,
     onSubmit: async values => {
       const imgUrl1 =
-        imgRef1.current.src === imgSrc ? null : imgRef1.current.src
+        imgRef1.current.src === imgSrc ? 'no-Img' : imgRef1.current.src
       const imgUrl2 =
-        imgRef2.current.src === imgSrc ? null : imgRef1.current.src
+        imgRef2.current.src === imgSrc ? 'no-Img' : imgRef1.current.src
       const imgUrl3 =
-        imgRef3.current.src === imgSrc ? null : imgRef1.current.src
+        imgRef3.current.src === imgSrc ? 'no-Img' : imgRef1.current.src
 
       const userInfo = {
         id: postId,
