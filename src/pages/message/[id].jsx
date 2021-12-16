@@ -35,13 +35,15 @@ const MessagePage = ({ userId }) => {
       content: '',
     },
     validate,
-    onSubmit: async msg => {
+    onSubmit: async (values, submitProps) => {
       await messageApi.postMessage({
         messageRoomId: selectedMessageRoomId.current,
         message: {
-          content: msg.content,
+          content: values.content,
         },
       })
+
+      submitProps.resetForm()
     },
   })
 
@@ -60,7 +62,7 @@ const MessagePage = ({ userId }) => {
       },
     })
     setMessageRoomInfo(() => roomInfoRes.data)
-    setMessageList(() => messageListRes.data.elements)
+    setMessageList(() => messageListRes.data.content)
 
     selectedMessageRoomId.current = messageRoomId
   }, [])
@@ -68,6 +70,23 @@ const MessagePage = ({ userId }) => {
   const fetchDeleteMessageBox = useCallback(async () => {
     await messageApi.deleteMessageBox(selectedMessageRoomId)
   })
+
+  const messageOptimisticUpdate = () => {
+    const date = new Date()
+    const createdDate = `${date.getFullYear()}-${
+      date.getMonth() + 1
+    }-${date.getDate()}T${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+
+    setMessageList([
+      ...messageList,
+      {
+        messageId: createdDate,
+        content: messageFormik.values.content,
+        createdDate,
+        isSendMessage: true,
+      },
+    ])
+  }
 
   useEffect(() => {
     fetchMessageBox()
@@ -77,7 +96,7 @@ const MessagePage = ({ userId }) => {
     messageList &&
     messageList.map(message =>
       message.isSendMessage ? (
-        <div className="message-chat_buyer" key={message.createdDate}>
+        <div className="message-chat_buyer" key={message.messageId}>
           <div className="chat-wrapper">
             <span className="message-time">{message.createdDate}</span>
             <div className="message-wrapper">
@@ -88,7 +107,7 @@ const MessagePage = ({ userId }) => {
           </div>
         </div>
       ) : (
-        <div className="message-chat_seller">
+        <div className="message-chat_seller" key={message.messageId}>
           <Avatar
             className="message-avatar"
             src={messageRoomInfo.messagePartnerInfo.profileImageUrl}
@@ -101,9 +120,6 @@ const MessagePage = ({ userId }) => {
                   {message.content}
                 </MessageBox>
               </div>
-              {/* <div className="message-chat_box-wrapper">
-          <MessageBox className="message-chat_box">잠시만요~</MessageBox>
-        </div> */}
             </div>
             <span className="message-time">{message.createdDate}</span>
           </div>
@@ -176,7 +192,7 @@ const MessagePage = ({ userId }) => {
               <div className="message-chat_info">
                 <img
                   className="message-product"
-                  src="https://picsum.photos/100"
+                  src={messageRoomInfo.articleInfo.productImageUrl}
                   alt="product"
                 />
                 <div className="message-product_info">
@@ -185,7 +201,7 @@ const MessagePage = ({ userId }) => {
                   </span>
                   <p className="message-product_info-price">
                     <span className="message-product_info-default">
-                      {messageRoomInfo.articleInfo.price}
+                      {messageRoomInfo.articleInfo.price}원
                     </span>
                     <span className="message-product_info-offer">
                       (제안가: {messageRoomInfo.articleInfo.offerPrice}
@@ -210,7 +226,9 @@ const MessagePage = ({ userId }) => {
                         <span className="message-limit_current">0</span>
                         <span>/ 100</span>
                       </div>
-                      <button type="submit">전송</button>
+                      <button type="submit" onClick={messageOptimisticUpdate}>
+                        전송
+                      </button>
                     </div>
                   </form>
                 </div>
