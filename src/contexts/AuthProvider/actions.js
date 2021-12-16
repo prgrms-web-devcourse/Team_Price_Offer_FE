@@ -141,6 +141,8 @@ const useActions = dispatch => {
       }
 
       const userData = res.data.member
+
+      setItem('userData', userData)
       dispatch({ type: MODIFY_USERINFO, payload: { userData } })
       dispatch({ type: LOADING_OFF })
     } catch (e) {
