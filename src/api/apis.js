@@ -48,23 +48,23 @@ export const articleApi = {
   deleteArticle: articleId => auth.delete(`/articles/${articleId}`),
   toggleLikeArticle: articleId => auth.patch(`/articles/${articleId}/like`),
   postOffer: ({ articleId, price }) =>
-    auth.post(`	/articles/${articleId}/offers`, price),
+    auth.post(`/articles/${articleId}/offers`, price),
   selectOffer: offerId => auth.patch(`/articles/offers/${offerId}`),
   getArticlesInfos: instance.get('articles/infos'),
 }
 
 export const messageApi = {
-  postMessageToOffer: ({ memberId, offerId, params }) =>
-    auth.post(`/messages/member/${memberId}/offerId/${offerId}`, { params }),
-  postMessage: ({ messageRoodId, params }) =>
-    auth.post(`/messages/messageRoom/${messageRoodId}`, { params }),
+  postMessageToOffer: ({ memberId, offerId, message }) =>
+    auth.post(`/messages/member/${memberId}/offerId/${offerId}`, message),
+  postMessage: ({ messageRoomId, message }) =>
+    auth.post(`/messages/messageRoom/${messageRoomId}`, message),
   getMessageList: ({ messageRoomId, params }) =>
     auth.get(`/messages/messageRoom/${messageRoomId}/contents`, { params }),
   getMessageRoomInfo: ({ messageRoomId }) =>
     auth.get(`/messages/messageRoom/${messageRoomId}/messageRoomInfo`),
   deleteMessageBox: ({ messageRoomId }) =>
     auth.delete(`	/messages/messageRoomId/${messageRoomId}`),
-  getMessageBox: auth.get('/messages/messageBox'),
+  getMessageBox: () => auth.get('/messages/messageBox'),
 }
 
 export const imgApi = {
