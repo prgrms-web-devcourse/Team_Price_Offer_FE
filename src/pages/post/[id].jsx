@@ -15,6 +15,7 @@ import SelectBox from '@components/templates/Selectbox'
 import ModalOffer from '@components/ui/modal/ModalOffer'
 import ModalLogin from '@components/ui/modal/ModalLogin'
 import ModalConfirmBuyer from '@components/ui/modal/ModalConfirmBuyer'
+import ModalChat from '@components/ui/modal/ModalChat'
 import Like from '@components/templates/ToggleButton'
 
 export const getServerSideProps = async context => {
@@ -39,9 +40,12 @@ const Post = ({ postId, data }) => {
   const [tradeStatus, setTradeStatus] = useState(false)
   const [offerList, setOfferList] = useState([{}])
   const [isMounted, setMounted] = useState(false)
+  const [offerId, setOfferId] = useState(false)
+
   const [visible, setVisible] = useState(false)
   const [loginVisible, setLoginVisible] = useState(false)
   const [confirmVisible, setConfirmVisible] = useState(false)
+  const [chatVisible, setChatVisible] = useState(false)
 
   useEffect(async () => {
     const imageUrls = await articleApi.getImgUrlList(postId)
@@ -118,6 +122,11 @@ const Post = ({ postId, data }) => {
         e.target.value = await postData.tradeStatus.code
       }
     }
+  }
+
+  const chatClick = async (offerId, e) => {
+    await setChatVisible(true)
+    await setOfferId(offerId)
   }
 
   return (
@@ -343,6 +352,9 @@ const Post = ({ postId, data }) => {
                                 className="offer-send-button"
                                 style={{ width: '30px', height: '30px' }}
                                 src={OFFER}
+                                onClick={e => {
+                                  chatClick(offererList.id, e)
+                                }}
                               />
                             )}
                           </div>
@@ -386,7 +398,8 @@ const Post = ({ postId, data }) => {
                                 : setLoginVisible(true)
                             }>
                             {/* isWritingAvailableFromCurrentMember */}
-                            가격 제안하기({offerList.pageInfo.totalElementCount}
+                            가격 제안하기(
+                            {offerList.offerCountOfCurrentMember}
                             /2)
                           </BUTTON>
                           <ModalOffer
@@ -421,6 +434,13 @@ const Post = ({ postId, data }) => {
         postId={postId}>
         구매자 확정 모달
       </ModalConfirmBuyer>
+      <ModalChat
+        visible={chatVisible}
+        onClose={() => setChatVisible(false)}
+        postId={postId}
+        offerId={offerId}>
+        쪽지 모달
+      </ModalChat>
     </div>
   )
 }

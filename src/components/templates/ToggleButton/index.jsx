@@ -11,7 +11,7 @@ const LikeButton = ({ name, className, alt, onClick, isLiked, style }) => {
 
   console.log(isLiked)
 
-  const postId = getItem('postId').replace('"', '')
+  const postId = getItem('postId').replaceAll('"', '')
 
   console.log(postId)
 
