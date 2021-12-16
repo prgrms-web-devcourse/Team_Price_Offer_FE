@@ -41,7 +41,24 @@ const Post = ({ postId, data }) => {
   const [offerList, setOfferList] = useState([{}])
   const [isMounted, setMounted] = useState(false)
   const [offerId, setOfferId] = useState(false)
-  const [currentPage, setCurrentPage] = useState(1)
+
+  const [checkOfferOptions, setOfferOptions] = useState({
+    articleId: postId,
+    params: {
+      page: 1,
+      size: 5,
+    },
+  })
+
+  const handleOffers = pageNum => {
+    setOfferOptions({
+      ...checkOfferOptions,
+      params: {
+        ...checkOfferOptions.params,
+        page: pageNum,
+      },
+    })
+  }
 
   const [visible, setVisible] = useState(false)
   const [loginVisible, setLoginVisible] = useState(false)
@@ -51,10 +68,7 @@ const Post = ({ postId, data }) => {
   useEffect(async () => {
     const imageUrls = await articleApi.getImgUrlList(postId)
     const { data } = await articleApi.getArticleUserID(postId)
-    const offerList = await articleApi.getOfferListPage({
-      articleId: postId,
-      params: { page: currentPage, size: 5 },
-    })
+    const offerList = await articleApi.getOfferListPage(checkOfferOptions)
     setPostData(data.article)
     setimgUrls(imageUrls.data.imageUrls)
     setOfferList(offerList.data)
@@ -63,7 +77,7 @@ const Post = ({ postId, data }) => {
       ? setTradeStatus(true)
       : setTradeStatus(false)
     setMounted(true)
-  }, [state, currentPage])
+  }, [state, checkOfferOptions])
 
   const dialogClick = e => {
     e.stopPropagation()
@@ -363,11 +377,10 @@ const Post = ({ postId, data }) => {
               />
               <div className="offer-option">
                 <Pagination
-                  // className="pagenation"
                   size={offerList.pageInfo.sizePerPage}
                   postListLength={offerList.pageInfo.totalElementCount}
-                  paginate={setCurrentPage}
-                  setStartPage={setCurrentPage}
+                  paginate={handleOffers}
+                  setStartPage={handleOffers}
                 />
                 <div className="offer-state">
                   {tradeStatus ? (
