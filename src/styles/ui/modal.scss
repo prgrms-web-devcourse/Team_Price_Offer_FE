@@ -145,18 +145,6 @@
 
     }
 
-    &_select-wrapper {
-      display: flex;
-
-      div {
-        flex: 1;
-      }
-
-      div:first-child {
-        margin-right: 10px;
-      }
-    }
-
     &_btn {
       font-size: 16px;
       font-weight: 600;

@@ -2,7 +2,7 @@
 @import "@styles/common/mixins";
 
 .profile {
-    margin: 100px 0;
+    margin: 50px 0;
 
     &-container {
         width: 100%;
@@ -14,6 +14,27 @@
         padding: 15px 0;
         gap: 0;
         border-radius: 3px;
+
+        &.other-profile {
+            display: flex;
+            width: 80%;
+            margin: 0 auto;
+
+            .profile-box {
+                flex: 1;
+            }
+
+            .profile-divider {
+                width: 1px;
+                height: 100%;
+                border-right: 1px solid $BORDER_COLOR;
+            }
+
+            .profile-list {
+                flex: 1;
+                grid-template-columns: repeat(2, 1fr);
+            }
+        };
     }
 
     &-box {
@@ -66,7 +87,7 @@
     }
 
     &-divider {
-        background-color: $BORDER_COLOR;
+        border-right: 1px solid $BORDER_COLOR;
         width: 1px;
         height: 100%;
     }
@@ -90,7 +111,8 @@
 
             &.selected {
                 background: linear-gradient(180deg, rgba(255, 255, 255, 0) 50%, #f7502a41 50%);
-            }      }
+            }
+        }
 
         &_content {
             font-size: 22px;
@@ -123,6 +145,7 @@
             background-color: transparent;
             color: $FONT_GRAY_COLOR;
             border-top: 2px solid #000;
+            border-radius: 0;
             border-bottom: 2px solid $BORDER_COLOR;
             font-weight: 500;
 
@@ -165,11 +188,43 @@
             gap: 20px;
             height: 300px;
             padding: 30px 20px;
+
+
+            &.other-profile {
+                flex-direction: column;
+
+                .profile-box {
+                    flex: 1;
+                }
+
+                .profile-divider {
+                    width: 100%;
+                    height: 1px;
+                }
+
+                .profile-list {
+                    flex: 1;
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
+                .profile-list_item:first-child {
+                    position: relative;
+
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        right: 0;
+                        height: 80px;
+                        border-right: 1px solid $BORDER_COLOR;
+                    }
+                }
+            };
         }
 
         &-divider {
             width: 100%;
             height: 1px;
+            border-bottom: 1px solid $BORDER_COLOR;
         }
     }
 
@@ -182,11 +237,42 @@
             gap: 20px;
             height: 300px;
             padding: 30px 20px;
+
+            &.other-profile {
+                flex-direction: column;
+
+                .profile-box {
+                    flex: 1;
+                }
+
+                .profile-divider {
+                    width: 100%;
+                    height: 1px;
+                }
+
+                .profile-list {
+                    flex: 1;
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
+                .profile-list_item:first-child {
+                    position: relative;
+
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        right: 0;
+                        height: 80px;
+                        border-right: 1px solid $BORDER_COLOR;
+                    }
+                }
+            };
         }
 
         &-divider {
             width: 100%;
             height: 1px;
+            border-bottom: 1px solid $BORDER_COLOR;
         }
     }
 }

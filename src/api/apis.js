@@ -3,26 +3,33 @@ import { instance, auth } from '@api/index'
 export const authApi = {
   signUp: userInfo => instance.post('/members', userInfo),
   loginEmail: userInfo => instance.post('/members/login', userInfo),
-  loginKakao: userInfo => instance.post('/login', userInfo),
+  loginKakao: code => instance.get(`/oauth/callback/kakao?code=${code}`),
   checkDuplicates: email => instance.get(`/members?email=${email}`),
   withdrawal: password => auth.delete('/members', password),
   getUserInfo: () => auth.get('/members/me'),
+  getUserProfile: () => auth.get('/members/mypage'),
+  getOtherUserProfile: merberId => instance.get(`/members/${merberId}`),
   modifyUserInfo: userInfo => auth.patch('/members/me', userInfo),
 }
 
 export const userApi = {
-  getLikeArticles: ({ memberId, params }) =>
-    auth.get(`/members/${memberId}/profiles/articles/likes`, { params }),
-  getTradingAtricles: ({ memberId, params }) =>
-    instance.get(`/articles?memberId=${memberId}&status=trading`, { params }),
-  getCompletedArticles: ({ memberId, params }) =>
-    instance.get(`/articles?memberId=${memberId}&status=completed`, { params }),
-  getBuyReviews: memberId =>
-    instance.get(`/reviews?memberId=${memberId}&status=buy`),
-  getSellReviews: memberId =>
-    instance.get(`/reviews?memberId=${memberId}&status=sell`),
-  postReview: ({ offerId, memberId, content }) =>
-    auth.post(`/reviews/offers/${offerId}?toMember=${memberId}`, content),
+  getUserLikeArticles: params =>
+    auth.get('/articles/like-articles', { params }),
+  getUserTradingAtricles: ({ memberId, params }) =>
+    instance.get(`/articles?memberId=${memberId}&tradeStatusCode=4`, {
+      params,
+    }),
+  getUserCompletedArticles: ({ memberId, params }) =>
+    instance.get(`/articles?memberId=${memberId}&tradeStatusCode=8`, {
+      params,
+    }),
+  getUserBuyReviews: memberId =>
+    instance.get(`/reviews?memberId=${memberId}&role=buyer`),
+  getUserSellReviews: memberId =>
+    instance.get(`/reviews?memberId=${memberId}&role=seller`),
+  getUserReview: articleId => auth.get(`/reviews/me?articleId=${articleId}`),
+  postReview: ({ articleId, payload }) =>
+    auth.post(`/reviews?articleId=${articleId}`, payload),
 }
 
 export const reviewApi = {
@@ -39,6 +46,8 @@ export const articleApi = {
   editArticle: articleInfo => auth.put('/articles', articleInfo),
   getArticle: ({ articleId, params }) =>
     instance.get(`/articles${articleId ? `/${articleId}` : ''}`, { params }),
+  getTradingAtricles: params =>
+    auth.get('/articles?tradeStatusCode=4', { params }),
   getArticleOfCategory: ({ categoryCode, params }) =>
     instance.get(`/articles?categoryCode=${categoryCode}`, { params }),
   getOffersList: articleId => instance.get(`/articles/${articleId}/offers`),
@@ -50,7 +59,7 @@ export const articleApi = {
   postOffer: ({ articleId, price }) =>
     auth.post(`	/articles/${articleId}/offers`, price),
   selectOffer: offerId => auth.patch(`/articles/offers/${offerId}`),
-  getArticlesInfos: instance.get('articles/infos'),
+  getArticlesInfos: () => instance.get('articles/infos'),
 }
 
 export const messageApi = {

@@ -8,6 +8,10 @@ const initialState = {
     nickname: null,
     profileImage: null,
     address: null,
+    sellingArticleCount: null,
+    likedArticleCount: null,
+    offerCount: null,
+    reviewCount: null,
   },
 }
 
