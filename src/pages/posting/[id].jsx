@@ -7,12 +7,12 @@ import Button from '@components/templates/Button'
 import SelectBox from '@components/templates/Selectbox'
 import validate from '@utils/validation'
 import ImageUploader from '@components/templates/ImageUploader'
+import router from 'next/router'
 import { articleApi, imgApi } from '@api/apis'
 import { CATEGORIES } from '@data/dummy/categories'
 import { ORDERWAY } from '@data/dummy/orderway'
 import { PRODUCT_STATUS } from '@data/dummy/productstatus'
 import { useFormik } from 'formik'
-import router from 'next/router'
 
 export const getServerSideProps = async context => {
   return {
@@ -72,8 +72,6 @@ const posting = ({ postId }) => {
     }
   }
 
-  const defaultimgSrc =
-    'https://user-images.githubusercontent.com/66211721/146362506-d1c96afd-ba9b-48a9-822c-92c5628f5f46.png'
   const imgSrc =
     'https://user-images.githubusercontent.com/66211721/145774500-c62d1410-03d4-4a39-9deb-7d9580153a68.png'
 
@@ -110,10 +108,8 @@ const posting = ({ postId }) => {
         price: values.price,
         imageUrls: [imgUrl1, imgUrl2, imgUrl3],
       }
-      console.log(userInfo)
       const res = await articleApi.editArticle(userInfo)
       if (Number(res.code) === 200) {
-        console.log(res)
         alert('게시글 등록 완료')
         router.push(`/post/${res.data.id}`)
       }
