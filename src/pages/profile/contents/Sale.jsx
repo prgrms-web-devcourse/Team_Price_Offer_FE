@@ -3,34 +3,49 @@ import PropTypes from 'prop-types'
 import Divider from '@components/templates/Divider'
 import Button from '@components/templates/Button'
 import GoodsList from '@components/ui/GoodsList'
+import Pagination from '@components/templates/Pagination'
 import { userApi } from '@api/apis'
 
 const Sale = ({ userId }) => {
-  const [goodsList, setGoodsList] = useState([])
+  const [goodsList, setGoodsList] = useState({
+    elements: [],
+    totalElementCount: 0,
+  })
   const [goodsListStatus, setGoodsListStatus] = useState({
     isSelling: true,
   })
+  const [checkGoodsOptions, setCheckGoodsOptions] = useState({
+    memberId: userId,
+    params: {
+      page: 1,
+      size: 10,
+    },
+  })
+
+  const handleCheckGoods = pageNum => {
+    setCheckGoodsOptions({
+      ...checkGoodsOptions,
+      params: {
+        ...checkGoodsOptions.params,
+        page: pageNum,
+      },
+    })
+  }
 
   useEffect(async () => {
-    if (goodsListStatus.isSelling) {
-      const res = await userApi.getUserTradingAtricles({ memberId: userId })
-
-      if (Number(res.code) !== 200) {
-        return alert('판매중인 상품 조회 시, 문제가 발생하였습니다!')
-      }
-
-      setGoodsList(res.data.elements)
-      return
-    }
-
-    const res = await userApi.getUserCompletedArticles({ memberId: userId })
+    const res = goodsListStatus.isSelling
+      ? await userApi.getUserTradingAtricles(checkGoodsOptions)
+      : await userApi.getUserCompletedArticles(checkGoodsOptions)
 
     if (Number(res.code) !== 200) {
-      return alert('판매완료 상품 조회 시, 문제가 발생하였습니다!')
+      return alert('상품 조회 시, 문제가 발생하였습니다!')
     }
 
-    setGoodsList(res.data.elements)
-  }, [goodsListStatus])
+    setGoodsList({
+      elements: res.data.elements,
+      totalElementCount: res.data.pageInfo.totalElementCount,
+    })
+  }, [goodsListStatus, checkGoodsOptions])
 
   return (
     <div className="result-container">
@@ -59,8 +74,14 @@ const Sale = ({ userId }) => {
         <span className="result-lineup_item">높은 가격순</span>
       </div>
       <div className="result-content">
-        <GoodsList goodsList={goodsList} className="sale-goodList" />
+        <GoodsList goodsList={goodsList.elements} className="sale-goodList" />
       </div>
+      <Pagination
+        size={checkGoodsOptions.params.size}
+        postListLength={goodsList.totalElementCount}
+        paginate={handleCheckGoods}
+        setStartPage={handleCheckGoods}
+      />
     </div>
   )
 }
