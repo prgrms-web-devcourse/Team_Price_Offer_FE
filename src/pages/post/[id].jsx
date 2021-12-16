@@ -5,10 +5,6 @@ import DIVIDER from '@components/templates/Divider'
 import GOODSIMG from '@components/templates/Banner'
 import BUTTON from '@components/templates/Button'
 import Dialog from '@components/templates/Dialog'
-import { OFFER, OPTIONS } from '@utils/constant/icon'
-import { articleApi } from '@api/apis'
-import { useAuthContext } from '@hooks/useAuthContext'
-import { timeForToday } from '@utils/functions'
 import useStorage from '@hooks/useStorage'
 import SelectBox from '@components/templates/Selectbox'
 import ModalOffer from '@components/ui/modal/ModalOffer'
@@ -17,6 +13,10 @@ import ModalConfirmBuyer from '@components/ui/modal/ModalConfirmBuyer'
 import ModalChat from '@components/ui/modal/ModalChat'
 import Pagination from '@components/templates/Pagination'
 import Like from '@components/ui/InPostToggle'
+import { OFFER, OPTIONS } from '@utils/constant/icon'
+import { articleApi } from '@api/apis'
+import { useAuthContext } from '@hooks/useAuthContext'
+import { timeForToday } from '@utils/functions'
 import { USER } from '@utils/constant'
 import { STATUSLIST } from '@data/dummy/postStatusdialogList'
 
@@ -91,7 +91,6 @@ const Post = ({ postId, data }) => {
     if (code === 2) {
       // 예약중
       if (confirm('예약중으로 변경하시겠습니까?')) {
-        // console.log(getPostId)
         const res = await articleApi.changeTradeStatus({
           articleId: getPostId,
           option: {
@@ -192,65 +191,53 @@ const Post = ({ postId, data }) => {
                   }}
                 />
                 {isWriter ? (
-                  <>
-                    <div className="status-wrapper">
-                      <SelectBox
-                        style={{
-                          fontSize: '10px',
-                          width: '100px',
-                          height: '30px',
-                        }}
-                        onChange={handleChange}
-                        formName="trade"
-                        options={STATUSLIST}
-                        className="status"
-                        defaultOption={{
-                          code: postData.tradeStatus.code,
-                          name: postData.tradeStatus.name,
-                        }}
-                      />
-                      <ICONBUTTON
-                        className="options"
-                        src={OPTIONS}
-                        onClick={dialogClick}
-                        style={{
-                          width: '30px',
-                          height: '30px',
-                        }}
-                      />
-                      <Dialog
-                        className="status-list"
-                        style={{ justifyContent: 'space-between' }}
-                        items={[
-                          {
-                            code: 'modify',
-                            name: '게시글 수정',
-                          },
-                          {
-                            code: 'delete',
-                            name: '게시글 삭제',
-                          },
-                        ]}
-                        visible={dialogVisible}
-                        onClose={() => setDialogVisible(false)}
-                      />
-                    </div>
-                  </>
+                  <div className="status-wrapper">
+                    <SelectBox
+                      style={{
+                        fontSize: '10px',
+                        width: '100px',
+                        height: '30px',
+                      }}
+                      onChange={handleChange}
+                      formName="trade"
+                      options={STATUSLIST}
+                      className="status"
+                      defaultOption={{
+                        code: postData.tradeStatus.code,
+                        name: postData.tradeStatus.name,
+                      }}
+                    />
+                    <ICONBUTTON
+                      className="options"
+                      src={OPTIONS}
+                      onClick={dialogClick}
+                      style={{
+                        width: '30px',
+                        height: '30px',
+                      }}
+                    />
+                    <Dialog
+                      className="status-list"
+                      style={{ justifyContent: 'space-between' }}
+                      items={[
+                        {
+                          code: 'modify',
+                          name: '게시글 수정',
+                        },
+                        {
+                          code: 'delete',
+                          name: '게시글 삭제',
+                        },
+                      ]}
+                      visible={dialogVisible}
+                      onClose={() => setDialogVisible(false)}
+                    />
+                  </div>
                 ) : (
                   ''
                 )}
                 <div className="post-info-top">
                   <div className="post-title">{postData.title}</div>
-                  {/* <ICONBUTTON
-                src="./favicon.ico"
-                alt="likeButton"
-                style={{
-                  width: '30px',
-                  height: '30px',
-                  marginLeft: 'auto',
-                  lineHeight: '30px',
-                }}
-              /> */}
                   <Like
                     className="like-button"
                     style={{
@@ -321,44 +308,42 @@ const Post = ({ postId, data }) => {
               />
               <div className="offer-wrapper">
                 {offerList.elements.length > 0 ? (
-                  <>
-                    <div className="offer-user-infos">
-                      {offerList.elements.map(offererList => (
-                        <div className="offer-user-info" key={offererList.id}>
-                          <div className="offer-subinfo">
-                            <div className="offer-username">
-                              {offererList.offerer.nickname}
-                            </div>
-                            <div className="subinfo-wrapper">
-                              <div className="offer-address">
-                                <div className="address">
-                                  {offererList.offerer.address} •
-                                </div>
-                                <div className="offer-time">
-                                  &nbsp;{timeForToday(offererList.createdDate)}
-                                </div>
+                  <div className="offer-user-infos">
+                    {offerList.elements.map(offererList => (
+                      <div className="offer-user-info" key={offererList.id}>
+                        <div className="offer-subinfo">
+                          <div className="offer-username">
+                            {offererList.offerer.nickname}
+                          </div>
+                          <div className="subinfo-wrapper">
+                            <div className="offer-address">
+                              <div className="address">
+                                {offererList.offerer.address} •
+                              </div>
+                              <div className="offer-time">
+                                &nbsp;{timeForToday(offererList.createdDate)}
                               </div>
                             </div>
                           </div>
-                          <div className="offer-suggestinfo">
-                            <div className="offer-price">
-                              {offererList.price.toLocaleString()} 원
-                            </div>
-                            {isWriter && (
-                              <ICONBUTTON
-                                className="offer-send-button"
-                                style={{ width: '30px', height: '30px' }}
-                                src={OFFER}
-                                onClick={e => {
-                                  chatClick(offererList.id, e)
-                                }}
-                              />
-                            )}
-                          </div>
                         </div>
-                      ))}
-                    </div>
-                  </>
+                        <div className="offer-suggestinfo">
+                          <div className="offer-price">
+                            {offererList.price.toLocaleString()} 원
+                          </div>
+                          {isWriter && (
+                            <ICONBUTTON
+                              className="offer-send-button"
+                              style={{ width: '30px', height: '30px' }}
+                              src={OFFER}
+                              onClick={e => {
+                                chatClick(offererList.id, e)
+                              }}
+                            />
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 ) : (
                   <div className="not-offer-wrapper">
                     <div className="offer-state_ban">
@@ -398,7 +383,6 @@ const Post = ({ postId, data }) => {
                                 ? setVisible(true)
                                 : setLoginVisible(true)
                             }>
-                            {/* isWritingAvailableFromCurrentMember */}
                             가격 제안하기(
                             {offerList.offerCountOfCurrentMember}
                             /2)
@@ -449,11 +433,3 @@ const Post = ({ postId, data }) => {
 Post.propTypes = {}
 
 export default Post
-
-// export async function getStaticPaths() {
-//   // Return a list of possible value for id
-// }
-
-// export async function getStaticProps({ params }) {
-//   // Fetch necessary data for the blog post using params.id
-// }
