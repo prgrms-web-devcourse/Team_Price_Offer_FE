@@ -21,7 +21,10 @@ const LoginContent = () => {
   })
 
   const onKaKaoLogin = async () => {
-    await handleKakaoLogin()
+    const { BASE_API_HOST } = process.env
+    const redirectUrl = `${BASE_API_HOST}/oauth2/authorization/kakao`
+
+    window.location.href = redirectUrl
   }
 
   return (

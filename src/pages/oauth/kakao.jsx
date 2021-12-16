@@ -4,16 +4,19 @@ import React, { useEffect, useState } from 'react'
 
 const KakaoLoginPage = () => {
   const router = useRouter()
-  const { code } = router.query
+  const { token } = router.query
 
   const [result, setResult] = useState([])
 
-  useEffect(async () => {
-    if (code) {
-      const res = await authApi.loginKakao(code)
-      res.data && setResult(res.data)
-    }
-  })
+  console.log(token)
+
+  // useEffect(async () => {
+  //   if (code) {
+  //     const res = await authApi.loginKakao(code)
+  //     res.data && setResult(res.data)
+  //   }
+  // })
+
   return (
     <div>
       <div>
@@ -33,7 +36,7 @@ const KakaoLoginPage = () => {
         </p>
         <p>4. member 정보가 온 response를 이용하여 화면에 출력</p>
       </div>
-      <div style={{ marginTop: '20px' }}>인가코드: {code}</div>
+      <div style={{ marginTop: '20px' }}>인가코드: {token}</div>
       <div style={{ marginTop: '20px' }}>
         결과값: {result ? JSON.stringify(result) : '결과값 없음'}
       </div>
