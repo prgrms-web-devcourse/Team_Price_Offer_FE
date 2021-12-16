@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import GoodsItem from '@components/ui/GoodsItem'
 
-const GoodsList = ({ goodsList, className }) => {
+const GoodsList = ({ goodsList, className, onClick }) => {
   return (
     <div className={`goods-wrapper ${className}`}>
-      <ul className="goods-list">
+      <div className="goods-list">
         {goodsList.map(item => (
           <GoodsItem
             key={item.id}
@@ -14,9 +14,11 @@ const GoodsList = ({ goodsList, className }) => {
             location={item.address}
             time={item.time}
             price={item.price}
+            postId={item.id}
+            onClick={onClick}
           />
         ))}
-      </ul>
+      </div>
     </div>
   )
 }

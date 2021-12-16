@@ -5,7 +5,16 @@ import Divider from '@components/templates/Divider'
 import Like from '@components/templates/ToggleButton'
 import Button from '@components/templates/Button'
 
-const GoodsItem = ({ src, title, time, location, price, btnValue = false }) => {
+const GoodsItem = ({
+  src,
+  title,
+  time,
+  location,
+  price,
+  btnValue = false,
+  onClick,
+  postId,
+}) => {
   const imgContainerStyle = {
     width: '100%',
     height: '300px',
@@ -37,9 +46,17 @@ const GoodsItem = ({ src, title, time, location, price, btnValue = false }) => {
     fontSize: '10px',
   }
 
+  const handleOnClick = () => {
+    onClick && onClick(postId)
+    console.log(postId)
+  }
+
   return (
     <div className="goods">
-      <div style={imgContainerStyle} className="goods-img-container">
+      <div
+        style={imgContainerStyle}
+        className="goods-img-container"
+        onClick={handleOnClick}>
         <Image
           style={imgStyle}
           className="goods-img"

@@ -17,7 +17,6 @@ const ContentConfirmBuyer = ({ postId }) => {
   const [offerId, setOfferId] = useState('')
 
   useEffect(async () => {
-    console.log(postId)
     const { data } = await articleApi.getArticleUserID(postId)
     const offerList = await articleApi.getOffersList(postId)
     setPostData(data.article)
@@ -28,7 +27,6 @@ const ContentConfirmBuyer = ({ postId }) => {
   const handleClick = (confirmId, e) => {
     const offerer = offerList.elements.filter(x => x.id === confirmId)
     const confrimName = offerer.map(x => x.offerer.nickname)
-    console.log(confrimName)
     setSelecor(`${confrimName[0]}`)
     setOfferId(confirmId)
   }

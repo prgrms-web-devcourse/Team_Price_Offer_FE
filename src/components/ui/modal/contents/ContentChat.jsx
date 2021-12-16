@@ -15,17 +15,13 @@ const ContentChat = ({ postId, offerId }) => {
 
   const [isMounted, setMounted] = useState(false)
   useEffect(async () => {
-    console.log(postId)
     const { data } = await articleApi.getArticleUserID(postId)
     const offerList = await articleApi.getOffersList(postId)
     setPostData(data.article)
     setOfferList(offerList.data)
-    console.log('넘어오는 오퍼아이디', offerId)
     const offerElements = offerList && offerList.data.elements
-    console.log('오퍼 엘레먼트', offerElements)
     const offerInfo =
       offerElements && offerElements.filter(x => x.id === offerId)
-    console.log('오퍼 아이디', offerInfo)
     const userNickname = offerInfo && offerInfo.map(x => x.offerer.nickname)
     setNickname(userNickname[0])
     const memberIdd = offerInfo && offerInfo.map(x => x.offerer.id)
@@ -48,7 +44,8 @@ const ContentChat = ({ postId, offerId }) => {
         },
       })
       if (Number(res.code) === 200) {
-        alert(`${nickname} 님께 쪽지를 보냈습니다.`)
+        alert(`${nickname} 님께 쪽지를 보냈습니다. 쪽지함에서 확인해 보세요!`)
+        router.reload(`/post/${postId}`)
       } else {
         alert(res.message)
       }
@@ -99,8 +96,15 @@ const ContentChat = ({ postId, offerId }) => {
                 placeholder="상대방에게 쪽지를 보내보세요!"
                 value={formik.values.messageContent}
                 onChange={formik.handleChange}
+                maxLength="100"
               />
-              <div className="review-length">0 /100</div>
+              {formik.errors.messageContent ? (
+                <div className="error">{formik.errors.messageContent}</div>
+              ) : null}
+
+              <div className="review-length">
+                {formik.values.messageContent.length} /100
+              </div>
             </div>
 
             <div className="writereview-bottom-wrapper">
