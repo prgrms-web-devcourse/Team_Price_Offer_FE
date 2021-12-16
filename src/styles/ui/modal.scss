@@ -155,6 +155,12 @@
       &-wrapper{
         display: flex;
         justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        .offer{
+          color:white;
+          background-color: $PRIMARY_COLOR;
+        }
       }
 
       &.kakao {
