@@ -76,7 +76,7 @@ const ProfilePage = ({ userId, pageType }) => {
   if (isLoading) {
     return (
       <SpinnerWrapper>
-        <Spinner isLoading={isLoading} />
+        <Spinner />
       </SpinnerWrapper>
     )
   }
