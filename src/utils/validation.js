@@ -7,6 +7,7 @@ const validate = values => {
   const haveConfirmedPassword = fieldKeys.includes('confirmedPassword')
   const haveNumber = fieldKeys.includes('price', 'quantity')
   const haveOfferPrice = fieldKeys.includes('OfferPrice')
+  const havemessageContent = fieldKeys.includes('messageContent')
   fieldKeys.forEach(value => {
     if (!values[value]) {
       errors[value] = '필수값을 입력해주세요!'
@@ -42,6 +43,9 @@ const validate = values => {
   }
   if (haveOfferPrice && typeof values.haveOfferPrice !== 'number') {
     errors.haveOfferPrice = '숫자만 입력해주세요.'
+  }
+  if (havemessageContent && values.messageContent.length >= 100) {
+    errors.messageContent = '쪽지는 100자를 넘을 수 없습니다.'
   }
 
   return errors

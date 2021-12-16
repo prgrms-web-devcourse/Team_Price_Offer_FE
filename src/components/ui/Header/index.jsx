@@ -18,6 +18,7 @@ import {
 } from '@utils/constant'
 import { useAuthContext } from '@hooks/useAuthContext'
 import { useRouter } from 'next/router'
+import { GetServerSideProps } from 'next'
 
 const Header = () => {
   const { state } = useAuthContext()
@@ -174,6 +175,10 @@ const Header = () => {
       </div>
     </div>
   )
+}
+
+export const getStaticProps = ({ query }) => {
+  return { query }
 }
 
 export default Header
