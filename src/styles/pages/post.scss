@@ -25,6 +25,18 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    .finish{
+        position: relative;
+        &-message{
+            font-family: noto-sans;
+            z-index: 100;
+            top:190px;
+            left:200px;
+            color: white;
+            font-size: 22px;
+            position: absolute
+        }
+    }
 }
 
 
@@ -42,6 +54,8 @@
         margin-top: 18px;
         width:100%;
         max-width:453px;
+        min-width: 453px;
+        min-height: 337px;
 
         .post-info-user{
             display: flex;
@@ -113,6 +127,28 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    .not-offer-wrapper{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .offer-state_ban{
+        color:#888888;
+        text-align: center;
+    }
+
+    .offer-button{
+        margin-top: 20px;
+        width:100%;
+        max-width: 214px;
+        height: 52px;
+        background-color: $PRIMARY_COLOR;
+        color : white;
+        &.ban{
+            background-color: #AEAEAE;
+        }
+    }
 
     .goods-info{
         max-width: 488px;
@@ -140,12 +176,14 @@
         .offer-subinfo{
             display: flex;
             flex-direction: column;
+
             .offer-username{
                 display: flex;
                 margin-bottom: 8px;
                 font-size: 16px;
             }
             .offer-address{
+                display: flex;
                 color: #888888;
                 font-size: 14px;
             }
@@ -187,7 +225,7 @@
                 text-align: center;
             }
             .offer-button{
-                margin-top: 20px;
+                margin-bottom: 20px;
                 width:100%;
                 max-width: 214px;
                 height: 52px;
@@ -208,6 +246,7 @@
     .img-wrapper{
         width:100%;
         padding:0px;
+        
     }
 
     .post-info-wrapper{
@@ -310,9 +349,36 @@
 }
 
 
+.options{
+    margin-left: auto;
+}
 
+.status-wrapper{
+    display: flex;
+    position: relative;
 
-
+}
+.status-list {
+    display: flex;
+    z-index: 100;
+    position: absolute;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    width: 90px;
+    height: 109px;
+    border: solid black;
+    font-size: 13px;
+    top: 30px;
+    left: 300px;
+  
+    @media (max-width: 706px) {
+      z-index: 100;
+      left: 300px;
+      height: 109px;
+    }
+  }
 
 
 

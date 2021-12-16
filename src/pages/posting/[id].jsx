@@ -12,8 +12,19 @@ import { CATEGORIES } from '@data/dummy/categories'
 import { ORDERWAY } from '@data/dummy/orderway'
 import { PRODUCT_STATUS } from '@data/dummy/productstatus'
 import { useFormik } from 'formik'
+import router from 'next/router'
 
-const posting = () => {
+export const getServerSideProps = async context => {
+  // const { data } = await articleApi.getArticleUserID(context.query.id)
+  return {
+    props: {
+      postId: context.query.id,
+      // data,
+    },
+  }
+}
+
+const posting = ({ postId }) => {
   const commonDividerStyle = {
     width: '100%',
   }
@@ -52,9 +63,9 @@ const posting = () => {
         imgRef3.current.src = res.data?.imageUrl
         return
       }
-      return
+    } else {
+      alert(res.message)
     }
-
     const reader = new FileReader()
     reader.readAsDataURL(imageFile)
 
@@ -63,6 +74,8 @@ const posting = () => {
     }
   }
 
+  const defaultimgSrc =
+    'https://user-images.githubusercontent.com/66211721/146362506-d1c96afd-ba9b-48a9-822c-92c5628f5f46.png'
   const imgSrc =
     'https://user-images.githubusercontent.com/66211721/145774500-c62d1410-03d4-4a39-9deb-7d9580153a68.png'
 
@@ -81,14 +94,14 @@ const posting = () => {
     validate,
     onSubmit: async values => {
       const imgUrl1 =
-        imgRef1.current.src === imgSrc ? null : imgRef1.current.src
+        imgRef1.current.src === imgSrc ? 'no-Img' : imgRef1.current.src
       const imgUrl2 =
-        imgRef2.current.src === imgSrc ? null : imgRef1.current.src
+        imgRef2.current.src === imgSrc ? 'no-Img' : imgRef1.current.src
       const imgUrl3 =
-        imgRef3.current.src === imgSrc ? null : imgRef1.current.src
+        imgRef3.current.src === imgSrc ? 'no-Img' : imgRef1.current.src
 
       const userInfo = {
-        id: null,
+        id: postId,
         title: values.title,
         content: values.content,
         categoryCode: values.category,
@@ -101,10 +114,10 @@ const posting = () => {
       }
       console.log(userInfo)
       const res = await articleApi.editArticle(userInfo)
-
       if (Number(res.code) === 200) {
         console.log(res)
         alert('게시글 등록 완료')
+        router.push(`/post/${res.data.id}`)
       }
     },
   })

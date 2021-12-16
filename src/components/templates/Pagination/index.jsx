@@ -10,11 +10,11 @@ import {
 const Pagination = ({
   btnStyle,
   className,
-  blockNum = 10,
+  blockNum = 10, // 몇페이지씩 나오냐
   postListLength = 155,
-  size = 10,
-  paginate,
-  setStartPage,
+  size = 10, // 페이지에 몇개 포스팅
+  paginate, // 클릭했을때 작동하는 함수(api 바꿀때)
+  setStartPage, // 현재페이지가 어딧는지 만들고,
 }) => {
   const currentPage = useRef(1)
   const startPage = useRef(1)
@@ -52,26 +52,30 @@ const Pagination = ({
 
   return (
     <PaginationContainer className={className}>
-      <span onClick={prevPage} style={{ cursor: 'pointer' }}>
-        <img src={PAGINATION_ARROW_LEFT} alt="이전페이지" />
-      </span>
-      <Ul>
-        {pageNumbers
-          .filter(num => num >= startPage.current && num <= endPage.current)
-          .map(num => (
-            <Li key={num}>
-              <Btn
-                style={btnStyle}
-                className={num === currentPage.current && 'selected'}
-                onClick={() => hadleClickPageNum(num)}>
-                {num}
-              </Btn>
-            </Li>
-          ))}
-      </Ul>
-      <span onClick={nextPage} style={{ cursor: 'pointer' }}>
-        <img src={PAGINATION_ARROW_RIGHT} alt="다음페이지" />
-      </span>
+      {postListLength !== 0 && (
+        <>
+          <span onClick={prevPage} style={{ cursor: 'pointer' }}>
+            <img src={PAGINATION_ARROW_LEFT} alt="이전페이지" />
+          </span>
+          <Ul>
+            {pageNumbers
+              .filter(num => num >= startPage.current && num <= endPage.current)
+              .map(num => (
+                <Li key={num}>
+                  <Btn
+                    style={btnStyle}
+                    className={num === currentPage.current && 'selected'}
+                    onClick={() => hadleClickPageNum(num)}>
+                    {num}
+                  </Btn>
+                </Li>
+              ))}
+          </Ul>
+          <span onClick={nextPage} style={{ cursor: 'pointer' }}>
+            <img src={PAGINATION_ARROW_RIGHT} alt="다음페이지" />
+          </span>
+        </>
+      )}
     </PaginationContainer>
   )
 }
@@ -81,12 +85,12 @@ const PaginationContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 20px 0;
 `
 
 const Ul = styled.ul`
   list-style: none;
   margin: 0 20px;
-  min-width: 340px;
   display: flex;
   justify-content: center;
 `

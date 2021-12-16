@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 import Divider from '@components/templates/Divider'
 import Link from 'next/link'
 import Input from '@components/templates/Input'
@@ -22,7 +22,7 @@ import { useRouter } from 'next/router'
 const Header = () => {
   const { state } = useAuthContext()
   const router = useRouter()
-  const { nickname, profileImage } = state.userData
+  const { nickname, profileImageUrl } = state.userData
 
   const [visible, setVisible] = useState(false)
   const [dialogVisible, setDialogVisible] = useState(false)
@@ -115,7 +115,7 @@ const Header = () => {
               <div className="userprofile-area">
                 <Avatar
                   style={iconBtnStyleLg}
-                  src={profileImage || NO_IMAGE_SQUARE}
+                  src={profileImageUrl || NO_IMAGE_SQUARE}
                 />
                 <div className="username">{nickname}</div>
                 <IconButton
