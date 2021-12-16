@@ -15,9 +15,9 @@ const ProfileContents = ({ userId, pageType }) => {
 
   switch (pageType) {
     case 'like':
-      return <Like userId={userId} />
+      return <Like />
     case 'offer':
-      return <Offer userId={userId} />
+      return <Offer />
     case 'review':
       return <Review userId={userId} />
     case 'sale':
