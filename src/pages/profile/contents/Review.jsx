@@ -3,34 +3,49 @@ import PropTypes from 'prop-types'
 import Avatar from '@components/templates/Avatar'
 import Button from '@components/templates/Button'
 import Divider from '@components/templates/Divider'
+import Pagination from '@components/templates/Pagination'
 import { userApi } from '@api/apis'
 
 const Review = ({ userId }) => {
-  const [goodsList, setGoodsList] = useState([])
+  const [goodsList, setGoodsList] = useState({
+    elements: [],
+    totalElementCount: 0,
+  })
   const [goodsListStatus, setGoodsListStatus] = useState({
     isSellingReview: true,
   })
+  const [checkReviewOptions, setCheckReviewOptions] = useState({
+    memberId: userId,
+    params: {
+      page: 1,
+      size: 10,
+    },
+  })
+
+  const handleCheckReviews = pageNum => {
+    setCheckReviewOptions({
+      ...checkReviewOptions,
+      params: {
+        ...checkReviewOptions.params,
+        page: pageNum,
+      },
+    })
+  }
 
   useEffect(async () => {
-    if (goodsListStatus.isSellingReview) {
-      const res = await userApi.getUserSellReviews(userId)
-
-      if (Number(res.code) !== 200) {
-        return alert('판매후기 조회 시, 문제가 발생하였습니다!')
-      }
-
-      setGoodsList(res.data.elements)
-      return
-    }
-
-    const res = await userApi.getUserBuyReviews(userId)
+    const res = goodsListStatus.isSellingReview
+      ? await userApi.getUserSellReviews(checkReviewOptions)
+      : await userApi.getUserBuyReviews(checkReviewOptions)
 
     if (Number(res.code) !== 200) {
-      return alert('구매후기 상품 조회 시, 문제가 발생하였습니다!')
+      return alert('거래후기 조회 시, 문제가 발생하였습니다!')
     }
 
-    setGoodsList(res.data.elements)
-  }, [goodsListStatus])
+    setGoodsList({
+      elements: res.data.elements,
+      totalElementCount: res.data.pageInfo.totalElementCount,
+    })
+  }, [goodsListStatus, checkReviewOptions])
 
   const ulStyle = {
     listStyle: 'none',
@@ -78,22 +93,22 @@ const Review = ({ userId }) => {
       <div className="result-content">
         <div className="review">
           <ul className="review-list" style={ulStyle}>
-            {/* {reviewList.map(item => (
+            {goodsList.elements.map(item => (
               <>
                 <li key={item.id} className="review-item">
                   <div className="review-profile-box">
                     <Avatar
-                      src={item.src}
+                      src={item.reviewer.profileImageUrl}
                       className="review-profile-img"
                       style={avatarStyle}
                     />
                     <div className="review-profile_inform">
                       <div className="review-reviewer">
                         <span className="review-reviewer_name">
-                          {item.reviewer}
+                          {item.reviewer.nickname}
                         </span>
                         <span className="review-reviewer_level">
-                          Lv. {item.level}
+                          Lv. {item.reviewer.offerLevel}
                         </span>
                       </div>
                       <div className="review-reviewer_content">
@@ -104,9 +119,11 @@ const Review = ({ userId }) => {
                         style={{ border: '1px solid #ccc' }}>
                         <div className="review-goods_btn">
                           <div className="review-goods_btn_text">
-                            {item.goodsSold ? '판매상품' : '구매상품'}
+                            {goodsListStatus.isSellingReview
+                              ? '판매상품'
+                              : '구매상품'}
                             <Divider type="vertical" />
-                            {item.title}
+                            {item.article.title}
                           </div>
                           <div className="review-goods_btn_icn">
                             <img
@@ -126,18 +143,26 @@ const Review = ({ userId }) => {
                     <Button
                       style={reviewBtnStyle}
                       className={`review-review_btn ${
-                        !item.review && 'leave'
+                        item.isWritingAvailableFromCurrentMember && 'leave'
                       }`}>
-                      {item.review === true ? '후기 보기' : '후기 남기기'}
+                      {!item.isWritingAvailableFromCurrentMember
+                        ? '후기 보기'
+                        : '후기 남기기'}
                     </Button>
                   </div>
                 </li>
                 <hr />
               </>
-            ))} */}
+            ))}
           </ul>
         </div>
       </div>
+      <Pagination
+        size={checkReviewOptions.params.size}
+        postListLength={goodsList.totalElementCount}
+        paginate={handleCheckReviews}
+        setStartPage={handleCheckReviews}
+      />
     </div>
   )
 }
