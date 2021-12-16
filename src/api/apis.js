@@ -17,6 +17,10 @@ export const userApi = {
     auth.get(`/articles/like-articles?tradeStatusCode=${tradeStatusCode}`, {
       params,
     }),
+  getUserOfferArticles: ({ tradeStatusCode, params }) =>
+    auth.get(`/articles/offers?tradeStatusCode=${tradeStatusCode}`, {
+      params,
+    }),
   getUserTradingAtricles: ({ memberId, params }) =>
     instance.get(`/articles?memberId=${memberId}&tradeStatusCode=4`, {
       params,
