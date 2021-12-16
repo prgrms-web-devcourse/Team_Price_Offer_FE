@@ -5,7 +5,6 @@ import DIVIDER from '@components/templates/Divider'
 import GOODSIMG from '@components/templates/Banner'
 import BUTTON from '@components/templates/Button'
 import Dialog from '@components/templates/Dialog'
-import { STATUSLIST } from '@data/dummy/postStatusdialogList'
 import { OFFER, OPTIONS } from '@utils/constant/icon'
 import { articleApi } from '@api/apis'
 import { useAuthContext } from '@hooks/useAuthContext'
@@ -18,18 +17,17 @@ import ModalConfirmBuyer from '@components/ui/modal/ModalConfirmBuyer'
 import ModalChat from '@components/ui/modal/ModalChat'
 import Pagination from '@components/templates/Pagination'
 import Like from '@components/ui/InPostToggle'
-import { USER_CIRCLE, USER } from '@utils/constant'
+import { USER } from '@utils/constant'
+import { STATUSLIST } from '@data/dummy/postStatusdialogList'
 
 export const getServerSideProps = async context => {
-  // const { data } = await articleApi.getArticleUserID(context.query.id)
   return {
     props: {
       postId: context.query.id,
-      // data,
     },
   }
 }
-const { getItem, setItem, clear } = useStorage()
+const { setItem } = useStorage()
 
 const Post = ({ postId, data }) => {
   const { state } = useAuthContext()
@@ -53,7 +51,6 @@ const Post = ({ postId, data }) => {
   useEffect(async () => {
     const imageUrls = await articleApi.getImgUrlList(postId)
     const { data } = await articleApi.getArticleUserID(postId)
-    // const offerList = await articleApi.getOffersList(postId)
     const offerList = await articleApi.getOfferListPage({
       articleId: postId,
       params: { page: currentPage, size: 5 },
@@ -68,12 +65,6 @@ const Post = ({ postId, data }) => {
     setMounted(true)
   }, [state, currentPage])
 
-  // console.log('거래상태:', tradeStatus)
-  // console.log('게시글 작성자 여부', isWriter)
-  // console.log('포스트 데이터', postData)
-  // console.log('포스트 이미지 데이터', imgUrls)
-  // console.log('오퍼 목록', offerList)
-
   const dialogClick = e => {
     e.stopPropagation()
     setDialogVisible(true)
@@ -82,7 +73,6 @@ const Post = ({ postId, data }) => {
   const handleChange = async e => {
     const code = Number(e.target.value)
     const getPostId = postId
-    // console.log(getPostId)
 
     if (code === 2) {
       // 예약중

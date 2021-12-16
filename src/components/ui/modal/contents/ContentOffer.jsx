@@ -23,7 +23,6 @@ const ContentOffer = props => {
           price: values.offerPrice,
         },
       })
-      console.log(res)
       if (Number(res.code) === 200) {
         alert(`${values.offerPrice} 원 오퍼 완료!.`)
         router.reload(`/post/${postId}`)
@@ -52,11 +51,14 @@ const ContentOffer = props => {
                 onChange={formik.handleChange}
               />
             </div>
-            {formik.errors.offerPrice ? (
-              <div className="offer-error">{formik.errors.offerPrice}</div>
-            ) : null}
           </div>
+
           <div className="modal-body_btn-wrapper">
+            {formik.errors.offerPrice ? (
+              <div className="offer-error" style={{ color: 'red' }}>
+                {formik.errors.offerPrice}
+              </div>
+            ) : null}
             <Button type="submit" className="modal-body_btn offer">
               Offer
             </Button>

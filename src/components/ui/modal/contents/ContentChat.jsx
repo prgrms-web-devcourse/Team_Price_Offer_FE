@@ -19,12 +19,9 @@ const ContentChat = ({ postId, offerId }) => {
     const offerList = await articleApi.getOffersList(postId)
     setPostData(data.article)
     setOfferList(offerList.data)
-    console.log('넘어오는 오퍼아이디', offerId)
     const offerElements = offerList && offerList.data.elements
-    console.log('오퍼 엘레먼트', offerElements)
     const offerInfo =
       offerElements && offerElements.filter(x => x.id === offerId)
-    console.log('오퍼 아이디', offerInfo)
     const userNickname = offerInfo && offerInfo.map(x => x.offerer.nickname)
     setNickname(userNickname[0])
     const memberIdd = offerInfo && offerInfo.map(x => x.offerer.id)

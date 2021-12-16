@@ -15,11 +15,9 @@ import { useFormik } from 'formik'
 import router from 'next/router'
 
 export const getServerSideProps = async context => {
-  // const { data } = await articleApi.getArticleUserID(context.query.id)
   return {
     props: {
       postId: context.query.id,
-      // data,
     },
   }
 }
@@ -280,10 +278,10 @@ const posting = ({ postId }) => {
           onChange={formik.handleChange}
           value={formik.values.quantity}
         />
+        <span className="posting-form_unit">개</span>
         {formik.errors.quantity ? (
           <div className="posting-validation">{formik.errors.quantity}</div>
         ) : null}
-        <span className="posting-form_unit">개</span>
         <Divider style={commonDividerStyle} marginSize={50} />
 
         <div className="posting-subtitle">가격</div>
@@ -304,7 +302,9 @@ const posting = ({ postId }) => {
         <Divider style={commonDividerStyle} marginSize={50} />
 
         <div className="posting-subtitle">상품 설명</div>
-        {formik.errors.content ? <div>{formik.errors.content}</div> : null}
+        {formik.errors.content ? (
+          <div className="posting-validation">{formik.errors.content}</div>
+        ) : null}
         <TextArea
           id="content"
           name="content"
