@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import Avatar from '@components/templates/Avatar'
 import MessageBox from '@components/templates/Message'
 import TextArea from '@components/templates/Textarea'
@@ -6,6 +6,11 @@ import IconButton from '@components/templates/IconButton'
 import { FETCH } from '@utils/constant/icon'
 import { messageApi } from '@api/apis'
 import Image from '@components/templates/Image'
+import Router from 'next/router'
+import { useAuthContext } from '@hooks/useAuthContext'
+import Button from '@components/templates/Button'
+import { useFormik } from 'formik'
+import validate from '@utils/validation'
 
 const fetchImgurl = FETCH
 
@@ -18,15 +23,31 @@ export const getServerSideProps = async context => {
 }
 
 const MessagePage = ({ userId }) => {
-  const [messageBoxList, setMessageBoxList] = useState(null)
+  const [messageBoxList, setMessageBoxList] = useState()
   const [currentPage, setcurrentPage] = useState(1)
   const [messageList, setMessageList] = useState(null)
   const [messageRoomInfo, setMessageRoomInfo] = useState(null)
+  const selectedMessageRoomId = useRef()
+  const { state } = useAuthContext()
+  const { nickname } = state.userData
+  const messageFormik = useFormik({
+    initialValues: {
+      content: '',
+    },
+    validate,
+    onSubmit: async msg => {
+      await messageApi.postMessage({
+        messageRoomId: selectedMessageRoomId.current,
+        message: {
+          content: msg.content,
+        },
+      })
+    },
+  })
 
   const fetchMessageBox = useCallback(async () => {
-    const { data } = await messageApi.getMessageBox
-
-    setMessageBoxList(data.elements || null)
+    const { data } = await messageApi.getMessageBox()
+    setMessageBoxList(data.elements)
   }, [])
 
   const fetchSelectedMessageRoom = useCallback(async messageRoomId => {
@@ -38,10 +59,15 @@ const MessagePage = ({ userId }) => {
         size: 10,
       },
     })
-
     setMessageRoomInfo(() => roomInfoRes.data)
     setMessageList(() => messageListRes.data.elements)
+
+    selectedMessageRoomId.current = messageRoomId
   }, [])
+
+  const fetchDeleteMessageBox = useCallback(async () => {
+    await messageApi.deleteMessageBox(selectedMessageRoomId)
+  })
 
   useEffect(() => {
     fetchMessageBox()
@@ -51,6 +77,17 @@ const MessagePage = ({ userId }) => {
     messageList &&
     messageList.map(message =>
       message.isSendMessage ? (
+        <div className="message-chat_buyer" key={message.createdDate}>
+          <div className="chat-wrapper">
+            <span className="message-time">{message.createdDate}</span>
+            <div className="message-wrapper">
+              <MessageBox className="message-chat_box">
+                {message.content}
+              </MessageBox>
+            </div>
+          </div>
+        </div>
+      ) : (
         <div className="message-chat_seller">
           <Avatar
             className="message-avatar"
@@ -65,21 +102,10 @@ const MessagePage = ({ userId }) => {
                 </MessageBox>
               </div>
               {/* <div className="message-chat_box-wrapper">
-              <MessageBox className="message-chat_box">잠시만요~</MessageBox>
-            </div> */}
+          <MessageBox className="message-chat_box">잠시만요~</MessageBox>
+        </div> */}
             </div>
             <span className="message-time">{message.createdDate}</span>
-          </div>
-        </div>
-      ) : (
-        <div className="message-chat_buyer">
-          <div className="chat-wrapper">
-            <span className="message-time">{message.createdDate}</span>
-            <div className="message-wrapper">
-              <MessageBox className="message-chat_box">
-                {message.content}
-              </MessageBox>
-            </div>
           </div>
         </div>
       ),
@@ -89,7 +115,7 @@ const MessagePage = ({ userId }) => {
     <div className="message">
       <div className="message-list-wrapper">
         <div className="message-header">
-          <h2 className="message-header-title">히텧님의 쪽지함</h2>
+          <h2 className="message-header-title">{nickname}님의 쪽지함</h2>
         </div>
         <div className="message-body">
           <div className="message-list">
@@ -139,7 +165,12 @@ const MessagePage = ({ userId }) => {
               <h2 className="message-header-title">
                 {messageRoomInfo.messagePartnerInfo.nickName}과의 쪽지
               </h2>
-              <IconButton src={fetchImgurl} alt="fetch" />
+              <IconButton
+                src={fetchImgurl}
+                alt="fetch"
+                onClick={() => Router.reload(window.location.pathname)}
+              />
+              <Button onClick={fetchDeleteMessageBox}>나가기</Button>
             </div>
             <div className="message-body">
               <div className="message-chat_info">
@@ -166,17 +197,22 @@ const MessagePage = ({ userId }) => {
               <div className="message-chat_cont">
                 <div className="message-chat">{messageList && printList}</div>
                 <div className="message-textarea-wrapper">
-                  <TextArea
-                    placeholder="메시지를 입력해주세요."
-                    className="message-textarea"
-                  />
-                  <div className="message-limit_box">
-                    <div className="message-limit_text">
-                      <span className="message-limit_current">0</span>
-                      <span>/ 100</span>
+                  <form onSubmit={messageFormik.handleSubmit}>
+                    <TextArea
+                      name="content"
+                      placeholder="메시지를 입력해주세요."
+                      className="message-textarea"
+                      onChange={messageFormik.handleChange}
+                      value={messageFormik.values.content}
+                    />
+                    <div className="message-limit_box">
+                      <div className="message-limit_text">
+                        <span className="message-limit_current">0</span>
+                        <span>/ 100</span>
+                      </div>
+                      <button type="submit">전송</button>
                     </div>
-                    <button>전송</button>
-                  </div>
+                  </form>
                 </div>
               </div>
             </div>
