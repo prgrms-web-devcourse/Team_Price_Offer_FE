@@ -41,7 +41,7 @@ export const articleApi = {
     instance.get(`/articles${articleId ? `/${articleId}` : ''}`, { params }),
   getArticleOfCategory: ({ categoryCode, params }) =>
     instance.get(`/articles?categoryCode=${categoryCode}`, { params }),
-  getOffersList: articleId => instance.get(`/articles/${articleId}/offers`),
+  getOffersList: articleId => auth.get(`/articles/${articleId}/offers`),
   getImgUrlList: articleId => instance.get(`/articles/${articleId}/imageUrls`),
   changeTradeStatus: ({ articleId, option }) =>
     auth.patch(`/articles/${articleId}/tradeStatus`, option),
@@ -55,7 +55,11 @@ export const articleApi = {
 }
 
 export const messageApi = {
-  postMessageToOffer: () => {},
+  postMessageToOffer: ({ memberId, offerId, articleId, content }) =>
+    auth.post(
+      `/messages/member/${memberId}/offerId/${offerId}?articleId=${articleId}`,
+      content,
+    ),
   postMessageToUser: () => {},
   postMessageToSeller: () => {},
   deleteMsg: () => {},
