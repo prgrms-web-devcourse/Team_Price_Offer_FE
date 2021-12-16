@@ -5,13 +5,21 @@ import { useAuthContext } from '@hooks/useAuthContext'
 import useStorage from '@hooks/useStorage'
 import { articleApi } from '@api/apis'
 import router from 'next/router'
+import { useRouter } from 'next/dist/client/router'
 
 const Dialog = ({ style, className, visible = false, items, onClose }) => {
+  const { state } = useAuthContext()
+  const router = useRouter()
   const dialogRef = useRef(null)
   const { handleLogout } = useAuthContext()
   const { getItem, setItem, clear } = useStorage()
 
   const handleClickItem = async code => {
+    if (code === 'profile') {
+      router.push(`/profile/${state.userData.id}/sale`)
+      return
+    }
+
     if (code === 'logout') {
       await handleLogout()
       return
