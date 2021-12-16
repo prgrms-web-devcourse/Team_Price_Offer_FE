@@ -4,10 +4,12 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import styled from '@emotion/styled'
+import { useState } from 'react'
 
 SwiperCore.use([Navigation, Pagination, Autoplay]) // 추가
 
 const Banner = ({ style, imgUrls }) => {
+  const [slideImg, setSildeImg] = useState(null)
   const onError = e => {
     e.target.src =
       'https://user-images.githubusercontent.com/66211721/146362506-d1c96afd-ba9b-48a9-822c-92c5628f5f46.png'
@@ -15,7 +17,6 @@ const Banner = ({ style, imgUrls }) => {
   const createimgUrlList = () => {
     return imgUrls.filter(x => x !== null)
   }
-
   const imgUrlList = createimgUrlList()
   return (
     <StyledSwiper
@@ -27,11 +28,28 @@ const Banner = ({ style, imgUrls }) => {
       pagination={{ clickable: true }}
       autoplay={{ delay: 3000 }} // 넘어가는 시간
     >
-      {imgUrlList.map((value, key) => (
-        <SwiperSlide key={`${value}${Math.random()}`}>
+      {imgUrlList.length >= 1 ? (
+        <div>
+          {imgUrlList.map((value, key) => (
+            <SwiperSlide key={`${value}${Math.random()}`}>
+              <img
+                onError={onError}
+                src={value}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'fill',
+                }}
+                alt="슬라이드 이미지"
+              />
+            </SwiperSlide>
+          ))}
+        </div>
+      ) : (
+        <SwiperSlide key={`${Math.random()}`}>
           <img
             onError={onError}
-            src={value}
+            src="https://user-images.githubusercontent.com/66211721/146362506-d1c96afd-ba9b-48a9-822c-92c5628f5f46.png"
             style={{
               width: '100%',
               height: '100%',
@@ -40,7 +58,7 @@ const Banner = ({ style, imgUrls }) => {
             alt="슬라이드 이미지"
           />
         </SwiperSlide>
-      ))}
+      )}
     </StyledSwiper>
   )
 }
