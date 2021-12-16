@@ -32,14 +32,14 @@ const MessagePage = ({ userId }) => {
   const { nickname } = state.userData
   const messageFormik = useFormik({
     initialValues: {
-      content: '',
+      message: '',
     },
     validate,
     onSubmit: async (values, submitProps) => {
       await messageApi.postMessage({
         messageRoomId: selectedMessageRoomId.current,
         message: {
-          content: values.content,
+          content: values.message,
         },
       })
 
@@ -58,7 +58,7 @@ const MessagePage = ({ userId }) => {
       messageRoomId,
       params: {
         page: 1,
-        size: 10,
+        size: 20,
       },
     })
     setMessageRoomInfo(() => roomInfoRes.data)
@@ -71,7 +71,19 @@ const MessagePage = ({ userId }) => {
     await messageApi.deleteMessageBox(selectedMessageRoomId)
   })
 
+  const printMessageTime = time => {
+    const newTime = time.split('T')[1].split(':')
+
+    return `${newTime[0] > 12 ? '오후' : '오전'} ${
+      newTime[0] > 12 ? newTime[0] - 12 : 12 - newTime[0]
+    }:${newTime[1]}`
+  }
+
   const messageOptimisticUpdate = () => {
+    if (!messageFormik.values.message) {
+      return
+    }
+
     const date = new Date()
     const createdDate = `${date.getFullYear()}-${
       date.getMonth() + 1
@@ -81,7 +93,7 @@ const MessagePage = ({ userId }) => {
       ...messageList,
       {
         messageId: createdDate,
-        content: messageFormik.values.content,
+        content: messageFormik.values.message,
         createdDate,
         isSendMessage: true,
       },
@@ -98,7 +110,9 @@ const MessagePage = ({ userId }) => {
       message.isSendMessage ? (
         <div className="message-chat_buyer" key={message.messageId}>
           <div className="chat-wrapper">
-            <span className="message-time">{message.createdDate}</span>
+            <span className="message-time">
+              {printMessageTime(message.createdDate)}
+            </span>
             <div className="message-wrapper">
               <MessageBox className="message-chat_box">
                 {message.content}
@@ -121,7 +135,9 @@ const MessagePage = ({ userId }) => {
                 </MessageBox>
               </div>
             </div>
-            <span className="message-time">{message.createdDate}</span>
+            <span className="message-time">
+              {printMessageTime(message.createdDate)}
+            </span>
           </div>
         </div>
       ),
@@ -215,7 +231,7 @@ const MessagePage = ({ userId }) => {
                 <div className="message-textarea-wrapper">
                   <form onSubmit={messageFormik.handleSubmit}>
                     <TextArea
-                      name="content"
+                      name="message"
                       placeholder="메시지를 입력해주세요."
                       className="message-textarea"
                       onChange={messageFormik.handleChange}
@@ -229,6 +245,9 @@ const MessagePage = ({ userId }) => {
                       <button type="submit" onClick={messageOptimisticUpdate}>
                         전송
                       </button>
+                    </div>
+                    <div className="message-textarea_form-validation">
+                      {messageFormik.errors.message}
                     </div>
                   </form>
                 </div>

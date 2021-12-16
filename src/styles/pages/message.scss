@@ -21,8 +21,8 @@
   }
 
   .message-avatar {
-    width: 60px;
-    height: 60px;
+    width: 45px;
+    height: 45px;
   }
 
   .message-product {
@@ -137,7 +137,8 @@
 
     &_seller {
       display: flex;
-      margin: 25px;
+      margin: 15px;
+      align-items: end;
 
       .message-time {
         position: absolute;
@@ -148,7 +149,7 @@
     &_buyer {
       display: flex;
       justify-content: flex-end;
-      margin: 25px;
+      margin: 15px;
 
       .message-time {
         position: absolute;
