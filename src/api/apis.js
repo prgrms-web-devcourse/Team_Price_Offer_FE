@@ -42,6 +42,8 @@ export const articleApi = {
   getArticleOfCategory: ({ categoryCode, params }) =>
     instance.get(`/articles?categoryCode=${categoryCode}`, { params }),
   getOffersList: articleId => auth.get(`/articles/${articleId}/offers`),
+  getOfferListPage: ({ articleId, params }) =>
+    auth.get(`/articles/${articleId}/offers`, { params }),
   getImgUrlList: articleId => instance.get(`/articles/${articleId}/imageUrls`),
   changeTradeStatus: ({ articleId, option }) =>
     auth.patch(`/articles/${articleId}/tradeStatus`, option),

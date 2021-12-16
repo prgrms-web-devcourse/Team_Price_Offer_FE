@@ -176,12 +176,14 @@
         .offer-subinfo{
             display: flex;
             flex-direction: column;
+
             .offer-username{
                 display: flex;
                 margin-bottom: 8px;
                 font-size: 16px;
             }
             .offer-address{
+                display: flex;
                 color: #888888;
                 font-size: 14px;
             }

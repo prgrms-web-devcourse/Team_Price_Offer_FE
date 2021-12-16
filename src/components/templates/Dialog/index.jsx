@@ -20,23 +20,19 @@ const Dialog = ({ style, className, visible = false, items, onClose }) => {
     if (code === 'modify') {
       alert('게시글 수정')
       const getPostId = getItem('postId').replaceAll('"', '')
-      // router.push({
-      //   pathname: '/posting',
-      //   query: {
-      //     postId: getPostId,
-      //   },
-      // })
       router.push(`/posting/${getPostId}`)
     }
 
     if (code === 'delete') {
+      const getPostId = getItem('postId').replaceAll('"', '')
       if (confirm('정말 삭제하시겠습니까?')) {
-        const res = await articleApi.deleteArticle
+        const res = await articleApi.deleteArticle(getPostId)
         if (Number(res.code) === 200) {
           alert('게시글이 삭제 되었습니다.')
+          router.push('/')
+        } else {
+          alert(res.message)
         }
-      } else {
-        router.push(0)
       }
     }
   }

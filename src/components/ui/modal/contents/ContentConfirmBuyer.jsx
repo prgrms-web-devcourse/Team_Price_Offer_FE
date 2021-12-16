@@ -5,6 +5,9 @@ import { articleApi } from '@api/apis'
 import Button from '@components/templates/Button'
 import { timeForToday } from '@utils/functions'
 import router from 'next/router'
+import useStorage from '@hooks/useStorage'
+
+const { getItem } = useStorage()
 
 const ContentConfirmBuyer = ({ postId }) => {
   const [postData, setPostData] = useState([{}])
@@ -35,7 +38,8 @@ const ContentConfirmBuyer = ({ postId }) => {
     console.log(res)
     if (Number(res.code) === 200) {
       alert('구매자 확정 완료!')
-      router.push(0)
+      const getPostId = getItem('postId').replaceAll('"', '')
+      router.push(`/posting/${getPostId}`)
     } else {
       alert(res.message)
     }
@@ -95,7 +99,9 @@ const ContentConfirmBuyer = ({ postId }) => {
                     <span className="username">
                       {offererList.offerer.nickname}
                     </span>
-                    {/* <span className="level">{postData.author.offerLevel}</span> */}
+                    <span className="level">
+                      Lv. {postData.author.offerLevel}
+                    </span>
                   </div>
                   <div className="detail-time">
                     {offererList.offerer.address} ·{' '}
@@ -104,34 +110,6 @@ const ContentConfirmBuyer = ({ postId }) => {
                 </div>
               </div>
             ))}
-            {/* <div className="confirm-middle-wrapper-userinfo">
-          <Avatar
-            className="userinfo-userimg"
-            src="https://picsum.photos/100"
-            alt="avatar"
-          />
-          <div className="userinfo-detail">
-            <div className="detail-name">
-              <span className="username">황금효정</span>
-              <span className="level">Lv 1</span>
-            </div>
-            <div className="detail-time">강북구 수유동 · 1시간전</div>
-          </div>
-        </div>
-        <div className="confirm-middle-wrapper-userinfo">
-          <Avatar
-            className="userinfo-userimg"
-            src="https://picsum.photos/100"
-            alt="avatar"
-          />
-          <div className="userinfo-detail">
-            <div className="detail-name">
-              <span className="username">황금효정</span>
-              <span className="level">Lv 1</span>
-            </div>
-            <div className="detail-time">강북구 수유동 · 1시간전</div>
-          </div>
-        </div> */}
           </div>
 
           <div className="confirm-bottom-wrapper">

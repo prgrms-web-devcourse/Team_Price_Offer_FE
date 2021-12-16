@@ -16,7 +16,8 @@ import ModalOffer from '@components/ui/modal/ModalOffer'
 import ModalLogin from '@components/ui/modal/ModalLogin'
 import ModalConfirmBuyer from '@components/ui/modal/ModalConfirmBuyer'
 import ModalChat from '@components/ui/modal/ModalChat'
-import Like from '@components/templates/ToggleButton'
+import Pagination from '@components/templates/Pagination'
+import Like from '@components/ui/InPostToggle'
 
 export const getServerSideProps = async context => {
   // const { data } = await articleApi.getArticleUserID(context.query.id)
@@ -41,6 +42,7 @@ const Post = ({ postId, data }) => {
   const [offerList, setOfferList] = useState([{}])
   const [isMounted, setMounted] = useState(false)
   const [offerId, setOfferId] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
 
   const [visible, setVisible] = useState(false)
   const [loginVisible, setLoginVisible] = useState(false)
@@ -50,8 +52,11 @@ const Post = ({ postId, data }) => {
   useEffect(async () => {
     const imageUrls = await articleApi.getImgUrlList(postId)
     const { data } = await articleApi.getArticleUserID(postId)
-    const offerList = await articleApi.getOffersList(postId)
-
+    // const offerList = await articleApi.getOffersList(postId)
+    const offerList = await articleApi.getOfferListPage({
+      articleId: postId,
+      params: { page: currentPage, size: 5 },
+    })
     setPostData(data.article)
     setimgUrls(imageUrls.data.imageUrls)
     setOfferList(offerList.data)
@@ -60,12 +65,12 @@ const Post = ({ postId, data }) => {
       ? setTradeStatus(true)
       : setTradeStatus(false)
     setMounted(true)
-  }, [state])
+  }, [state, currentPage])
 
-  console.log('거래상태:', tradeStatus)
-  console.log('게시글 작성자 여부', isWriter)
-  console.log('포스트 데이터', postData)
-  console.log('포스트 이미지 데이터', imgUrls)
+  // console.log('거래상태:', tradeStatus)
+  // console.log('게시글 작성자 여부', isWriter)
+  // console.log('포스트 데이터', postData)
+  // console.log('포스트 이미지 데이터', imgUrls)
   console.log('오퍼 목록', offerList)
 
   const dialogClick = e => {
@@ -252,7 +257,9 @@ const Post = ({ postId, data }) => {
                   />
                 </div>
 
-                <div className="post-price">{postData.price} 원</div>
+                <div className="post-price">
+                  {postData.price.toLocaleString()} 원
+                </div>
 
                 <div className="post-info-bottom">
                   <div className="post-info-bottom_time">
@@ -308,44 +315,29 @@ const Post = ({ postId, data }) => {
                 }}
               />
               <div className="offer-wrapper">
-                {/* {offerList.map(offerList => (
-                        <div className={styles.offerUserInfo}>
-                            <div className={styles.offerUsername}>{offerList.userName}</div>
-                                <div className={styles.offersubInfo}>
-                                <div className={styles.offerAddress}>{offerList.addRess}</div>
-                                    <div className={styles.offerTime}>{offerList.time}</div>
-                                </div>
-                            <div className={styles.offerPrice}>{offerList.price}</div>
-                        </div>
-                        ))} */}
                 {offerList.elements.length > 0 ? (
                   <>
                     <div className="offer-user-infos">
-                      {/* <div className="offer-subinfo">
-                        <div className="offer-username">산타</div>
-                        <div className="offer-address">
-                          제주서귀포시 • 1시간전
-                        </div>
-                        <div className="offer-time" />
-                      </div> */}
                       {offerList.elements.map(offererList => (
                         <div className="offer-user-info" key={offererList.id}>
                           <div className="offer-subinfo">
                             <div className="offer-username">
                               {offererList.offerer.nickname}
                             </div>
-                            <div className="offer-address">
-                              <div className="address">
-                                {offererList.offerer.address}
-                              </div>
-                              <div className="offer-time">
-                                {timeForToday(offererList.createdDate)}
+                            <div className="subinfo-wrapper">
+                              <div className="offer-address">
+                                <div className="address">
+                                  {offererList.offerer.address} •
+                                </div>
+                                <div className="offer-time">
+                                  &nbsp;{timeForToday(offererList.createdDate)}
+                                </div>
                               </div>
                             </div>
                           </div>
                           <div className="offer-suggestinfo">
                             <div className="offer-price">
-                              {offererList.price} 원
+                              {offererList.price.toLocaleString()} 원
                             </div>
                             {isWriter && (
                               <ICONBUTTON
@@ -361,7 +353,6 @@ const Post = ({ postId, data }) => {
                         </div>
                       ))}
                     </div>
-                    {/* <BUTTON className="offer-button">가격 제안하기(0/2)</BUTTON> */}
                   </>
                 ) : (
                   <div className="not-offer-wrapper">
@@ -380,7 +371,13 @@ const Post = ({ postId, data }) => {
                 }}
               />
               <div className="offer-option">
-                <div className="offer-page">1 2 3</div>
+                <Pagination
+                  // className="pagenation"
+                  size={offerList.pageInfo.sizePerPage}
+                  postListLength={offerList.pageInfo.totalElementCount}
+                  paginate={setCurrentPage}
+                  setStartPage={setCurrentPage}
+                />
                 <div className="offer-state">
                   {tradeStatus ? (
                     <>
