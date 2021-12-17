@@ -6,7 +6,7 @@
   justify-content: center;
 
   &-list {
-    overflow: scroll;
+    overflow-y: auto;
     height: calc(100vh - 90px);
   }
 
@@ -120,8 +120,10 @@
   }
 
   .message-chat {
-    overflow: scroll;
+    overflow-y: auto;
     height: calc(100vh - 310px);
+    // display : flex;
+    // flex-direction: column-reverse;
 
     &_info {
       display: flex;

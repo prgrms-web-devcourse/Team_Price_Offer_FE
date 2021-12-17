@@ -29,6 +29,7 @@ const MessagePage = ({ roomId }) => {
   const [messageList, setMessageList] = useState(null)
   const [messageRoomInfo, setMessageRoomInfo] = useState(null)
   const selectedMessageRoomId = useRef()
+  const scrollBottomRef = useRef()
   const { state } = useAuthContext()
   const { nickname, id } = state.userData
   const messageFormik = useFormik({
@@ -79,6 +80,8 @@ const MessagePage = ({ roomId }) => {
 
     selectedMessageRoomId.current = messageRoomId
     Router.replace(`/message/${id}/${messageRoomId}`)
+
+    scrollToBottom()
   }, [])
 
   const fetchDeleteMessageRoom = useCallback(async () => {
@@ -114,11 +117,19 @@ const MessagePage = ({ roomId }) => {
     ])
   }
 
+  const scrollToBottom = useCallback(() => {
+    scrollBottomRef.current &&
+      (scrollBottomRef.current.scrollTop = scrollBottomRef.current.scrollHeight)
+  }, [])
+
   useEffect(() => {
     fetchMessageBox()
     fetchSelectedMessageRoom()
   }, [])
 
+  useEffect(() => {
+    scrollToBottom()
+  }, [messageList])
   const printList = messageList?.map(message =>
     message.isSendMessage ? (
       <div className="message-chat_buyer" key={message.messageId}>
@@ -239,7 +250,9 @@ const MessagePage = ({ roomId }) => {
                 </div>
               </div>
               <div className="message-chat_cont">
-                <div className="message-chat">{messageList && printList}</div>
+                <div className="message-chat" ref={scrollBottomRef}>
+                  {messageList && printList}
+                </div>
                 <div className="message-textarea-wrapper">
                   <form onSubmit={messageFormik.handleSubmit}>
                     <TextArea
