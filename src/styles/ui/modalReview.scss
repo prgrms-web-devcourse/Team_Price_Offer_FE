@@ -48,7 +48,7 @@
             color: $FONT_GRAY_COLOR;
             gap:10px;
             .goodsbox-title{
-                max-width:70px;
+                max-width:220px;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -64,6 +64,7 @@
         justify-content: center;
         margin-top: 30px;
         margin-bottom: 30px;
+
         .icon-list{
             display: flex;
             justify-content:space-between;
@@ -71,14 +72,10 @@
 
         }
         .icon{
-            input[radio]{
-                display: none;
-            }
             display: none;
-            :hover svg{
-                fill: $PRIMARY_COLOR;
-            }
+            
         }
+
         .writereview-area{
             border:solid 1px black;
             padding: 20px;

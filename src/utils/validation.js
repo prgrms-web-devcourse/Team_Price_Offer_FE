@@ -8,9 +8,15 @@ const validate = values => {
   const haveNumber = fieldKeys.includes('price', 'quantity')
   const haveOfferPrice = fieldKeys.includes('OfferPrice')
   const havemessageContent = fieldKeys.includes('messageContent')
+  const haveEvaluation = fieldKeys.includes('evaluation')
+  const haveReviewContent = fieldKeys.includes('reviewContent')
   fieldKeys.forEach(value => {
     if (!values[value]) {
-      errors[value] = '필수값을 입력해주세요!'
+      if (value === 'evaluation') {
+        errors.evaluation = '상대방에 대한 평가를 선택해주세요'
+      } else {
+        errors[value] = '필수값을 입력해주세요!'
+      }
     }
   })
 
@@ -47,7 +53,9 @@ const validate = values => {
   if (havemessageContent && values.messageContent.length >= 100) {
     errors.messageContent = '쪽지는 100자를 넘을 수 없습니다.'
   }
-
+  if (haveReviewContent && values.reviewContent.length >= 100) {
+    errors.reviewContent = '리뷰는 100자를 넘을 수 없습니다.'
+  }
   return errors
 }
 

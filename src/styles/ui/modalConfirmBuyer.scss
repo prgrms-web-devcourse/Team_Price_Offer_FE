@@ -39,6 +39,12 @@
             font-size: 14px;
             color: $FONT_GRAY_COLOR;
             gap:10px;
+            .goodsbox-title{
+                max-width:220px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
         }
     }
 
@@ -82,6 +88,11 @@
                         color:$PRIMARY_COLOR;
                         font-size: 12px;
                     }
+                }
+                .price{
+                    color:#000000;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
                 }
                 .detail-time{
                     margin-top: 5px;

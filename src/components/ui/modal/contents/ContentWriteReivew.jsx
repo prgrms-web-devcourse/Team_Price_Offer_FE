@@ -116,10 +116,17 @@ const ContentWriteReivew = ({ postId, postData, userNickname }) => {
           </div>
           <form onSubmit={formik.handleSubmit}>
             <div className="writereview-middle-wrapper">
+              {formik.errors.evaluation ? (
+                <div className="error" style={{ textAlign: 'center' }}>
+                  {formik.errors.evaluation}
+                </div>
+              ) : null}
               <div className="icon-list">
                 <label
+                  className="evaluation"
                   htmlFor="evaluation-good"
-                  value={formik.values.evaluation}>
+                  value={formik.values.evaluation}
+                  style={{ cursor: 'pointer' }}>
                   <input
                     type="radio"
                     name="evaluation"
@@ -140,8 +147,10 @@ const ContentWriteReivew = ({ postId, postData, userNickname }) => {
                   <img src={goodImg} alt="좋다" />{' '}
                 </label>
                 <label
+                  className="evaluation"
                   htmlFor="evaluation-soso"
-                  value={formik.values.evaluation}>
+                  value={formik.values.evaluation}
+                  style={{ cursor: 'pointer' }}>
                   <input
                     type="radio"
                     name="evaluation"
@@ -163,8 +172,10 @@ const ContentWriteReivew = ({ postId, postData, userNickname }) => {
                   <img src={sosoImg} alt="보통이다" />
                 </label>
                 <label
+                  className="evaluation"
                   htmlFor="evaluation-bad"
-                  value={formik.values.evaluation}>
+                  value={formik.values.evaluation}
+                  style={{ cursor: 'pointer' }}>
                   <input
                     type="radio"
                     name="evaluation"
@@ -185,6 +196,7 @@ const ContentWriteReivew = ({ postId, postData, userNickname }) => {
                   <img src={badImg} alt="안좋다" />
                 </label>
               </div>
+
               <TextArea
                 id="reviewContent"
                 name="reviewContent"
@@ -194,7 +206,14 @@ const ContentWriteReivew = ({ postId, postData, userNickname }) => {
                 onChange={formik.handleChange}
                 maxLength="100"
               />
-              <div className="review-length">0 /100</div>
+              {formik.errors.reviewContent ? (
+                <div className="error" style={{ textAlign: 'center' }}>
+                  {formik.errors.reviewContent}
+                </div>
+              ) : null}
+              <div className="review-length">
+                {formik.values.reviewContent.length} /100
+              </div>
             </div>
 
             <div className="writereview-bottom-wrapper">

@@ -3,6 +3,7 @@ import DIVIDER from '@components/templates/Divider'
 import Avatar from '@components/templates/Avatar'
 import { articleApi } from '@api/apis'
 import Button from '@components/templates/Button'
+import { USER } from '@utils/constant'
 import { timeForToday } from '@utils/functions'
 import router from 'next/router'
 import useStorage from '@hooks/useStorage'
@@ -24,6 +25,7 @@ const ContentConfirmBuyer = ({ postId }) => {
     setPostData(data.article)
     setOfferList(offerList.data)
     setMounted(true)
+    console.log(offerList.data)
   }, [])
 
   const handleClick = (confirmId, e) => {
@@ -66,11 +68,7 @@ const ContentConfirmBuyer = ({ postId }) => {
                   style={{ border: '0px solid #ddd' }}
                 />
               </div>
-              <div className="goodsbox-title">{postData.title} &gt;</div>
-              <div className="goodsbox-state">
-                {postData.productStatus.name} &gt;
-              </div>
-              <div className="goodsbox-category">{postData.category.name}</div>
+              <div className="goodsbox-title">{postData.title}</div>
             </div>
           </div>
 
@@ -93,7 +91,7 @@ const ContentConfirmBuyer = ({ postId }) => {
                 key={offererList.id}>
                 <Avatar
                   className="userinfo-userimg"
-                  src="https://picsum.photos/100"
+                  src={offererList.offerer.profileImage || USER}
                   alt="avatar"
                 />
                 <div className="userinfo-detail">
@@ -104,6 +102,9 @@ const ContentConfirmBuyer = ({ postId }) => {
                     <span className="level">
                       Lv. {postData.author.offerLevel}
                     </span>
+                  </div>
+                  <div className="price">
+                    제안가격: {offererList.price.toLocaleString()} 원
                   </div>
                   <div className="detail-time">
                     {offererList.offerer.address} ·{' '}
