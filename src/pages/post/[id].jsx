@@ -38,6 +38,7 @@ const Post = ({ postId, data }) => {
   const [isWriter, setisWriter] = useState(false)
   const [imgUrls, setimgUrls] = useState([])
   const [tradeStatus, setTradeStatus] = useState(false)
+  const [finishTrade, setFinishTrade] = useState(false)
   const [offerList, setOfferList] = useState([{}])
   const [isMounted, setMounted] = useState(false)
   const [offerId, setOfferId] = useState(false)
@@ -72,10 +73,16 @@ const Post = ({ postId, data }) => {
     setPostData(data.article)
     setimgUrls(imageUrls.data.imageUrls)
     setOfferList(offerList.data)
+    console.log(data.article.tradeStatus.name)
+
     data.article.author.id === userId ? setisWriter(true) : setisWriter(false)
     data.article.tradeStatus.name === '판매중'
       ? setTradeStatus(true)
       : setTradeStatus(false)
+    data.article.tradeStatus.name === '거래완료'
+      ? setFinishTrade(true)
+      : setFinishTrade(false)
+
     setMounted(true)
   }, [state, checkOfferOptions])
 
@@ -98,6 +105,7 @@ const Post = ({ postId, data }) => {
           },
         })
         setTradeStatus(false)
+        setFinishTrade(false)
       } else {
         e.target.value = await postData.tradeStatus.code
       }
@@ -112,6 +120,7 @@ const Post = ({ postId, data }) => {
           },
         })
         setTradeStatus(true)
+        setFinishTrade(false)
       } else {
         e.target.value = await postData.tradeStatus.code
       }
@@ -119,13 +128,14 @@ const Post = ({ postId, data }) => {
     if (code === 8) {
       // 거래완료
       if (confirm('거래완료를 누르면 되돌릴 수 없습니다. 계속하시겠습니까?')) {
-        const res = await articleApi.changeTradeStatus({
-          articleId: getPostId,
-          option: {
-            code: 8,
-          },
-        })
+        // const res = await articleApi.changeTradeStatus({
+        //   articleId: getPostId,
+        //   option: {
+        //     code: 8,
+        //   },
+        // })
         setTradeStatus(false)
+        // setFinishTrade(true)
         setConfirmVisible(true)
       } else {
         e.target.value = await postData.tradeStatus.code
@@ -168,7 +178,11 @@ const Post = ({ postId, data }) => {
                     src="https://picsum.photos/200"
                     ratio="r"
                   />
-                  <div className="finish-message">예약완료</div>
+                  {finishTrade ? (
+                    <div className="finish-message">거래완료</div>
+                  ) : (
+                    <div className="finish-message">예약완료</div>
+                  )}
                 </div>
               )}
             </div>
@@ -413,10 +427,7 @@ const Post = ({ postId, data }) => {
       ) : (
         ''
       )}
-      <ModalConfirmBuyer
-        visible={confirmVisible}
-        onClose={() => setConfirmVisible(false)}
-        postId={postId}>
+      <ModalConfirmBuyer visible={confirmVisible} postId={postId}>
         구매자 확정 모달
       </ModalConfirmBuyer>
       <ModalChat

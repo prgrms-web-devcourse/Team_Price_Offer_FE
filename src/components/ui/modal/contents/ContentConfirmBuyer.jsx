@@ -6,6 +6,7 @@ import Button from '@components/templates/Button'
 import { timeForToday } from '@utils/functions'
 import router from 'next/router'
 import useStorage from '@hooks/useStorage'
+import WriteReview from '@components/ui/modal/ModalWriteReview'
 
 const { getItem } = useStorage()
 
@@ -15,6 +16,7 @@ const ContentConfirmBuyer = ({ postId }) => {
   const [selecor, setSelecor] = useState('')
   const [isMounted, setMounted] = useState(false)
   const [offerId, setOfferId] = useState('')
+  const [reviewVisible, setReviewVisible] = useState(false)
 
   useEffect(async () => {
     const { data } = await articleApi.getArticleUserID(postId)
@@ -31,15 +33,17 @@ const ContentConfirmBuyer = ({ postId }) => {
     setOfferId(confirmId)
   }
 
-  const confrimClick = async () => {
+  const confirmClick = async () => {
+    console.log()
     const res = await articleApi.selectOffer(offerId)
     console.log(res)
     if (Number(res.code) === 200) {
       alert('구매자 확정 완료!')
       const getPostId = getItem('postId').replaceAll('"', '')
-      router.push(`/posting/${getPostId}`)
+      setReviewVisible(true)
     } else {
       alert(res.message)
+      setReviewVisible(true)
     }
   }
   return (
@@ -119,10 +123,17 @@ const ContentConfirmBuyer = ({ postId }) => {
             ) : (
               ''
             )}
-            <Button onClick={confrimClick} className="confirm-button">
+            <Button onClick={confirmClick} className="confirm-button">
               구매자 확정
             </Button>
           </div>
+          <WriteReview
+            visible={reviewVisible}
+            onClose={() => setReviewVisible(false)}
+            postId={postId}
+            postData={postData}
+            userNickname={selecor}
+          />
         </>
       ) : (
         ''

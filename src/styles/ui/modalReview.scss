@@ -68,10 +68,15 @@
             display: flex;
             justify-content:space-between;
             margin-bottom: 20px;
-            .icon{
-                :hover{
-                    fill: $PRIMARY_COLOR;
-                }
+
+        }
+        .icon{
+            input[radio]{
+                display: none;
+            }
+            display: none;
+            :hover svg{
+                fill: $PRIMARY_COLOR;
             }
         }
         .writereview-area{
@@ -99,6 +104,7 @@
             justify-content:space-between;
             margin-bottom: 20px;
             .icon{
+                display:none;
                 :hover{
                     fill: $PRIMARY_COLOR;
                 }
