@@ -189,7 +189,7 @@ const Main = () => {
       </div>
 
       <div className="newgoods-title">신규상품</div>
-      <GoodsList goodsList={goodsList} />
+      {/* <GoodsList goodsList={goodsList} /> */}
     </div>
   )
 }
