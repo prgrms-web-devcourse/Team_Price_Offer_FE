@@ -2,21 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import GoodsItem from '@components/ui/GoodsItem'
 
-const GoodsList = ({ goodsList, className, onClick }) => {
+const GoodsList = ({ goodsList, className, haveAuth }) => {
   return (
     <div className={`goods-wrapper ${className}`}>
       <div className="goods-list">
         {goodsList.map(item => (
-          <GoodsItem
-            key={item.id}
-            src="https://img.khan.co.kr/news/2021/08/15/l_2021081501002249400192111.webp"
-            title={item.title}
-            location={item.address}
-            time={item.time}
-            price={item.price}
-            postId={item.id}
-            onClick={onClick}
-          />
+          <GoodsItem key={item.id} item={item} haveAuth={haveAuth} />
         ))}
       </div>
     </div>
