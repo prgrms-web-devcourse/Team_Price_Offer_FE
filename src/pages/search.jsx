@@ -9,10 +9,12 @@ import { FILTER } from '@utils/constant/icon'
 import { articleApi } from '@api/apis'
 import { useRouter } from 'next/router'
 import Pagination from '@components/templates/Pagination'
+import { useAuthContext } from '@hooks/useAuthContext'
 import { CATEGORIES } from '../data/dummy/categories'
 import { ORDERWAY } from '../data/dummy/orderway'
 
 const search = () => {
+  const { state } = useAuthContext()
   const router = useRouter()
   const { title } = router.query
   const [filters, setFilters] = useState({
@@ -53,12 +55,16 @@ const search = () => {
   }, [title, currentPage])
 
   const fetchGoodsList = useCallback(async (title, currentPage) => {
-    const { data } = await articleApi.searchArticles({
+    const searchOptions = {
       title,
       page: currentPage,
       size: 10,
       ...filters,
-    })
+    }
+
+    const { data } = state.token
+      ? await articleApi.searchArticlesWithAuth(searchOptions)
+      : await articleApi.searchArticles(searchOptions)
 
     title && setGoodsList(data)
   }, [])
@@ -190,6 +196,7 @@ const search = () => {
         <div className="result-body">
           {goodsList.elements && (
             <GoodsList
+              haveAuth={!!state.token}
               goodsList={goodsList.elements}
               onClick={handlePostRouting}
             />
