@@ -25,4 +25,12 @@ const timeForToday = value => {
   return `${Math.floor(betweenTimeDay / 365)}년 전`
 }
 
-export { timeForToday }
+const convertPrice = price => {
+  const option = {
+    maximumFractionDigits: 3,
+  }
+
+  return price.toLocaleString('ko-KR', option)
+}
+
+export { timeForToday, convertPrice }

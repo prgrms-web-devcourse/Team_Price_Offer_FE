@@ -1,6 +1,11 @@
-import PropTypes from 'prop-types'
 import { useState, useRef, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
+import {
+  NO_IMAGE_SQUARE,
+  NO_IMAGE_RECTANGLE_H,
+  NO_IMAGE_RECTANGLE_W,
+} from '@utils/constant'
 
 let observer = null
 const LOAD_IMG_EVENT_TYPE = 'loadImage'
@@ -59,13 +64,13 @@ const Image = ({
   const handleImgError = e => {
     switch (ratio) {
       case 'rectangle-h':
-        e.target.src = require('@assets/images/no-image_rectangle-h.png')
+        e.target.src = NO_IMAGE_RECTANGLE_H
         break
       case 'rectangle-w':
-        e.target.src = require('@assets/images/no-image_rectangle-w.png')
+        e.target.src = NO_IMAGE_RECTANGLE_W
         break
       default:
-        e.target.src = require('@assets/images/no-image_square.png')
+        e.target.src = NO_IMAGE_SQUARE
     }
   }
 
