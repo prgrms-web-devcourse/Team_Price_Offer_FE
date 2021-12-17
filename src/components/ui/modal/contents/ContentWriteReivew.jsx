@@ -30,7 +30,6 @@ const ContentWriteReivew = ({ postId, postData, userNickname }) => {
   const [goodImg, setGoodImg] = useState(goodImgurl)
   const [sosoImg, setSosoImg] = useState(sosoImgurl)
   const [offerList, setOfferList] = useState([{}])
-  // const postId = getItem('postId').replaceAll('"', '')
   const [reviewPostData, setReviewPostData] = useState([
     {
       title: '',

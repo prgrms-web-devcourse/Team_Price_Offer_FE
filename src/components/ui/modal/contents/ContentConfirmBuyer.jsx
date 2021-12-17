@@ -36,17 +36,19 @@ const ContentConfirmBuyer = ({ postId }) => {
   }
 
   const confirmClick = async () => {
-    console.log()
     const res = await articleApi.selectOffer(offerId)
-    console.log(res)
     if (Number(res.code) === 200) {
       alert('구매자 확정 완료!')
-      const getPostId = getItem('postId').replaceAll('"', '')
       setReviewVisible(true)
     } else {
       alert(res.message)
-      setReviewVisible(true)
+      if (res.message === '이미 선택된 offer가 존재합니다.') {
+        alert('리뷰를 작성해서 거래를 종료하세요!')
+        setReviewVisible(true)
+        return
+      }
     }
+    router.reload(`/post/${postId}`)
   }
   return (
     <div className="confrim">
@@ -130,7 +132,6 @@ const ContentConfirmBuyer = ({ postId }) => {
           </div>
           <WriteReview
             visible={reviewVisible}
-            onClose={() => setReviewVisible(false)}
             postId={postId}
             postData={postData}
             userNickname={selecor}

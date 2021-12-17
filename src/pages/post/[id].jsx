@@ -92,10 +92,20 @@ const Post = ({ postId, data }) => {
   }
 
   const handleChange = async e => {
+    if (finishTrade) {
+      alert('해당 상품은 이미 거래가 완료되었습니다.')
+      e.target.value = await postData.tradeStatus.code
+      return
+    }
     const code = Number(e.target.value)
     const getPostId = postId
 
     if (code === 2) {
+      if (offerList.elements.length === 0) {
+        alert('오퍼가 없는 게시글은 예약을 할 수 없어요')
+        e.target.value = await postData.tradeStatus.code
+        return
+      }
       // 예약중
       if (confirm('예약중으로 변경하시겠습니까?')) {
         const res = await articleApi.changeTradeStatus({
@@ -127,15 +137,13 @@ const Post = ({ postId, data }) => {
     }
     if (code === 8) {
       // 거래완료
+      if (offerList.elements.length === 0) {
+        alert('오퍼가 없는 게시글은 거래를 완료 할 수 없어요')
+        e.target.value = await postData.tradeStatus.code
+        return
+      }
       if (confirm('거래완료를 누르면 되돌릴 수 없습니다. 계속하시겠습니까?')) {
-        // const res = await articleApi.changeTradeStatus({
-        //   articleId: getPostId,
-        //   option: {
-        //     code: 8,
-        //   },
-        // })
         setTradeStatus(false)
-        // setFinishTrade(true)
         setConfirmVisible(true)
       } else {
         e.target.value = await postData.tradeStatus.code
@@ -144,6 +152,10 @@ const Post = ({ postId, data }) => {
   }
 
   const chatClick = async (offerId, e) => {
+    if (finishTrade) {
+      alert('해당 상품은 이미 거래가 완료되었습니다.')
+      return
+    }
     await setChatVisible(true)
     await setOfferId(offerId)
   }
@@ -244,6 +256,7 @@ const Post = ({ postId, data }) => {
                         },
                       ]}
                       visible={dialogVisible}
+                      isFinishtrade={finishTrade}
                       onClose={() => setDialogVisible(false)}
                     />
                   </div>
@@ -416,7 +429,7 @@ const Post = ({ postId, data }) => {
                     </>
                   ) : (
                     <div className="offer-state_ban">
-                      예약중인 물건은 가격제안을 할 수 없어요!
+                      예약중이거나 판매완료된 물건은 가격제안을 할 수 없어요!
                     </div>
                   )}
                 </div>
