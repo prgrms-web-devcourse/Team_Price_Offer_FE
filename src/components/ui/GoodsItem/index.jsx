@@ -92,7 +92,7 @@ const GoodsItem = ({ item, haveAuth }) => {
 }
 
 GoodsItem.propTypes = {
-  item: PropTypes.shape({ root: PropTypes.string.isRequired }),
+  item: PropTypes.shape({ root: PropTypes.string }),
 }
 
 const ImgContainer = styled.div`

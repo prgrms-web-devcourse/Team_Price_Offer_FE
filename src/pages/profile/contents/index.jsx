@@ -7,7 +7,7 @@ import Offer from './Offer'
 import Review from './Review'
 import Sale from './Sale'
 
-const ProfileContents = ({ userId, pageType }) => {
+const ProfileContents = ({ userId, pageType, state }) => {
   const SpinnerStyle = {
     display: 'flex',
     justifyContent: 'center',
@@ -15,13 +15,13 @@ const ProfileContents = ({ userId, pageType }) => {
 
   switch (pageType) {
     case 'like':
-      return <Like userId={userId} />
+      return <Like />
     case 'offer':
-      return <Offer userId={userId} />
+      return <Offer />
     case 'review':
       return <Review userId={userId} />
     case 'sale':
-      return <Sale userId={userId} />
+      return <Sale userId={userId} state={state} />
     default:
       if (process.browser) {
         const router = useRouter()
@@ -39,6 +39,7 @@ const ProfileContents = ({ userId, pageType }) => {
 ProfileContents.propTypes = {
   userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   pageType: PropTypes.string.isRequired,
+  state: PropTypes.shape({ root: PropTypes.string }),
 }
 
 export default ProfileContents
