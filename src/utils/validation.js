@@ -6,11 +6,17 @@ const validate = values => {
   const havePassword = fieldKeys.includes('password')
   const haveConfirmedPassword = fieldKeys.includes('confirmedPassword')
   const haveNumber = fieldKeys.includes('price', 'quantity')
-  const haveOfferPrice = fieldKeys.includes('OfferPrice')
+  const haveOfferPrice = fieldKeys.includes('offerPrice')
   const havemessageContent = fieldKeys.includes('messageContent')
+  const haveEvaluation = fieldKeys.includes('evaluation')
+  const haveReviewContent = fieldKeys.includes('reviewContent')
   fieldKeys.forEach(value => {
     if (!values[value]) {
-      errors[value] = '필수값을 입력해주세요!'
+      if (value === 'evaluation') {
+        errors.evaluation = '상대방에 대한 평가를 선택해주세요'
+      } else {
+        errors[value] = '필수값을 입력해주세요!'
+      }
     }
   })
 
@@ -41,13 +47,21 @@ const validate = values => {
   if (haveNumber && typeof values.price !== 'number') {
     errors.price = '숫자만 입력해주세요.'
   }
-  if (haveOfferPrice && typeof values.haveOfferPrice !== 'number') {
-    errors.haveOfferPrice = '숫자만 입력해주세요.'
+  if (haveNumber && `${values.price}`.length > 9) {
+    errors.price = '최대 설정금액을 초과했습니다.(999,999,999원).'
+  }
+  if (haveOfferPrice && typeof values.offerPrice !== 'number') {
+    errors.offerPrice = '숫자만 입력해주세요.'
+  }
+  if (haveOfferPrice && `${values.offerPrice}`.length > 9) {
+    errors.offerPrice = '최대 오퍼금액을 초과했습니다.(999,999,999원)'
   }
   if (havemessageContent && values.messageContent.length >= 100) {
     errors.messageContent = '쪽지는 100자를 넘을 수 없습니다.'
   }
-
+  if (haveReviewContent && values.reviewContent.length >= 100) {
+    errors.reviewContent = '리뷰는 100자를 넘을 수 없습니다.'
+  }
   return errors
 }
 
