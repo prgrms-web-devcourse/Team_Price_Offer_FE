@@ -73,7 +73,11 @@ const Offer = () => {
         <span className="result-lineup_item">높은 가격순</span>
       </div>
       <div className="result-content">
-        <GoodsList goodsList={goodsList.elements} className="sale-goodList" />
+        <GoodsList
+          haveAuth
+          goodsList={goodsList.elements}
+          className="sale-goodList"
+        />
       </div>
       <Pagination
         size={checkGoodsOptions.params.size}

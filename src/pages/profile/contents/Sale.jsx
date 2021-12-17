@@ -6,7 +6,7 @@ import GoodsList from '@components/ui/GoodsList'
 import Pagination from '@components/templates/Pagination'
 import { userApi } from '@api/apis'
 
-const Sale = ({ userId }) => {
+const Sale = ({ userId, state }) => {
   const [goodsList, setGoodsList] = useState({
     elements: [],
     totalElementCount: 0,
@@ -74,7 +74,11 @@ const Sale = ({ userId }) => {
         <span className="result-lineup_item">높은 가격순</span>
       </div>
       <div className="result-content">
-        <GoodsList goodsList={goodsList.elements} className="sale-goodList" />
+        <GoodsList
+          haveAuth={!!state.token}
+          goodsList={goodsList.elements}
+          className="sale-goodList"
+        />
       </div>
       <Pagination
         size={checkGoodsOptions.params.size}
@@ -88,6 +92,7 @@ const Sale = ({ userId }) => {
 
 Sale.propTypes = {
   userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  state: PropTypes.shape({ root: PropTypes.string }),
 }
 
 export default Sale
