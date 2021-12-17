@@ -12,6 +12,7 @@ const Dialog = ({ style, className, visible = false, items, onClose }) => {
   const dialogRef = useRef(null)
   const { handleLogout, state } = useAuthContext()
   const { id } = state.userData
+  const roomId = null
   // const router = useRouter
 
   // const handleClickItem = async code => {
@@ -31,7 +32,7 @@ const Dialog = ({ style, className, visible = false, items, onClose }) => {
     }
 
     if (code === 'message') {
-      Router.push(`/message/${id}`)
+      Router.push(`/message/${id}/${roomId}`)
     }
 
     if (code === 'modify') {

@@ -18,18 +18,19 @@ export const getServerSideProps = async context => {
   return {
     props: {
       userId: context.query.id,
+      roomId: context.query.roomId,
     },
   }
 }
 
-const MessagePage = ({ userId }) => {
+const MessagePage = ({ roomId }) => {
   const [messageBoxList, setMessageBoxList] = useState()
   const [currentPage, setcurrentPage] = useState(1)
   const [messageList, setMessageList] = useState(null)
   const [messageRoomInfo, setMessageRoomInfo] = useState(null)
   const selectedMessageRoomId = useRef()
   const { state } = useAuthContext()
-  const { nickname } = state.userData
+  const { nickname, id } = state.userData
   const messageFormik = useFormik({
     initialValues: {
       message: '',
@@ -52,8 +53,19 @@ const MessagePage = ({ userId }) => {
     setMessageBoxList(data.elements)
   }, [])
 
-  const fetchSelectedMessageRoom = useCallback(async messageRoomId => {
-    const roomInfoRes = await messageApi.getMessageRoomInfo({ messageRoomId })
+  const fetchSelectedMessageRoom = useCallback(async selectedRoomId => {
+    const messageRoomId = selectedRoomId || roomId
+    console.log(messageRoomId)
+    console.log(selectedMessageRoomId)
+    if (
+      messageRoomId === 'null' ||
+      messageRoomId === selectedMessageRoomId.current
+    ) {
+      return
+    }
+    const roomInfoRes = await messageApi.getMessageRoomInfo({
+      messageRoomId,
+    })
     const messageListRes = await messageApi.getMessageList({
       messageRoomId,
       params: {
@@ -61,14 +73,16 @@ const MessagePage = ({ userId }) => {
         size: 20,
       },
     })
+
     setMessageRoomInfo(() => roomInfoRes.data)
-    setMessageList(() => messageListRes.data.content)
+    setMessageList(() => messageListRes.data.elements)
 
     selectedMessageRoomId.current = messageRoomId
+    Router.replace(`/message/${id}/${messageRoomId}`)
   }, [])
 
-  const fetchDeleteMessageBox = useCallback(async () => {
-    await messageApi.deleteMessageBox(selectedMessageRoomId)
+  const fetchDeleteMessageRoom = useCallback(async () => {
+    await messageApi.deleteMessageRoom(selectedMessageRoomId)
   })
 
   const printMessageTime = time => {
@@ -102,46 +116,45 @@ const MessagePage = ({ userId }) => {
 
   useEffect(() => {
     fetchMessageBox()
+    fetchSelectedMessageRoom()
   }, [])
 
-  const printList =
-    messageList &&
-    messageList.map(message =>
-      message.isSendMessage ? (
-        <div className="message-chat_buyer" key={message.messageId}>
-          <div className="chat-wrapper">
-            <span className="message-time">
-              {printMessageTime(message.createdDate)}
-            </span>
-            <div className="message-wrapper">
+  const printList = messageList?.map(message =>
+    message.isSendMessage ? (
+      <div className="message-chat_buyer" key={message.messageId}>
+        <div className="chat-wrapper">
+          <span className="message-time">
+            {printMessageTime(message.createdDate)}
+          </span>
+          <div className="message-wrapper">
+            <MessageBox className="message-chat_box">
+              {message.content}
+            </MessageBox>
+          </div>
+        </div>
+      </div>
+    ) : (
+      <div className="message-chat_seller" key={message.messageId}>
+        <Avatar
+          className="message-avatar"
+          src={messageRoomInfo.messagePartnerInfo.profileImageUrl}
+          alt="avatar"
+        />
+        <div className="chat-wrapper">
+          <div className="message-wrapper">
+            <div className="message-chat_box-wrapper">
               <MessageBox className="message-chat_box">
                 {message.content}
               </MessageBox>
             </div>
           </div>
+          <span className="message-time">
+            {printMessageTime(message.createdDate)}
+          </span>
         </div>
-      ) : (
-        <div className="message-chat_seller" key={message.messageId}>
-          <Avatar
-            className="message-avatar"
-            src={messageRoomInfo.messagePartnerInfo.profileImageUrl}
-            alt="avatar"
-          />
-          <div className="chat-wrapper">
-            <div className="message-wrapper">
-              <div className="message-chat_box-wrapper">
-                <MessageBox className="message-chat_box">
-                  {message.content}
-                </MessageBox>
-              </div>
-            </div>
-            <span className="message-time">
-              {printMessageTime(message.createdDate)}
-            </span>
-          </div>
-        </div>
-      ),
-    )
+      </div>
+    ),
+  )
 
   return (
     <div className="message">
@@ -151,41 +164,40 @@ const MessagePage = ({ userId }) => {
         </div>
         <div className="message-body">
           <div className="message-list">
-            {messageBoxList &&
-              messageBoxList.map(messageBox => (
-                <div
-                  className="message-item"
-                  key={messageBox.messageRoomId}
-                  onClick={() =>
-                    fetchSelectedMessageRoom(messageBox.messageRoomId)
-                  }>
-                  <div className="message-item_left">
-                    <Avatar
-                      className="message-avatar"
-                      src={messageBox.userInfo.profileImageUrl}
-                      alt="avatar"
-                    />
-                    <div className="message-item_info-wrapper">
-                      <p className="message-item_info">
-                        <span className="message-item_info-name">
-                          {messageBox.userInfo.nickName}
-                        </span>
-                        <span className="message-item_info-meta">
-                          {messageBox.userInfo.address} · 2분전
-                        </span>
-                      </p>
-                      <p className="message-item_text">
-                        {messageBox.message.content}
-                      </p>
-                    </div>
-                  </div>
-                  <Image
-                    className="message-product"
-                    src={messageBox.productImageUrl}
-                    alt="product"
+            {messageBoxList?.map(messageBox => (
+              <div
+                className="message-item"
+                key={messageBox.messageRoomId}
+                onClick={() =>
+                  fetchSelectedMessageRoom(messageBox.messageRoomId)
+                }>
+                <div className="message-item_left">
+                  <Avatar
+                    className="message-avatar"
+                    src={messageBox.userInfo.profileImageUrl}
+                    alt="avatar"
                   />
+                  <div className="message-item_info-wrapper">
+                    <p className="message-item_info">
+                      <span className="message-item_info-name">
+                        {messageBox.userInfo.nickName}
+                      </span>
+                      <span className="message-item_info-meta">
+                        {messageBox.userInfo.address} · 2분전
+                      </span>
+                    </p>
+                    <p className="message-item_text">
+                      {messageBox.message.content}
+                    </p>
+                  </div>
                 </div>
-              ))}
+                <Image
+                  className="message-product"
+                  src={messageBox.productImageUrl}
+                  alt="product"
+                />
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -202,7 +214,7 @@ const MessagePage = ({ userId }) => {
                 alt="fetch"
                 onClick={() => Router.reload(window.location.pathname)}
               />
-              <Button onClick={fetchDeleteMessageBox}>나가기</Button>
+              <Button onClick={fetchDeleteMessageRoom}>나가기</Button>
             </div>
             <div className="message-body">
               <div className="message-chat_info">
