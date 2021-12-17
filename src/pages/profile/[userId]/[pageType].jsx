@@ -35,7 +35,7 @@ const ProfilePage = ({ userId, pageType }) => {
   })
   const [visibleConfigModal, setVisibleConfigModal] = useState(false)
 
-  useEffect(async () => {
+  const fetchUserProfile = async () => {
     const res =
       Number(state.userData.id) === Number(userId)
         ? await authApi.getUserProfile()
@@ -51,20 +51,14 @@ const ProfilePage = ({ userId, pageType }) => {
     })
 
     setIsLoading(false)
-    if (Number(state.userData.id) === Number(userId)) {
-      setisMyAcount(true)
-      return
-    }
-  }, [])
 
-  useEffect(() => {
-    if (Number(state.userData.id) === Number(userId)) {
-      setUserInfo(prevState => ({
-        ...state.userData,
-        isMyAcount: prevState.isMyAcount,
-      }))
-      return
-    }
+    Number(state.userData.id) === Number(userId)
+      ? setisMyAcount(true)
+      : setisMyAcount(false)
+  }
+
+  useEffect(async () => {
+    await fetchUserProfile()
   }, [state.userData])
 
   const profileImgStyle = {
