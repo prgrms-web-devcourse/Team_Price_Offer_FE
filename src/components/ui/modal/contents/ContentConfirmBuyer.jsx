@@ -47,8 +47,8 @@ const ContentConfirmBuyer = ({ postId }) => {
         setReviewVisible(true)
         return
       }
+      router.reload(`/post/${postId}`)
     }
-    router.reload(`/post/${postId}`)
   }
   return (
     <div className="confrim">
