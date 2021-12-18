@@ -100,13 +100,6 @@ const Review = ({ userId }) => {
             구매 후기
           </Button>
         </div>
-        <div className="result-lineup-box">
-          <span className="result-lineup_item selected">최신순</span>
-          <Divider type="vertical" />
-          <span className="result-lineup_item">낮은 가격순</span>
-          <Divider type="vertical" />
-          <span className="result-lineup_item">높은 가격순</span>
-        </div>
         <div className="result-content">
           <div className="review">
             <ul className="review-list" style={ulStyle}>
@@ -166,7 +159,7 @@ const Review = ({ userId }) => {
                         }
                         style={reviewBtnStyle}
                         className={`review-review_btn ${
-                          item.isWritingAvailableFromCurrentMember && 'leave'
+                          !item.isWritingAvailableFromCurrentMember && 'leave'
                         }`}>
                         {item.isWritingAvailableFromCurrentMember
                           ? '후기 남기기'
