@@ -135,6 +135,7 @@ const ContentConfirmBuyer = ({ postId }) => {
             postId={postId}
             postData={postData}
             userNickname={selecor}
+            needChangeStatus
           />
         </>
       ) : (

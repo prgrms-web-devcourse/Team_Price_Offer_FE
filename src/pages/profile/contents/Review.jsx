@@ -10,6 +10,11 @@ import { userApi } from '@api/apis'
 
 const Review = ({ userId, state }) => {
   const [postIdOfReview, setPostIdOfReview] = useState(null)
+  const [postInfoOfReview, setPostInfoOfReview] = useState({
+    id: null,
+    data: null,
+    nickname: null,
+  })
   const [goodsList, setGoodsList] = useState({
     elements: [],
     totalElementCount: 0,
@@ -37,10 +42,14 @@ const Review = ({ userId, state }) => {
     })
   }
 
-  const handleReviewModal = (postId, isWriteModal) => {
-    setPostIdOfReview(postId)
+  const handleReviewModal = item => {
+    setPostInfoOfReview({
+      id: item.article.id,
+      data: item.article,
+      nickname: item.reviewer.nickname,
+    })
 
-    if (isWriteModal) {
+    if (item.isWritingAvailableFromCurrentMember) {
       setVisibleWriteReviewModal(true)
       return
     }
@@ -152,12 +161,7 @@ const Review = ({ userId, state }) => {
                           {item.time}
                         </div>
                         <Button
-                          onClick={() =>
-                            handleReviewModal(
-                              item.article.id,
-                              item.isWritingAvailableFromCurrentMember,
-                            )
-                          }
+                          onClick={() => handleReviewModal(item)}
                           style={reviewBtnStyle}
                           className={`review-review_btn ${
                             !item.isWritingAvailableFromCurrentMember && 'leave'
@@ -189,8 +193,11 @@ const Review = ({ userId, state }) => {
         리뷰 보기 모달
       </ModalMyReview>
       <ModalWriteReview
-        postId={postIdOfReview}
+        postId={postInfoOfReview.id}
+        postData={postInfoOfReview.data}
+        userNickname={postInfoOfReview.nickname}
         visible={visibleWriteReviewModal}
+        needChangeStatus={false}
         onClose={() => setVisibleWriteReviewModal(false)}>
         리뷰 쓰기 모달
       </ModalWriteReview>
