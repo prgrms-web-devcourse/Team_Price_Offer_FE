@@ -61,9 +61,11 @@ const ProfilePage = ({ userId, pageType }) => {
       return
     }
 
-    setTimeout(() => {
-      fetchUserProfile(state.userData.id)
-    }, 500)
+    if (Number(state.userData.id) === Number(userId)) {
+      setTimeout(() => {
+        fetchUserProfile(state.userData.id)
+      }, 500)
+    }
   }, [])
 
   useEffect(async () => {
