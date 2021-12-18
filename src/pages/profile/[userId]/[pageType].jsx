@@ -35,31 +35,45 @@ const ProfilePage = ({ userId, pageType }) => {
   })
   const [visibleConfigModal, setVisibleConfigModal] = useState(false)
 
-  const fetchUserProfile = async () => {
-    const res =
-      Number(state.userData.id) === Number(userId)
-        ? await authApi.getUserProfile()
-        : await authApi.getOtherUserProfile(userId)
+  const fetchUserProfile = useCallback(
+    async currentStateUserId => {
+      const res =
+        Number(currentStateUserId) === Number(userId)
+          ? await authApi.getUserProfile()
+          : await authApi.getOtherUserProfile(userId)
 
-    setUserInfo({
-      ...userInfo,
-      ...res.data.member,
-      sellingArticleCount: res.data.sellingArticleCount,
-      likedArticleCount: res.data.likedArticleCount,
-      offerCount: res.data.offerCount,
-      reviewCount: res.data.reviewCount,
-    })
+      setUserInfo({
+        ...userInfo,
+        ...res.data.member,
+        sellingArticleCount: res.data.sellingArticleCount,
+        likedArticleCount: res.data.likedArticleCount,
+        offerCount: res.data.offerCount,
+        reviewCount: res.data.reviewCount,
+      })
 
-    setIsLoading(false)
+      setIsLoading(false)
+    },
+    [userId],
+  )
 
-    Number(state.userData.id) === Number(userId)
-      ? setisMyAcount(true)
-      : setisMyAcount(false)
-  }
+  const dispatchEvent = useCallback(async e => {
+    if (e.target.name !== 'like') {
+      return
+    }
+
+    setTimeout(() => {
+      fetchUserProfile(state.userData.id)
+    }, 500)
+  }, [])
 
   useEffect(async () => {
-    await fetchUserProfile()
-  }, [state.userData])
+    const currentStateUserId = state.userData.id
+    await fetchUserProfile(currentStateUserId)
+
+    Number(currentStateUserId) === Number(userId)
+      ? setisMyAcount(true)
+      : setisMyAcount(false)
+  }, [userId, state.userData])
 
   const profileImgStyle = {
     width: '100px',
@@ -170,7 +184,12 @@ const ProfilePage = ({ userId, pageType }) => {
           </Link>
         </ul>
       </div>
-      <PageContents userId={userId} pageType={pageType} state={state} />
+      <PageContents
+        userId={userId}
+        pageType={pageType}
+        state={state}
+        onClick={dispatchEvent}
+      />
     </div>
   )
 }

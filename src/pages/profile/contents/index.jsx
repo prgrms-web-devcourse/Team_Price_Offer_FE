@@ -7,21 +7,41 @@ import Offer from './Offer'
 import Review from './Review'
 import Sale from './Sale'
 
-const ProfileContents = ({ userId, pageType, state }) => {
+const ProfileContents = ({ userId, pageType, state, onClick }) => {
   const SpinnerStyle = {
     display: 'flex',
     justifyContent: 'center',
   }
 
+  const handleClick = e => {
+    onClick && onClick(e)
+  }
+
   switch (pageType) {
     case 'like':
-      return <Like />
+      return (
+        <div onClick={handleClick}>
+          <Like />
+        </div>
+      )
     case 'offer':
-      return <Offer />
+      return (
+        <div onClick={handleClick}>
+          <Offer />
+        </div>
+      )
     case 'review':
-      return <Review userId={userId} />
+      return (
+        <div onClick={handleClick}>
+          <Review userId={userId} />
+        </div>
+      )
     case 'sale':
-      return <Sale userId={userId} state={state} />
+      return (
+        <div onClick={handleClick}>
+          <Sale userId={userId} state={state} />
+        </div>
+      )
     default:
       if (process.browser) {
         const router = useRouter()
