@@ -110,7 +110,7 @@ const ContentWriteReivew = ({ postId, postData, userNickname }) => {
                   }}
                 />
               </div>
-              <div className="goodsbox-title">{reviewPostData.title}</div>
+              <div className="goodsbox-title">{reviewPostData?.title}</div>
             </div>
           </div>
           <form onSubmit={formik.handleSubmit}>
