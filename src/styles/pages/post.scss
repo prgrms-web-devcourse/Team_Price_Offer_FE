@@ -80,12 +80,13 @@
     display: flex;
     margin-top: 20px;
     .post-title{
-        width: 100%;
+        max-width:453px;
         font-size: 22px;
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
-        -webkit-line-clamp: 2;
+        word-wrap:break-word; 
+        -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
     }
     .like-button{

@@ -80,11 +80,7 @@ const ContentChat = ({ postId, offerId }) => {
                   }}
                 />
               </div>
-              <div className="goodsbox-title">{postData.title} &gt;</div>
-              <div className="goodsbox-state">
-                {postData.productStatus.name} &gt;
-              </div>
-              <div className="goodsbox-category">{postData.category.name}</div>
+              <div className="goodsbox-title">{postData.title}</div>
             </div>
           </div>
           <form onSubmit={formik.handleSubmit}>

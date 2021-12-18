@@ -38,6 +38,7 @@ const Post = ({ postId, data }) => {
   const [isWriter, setisWriter] = useState(false)
   const [imgUrls, setimgUrls] = useState([])
   const [tradeStatus, setTradeStatus] = useState(false)
+  const [finishTrade, setFinishTrade] = useState(false)
   const [offerList, setOfferList] = useState([{}])
   const [isMounted, setMounted] = useState(false)
   const [offerId, setOfferId] = useState(false)
@@ -72,10 +73,16 @@ const Post = ({ postId, data }) => {
     setPostData(data.article)
     setimgUrls(imageUrls.data.imageUrls)
     setOfferList(offerList.data)
+    console.log(data.article.tradeStatus.name)
+
     data.article.author.id === userId ? setisWriter(true) : setisWriter(false)
     data.article.tradeStatus.name === '판매중'
       ? setTradeStatus(true)
       : setTradeStatus(false)
+    data.article.tradeStatus.name === '거래완료'
+      ? setFinishTrade(true)
+      : setFinishTrade(false)
+
     setMounted(true)
   }, [state, checkOfferOptions])
 
@@ -85,10 +92,20 @@ const Post = ({ postId, data }) => {
   }
 
   const handleChange = async e => {
+    if (finishTrade) {
+      alert('해당 상품은 이미 거래가 완료되었습니다.')
+      e.target.value = await postData.tradeStatus.code
+      return
+    }
     const code = Number(e.target.value)
     const getPostId = postId
 
     if (code === 2) {
+      if (offerList.elements.length === 0) {
+        alert('오퍼가 없는 게시글은 예약을 할 수 없어요')
+        e.target.value = await postData.tradeStatus.code
+        return
+      }
       // 예약중
       if (confirm('예약중으로 변경하시겠습니까?')) {
         const res = await articleApi.changeTradeStatus({
@@ -98,6 +115,7 @@ const Post = ({ postId, data }) => {
           },
         })
         setTradeStatus(false)
+        setFinishTrade(false)
       } else {
         e.target.value = await postData.tradeStatus.code
       }
@@ -112,19 +130,19 @@ const Post = ({ postId, data }) => {
           },
         })
         setTradeStatus(true)
+        setFinishTrade(false)
       } else {
         e.target.value = await postData.tradeStatus.code
       }
     }
     if (code === 8) {
       // 거래완료
+      if (offerList.elements.length === 0) {
+        alert('오퍼가 없는 게시글은 거래를 완료 할 수 없어요')
+        e.target.value = await postData.tradeStatus.code
+        return
+      }
       if (confirm('거래완료를 누르면 되돌릴 수 없습니다. 계속하시겠습니까?')) {
-        const res = await articleApi.changeTradeStatus({
-          articleId: getPostId,
-          option: {
-            code: 8,
-          },
-        })
         setTradeStatus(false)
         setConfirmVisible(true)
       } else {
@@ -134,6 +152,10 @@ const Post = ({ postId, data }) => {
   }
 
   const chatClick = async (offerId, e) => {
+    if (finishTrade) {
+      alert('해당 상품은 이미 거래가 완료되었습니다.')
+      return
+    }
     await setChatVisible(true)
     await setOfferId(offerId)
   }
@@ -168,7 +190,11 @@ const Post = ({ postId, data }) => {
                     src="https://picsum.photos/200"
                     ratio="r"
                   />
-                  <div className="finish-message">예약완료</div>
+                  {finishTrade ? (
+                    <div className="finish-message">거래완료</div>
+                  ) : (
+                    <div className="finish-message">예약완료</div>
+                  )}
                 </div>
               )}
             </div>
@@ -230,6 +256,7 @@ const Post = ({ postId, data }) => {
                         },
                       ]}
                       visible={dialogVisible}
+                      isFinishtrade={finishTrade}
                       onClose={() => setDialogVisible(false)}
                     />
                   </div>
@@ -402,7 +429,7 @@ const Post = ({ postId, data }) => {
                     </>
                   ) : (
                     <div className="offer-state_ban">
-                      예약중인 물건은 가격제안을 할 수 없어요!
+                      예약중이거나 판매완료된 물건은 가격제안을 할 수 없어요!
                     </div>
                   )}
                 </div>
@@ -413,10 +440,7 @@ const Post = ({ postId, data }) => {
       ) : (
         ''
       )}
-      <ModalConfirmBuyer
-        visible={confirmVisible}
-        onClose={() => setConfirmVisible(false)}
-        postId={postId}>
+      <ModalConfirmBuyer visible={confirmVisible} postId={postId}>
         구매자 확정 모달
       </ModalConfirmBuyer>
       <ModalChat

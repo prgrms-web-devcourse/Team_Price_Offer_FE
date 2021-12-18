@@ -31,6 +31,7 @@ const ContentOffer = props => {
       }
     },
   })
+
   return (
     <>
       <div className="modal-header">
@@ -49,6 +50,7 @@ const ContentOffer = props => {
                 placeholder="숫자로만 입력해주세요!"
                 value={formik.values.offerPrice}
                 onChange={formik.handleChange}
+                maxLength="9"
               />
             </div>
           </div>

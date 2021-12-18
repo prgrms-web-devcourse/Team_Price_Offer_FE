@@ -28,17 +28,23 @@
         }
         
         &-goodsbox{
+            padding:0px 10px 0px 10px;
             line-height: 30px;
             border:solid 1px #CCCCCC;
             width: 324px;
             height: 36px;
             display: flex;
-            justify-content: center;
             margin-top:20px;
             margin-bottom: 10px;
             font-size: 14px;
             color: $FONT_GRAY_COLOR;
             gap:10px;
+            .goodsbox-title{
+                max-width:220px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
         }
     }
 
@@ -75,15 +81,24 @@
                     .username{
                         font-family: Noto Sans;
                         font-weight: bold;
+                        font-size: 16px;
                     }
                     .level{
                         font-family: Noto Sans;
-                        margin-top: 2px;
+                        margin-top: 4px;
                         color:$PRIMARY_COLOR;
                         font-size: 12px;
                     }
                 }
+                .price{
+                    font-family: Noto Sans;;
+                    color:#000000;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    font-size: 16px;
+                }
                 .detail-time{
+                    font-family: roboto;
                     margin-top: 5px;
                     color: $FONT_GRAY_COLOR;
                     font-size: 14px;
