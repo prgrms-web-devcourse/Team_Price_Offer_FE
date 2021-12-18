@@ -29,10 +29,14 @@ export const userApi = {
     instance.get(`/articles?memberId=${memberId}&tradeStatusCode=8`, {
       params,
     }),
-  getUserBuyReviews: memberId =>
-    instance.get(`/reviews?memberId=${memberId}&role=buyer`),
-  getUserSellReviews: memberId =>
-    instance.get(`/reviews?memberId=${memberId}&role=seller`),
+  getUserBuyReviews: ({ memberId, params }) =>
+    instance.get(`/reviews?memberId=${memberId}&role=buyer`, {
+      params,
+    }),
+  getUserSellReviews: ({ memberId, params }) =>
+    instance.get(`/reviews?memberId=${memberId}&role=seller`, {
+      params,
+    }),
   getUserReview: articleId => auth.get(`/reviews/me?articleId=${articleId}`),
   postReview: ({ articleId, payload }) =>
     auth.post(`/reviews?articleId=${articleId}`, payload),

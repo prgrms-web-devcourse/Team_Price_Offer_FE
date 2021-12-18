@@ -7,7 +7,15 @@ import useStorage from '@hooks/useStorage'
 import { articleApi } from '@api/apis'
 import { useRouter } from 'next/dist/client/router'
 
-const Dialog = ({ style, className, visible = false, items, onClose }) => {
+const Dialog = ({
+  style,
+  className,
+  visible = false,
+  items,
+  onClose,
+  isFinishtrade,
+}) => {
+  const { state } = useAuthContext()
   const router = useRouter()
   const dialogRef = useRef(null)
   const { handleLogout, state } = useAuthContext()
@@ -36,7 +44,10 @@ const Dialog = ({ style, className, visible = false, items, onClose }) => {
     }
 
     if (code === 'modify') {
-      alert('게시글 수정')
+      if (isFinishtrade) {
+        alert('거래가 완료된 게시글은 수정 할 수 없어요!')
+        return
+      }
       const getPostId = getItem('postId').replaceAll('"', '')
       router.push(`/posting/${getPostId}`)
     }

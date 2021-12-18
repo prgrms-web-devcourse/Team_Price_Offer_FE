@@ -176,7 +176,7 @@ const ProfilePage = ({ userId, pageType }) => {
           </Link>
         </ul>
       </div>
-      <PageContents userId={userId} pageType={pageType} />
+      <PageContents userId={userId} pageType={pageType} state={state} />
     </div>
   )
 }
