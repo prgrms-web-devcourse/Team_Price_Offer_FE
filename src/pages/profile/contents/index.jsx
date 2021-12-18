@@ -33,7 +33,7 @@ const ProfileContents = ({ userId, pageType, state, onClick }) => {
     case 'review':
       return (
         <div onClick={handleClick}>
-          <Review userId={userId} />
+          <Review userId={userId} state={state} />
         </div>
       )
     case 'sale':

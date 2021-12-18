@@ -35,12 +35,20 @@ const ProfilePage = ({ userId, pageType }) => {
   })
   const [visibleConfigModal, setVisibleConfigModal] = useState(false)
 
+  useEffect(async () => {
+    const currentStateUserId = state.userData.id
+    await fetchUserProfile(currentStateUserId)
+
+    checkMyAcount(currentStateUserId)
+      ? setisMyAcount(true)
+      : setisMyAcount(false)
+  }, [userId, state.userData])
+
   const fetchUserProfile = useCallback(
     async currentStateUserId => {
-      const res =
-        Number(currentStateUserId) === Number(userId)
-          ? await authApi.getUserProfile()
-          : await authApi.getOtherUserProfile(userId)
+      const res = checkMyAcount(currentStateUserId)
+        ? await authApi.getUserProfile()
+        : await authApi.getOtherUserProfile(userId)
 
       setUserInfo({
         ...userInfo,
@@ -56,26 +64,24 @@ const ProfilePage = ({ userId, pageType }) => {
     [userId],
   )
 
+  const checkMyAcount = useCallback(
+    (currentStateUserId = state.userData.id) => {
+      return Number(currentStateUserId) === Number(userId)
+    },
+    [userId, state.userData.id],
+  )
+
   const dispatchEvent = useCallback(async e => {
     if (e.target.name !== 'like') {
       return
     }
 
-    if (Number(state.userData.id) === Number(userId)) {
+    if (checkMyAcount()) {
       setTimeout(() => {
         fetchUserProfile(state.userData.id)
       }, 500)
     }
   }, [])
-
-  useEffect(async () => {
-    const currentStateUserId = state.userData.id
-    await fetchUserProfile(currentStateUserId)
-
-    Number(currentStateUserId) === Number(userId)
-      ? setisMyAcount(true)
-      : setisMyAcount(false)
-  }, [userId, state.userData])
 
   const profileImgStyle = {
     width: '100px',

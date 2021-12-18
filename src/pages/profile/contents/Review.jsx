@@ -8,7 +8,7 @@ import ModalMyReview from '@components/ui/modal/ModalMyReview'
 import ModalWriteReview from '@components/ui/modal/ModalWriteReview'
 import { userApi } from '@api/apis'
 
-const Review = ({ userId }) => {
+const Review = ({ userId, state }) => {
   const [postIdOfReview, setPostIdOfReview] = useState(null)
   const [goodsList, setGoodsList] = useState({
     elements: [],
@@ -146,26 +146,28 @@ const Review = ({ userId }) => {
                         </Button>
                       </div>
                     </div>
-                    <div className="review-side-box">
-                      <div style={{ width: '100%', textAlign: 'right' }}>
-                        {item.time}
+                    {Number(state.userData.id) === Number(userId) && (
+                      <div className="review-side-box">
+                        <div style={{ width: '100%', textAlign: 'right' }}>
+                          {item.time}
+                        </div>
+                        <Button
+                          onClick={() =>
+                            handleReviewModal(
+                              item.article.id,
+                              item.isWritingAvailableFromCurrentMember,
+                            )
+                          }
+                          style={reviewBtnStyle}
+                          className={`review-review_btn ${
+                            !item.isWritingAvailableFromCurrentMember && 'leave'
+                          }`}>
+                          {item.isWritingAvailableFromCurrentMember
+                            ? '후기 남기기'
+                            : '후기 보기'}
+                        </Button>
                       </div>
-                      <Button
-                        onClick={() =>
-                          handleReviewModal(
-                            item.article.id,
-                            item.isWritingAvailableFromCurrentMember,
-                          )
-                        }
-                        style={reviewBtnStyle}
-                        className={`review-review_btn ${
-                          !item.isWritingAvailableFromCurrentMember && 'leave'
-                        }`}>
-                        {item.isWritingAvailableFromCurrentMember
-                          ? '후기 남기기'
-                          : '후기 보기'}
-                      </Button>
-                    </div>
+                    )}
                   </li>
                   <hr />
                 </>
