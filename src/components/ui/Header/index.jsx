@@ -109,8 +109,17 @@ const Header = () => {
           <div className="widget-islogin">
             <div className="widget-islogin_pc">
               <div className="sale-area">
-                <IconButton src={SALE} alt="sale" style={iconBtnStyleMd} />
-                <div className="sale_button_text">판매하기</div>
+                <IconButton
+                  src={SALE}
+                  alt="sale"
+                  style={iconBtnStyleMd}
+                  onClick={() => router.push('/posting/null')}
+                />
+                <div
+                  className="sale_button_text"
+                  onClick={() => router.push('/posting/null')}>
+                  판매하기
+                </div>
               </div>
               <Divider type="vertical" style={{ color: '#DDDDDD' }} />
               <div className="userprofile-area">
@@ -136,7 +145,12 @@ const Header = () => {
               </div>
             </div>
             <div className="widget-islogin_mobile">
-              <IconButton src={SALE} alt="sale" style={iconBtnStyleLg} />
+              <IconButton
+                src={SALE}
+                alt="sale"
+                style={iconBtnStyleLg}
+                onClick={() => router.push('/posting/null')}
+              />
               <IconButton
                 className="sidebar"
                 src={USER_CIRCLE}
