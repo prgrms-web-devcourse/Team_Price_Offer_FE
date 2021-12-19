@@ -92,9 +92,9 @@ const posting = ({ postId }) => {
       const imgUrl1 =
         imgRef1.current.src === imgSrc ? 'no-Img' : imgRef1.current.src
       const imgUrl2 =
-        imgRef2.current.src === imgSrc ? 'no-Img' : imgRef1.current.src
+        imgRef2.current.src === imgSrc ? 'no-Img' : imgRef2.current.src
       const imgUrl3 =
-        imgRef3.current.src === imgSrc ? 'no-Img' : imgRef1.current.src
+        imgRef3.current.src === imgSrc ? 'no-Img' : imgRef3.current.src
 
       const userInfo = {
         id: postId,

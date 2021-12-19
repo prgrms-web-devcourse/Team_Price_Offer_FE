@@ -25,7 +25,6 @@ const ContentConfirmBuyer = ({ postId }) => {
     setPostData(data.article)
     setOfferList(offerList.data)
     setMounted(true)
-    console.log(offerList.data)
   }, [])
 
   const handleClick = (confirmId, e) => {

@@ -3,17 +3,23 @@ import PropTypes from 'prop-types'
 import Modal from '@components/templates/Modal'
 import ContentcomfrimBuyer from '@components/ui/modal/contents/ContentConfirmBuyer'
 
-const ConfrimBuyer = ({ visible, onClose, postId }) => {
+const ConfirmBuyer = ({ visible, onClose, postId, offerList, postData }) => {
+  console.log('1', offerList)
+  console.log('2', postData)
   return (
     <Modal visible={visible} onClose={onClose} className="modal">
-      <ContentcomfrimBuyer postId={postId} />
+      <ContentcomfrimBuyer
+        postId={postId}
+        offerList={offerList}
+        postData={postData}
+      />
     </Modal>
   )
 }
 
-ConfrimBuyer.propTypes = {
+ConfirmBuyer.propTypes = {
   visible: PropTypes.bool,
   onClose: PropTypes.func,
 }
 
-export default ConfrimBuyer
+export default ConfirmBuyer
