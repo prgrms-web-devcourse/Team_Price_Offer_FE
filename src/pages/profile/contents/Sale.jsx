@@ -14,28 +14,27 @@ const Sale = ({ userId, state }) => {
   const [goodsListStatus, setGoodsListStatus] = useState({
     isSelling: true,
   })
-  const [checkGoodsOptions, setCheckGoodsOptions] = useState({
-    memberId: userId,
-    params: {
-      page: 1,
-      size: 10,
-    },
+  const [goodsPageOptions, setGoodsPageOptions] = useState({
+    page: 1,
+    size: 10,
   })
 
   const handleCheckGoods = pageNum => {
-    setCheckGoodsOptions({
-      ...checkGoodsOptions,
-      params: {
-        ...checkGoodsOptions.params,
-        page: pageNum,
-      },
+    setGoodsPageOptions({
+      ...goodsPageOptions,
+      page: pageNum,
     })
   }
 
-  useEffect(async () => {
+  const fetchGoodsList = async () => {
+    const goodsOptions = {
+      memberId: userId,
+      params: goodsPageOptions,
+    }
+
     const res = goodsListStatus.isSelling
-      ? await userApi.getUserTradingAtricles(checkGoodsOptions)
-      : await userApi.getUserCompletedArticles(checkGoodsOptions)
+      ? await userApi.getUserTradingAtricles(goodsOptions)
+      : await userApi.getUserCompletedArticles(goodsOptions)
 
     if (Number(res.code) !== 200) {
       return alert('상품 조회 시, 문제가 발생하였습니다!')
@@ -45,7 +44,11 @@ const Sale = ({ userId, state }) => {
       elements: res.data.elements,
       totalElementCount: res.data.pageInfo.totalElementCount,
     })
-  }, [goodsListStatus, checkGoodsOptions])
+  }
+
+  useEffect(async () => {
+    await fetchGoodsList()
+  }, [goodsListStatus, goodsPageOptions, userId])
 
   return (
     <div className="result-container">
@@ -81,7 +84,7 @@ const Sale = ({ userId, state }) => {
         />
       </div>
       <Pagination
-        size={checkGoodsOptions.params.size}
+        size={goodsPageOptions.size}
         postListLength={goodsList.totalElementCount}
         paginate={handleCheckGoods}
         setStartPage={handleCheckGoods}

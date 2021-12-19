@@ -8,50 +8,55 @@ import ModalMyReview from '@components/ui/modal/ModalMyReview'
 import ModalWriteReview from '@components/ui/modal/ModalWriteReview'
 import { userApi } from '@api/apis'
 
-const Review = ({ userId }) => {
-  const [postIdOfReview, setPostIdOfReview] = useState(null)
+const Review = ({ userId, state }) => {
+  const [visibleReviewModal, setVisibleReviewModal] = useState(false)
+  const [visibleWriteReviewModal, setVisibleWriteReviewModal] = useState(false)
+  const [goodsListStatus, setGoodsListStatus] = useState({
+    isSellingReview: true,
+  })
   const [goodsList, setGoodsList] = useState({
     elements: [],
     totalElementCount: 0,
   })
-  const [goodsListStatus, setGoodsListStatus] = useState({
-    isSellingReview: true,
-  })
-  const [checkReviewOptions, setCheckReviewOptions] = useState({
+  const [reviewOptions, setReviewOptions] = useState({
     memberId: userId,
     params: {
       page: 1,
       size: 10,
     },
   })
-  const [visibleReviewModal, setVisibleReviewModal] = useState(false)
-  const [visibleWriteReviewModal, setVisibleWriteReviewModal] = useState(false)
+  const [postInfoOfReview, setPostInfoOfReview] = useState({
+    id: null,
+    data: null,
+    nickname: null,
+    reviewContent: null,
+  })
 
-  const handleCheckReviews = pageNum => {
-    setCheckReviewOptions({
-      ...checkReviewOptions,
-      params: {
-        ...checkReviewOptions.params,
-        page: pageNum,
-      },
-    })
-  }
+  useEffect(async () => {
+    await fetchReviews()
+  }, [goodsListStatus, reviewOptions])
 
-  const handleReviewModal = (postId, isWriteModal) => {
-    setPostIdOfReview(postId)
+  const fetchUserReview = async articleId => {
+    const res = await userApi.getUserReview(articleId)
 
-    if (isWriteModal) {
-      setVisibleWriteReviewModal(true)
-      return
+    if (Number(res.code) !== 200) {
+      alert('리뷰를 불러올 수 없습니다!')
     }
 
+    const { review } = res.data
+    setPostInfoOfReview({
+      id: review.article.id,
+      data: review.article,
+      nickname: review.reviewer.nickname,
+      reviewContent: review.content,
+    })
     setVisibleReviewModal(true)
   }
 
-  useEffect(async () => {
+  const fetchReviews = async () => {
     const res = goodsListStatus.isSellingReview
-      ? await userApi.getUserSellReviews(checkReviewOptions)
-      : await userApi.getUserBuyReviews(checkReviewOptions)
+      ? await userApi.getUserSellReviews(reviewOptions)
+      : await userApi.getUserBuyReviews(reviewOptions)
 
     if (Number(res.code) !== 200) {
       return alert('거래후기 조회 시, 문제가 발생하였습니다!')
@@ -61,7 +66,32 @@ const Review = ({ userId }) => {
       elements: res.data.elements,
       totalElementCount: res.data.pageInfo.totalElementCount,
     })
-  }, [goodsListStatus, checkReviewOptions])
+  }
+
+  const handleReviewOptions = pageNum => {
+    setReviewOptions({
+      ...reviewOptions,
+      params: {
+        ...reviewOptions.params,
+        page: pageNum,
+      },
+    })
+  }
+
+  const handleReviewModal = async item => {
+    setPostInfoOfReview({
+      id: item.article.id,
+      data: item.article,
+      nickname: item.reviewer.nickname,
+    })
+
+    if (item.isWritingAvailableFromCurrentMember) {
+      setVisibleWriteReviewModal(true)
+      return
+    }
+
+    await fetchUserReview(item.article.id)
+  }
 
   const ulStyle = {
     listStyle: 'none',
@@ -99,13 +129,6 @@ const Review = ({ userId }) => {
             }`}>
             구매 후기
           </Button>
-        </div>
-        <div className="result-lineup-box">
-          <span className="result-lineup_item selected">최신순</span>
-          <Divider type="vertical" />
-          <span className="result-lineup_item">낮은 가격순</span>
-          <Divider type="vertical" />
-          <span className="result-lineup_item">높은 가격순</span>
         </div>
         <div className="result-content">
           <div className="review">
@@ -153,26 +176,23 @@ const Review = ({ userId }) => {
                         </Button>
                       </div>
                     </div>
-                    <div className="review-side-box">
-                      <div style={{ width: '100%', textAlign: 'right' }}>
-                        {item.time}
+                    {Number(state.userData.id) === Number(userId) && (
+                      <div className="review-side-box">
+                        <div style={{ width: '100%', textAlign: 'right' }}>
+                          {item.time}
+                        </div>
+                        <Button
+                          onClick={() => handleReviewModal(item)}
+                          style={reviewBtnStyle}
+                          className={`review-review_btn ${
+                            !item.isWritingAvailableFromCurrentMember && 'leave'
+                          }`}>
+                          {item.isWritingAvailableFromCurrentMember
+                            ? '후기 남기기'
+                            : '후기 보기'}
+                        </Button>
                       </div>
-                      <Button
-                        onClick={() =>
-                          handleReviewModal(
-                            item.article.id,
-                            item.isWritingAvailableFromCurrentMember,
-                          )
-                        }
-                        style={reviewBtnStyle}
-                        className={`review-review_btn ${
-                          item.isWritingAvailableFromCurrentMember && 'leave'
-                        }`}>
-                        {item.isWritingAvailableFromCurrentMember
-                          ? '후기 남기기'
-                          : '후기 보기'}
-                      </Button>
-                    </div>
+                    )}
                   </li>
                   <hr />
                 </>
@@ -181,21 +201,24 @@ const Review = ({ userId }) => {
           </div>
         </div>
         <Pagination
-          size={checkReviewOptions.params.size}
+          size={reviewOptions.params.size}
           postListLength={goodsList.totalElementCount}
-          paginate={handleCheckReviews}
-          setStartPage={handleCheckReviews}
+          paginate={handleReviewOptions}
+          setStartPage={handleReviewOptions}
         />
       </div>
       <ModalMyReview
-        postId={postIdOfReview}
+        postInfo={postInfoOfReview}
         visible={visibleReviewModal}
         onClose={() => setVisibleReviewModal(false)}>
         리뷰 보기 모달
       </ModalMyReview>
       <ModalWriteReview
-        postId={postIdOfReview}
+        postId={postInfoOfReview.id}
+        postData={postInfoOfReview.data}
+        userNickname={postInfoOfReview.nickname}
         visible={visibleWriteReviewModal}
+        needChangeStatus={false}
         onClose={() => setVisibleWriteReviewModal(false)}>
         리뷰 쓰기 모달
       </ModalWriteReview>
