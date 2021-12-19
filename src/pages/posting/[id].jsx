@@ -108,12 +108,11 @@ const posting = ({ postId }) => {
         price: values.price,
         imageUrls: [imgUrl1, imgUrl2, imgUrl3],
       }
-      console.log(userInfo)
-      // const res = await articleApi.editArticle(userInfo)
-      // if (Number(res.code) === 200) {
-      //   alert('게시글 등록 완료')
-      //   router.push(`/post/${res.data.id}`)
-      // }
+      const res = await articleApi.editArticle(userInfo)
+      if (Number(res.code) === 200) {
+        alert('게시글 등록 완료')
+        router.push(`/post/${res.data.id}`)
+      }
     },
   })
 
