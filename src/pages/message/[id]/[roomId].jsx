@@ -101,7 +101,7 @@ const MessagePage = ({ roomId }) => {
       messageRoomId: selectedMessageRoomId.current,
       params: {
         page,
-        size: 3,
+        size: 20,
       },
     })
     pageInfo.lastPage === null &&
@@ -179,6 +179,10 @@ const MessagePage = ({ roomId }) => {
     fetchMessageBox()
     fetchSelectedMessageRoom()
   }, [])
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [messageList])
 
   const sendMessageEnterPress = e => {
     if (e.keyCode === 13 && e.shiftKey === false) {
@@ -311,16 +315,18 @@ const MessagePage = ({ roomId }) => {
               </div>
               <div className="message-chat_cont">
                 <div className="message-chat" ref={scrollBottomRef}>
-                  <Button
-                    style={{
-                      width: '30%',
-                      height: '10%',
-                      textAlign: 'center',
-                      margin: '2% 35% 6% 35%',
-                    }}
-                    onClick={clickMoreMessageBtn}>
-                    더보기
-                  </Button>
+                  {pageInfo.lastPage && (
+                    <Button
+                      style={{
+                        width: '30%',
+                        height: '10%',
+                        textAlign: 'center',
+                        margin: '2% 35% 6% 35%',
+                      }}
+                      onClick={clickMoreMessageBtn}>
+                      더보기
+                    </Button>
+                  )}
 
                   {messageList && printList}
                 </div>
@@ -331,7 +337,7 @@ const MessagePage = ({ roomId }) => {
                       placeholder="메시지를 입력해주세요."
                       className="message-textarea"
                       onChange={messageFormik.handleChange}
-                      value={messageFormik.values.content}
+                      value={messageFormik.values.message}
                       onKeyUp={sendMessageEnterPress}
                       ref={messageContentRef}
                     />
@@ -340,11 +346,17 @@ const MessagePage = ({ roomId }) => {
                         <span className="message-limit_current">0</span>
                         <span>/ 100</span>
                       </div>
-                      <button type="submit" onClick={messageOptimisticUpdate}>
+                      <button
+                        type="submit"
+                        className={`message-sending_btn
+                          ${
+                            messageFormik.values.message && 'sending-available'
+                          }`}
+                        onClick={messageOptimisticUpdate}>
                         전송
                       </button>
                     </div>
-                    <div className="message-textarea_form-validation">
+                    <div className="validation">
                       {messageFormik.errors.message}
                     </div>
                   </form>

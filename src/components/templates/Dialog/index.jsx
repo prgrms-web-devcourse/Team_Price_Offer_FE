@@ -15,7 +15,6 @@ const Dialog = ({
   onClose,
   isFinishtrade,
 }) => {
-  const { state } = useAuthContext()
   const router = useRouter()
   const dialogRef = useRef(null)
   const { handleLogout, state } = useAuthContext()

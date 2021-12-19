@@ -78,9 +78,7 @@ const ContentInfoModify = () => {
                 value={formik.values.nickname}
                 onChange={formik.handleChange}
               />
-              {formik.errors.nickname ? (
-                <div>{formik.errors.nickname}</div>
-              ) : null}
+              <div className="validation">{formik.errors.nickname}</div>
             </div>
             <div className="modal-body_form-input address">
               <h3>주소</h3>
@@ -92,9 +90,7 @@ const ContentInfoModify = () => {
                   value={formik.values.address}
                   onChange={formik.handleChange}
                 />
-                {formik.errors.address ? (
-                  <div>{formik.errors.address}</div>
-                ) : null}
+                <div className="validation">{formik.errors.address}</div>
               </div>
             </div>
           </div>
