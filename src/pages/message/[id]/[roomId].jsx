@@ -9,8 +9,9 @@ import Image from '@components/templates/Image'
 import Router from 'next/router'
 import { useAuthContext } from '@hooks/useAuthContext'
 import Button from '@components/templates/Button'
-import { useFormik } from 'formik'
+import { Formik, useFormik } from 'formik'
 import validate from '@utils/validation'
+import { timeForToday, convertPrice } from '@utils/functions'
 
 const fetchImgurl = FETCH
 
@@ -25,11 +26,15 @@ export const getServerSideProps = async context => {
 
 const MessagePage = ({ roomId }) => {
   const [messageBoxList, setMessageBoxList] = useState()
-  const [currentPage, setcurrentPage] = useState(1)
   const [messageList, setMessageList] = useState(null)
   const [messageRoomInfo, setMessageRoomInfo] = useState(null)
+  const [pageInfo, setPageInfo] = useState({
+    page: 1,
+    lastPage: null,
+  })
   const selectedMessageRoomId = useRef()
   const scrollBottomRef = useRef()
+  const messageContentRef = useRef()
   const { state } = useAuthContext()
   const { nickname, id } = state.userData
   const messageFormik = useFormik({
@@ -37,15 +42,19 @@ const MessagePage = ({ roomId }) => {
       message: '',
     },
     validate,
-    onSubmit: async (values, submitProps) => {
+    onSubmit: async (values, { resetForm, setSubmitting }) => {
       await messageApi.postMessage({
         messageRoomId: selectedMessageRoomId.current,
         message: {
           content: values.message,
         },
       })
-
-      submitProps.resetForm()
+      // setSubmitting(false)
+      // resetForm({
+      //   values: {
+      //     message: '',
+      //   },
+      // })
     },
   })
 
@@ -56,32 +65,59 @@ const MessagePage = ({ roomId }) => {
 
   const fetchSelectedMessageRoom = useCallback(async selectedRoomId => {
     const messageRoomId = selectedRoomId || roomId
-    console.log(messageRoomId)
-    console.log(selectedMessageRoomId)
     if (
       messageRoomId === 'null' ||
       messageRoomId === selectedMessageRoomId.current
     ) {
       return
     }
+
+    selectedMessageRoomId.current = messageRoomId
+
     const roomInfoRes = await messageApi.getMessageRoomInfo({
       messageRoomId,
     })
-    const messageListRes = await messageApi.getMessageList({
-      messageRoomId,
-      params: {
-        page: 1,
-        size: 20,
-      },
-    })
 
     setMessageRoomInfo(() => roomInfoRes.data)
-    setMessageList(() => messageListRes.data.elements)
 
-    selectedMessageRoomId.current = messageRoomId
     Router.replace(`/message/${id}/${messageRoomId}`)
 
+    setMessageList(null)
+
+    pageInfo.lastPage !== null &&
+      setPageInfo({
+        page: 1,
+        lastPage: null,
+      })
+
+    fetchMessageList(pageInfo)
+
     scrollToBottom()
+  }, [])
+
+  const fetchMessageList = useCallback(async newPageInfo => {
+    const page = newPageInfo ? newPageInfo.page : pageInfo.page
+    const messageListRes = await messageApi.getMessageList({
+      messageRoomId: selectedMessageRoomId.current,
+      params: {
+        page,
+        size: 3,
+      },
+    })
+    pageInfo.lastPage === null &&
+      setPageInfo({
+        ...pageInfo,
+        lastPage: messageListRes.data.pageInfo.lastPageNumber,
+      })
+
+    setMessageList(prev => {
+      const newMessageList =
+        prev === null
+          ? messageListRes.data.elements
+          : [...messageListRes.data.elements, ...prev]
+
+      return newMessageList
+    })
   }, [])
 
   const fetchDeleteMessageRoom = useCallback(async () => {
@@ -96,7 +132,7 @@ const MessagePage = ({ roomId }) => {
     }:${newTime[1]}`
   }
 
-  const messageOptimisticUpdate = () => {
+  const messageOptimisticUpdate = e => {
     if (!messageFormik.values.message) {
       return
     }
@@ -115,6 +151,23 @@ const MessagePage = ({ roomId }) => {
         isSendMessage: true,
       },
     ])
+    messageContentRef.current.value = ''
+  }
+
+  const clickMoreMessageBtn = () => {
+    if (pageInfo.page + 1 > pageInfo.lastPage) {
+      return
+    }
+
+    setPageInfo(prev => {
+      const newPageInfo = {
+        ...prev,
+        page: prev.page + 1,
+      }
+
+      fetchMessageList(newPageInfo)
+      return newPageInfo
+    })
   }
 
   const scrollToBottom = useCallback(() => {
@@ -127,9 +180,14 @@ const MessagePage = ({ roomId }) => {
     fetchSelectedMessageRoom()
   }, [])
 
-  useEffect(() => {
-    scrollToBottom()
-  }, [messageList])
+  const sendMessageEnterPress = e => {
+    if (e.keyCode === 13 && e.shiftKey === false) {
+      e.preventDefault()
+      messageOptimisticUpdate()
+      messageFormik.handleSubmit()
+    }
+  }
+
   const printList = messageList?.map(message =>
     message.isSendMessage ? (
       <div className="message-chat_buyer" key={message.messageId}>
@@ -194,7 +252,8 @@ const MessagePage = ({ roomId }) => {
                         {messageBox.userInfo.nickName}
                       </span>
                       <span className="message-item_info-meta">
-                        {messageBox.userInfo.address} · 2분전
+                        {messageBox.userInfo.address} ·{' '}
+                        {timeForToday(messageBox.message.createdDate)}
                       </span>
                     </p>
                     <p className="message-item_text">
@@ -240,10 +299,11 @@ const MessagePage = ({ roomId }) => {
                   </span>
                   <p className="message-product_info-price">
                     <span className="message-product_info-default">
-                      {messageRoomInfo.articleInfo.price}원
+                      {convertPrice(messageRoomInfo.articleInfo.price)}원
                     </span>
                     <span className="message-product_info-offer">
-                      (제안가: {messageRoomInfo.articleInfo.offerPrice}
+                      (제안가:{' '}
+                      {convertPrice(messageRoomInfo.articleInfo.offerPrice)}
                       원)
                     </span>
                   </p>
@@ -251,16 +311,29 @@ const MessagePage = ({ roomId }) => {
               </div>
               <div className="message-chat_cont">
                 <div className="message-chat" ref={scrollBottomRef}>
+                  <Button
+                    style={{
+                      width: '30%',
+                      height: '10%',
+                      textAlign: 'center',
+                      margin: '2% 35% 6% 35%',
+                    }}
+                    onClick={clickMoreMessageBtn}>
+                    더보기
+                  </Button>
+
                   {messageList && printList}
                 </div>
                 <div className="message-textarea-wrapper">
                   <form onSubmit={messageFormik.handleSubmit}>
-                    <TextArea
+                    <textarea
                       name="message"
                       placeholder="메시지를 입력해주세요."
                       className="message-textarea"
                       onChange={messageFormik.handleChange}
                       value={messageFormik.values.content}
+                      onKeyUp={sendMessageEnterPress}
+                      ref={messageContentRef}
                     />
                     <div className="message-limit_box">
                       <div className="message-limit_text">
