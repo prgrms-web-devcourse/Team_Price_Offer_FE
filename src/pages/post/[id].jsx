@@ -73,8 +73,6 @@ const Post = ({ postId, data }) => {
     setPostData(data.article)
     setimgUrls(imageUrls.data.imageUrls)
     setOfferList(offerList.data)
-    console.log(data.article.tradeStatus.name)
-
     data.article.author.id === userId ? setisWriter(true) : setisWriter(false)
     data.article.tradeStatus.name === '판매중'
       ? setTradeStatus(true)
@@ -82,7 +80,6 @@ const Post = ({ postId, data }) => {
     data.article.tradeStatus.name === '거래완료'
       ? setFinishTrade(true)
       : setFinishTrade(false)
-
     setMounted(true)
   }, [state, checkOfferOptions])
 
@@ -436,20 +433,24 @@ const Post = ({ postId, data }) => {
               </div>
             </div>
           </div>
+          <ModalConfirmBuyer
+            visible={confirmVisible}
+            postId={postId}
+            offerList={offerList}
+            postData={postData}>
+            구매자 확정 모달
+          </ModalConfirmBuyer>
+          <ModalChat
+            visible={chatVisible}
+            onClose={() => setChatVisible(false)}
+            postId={postId}
+            offerId={offerId}>
+            쪽지 모달
+          </ModalChat>
         </>
       ) : (
         ''
       )}
-      <ModalConfirmBuyer visible={confirmVisible} postId={postId}>
-        구매자 확정 모달
-      </ModalConfirmBuyer>
-      <ModalChat
-        visible={chatVisible}
-        onClose={() => setChatVisible(false)}
-        postId={postId}
-        offerId={offerId}>
-        쪽지 모달
-      </ModalChat>
     </div>
   )
 }
