@@ -22,6 +22,7 @@ const WriteReview = ({
         postData={postData}
         userNickname={userNickname}
         needChangeStatus={needChangeStatus}
+        onClose={onClose}
       />
     </Modal>
   )

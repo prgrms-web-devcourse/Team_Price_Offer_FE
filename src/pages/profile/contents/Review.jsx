@@ -9,40 +9,76 @@ import ModalWriteReview from '@components/ui/modal/ModalWriteReview'
 import { userApi } from '@api/apis'
 
 const Review = ({ userId, state }) => {
-  const [postIdOfReview, setPostIdOfReview] = useState(null)
-  const [postInfoOfReview, setPostInfoOfReview] = useState({
-    id: null,
-    data: null,
-    nickname: null,
+  const [visibleReviewModal, setVisibleReviewModal] = useState(false)
+  const [visibleWriteReviewModal, setVisibleWriteReviewModal] = useState(false)
+  const [goodsListStatus, setGoodsListStatus] = useState({
+    isSellingReview: true,
   })
   const [goodsList, setGoodsList] = useState({
     elements: [],
     totalElementCount: 0,
   })
-  const [goodsListStatus, setGoodsListStatus] = useState({
-    isSellingReview: true,
-  })
-  const [checkReviewOptions, setCheckReviewOptions] = useState({
+  const [reviewOptions, setReviewOptions] = useState({
     memberId: userId,
     params: {
       page: 1,
       size: 10,
     },
   })
-  const [visibleReviewModal, setVisibleReviewModal] = useState(false)
-  const [visibleWriteReviewModal, setVisibleWriteReviewModal] = useState(false)
+  const [postInfoOfReview, setPostInfoOfReview] = useState({
+    id: null,
+    data: null,
+    nickname: null,
+    reviewContent: null,
+  })
 
-  const handleCheckReviews = pageNum => {
-    setCheckReviewOptions({
-      ...checkReviewOptions,
+  useEffect(async () => {
+    await fetchReviews()
+  }, [goodsListStatus, reviewOptions])
+
+  const fetchUserReview = async articleId => {
+    const res = await userApi.getUserReview(articleId)
+
+    if (Number(res.code) !== 200) {
+      alert('리뷰를 불러올 수 없습니다!')
+    }
+
+    const { review } = res.data
+    setPostInfoOfReview({
+      id: review.article.id,
+      data: review.article,
+      nickname: review.reviewer.nickname,
+      reviewContent: review.content,
+    })
+    setVisibleReviewModal(true)
+  }
+
+  const fetchReviews = async () => {
+    const res = goodsListStatus.isSellingReview
+      ? await userApi.getUserSellReviews(reviewOptions)
+      : await userApi.getUserBuyReviews(reviewOptions)
+
+    if (Number(res.code) !== 200) {
+      return alert('거래후기 조회 시, 문제가 발생하였습니다!')
+    }
+
+    setGoodsList({
+      elements: res.data.elements,
+      totalElementCount: res.data.pageInfo.totalElementCount,
+    })
+  }
+
+  const handleReviewOptions = pageNum => {
+    setReviewOptions({
+      ...reviewOptions,
       params: {
-        ...checkReviewOptions.params,
+        ...reviewOptions.params,
         page: pageNum,
       },
     })
   }
 
-  const handleReviewModal = item => {
+  const handleReviewModal = async item => {
     setPostInfoOfReview({
       id: item.article.id,
       data: item.article,
@@ -54,23 +90,8 @@ const Review = ({ userId, state }) => {
       return
     }
 
-    setVisibleReviewModal(true)
+    await fetchUserReview(item.article.id)
   }
-
-  useEffect(async () => {
-    const res = goodsListStatus.isSellingReview
-      ? await userApi.getUserSellReviews(checkReviewOptions)
-      : await userApi.getUserBuyReviews(checkReviewOptions)
-
-    if (Number(res.code) !== 200) {
-      return alert('거래후기 조회 시, 문제가 발생하였습니다!')
-    }
-
-    setGoodsList({
-      elements: res.data.elements,
-      totalElementCount: res.data.pageInfo.totalElementCount,
-    })
-  }, [goodsListStatus, checkReviewOptions])
 
   const ulStyle = {
     listStyle: 'none',
@@ -180,14 +201,14 @@ const Review = ({ userId, state }) => {
           </div>
         </div>
         <Pagination
-          size={checkReviewOptions.params.size}
+          size={reviewOptions.params.size}
           postListLength={goodsList.totalElementCount}
-          paginate={handleCheckReviews}
-          setStartPage={handleCheckReviews}
+          paginate={handleReviewOptions}
+          setStartPage={handleReviewOptions}
         />
       </div>
       <ModalMyReview
-        postId={postIdOfReview}
+        postInfo={postInfoOfReview}
         visible={visibleReviewModal}
         onClose={() => setVisibleReviewModal(false)}>
         리뷰 보기 모달

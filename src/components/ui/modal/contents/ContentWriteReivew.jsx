@@ -30,6 +30,7 @@ const ContentWriteReivew = ({
   postData,
   userNickname,
   needChangeStatus,
+  onClose,
 }) => {
   const [badImg, setbadImg] = useState(badImgurl)
   const [goodImg, setGoodImg] = useState(goodImgurl)
@@ -71,6 +72,7 @@ const ContentWriteReivew = ({
         alert(`${userNickname} 님께 거래후기를 남겼습니다!`)
 
         if (!needChangeStatus) {
+          onClose && onClose()
           return
         }
         const resTradeStatus = await articleApi.changeTradeStatus({

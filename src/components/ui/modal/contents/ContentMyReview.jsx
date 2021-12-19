@@ -9,13 +9,13 @@ const goodImgurl = REVIEWGOOD
 const sosoImgurl = REVIEWSOSO
 const badImgurl = REVIEWBAD
 
-const ContentMyReview = props => {
+const ContentMyReview = ({ postInfo, onClose }) => {
   return (
     <div className="writereview">
       <div className="writereview-top-wrapper">
         <div className="text-wrapper">
           <div className="text-wrapper-texts">
-            <div className="seller-name">황금효정</div>
+            <div className="seller-name">{postInfo?.nickname}</div>
             <div className="writereview-top-wrapper-text">
               님에게 작성한 후기
             </div>
@@ -32,9 +32,7 @@ const ContentMyReview = props => {
               }}
             />
           </div>
-          <div className="goodsbox-title">잠이 오는 보약 &gt;</div>
-          <div className="goodsbox-state">새 생품 &gt;</div>
-          <div className="goodsbox-category">식품</div>
+          <div className="goodsbox-title">{postInfo?.data?.title}</div>
         </div>
       </div>
 
@@ -44,11 +42,13 @@ const ContentMyReview = props => {
           <Iconbutton src={sosoImgurl} className="icon" />
           <Iconbutton src={badImgurl} className="icon" />
         </div>
-        <div className="writereview-area">최고양 최고</div>
+        <div className="writereview-area">{postInfo?.reviewContent}</div>
       </div>
 
       <div className="writereview-bottom-wrapper">
-        <Button className="writereview-button">닫기</Button>
+        <Button className="writereview-button" onClick={onClose}>
+          닫기
+        </Button>
       </div>
     </div>
   )
