@@ -112,9 +112,9 @@ const Main = () => {
             textAlign: 'center',
             verticalAlign: 'middle',
           }}
+          isPost={false}
         />
       </div>
-
       <div className="category-wrapper">
         <div className="category-list">
           {categoryList.map(categoryList => (

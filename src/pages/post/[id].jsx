@@ -173,6 +173,7 @@ const Post = ({ postId, data }) => {
                   }}
                   src="https://picsum.photos/200"
                   ratio="r"
+                  isPost
                 />
               ) : (
                 <div className="finish">
