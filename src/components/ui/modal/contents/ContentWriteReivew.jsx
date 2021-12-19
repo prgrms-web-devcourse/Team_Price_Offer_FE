@@ -25,7 +25,13 @@ const goodImgurlChecked = REVIEW_GOOD_CHECKED
 const sosoImgurlChecked = REVIEW_SOSO_CHECKED
 const badImgurlChecked = REVIEW_BAD_CHECKED
 
-const ContentWriteReivew = ({ postId, postData, userNickname }) => {
+const ContentWriteReivew = ({
+  postId,
+  postData,
+  userNickname,
+  needChangeStatus,
+  onClose,
+}) => {
   const [badImg, setbadImg] = useState(badImgurl)
   const [goodImg, setGoodImg] = useState(goodImgurl)
   const [sosoImg, setSosoImg] = useState(sosoImgurl)
@@ -45,7 +51,7 @@ const ContentWriteReivew = ({ postId, postData, userNickname }) => {
     setReviewPostData(postData)
     setSeletcor(userNickname)
     setMounted(true)
-  }, [])
+  }, [postData])
 
   const formik = useFormik({
     initialValues: {
@@ -64,6 +70,11 @@ const ContentWriteReivew = ({ postId, postData, userNickname }) => {
       })
       if (Number(res.code) === 200) {
         alert(`${userNickname} 님께 거래후기를 남겼습니다!`)
+
+        if (!needChangeStatus) {
+          onClose && onClose()
+          return
+        }
         const resTradeStatus = await articleApi.changeTradeStatus({
           articleId: postId,
           option: {
@@ -110,7 +121,7 @@ const ContentWriteReivew = ({ postId, postData, userNickname }) => {
                   }}
                 />
               </div>
-              <div className="goodsbox-title">{reviewPostData.title}</div>
+              <div className="goodsbox-title">{reviewPostData?.title}</div>
             </div>
           </div>
           <form onSubmit={formik.handleSubmit}>

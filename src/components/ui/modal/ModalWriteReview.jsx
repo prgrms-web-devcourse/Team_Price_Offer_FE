@@ -3,7 +3,14 @@ import PropTypes from 'prop-types'
 import Modal from '@components/templates/Modal'
 import ContentWriteReivew from './contents/ContentWriteReivew'
 
-const WriteReview = ({ visible, onClose, postId, postData, userNickname }) => {
+const WriteReview = ({
+  visible,
+  onClose,
+  postId,
+  postData,
+  userNickname,
+  needChangeStatus,
+}) => {
   const hoverEvent = e => {
     e.target.style.fill = '#F74F2A'
   }
@@ -14,6 +21,8 @@ const WriteReview = ({ visible, onClose, postId, postData, userNickname }) => {
         postId={postId}
         postData={postData}
         userNickname={userNickname}
+        needChangeStatus={needChangeStatus}
+        onClose={onClose}
       />
     </Modal>
   )
