@@ -26,7 +26,7 @@ const Banner = ({ style, imgUrls }) => {
       slidesPerView={1}
       navigation
       pagination={{ clickable: true }}
-      autoplay={{ delay: 3000 }} // 넘어가는 시간
+      autoplay={{ delay: 4000 }} // 넘어가는 시간
     >
       {imgUrlList.length >= 1 ? (
         <div>
@@ -38,7 +38,7 @@ const Banner = ({ style, imgUrls }) => {
                 style={{
                   width: '100%',
                   height: '100%',
-                  objectFit: 'fill',
+                  objectFit: 'none',
                 }}
                 alt="슬라이드 이미지"
               />
