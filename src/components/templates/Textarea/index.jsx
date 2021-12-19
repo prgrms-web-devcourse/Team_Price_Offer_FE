@@ -9,6 +9,7 @@ const TextArea = ({
   name,
   placeholder,
   maxLength,
+  onKeyUp,
 }) => {
   return (
     <ComonTextArea
@@ -18,6 +19,7 @@ const TextArea = ({
       onChange={onChange}
       name={name}
       maxLength={maxLength}
+      onKeyUp={onKeyUp}
     />
   )
 }

@@ -6,7 +6,7 @@
   justify-content: center;
 
   &-list {
-    overflow: scroll;
+    overflow-y: auto;
     height: calc(100vh - 90px);
   }
 
@@ -21,8 +21,8 @@
   }
 
   .message-avatar {
-    width: 60px;
-    height: 60px;
+    width: 45px;
+    height: 45px;
   }
 
   .message-product {
@@ -120,8 +120,10 @@
   }
 
   .message-chat {
-    overflow: scroll;
+    overflow-y: auto;
     height: calc(100vh - 310px);
+    // display : flex;
+    // flex-direction: column-reverse;
 
     &_info {
       display: flex;
@@ -137,7 +139,8 @@
 
     &_seller {
       display: flex;
-      margin: 25px;
+      margin: 15px;
+      align-items: end;
 
       .message-time {
         position: absolute;
@@ -148,7 +151,7 @@
     &_buyer {
       display: flex;
       justify-content: flex-end;
-      margin: 25px;
+      margin: 15px;
 
       .message-time {
         position: absolute;
@@ -194,8 +197,11 @@
   .message-textarea {
     display: block;
     width: 100%;
-    height: 100%;
+    height: 80px;
     margin: 0 auto;
+    padding : 5px 10px;
+    font-size: 16px;
+    font-family: Roboto,Noto Sans,Helvetica Neue,sans-serif;
   }
 
   .message-limit {
@@ -218,6 +224,13 @@
         border-radius: 3px;
         background: $BORDER_COLOR;
         color: $BACKGROUND_COLOR;
+        cursor: pointer;
+
+        &.sending-available{
+          background-color: $PRIMARY_COLOR;
+          color : white;
+        }
+
       }
     }
   }
