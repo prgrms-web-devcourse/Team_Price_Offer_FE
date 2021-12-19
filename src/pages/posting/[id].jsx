@@ -92,9 +92,9 @@ const posting = ({ postId }) => {
       const imgUrl1 =
         imgRef1.current.src === imgSrc ? 'no-Img' : imgRef1.current.src
       const imgUrl2 =
-        imgRef2.current.src === imgSrc ? 'no-Img' : imgRef1.current.src
+        imgRef2.current.src === imgSrc ? 'no-Img' : imgRef2.current.src
       const imgUrl3 =
-        imgRef3.current.src === imgSrc ? 'no-Img' : imgRef1.current.src
+        imgRef3.current.src === imgSrc ? 'no-Img' : imgRef3.current.src
 
       const userInfo = {
         id: postId,
@@ -108,11 +108,12 @@ const posting = ({ postId }) => {
         price: values.price,
         imageUrls: [imgUrl1, imgUrl2, imgUrl3],
       }
-      const res = await articleApi.editArticle(userInfo)
-      if (Number(res.code) === 200) {
-        alert('게시글 등록 완료')
-        router.push(`/post/${res.data.id}`)
-      }
+      console.log(userInfo)
+      // const res = await articleApi.editArticle(userInfo)
+      // if (Number(res.code) === 200) {
+      //   alert('게시글 등록 완료')
+      //   router.push(`/post/${res.data.id}`)
+      // }
     },
   })
 
