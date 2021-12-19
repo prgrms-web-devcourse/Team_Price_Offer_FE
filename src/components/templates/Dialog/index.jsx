@@ -2,9 +2,9 @@ import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import { useAuthContext } from '@hooks/useAuthContext'
+import Router from 'next/router'
 import useStorage from '@hooks/useStorage'
 import { articleApi } from '@api/apis'
-import router from 'next/router'
 import { useRouter } from 'next/dist/client/router'
 
 const Dialog = ({
@@ -15,10 +15,16 @@ const Dialog = ({
   onClose,
   isFinishtrade,
 }) => {
-  const { state } = useAuthContext()
   const router = useRouter()
   const dialogRef = useRef(null)
-  const { handleLogout } = useAuthContext()
+  const { handleLogout, state } = useAuthContext()
+  const { id } = state.userData
+  const roomId = null
+  // const router = useRouter
+
+  // const handleClickItem = async code => {
+  //   console.log(code)
+  //   console.log(id)
   const { getItem, setItem, clear } = useStorage()
 
   const handleClickItem = async code => {
@@ -30,6 +36,10 @@ const Dialog = ({
     if (code === 'logout') {
       await handleLogout()
       return
+    }
+
+    if (code === 'message') {
+      Router.push(`/message/${id}/${roomId}`)
     }
 
     if (code === 'modify') {
