@@ -8,7 +8,7 @@ import { useState } from 'react'
 
 SwiperCore.use([Navigation, Pagination, Autoplay]) // 추가
 
-const Banner = ({ style, imgUrls }) => {
+const Banner = ({ style, imgUrls, isPost }) => {
   const [slideImg, setSildeImg] = useState(null)
   const onError = e => {
     e.target.src =
@@ -32,16 +32,29 @@ const Banner = ({ style, imgUrls }) => {
         <div>
           {imgUrlList.map((value, key) => (
             <SwiperSlide key={`${value}${Math.random()}`}>
-              <img
-                onError={onError}
-                src={value}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'none',
-                }}
-                alt="슬라이드 이미지"
-              />
+              {isPost ? (
+                <img
+                  onError={onError}
+                  src={value}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'fill',
+                  }}
+                  alt="슬라이드 이미지"
+                />
+              ) : (
+                <img
+                  onError={onError}
+                  src={value}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'none',
+                  }}
+                  alt="슬라이드 이미지"
+                />
+              )}
             </SwiperSlide>
           ))}
         </div>
