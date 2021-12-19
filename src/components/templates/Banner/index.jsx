@@ -66,5 +66,6 @@ const Banner = ({ style, imgUrls }) => {
 const StyledSwiper = styled(Swiper)`
   width: 996px;
   height: 329px;
+  color: white;
 `
 export default Banner

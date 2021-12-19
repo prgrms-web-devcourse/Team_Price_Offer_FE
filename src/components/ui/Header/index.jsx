@@ -32,7 +32,6 @@ const Header = () => {
 
   const iconBtnStyleLg = { width: '30px', height: '30px' }
   const iconBtnStyleMd = { width: '24px', height: '24px' }
-  const iconBtnStyleSm = { width: '8px', height: '5px' }
 
   const dialogClick = e => {
     e.stopPropagation()
@@ -53,7 +52,7 @@ const Header = () => {
 
   return (
     <div className="header-wrapper">
-      <div className="header-right">
+      <div className="header-left">
         <Link href="/">
           <img src={LOGO} alt="logo" className="logo" />
         </Link>
@@ -128,13 +127,14 @@ const Header = () => {
                   src={profileImageUrl || NO_IMAGE_SQUARE}
                 />
                 <div className="username">{nickname}</div>
-                <IconButton
-                  className="sidebar"
-                  src={MENU_ARROW}
-                  alt="user"
-                  style={iconBtnStyleSm}
-                  onClick={dialogClick}
-                />
+                <div className="sidebar-wrapper">
+                  <IconButton
+                    className="sidebar"
+                    src={MENU_ARROW}
+                    alt="user"
+                    onClick={dialogClick}
+                  />
+                </div>
                 <Dialog
                   className="sidear-list"
                   style={{ justifyContent: 'space-between' }}
@@ -172,9 +172,9 @@ const Header = () => {
               <IconButton
                 src={USER_CIRCLE}
                 alt="user"
-                style={{ width: '24px', height: '24px' }}
+                className="widget-login_pc-sale"
               />
-              <div>로그인 / 회원가입</div>
+              <div className="widget-login_pc-user">로그인 / 회원가입</div>
             </div>
             <button
               className="widget-login_mobile"
