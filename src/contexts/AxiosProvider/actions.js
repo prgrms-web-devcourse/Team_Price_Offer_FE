@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useMemo } from 'react'
 import axios from 'axios'
 import useInterceptor from '@api/config/useInterceptor'
 import { SET_AXIOS_INSTANCE } from './types'
@@ -6,7 +6,7 @@ import { SET_AXIOS_INSTANCE } from './types'
 const useActions = dispatch => {
   const { setInterceptors } = useInterceptor()
 
-  useEffect(() => {
+  useMemo(() => {
     const BASE_API_URL = `${process.env.BASE_API_HOST}/api/v1`
 
     const create = (url, options) => {
