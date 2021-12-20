@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useRef, useEffect } from 'react'
 import Radio from '@components/templates/Radio'
 import Input from '@components/templates/Input'
 import Button from '@components/templates/Button'
@@ -10,9 +10,8 @@ import { articleApi } from '@api/apis'
 import { useRouter } from 'next/router'
 import Pagination from '@components/templates/Pagination'
 import { useAuthContext } from '@hooks/useAuthContext'
-import { Formik, useFormik } from 'formik'
-import { CATEGORIES } from '../data/dummy/categories'
-import { ORDERWAY } from '../data/dummy/orderway'
+import { useFormik } from 'formik'
+import validate from '@utils/validation'
 
 const search = () => {
   const { state } = useAuthContext()
@@ -20,6 +19,7 @@ const search = () => {
   const { title } = router.query
   const [goodsList, setGoodsList] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
+  const articleInfo = useRef(null)
   const filterFormik = useFormik({
     initialValues: {
       categoryId: '',
@@ -27,34 +27,22 @@ const search = () => {
       maxPrice: '',
       tradeMethodCode: '',
     },
-    onSubmit: values => {
-      const newValues = {
-        title,
-        ...values,
-      }
-      const filterFromData = new FormData()
-      Object.entries(newValues).map((id, value) =>
-        filterFromData.append(id, value),
-      )
-
-      for (const value of filterFromData.keys()) {
-        console.log(value)
-      }
-      fetchGoodsList(title, currentPage, filterFromData)
+    validate,
+    onSubmit: filters => {
+      fetchGoodsList(title, currentPage, filters)
+      router.push({
+        pathname: '/search',
+        query: {
+          title,
+          ...filters,
+        },
+      })
     },
   })
 
   const ref = useClickAway(e => {
     setIsopenedFilter(false)
   })
-
-  // const handleSetFilters = e => {
-  //   const { name, value } = e.target
-  //   setFilters({
-  //     ...filters,
-  //     [name]: value,
-  //   })
-  // }
 
   const handlePostRouting = postId => {
     postId &&
@@ -63,30 +51,45 @@ const search = () => {
       })
   }
 
+  const fetchGoodsList = useCallback(async (title, currentPage, filters) => {
+    const searchOptions = {
+      title,
+      page: currentPage,
+      size: 10,
+    }
+
+    filters && articleApi.searchFilterArticlesWithAuth
+
+    console.log(searchOptions)
+    const { data } = state.token
+      ? filters
+        ? await articleApi.searchFilterArticlesWithAuth({
+            ...searchOptions,
+            ...filters,
+          })
+        : await articleApi.searchArticlesWithAuth(searchOptions)
+      : filters
+      ? await articleApi.searchFilterArticles({
+          ...searchOptions,
+          ...filters,
+        })
+      : await articleApi.searchArticles(searchOptions)
+    title && setGoodsList(data)
+  }, [])
+
+  useEffect(async () => {
+    const { data } = await articleApi.getArticlesInfos()
+
+    articleInfo.current = data
+  }, [articleInfo])
+
   useEffect(() => {
     if (!title) {
       router.push('/')
       return
     }
     fetchGoodsList(title, currentPage)
-  }, [])
-  // title, currentPage
-  const fetchGoodsList = useCallback(
-    async (title, currentPage, params = null) => {
-      const searchOptions = {
-        title,
-        page: currentPage,
-        size: 10,
-        ...params,
-      }
-
-      const { data } = state.token
-        ? await articleApi.searchArticlesWithAuth(searchOptions)
-        : await articleApi.searchArticles(searchOptions)
-      title && setGoodsList(data)
-    },
-    [],
-  )
+  }, [title, currentPage])
 
   const [isopenedFilter, setIsopenedFilter] = useState(false)
 
@@ -123,7 +126,7 @@ const search = () => {
                 <div className="filter-cont">
                   <h3 className="filter-cont_title">카테고리</h3>
                   <ul className="filter-cont_item-list category">
-                    {CATEGORIES.map(({ code, name }) => (
+                    {articleInfo.current?.categories.map(({ code, name }) => (
                       <label
                         className="search-filter_category"
                         htmlFor={name}
@@ -145,7 +148,7 @@ const search = () => {
                 <div className="filter-cont">
                   <h3 className="filter-cont_title">거래방식</h3>
                   <div className="filter-cont_item-list orderway">
-                    {ORDERWAY.map(({ code, name }) => (
+                    {articleInfo.current?.tradeMethod.map(({ code, name }) => (
                       <label
                         className="search-filter_trade-method"
                         htmlFor={name}
@@ -186,6 +189,9 @@ const search = () => {
                         onChange={filterFormik.handleChange}
                         value={filterFormik.values.maxPrice}
                       />
+                      <div className="validation search">
+                        {filterFormik.errors.maxPrice}
+                      </div>
                     </div>
                     <p className="filter-cont_item-notice">
                       가격은 숫자로만 입력할 수 있어요!
