@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 import useStorage from '@hooks/useStorage'
 import { authApi } from '@api/apis'
+import { useAsyncContext } from '@hooks/useAsyncContext'
 import {
   FETCH_USER,
   WITHDRAWAL,
@@ -14,6 +15,7 @@ import {
 } from './types'
 
 const useActions = dispatch => {
+  const { handleLoadingOn, handleLoadingOff } = useAsyncContext()
   const { getItem, setItem, clear } = useStorage()
 
   useMemo(async () => {
@@ -25,7 +27,7 @@ const useActions = dispatch => {
 
   const handleEmailLogin = useCallback(async userInfo => {
     try {
-      dispatch({ type: LOADING_ON })
+      handleLoadingOn()
       const res = await authApi.loginEmail(userInfo)
 
       if (Number(res.code) !== 200) {
@@ -39,7 +41,7 @@ const useActions = dispatch => {
       setItem('userData', userData)
       setItem('token', token)
       dispatch({ type: LOGIN_EMAIL, payload: { userData, token } })
-      dispatch({ type: LOADING_OFF })
+      handleLoadingOff()
     } catch (e) {
       alert('로그인에 실패하셨습니다!')
     }
@@ -47,9 +49,13 @@ const useActions = dispatch => {
 
   const handleKakaoLogin = useCallback(async (token, userData) => {
     try {
+      handleLoadingOn()
+
       setItem('userData', userData)
       setItem('token', token)
       dispatch({ type: LOGIN_KAKAO, payload: { userData, token } })
+
+      handleLoadingOff()
     } catch (e) {
       alert('카카오 로그인에 실패하셨습니다!')
     }
@@ -57,7 +63,8 @@ const useActions = dispatch => {
 
   const handleSignup = useCallback(async userInfo => {
     try {
-      dispatch({ type: LOADING_ON })
+      handleLoadingOn()
+
       const signupRes = await authApi.signUp(userInfo)
 
       if (Number(signupRes.code) !== 200) {
@@ -71,7 +78,7 @@ const useActions = dispatch => {
       }
 
       await handleEmailLogin(loginUserInfo)
-      dispatch({ type: LOADING_OFF })
+      handleLoadingOff()
     } catch (e) {
       alert('회원가입에 실패하셨습니다!')
     }
@@ -79,7 +86,7 @@ const useActions = dispatch => {
 
   const handleWithDrawal = useCallback(async password => {
     try {
-      dispatch({ type: LOADING_ON })
+      handleLoadingOn()
       const res = await authApi.withdrawal(password)
 
       if (Number(res.code) !== 200) {
@@ -89,7 +96,7 @@ const useActions = dispatch => {
 
       clear()
       dispatch({ type: WITHDRAWAL })
-      dispatch({ type: LOADING_OFF })
+      handleLoadingOff()
     } catch (e) {
       alert('회원탈퇴에 실패하셨습니다!')
     }
@@ -97,11 +104,11 @@ const useActions = dispatch => {
 
   const handleLogout = useCallback(async () => {
     try {
-      dispatch({ type: LOADING_ON })
+      handleLoadingOn()
       clear()
       dispatch({ type: LOGOUT })
       alert('정상적으로 로그아웃 되었습니다!')
-      dispatch({ type: LOADING_OFF })
+      handleLoadingOff()
     } catch (e) {
       alert('로그아웃에 실패하셨습니다!')
     }
@@ -109,7 +116,7 @@ const useActions = dispatch => {
 
   const handleGetUserInfo = useCallback(async () => {
     try {
-      dispatch({ type: LOADING_ON })
+      handleLoadingOn()
       const res = await authApi.getUserInfo()
 
       if (Number(res.code) !== 200) {
@@ -121,7 +128,7 @@ const useActions = dispatch => {
 
       setItem('userData', userData)
       dispatch({ type: GET_USERINFO, payload: { userData } })
-      dispatch({ type: LOADING_OFF })
+      handleLoadingOff()
     } catch (e) {
       alert('회원정보 조회에 실패하셨습니다!')
     }
@@ -129,7 +136,7 @@ const useActions = dispatch => {
 
   const handleModifyUserInfo = useCallback(async userInfo => {
     try {
-      dispatch({ type: LOADING_ON })
+      handleLoadingOn()
       const res = await authApi.modifyUserInfo(userInfo)
 
       if (Number(res.code) !== 200) {
@@ -141,18 +148,10 @@ const useActions = dispatch => {
 
       setItem('userData', userData)
       dispatch({ type: MODIFY_USERINFO, payload: { userData } })
-      dispatch({ type: LOADING_OFF })
+      handleLoadingOff()
     } catch (e) {
       alert('회원정보 수정에 실패하셨습니다!')
     }
-  }, [])
-
-  const handleLoadingOn = useCallback(async () => {
-    dispatch({ type: LOADING_ON })
-  }, [])
-
-  const handleLoadingOff = useCallback(async () => {
-    dispatch({ type: LOADING_OFF })
   }, [])
 
   return {
@@ -163,8 +162,6 @@ const useActions = dispatch => {
     handleLogout,
     handleGetUserInfo,
     handleModifyUserInfo,
-    handleLoadingOn,
-    handleLoadingOff,
   }
 }
 

@@ -17,8 +17,6 @@ const AuthProvider = ({ children }) => {
     handleLogout,
     handleGetUserInfo,
     handleModifyUserInfo,
-    handleLoadingOn,
-    handleLoadingOff,
   } = useActions(dispatch)
 
   return (
@@ -32,8 +30,6 @@ const AuthProvider = ({ children }) => {
         handleLogout,
         handleGetUserInfo,
         handleModifyUserInfo,
-        handleLoadingOn,
-        handleLoadingOff,
       }}>
       {children}
     </AuthContext.Provider>
