@@ -6,17 +6,23 @@ import IconButton from '@components/templates/IconButton'
 import useClickAway from '@hooks/useClickAway'
 import GoodsList from '@components/ui/GoodsList'
 import { FILTER } from '@utils/constant/icon'
-import { articleApi } from '@api/apis'
 import { useRouter } from 'next/router'
 import Pagination from '@components/templates/Pagination'
 import { useAuthContext } from '@hooks/useAuthContext'
 import { useFormik } from 'formik'
 import validate from '@utils/validation'
+import useApi from '@api/useApi'
 
-const search = () => {
-  const { state } = useAuthContext()
+export const getServerSideProps = async context => ({
+  props: {
+    title: context.query.title,
+  },
+})
+
+const search = ({ title }) => {
   const router = useRouter()
-  const { title } = router.query
+  const { articleApi } = useApi()
+  const { state } = useAuthContext()
   const [goodsList, setGoodsList] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
   const articleInfo = useRef(null)
@@ -259,9 +265,7 @@ const search = () => {
           <Pagination
             paginate={setCurrentPage}
             setStartPage={setCurrentPage}
-            postListLength={
-              goodsList.pageInfo && goodsList.pageInfo.totalElementCount
-            }
+            postListLength={goodsList.pageInfo?.totalElementCount}
           />
         </div>
       </div>

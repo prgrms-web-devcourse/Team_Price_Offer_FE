@@ -1,14 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import { CONFIG, NOIMG } from '@utils/constant'
+import { useAuthContext } from '@hooks/useAuthContext'
+import { useListener } from 'react-bus'
+import useApi from '@api/useApi'
 import Link from 'next/dist/client/link'
 import Avatar from '@components/templates/Avatar'
 import IconButton from '@components/templates/IconButton'
 import ModalInfoModify from '@components/ui/modal/ModalInfoModify'
 import PageContents from '@pages/profile/contents'
-import { CONFIG, NOIMG } from '@utils/constant'
-import { useAuthContext } from '@hooks/useAuthContext'
-import { authApi } from '@api/apis'
-import Spinner from '@components/templates/Spinner'
-import styled from '@emotion/styled'
 
 export const getServerSideProps = async context => ({
   props: {
@@ -18,8 +17,8 @@ export const getServerSideProps = async context => ({
 })
 
 const ProfilePage = ({ userId, pageType }) => {
+  const { authApi } = useApi()
   const { state } = useAuthContext()
-  const [isLoading, setIsLoading] = useState(true)
   const [isMyAcount, setisMyAcount] = useState(false)
   const [userInfo, setUserInfo] = useState({
     id: null,
@@ -34,6 +33,18 @@ const ProfilePage = ({ userId, pageType }) => {
     reviewCount: null,
   })
   const [visibleConfigModal, setVisibleConfigModal] = useState(false)
+
+  useListener('fetchUserProfile', async () => {
+    if (checkMyAcount()) {
+      await fetchUserProfile(state.userData.id)
+    }
+  })
+
+  useEffect(() => {
+    return () => {
+      window.removeEventListener('fetchUserProfile', null)
+    }
+  }, [])
 
   useEffect(async () => {
     const currentStateUserId = state.userData.id
@@ -58,43 +69,20 @@ const ProfilePage = ({ userId, pageType }) => {
         offerCount: res.data.offerCount,
         reviewCount: res.data.reviewCount,
       })
-
-      setIsLoading(false)
     },
     [userId],
   )
 
   const checkMyAcount = useCallback(
-    (currentStateUserId = state.userData.id) => {
-      return Number(currentStateUserId) === Number(userId)
-    },
+    (currentStateUserId = state.userData.id) =>
+      Number(currentStateUserId) === Number(userId),
     [userId, state.userData.id],
   )
-
-  const dispatchEvent = useCallback(async e => {
-    if (e.target.name !== 'like') {
-      return
-    }
-
-    if (checkMyAcount()) {
-      setTimeout(() => {
-        fetchUserProfile(state.userData.id)
-      }, 500)
-    }
-  }, [])
 
   const profileImgStyle = {
     width: '100px',
     height: '100px',
     objectFit: 'cover',
-  }
-
-  if (isLoading) {
-    return (
-      <SpinnerWrapper>
-        <Spinner />
-      </SpinnerWrapper>
-    )
   }
 
   return (
@@ -192,21 +180,9 @@ const ProfilePage = ({ userId, pageType }) => {
           </Link>
         </ul>
       </div>
-      <PageContents
-        userId={userId}
-        pageType={pageType}
-        state={state}
-        onClick={dispatchEvent}
-      />
+      <PageContents userId={userId} pageType={pageType} state={state} />
     </div>
   )
 }
-
-const SpinnerWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 50vh;
-`
 
 export default ProfilePage

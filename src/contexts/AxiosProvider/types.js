@@ -1,0 +1,1 @@
+export const SET_AXIOS_INSTANCE = 'SET_AXIOS_INSTANCE'

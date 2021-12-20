@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import DIVIDER from '@components/templates/Divider'
-import Iconbutton from '@components/templates/IconButton'
 import TextArea from '@components/templates/Textarea'
 import Button from '@components/templates/Button'
-import useStorage from '@hooks/useStorage'
 import { userApi, articleApi } from '@api/apis'
 import { useFormik } from 'formik'
-import router from 'next/router'
+import { useRouter } from 'next/router'
+import { useBus } from 'react-bus'
 import validate from '@utils/validation'
 import {
   REVIEW_SOSO,
@@ -15,15 +14,11 @@ import {
   REVIEW_SOSO_CHECKED,
   REVIEW_GOOD_CHECKED,
   REVIEW_BAD_CHECKED,
-} from '@utils/constant/icon'
+} from '@utils/constant'
 
-const { getItem } = useStorage()
-const goodImgurl = REVIEW_GOOD
-const sosoImgurl = REVIEW_SOSO
-const badImgurl = REVIEW_BAD
-const goodImgurlChecked = REVIEW_GOOD_CHECKED
-const sosoImgurlChecked = REVIEW_SOSO_CHECKED
-const badImgurlChecked = REVIEW_BAD_CHECKED
+const hoverEvent = (e, img) => {
+  e.currentTarget.src = img
+}
 
 const ContentWriteReivew = ({
   postId,
@@ -32,10 +27,11 @@ const ContentWriteReivew = ({
   needChangeStatus,
   onClose,
 }) => {
-  const [badImg, setbadImg] = useState(badImgurl)
-  const [goodImg, setGoodImg] = useState(goodImgurl)
-  const [sosoImg, setSosoImg] = useState(sosoImgurl)
-  const [offerList, setOfferList] = useState([{}])
+  const bus = useBus()
+  const router = useRouter()
+  const [badImg, setbadImg] = useState(REVIEW_BAD)
+  const [goodImg, setGoodImg] = useState(REVIEW_GOOD)
+  const [sosoImg, setSosoImg] = useState(REVIEW_SOSO)
   const [reviewPostData, setReviewPostData] = useState([
     {
       title: '',
@@ -43,13 +39,10 @@ const ContentWriteReivew = ({
       category: { name: '' },
     },
   ])
-  const [selector, setSeletcor] = useState('')
   const [isMounted, setMounted] = useState(false)
 
   useEffect(async () => {
-    // const { data } = await articleApi.getArticleUserID(postId)
     setReviewPostData(postData)
-    setSeletcor(userNickname)
     setMounted(true)
   }, [postData])
 
@@ -60,7 +53,6 @@ const ContentWriteReivew = ({
     },
     validate,
     onSubmit: async values => {
-      await console.log(values)
       const res = await userApi.postReview({
         articleId: postId,
         payload: {
@@ -68,11 +60,13 @@ const ContentWriteReivew = ({
           content: values.reviewContent,
         },
       })
+
       if (Number(res.code) === 200) {
         alert(`${userNickname} 님께 거래후기를 남겼습니다!`)
 
-        if (!needChangeStatus) {
+        if (!needChangeStatus && router.pathname.includes('profile')) {
           onClose && onClose()
+          bus.emit('fetchUserReview', null)
           return
         }
         const resTradeStatus = await articleApi.changeTradeStatus({
@@ -95,7 +89,7 @@ const ContentWriteReivew = ({
 
   return (
     <div className="writereview">
-      {isMounted ? (
+      {isMounted && (
         <>
           <div className="writereview-top-wrapper">
             <div className="text-wrapper">
@@ -126,11 +120,11 @@ const ContentWriteReivew = ({
           </div>
           <form onSubmit={formik.handleSubmit}>
             <div className="writereview-middle-wrapper">
-              {formik.errors.evaluation ? (
+              {formik.errors.evaluation && (
                 <div className="error" style={{ textAlign: 'center' }}>
                   {formik.errors.evaluation}
                 </div>
-              ) : null}
+              )}
               <div className="icon-list">
                 <label
                   className="evaluation"
@@ -141,20 +135,39 @@ const ContentWriteReivew = ({
                     type="radio"
                     name="evaluation"
                     id="evaluation-good"
-                    src={goodImgurl}
+                    src={REVIEW_GOOD}
                     className="icon"
                     value={2}
                     onClick={e => {
                       console.log(e.target.value)
                       if (e.target.checked) {
-                        setGoodImg(goodImgurlChecked)
-                        setSosoImg(sosoImgurl)
-                        setbadImg(badImgurl)
+                        setGoodImg(REVIEW_GOOD_CHECKED)
+                        setSosoImg(REVIEW_SOSO)
+                        setbadImg(REVIEW_BAD)
                       }
                     }}
                     onChange={formik.handleChange}
                   />
-                  <img src={goodImg} alt="좋다" />{' '}
+                  <img
+                    src={goodImg}
+                    alt="좋다"
+                    onFocus={e => {
+                      hoverEvent(e, REVIEW_GOOD_CHECKED)
+                    }}
+                    onMouseOver={e => {
+                      hoverEvent(e, REVIEW_GOOD_CHECKED)
+                    }}
+                    onBlur={e => {
+                      if (goodImg === REVIEW_GOOD) {
+                        hoverEvent(e, REVIEW_GOOD)
+                      }
+                    }}
+                    onMouseOut={e => {
+                      if (goodImg === REVIEW_GOOD) {
+                        hoverEvent(e, REVIEW_GOOD)
+                      }
+                    }}
+                  />
                 </label>
                 <label
                   className="evaluation"
@@ -165,21 +178,39 @@ const ContentWriteReivew = ({
                     type="radio"
                     name="evaluation"
                     id="evaluation-soso"
-                    src={sosoImgurl}
+                    src={REVIEW_SOSO}
                     className="icon"
                     value={1}
                     onChange={formik.handleChange}
                     onClick={e => {
                       console.log(e.target.value)
                       if (e.target.checked) {
-                        setGoodImg(goodImgurl)
-                        setSosoImg(sosoImgurlChecked)
-                        setbadImg(badImgurl)
+                        setGoodImg(REVIEW_GOOD)
+                        setSosoImg(REVIEW_SOSO_CHECKED)
+                        setbadImg(REVIEW_BAD)
                       }
                     }}
-                    // style={{ display: 'none' }}
                   />
-                  <img src={sosoImg} alt="보통이다" />
+                  <img
+                    src={sosoImg}
+                    onFocus={e => {
+                      hoverEvent(e, REVIEW_SOSO_CHECKED)
+                    }}
+                    onMouseOver={e => {
+                      hoverEvent(e, REVIEW_SOSO_CHECKED)
+                    }}
+                    onBlur={e => {
+                      if (sosoImg === REVIEW_SOSO) {
+                        hoverEvent(e, REVIEW_SOSO)
+                      }
+                    }}
+                    onMouseOut={e => {
+                      if (sosoImg === REVIEW_SOSO) {
+                        hoverEvent(e, REVIEW_SOSO)
+                      }
+                    }}
+                    alt="보통이다"
+                  />
                 </label>
                 <label
                   className="evaluation"
@@ -190,20 +221,39 @@ const ContentWriteReivew = ({
                     type="radio"
                     name="evaluation"
                     id="evaluation-bad"
-                    src={sosoImgurl}
+                    src={REVIEW_BAD}
                     className="icon"
                     value={-1}
                     onChange={formik.handleChange}
                     onClick={e => {
                       console.log(e.target.value)
                       if (e.target.checked) {
-                        setGoodImg(goodImgurl)
-                        setSosoImg(sosoImgurl)
-                        setbadImg(badImgurlChecked)
+                        setGoodImg(REVIEW_GOOD)
+                        setSosoImg(REVIEW_SOSO)
+                        setbadImg(REVIEW_BAD_CHECKED)
                       }
                     }}
                   />
-                  <img src={badImg} alt="안좋다" />
+                  <img
+                    src={badImg}
+                    alt="안좋다"
+                    onFocus={e => {
+                      hoverEvent(e, REVIEW_BAD_CHECKED)
+                    }}
+                    onMouseOver={e => {
+                      hoverEvent(e, REVIEW_BAD_CHECKED)
+                    }}
+                    onBlur={e => {
+                      if (badImg === REVIEW_BAD) {
+                        hoverEvent(e, REVIEW_BAD)
+                      }
+                    }}
+                    onMouseOut={e => {
+                      if (badImg === REVIEW_BAD) {
+                        hoverEvent(e, REVIEW_BAD)
+                      }
+                    }}
+                  />
                 </label>
               </div>
 
@@ -216,11 +266,11 @@ const ContentWriteReivew = ({
                 onChange={formik.handleChange}
                 maxLength="100"
               />
-              {formik.errors.reviewContent ? (
+              {formik.errors.reviewContent && (
                 <div className="error" style={{ textAlign: 'center' }}>
                   {formik.errors.reviewContent}
                 </div>
-              ) : null}
+              )}
               <div className="review-length">
                 {formik.values.reviewContent.length} /100
               </div>
@@ -233,8 +283,6 @@ const ContentWriteReivew = ({
             </div>
           </form>
         </>
-      ) : (
-        ''
       )}
     </div>
   )

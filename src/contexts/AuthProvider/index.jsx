@@ -1,7 +1,5 @@
 import React, { createContext, useReducer } from 'react'
 import PropTypes from 'prop-types'
-import Header from '@components/ui/Header'
-import Spinner from '@components/templates/Spinner'
 import initialState from './initalstate'
 import AuthReducer from './reducer'
 import useActions from './actions'
@@ -19,8 +17,6 @@ const AuthProvider = ({ children }) => {
     handleLogout,
     handleGetUserInfo,
     handleModifyUserInfo,
-    handleLoadingOn,
-    handleLoadingOff,
   } = useActions(dispatch)
 
   return (
@@ -34,21 +30,8 @@ const AuthProvider = ({ children }) => {
         handleLogout,
         handleGetUserInfo,
         handleModifyUserInfo,
-        handleLoadingOn,
-        handleLoadingOff,
       }}>
-      {state.isLoading ? (
-        <div className="container">
-          <div className="wrapper">
-            <Header />
-            <div className="spinner-wrapper">
-              <Spinner loading={state.isLoading} size={70} />
-            </div>
-          </div>
-        </div>
-      ) : (
-        children
-      )}
+      {children}
     </AuthContext.Provider>
   )
 }

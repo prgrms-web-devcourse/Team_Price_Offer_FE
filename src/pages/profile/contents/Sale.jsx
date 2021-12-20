@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
+import useApi from '@api/useApi'
 import Divider from '@components/templates/Divider'
 import Button from '@components/templates/Button'
 import GoodsList from '@components/ui/GoodsList'
 import Pagination from '@components/templates/Pagination'
-import { userApi } from '@api/apis'
 
 const Sale = ({ userId, state }) => {
+  const { userApi } = useApi()
+
   const [goodsList, setGoodsList] = useState({
     elements: [],
     totalElementCount: 0,

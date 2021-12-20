@@ -11,8 +11,7 @@ module.exports = {
     ]
   },
   env: {
-    BASE_API_HOST:
-      'http://ec2-54-180-35-183.ap-northeast-2.compute.amazonaws.com:8080',
+    BASE_API_HOST: 'https://offer.kro.kr',
   },
   reactStrictMode: true,
   sassOptions: {

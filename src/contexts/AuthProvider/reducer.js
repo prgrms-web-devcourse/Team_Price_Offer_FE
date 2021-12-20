@@ -8,8 +8,6 @@ import {
   LOGOUT,
   GET_USERINFO,
   MODIFY_USERINFO,
-  LOADING_ON,
-  LOADING_OFF,
 } from './types'
 
 const AuthReducer = (state, { type, payload }) => {
@@ -44,16 +42,6 @@ const AuthReducer = (state, { type, payload }) => {
       return {
         ...state,
         userData: { ...state.userData, ...payload.userData },
-      }
-    case LOADING_ON:
-      return {
-        ...state,
-        isLoading: true,
-      }
-    case LOADING_OFF:
-      return {
-        ...state,
-        isLoading: false,
       }
     default:
       throw new Error(`액션에 정의된 타입이 없습니다! ${type}`)
