@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { CONFIG, NOIMG } from '@utils/constant'
 import { useAuthContext } from '@hooks/useAuthContext'
+import { useListener } from 'react-bus'
 import useApi from '@api/useApi'
 import Link from 'next/dist/client/link'
 import Avatar from '@components/templates/Avatar'
@@ -32,6 +33,18 @@ const ProfilePage = ({ userId, pageType }) => {
     reviewCount: null,
   })
   const [visibleConfigModal, setVisibleConfigModal] = useState(false)
+
+  useListener('fetchUserProfile', async () => {
+    if (checkMyAcount()) {
+      await fetchUserProfile(state.userData.id)
+    }
+  })
+
+  useEffect(() => {
+    return () => {
+      window.removeEventListener('fetchUserProfile', null)
+    }
+  }, [])
 
   useEffect(async () => {
     const currentStateUserId = state.userData.id
@@ -65,18 +78,6 @@ const ProfilePage = ({ userId, pageType }) => {
       Number(currentStateUserId) === Number(userId),
     [userId, state.userData.id],
   )
-
-  const dispatchEvent = useCallback(async e => {
-    if (e.target.name !== 'like') {
-      return
-    }
-
-    if (checkMyAcount()) {
-      setTimeout(() => {
-        fetchUserProfile(state.userData.id)
-      }, 500)
-    }
-  }, [])
 
   const profileImgStyle = {
     width: '100px',
@@ -179,12 +180,7 @@ const ProfilePage = ({ userId, pageType }) => {
           </Link>
         </ul>
       </div>
-      <PageContents
-        userId={userId}
-        pageType={pageType}
-        state={state}
-        onClick={dispatchEvent}
-      />
+      <PageContents userId={userId} pageType={pageType} state={state} />
     </div>
   )
 }
