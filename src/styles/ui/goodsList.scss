@@ -16,7 +16,6 @@
         width: 100%;
         display: grid;
         grid-template-columns: repeat(5, 1fr);
-        gap: 10% 3%;
         box-sizing: border-box;
         list-style: none;
 
@@ -38,7 +37,6 @@
     @include mobile {
             &-list {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 4% 3%;
             }
     }
 }

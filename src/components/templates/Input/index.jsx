@@ -11,6 +11,7 @@ const Input = ({
   placeholder = '정보를 입력하세요.',
   onChange,
   onKeyUp,
+  maxLength,
   noSpace = false,
 }) => {
   return (
@@ -23,6 +24,7 @@ const Input = ({
       placeholder={placeholder}
       onChange={onChange}
       onKeyUp={onKeyUp}
+      maxLength={maxLength}
     />
   )
 }

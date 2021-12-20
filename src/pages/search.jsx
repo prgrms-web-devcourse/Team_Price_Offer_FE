@@ -9,10 +9,12 @@ import { FILTER } from '@utils/constant/icon'
 import { articleApi } from '@api/apis'
 import { useRouter } from 'next/router'
 import Pagination from '@components/templates/Pagination'
+import { useAuthContext } from '@hooks/useAuthContext'
 import { CATEGORIES } from '../data/dummy/categories'
 import { ORDERWAY } from '../data/dummy/orderway'
 
-const search = props => {
+const search = () => {
+  const { state } = useAuthContext()
   const router = useRouter()
   const { title } = router.query
   const [filters, setFilters] = useState({
@@ -22,6 +24,7 @@ const search = props => {
     tradeMethodCode: null,
   })
   const [goodsList, setGoodsList] = useState([])
+  const [currentPage, setCurrentPage] = useState(1)
 
   const ref = useClickAway(e => {
     setIsopenedFilter(false)
@@ -35,21 +38,35 @@ const search = props => {
     })
   }
 
+  const handlePostRouting = postId => {
+    postId &&
+      router.push({
+        pathname: `/post/${postId}`,
+      })
+  }
+
   useEffect(() => {
     if (!title) {
       router.push('/')
       return
     }
+    fetchGoodsList(title, currentPage)
+    console.log(currentPage)
+  }, [title, currentPage])
 
-    fetchGoodsListApi(title)
-  }, [title])
-
-  const fetchGoodsListApi = useCallback(async title => {
-    const { data } = await articleApi.searchArticles({
+  const fetchGoodsList = useCallback(async (title, currentPage) => {
+    const searchOptions = {
       title,
+      page: currentPage,
+      size: 10,
       ...filters,
-    })
-    title && setGoodsList(data.elements)
+    }
+
+    const { data } = state.token
+      ? await articleApi.searchArticlesWithAuth(searchOptions)
+      : await articleApi.searchArticles(searchOptions)
+
+    title && setGoodsList(data)
   }, [])
 
   const [isopenedFilter, setIsopenedFilter] = useState(false)
@@ -134,7 +151,7 @@ const search = props => {
             </div>
             <div className="filter-btn-wrapper">
               <Button style={{ ...btnStyle, ...resetBtnStyle }}>초기화</Button>
-              <Button style={btnStyle} onClick={fetchGoodsListApi}>
+              <Button style={btnStyle} onClick={fetchGoodsList}>
                 필터 적용
               </Button>
             </div>
@@ -177,9 +194,23 @@ const search = props => {
           </div>
         </div>
         <div className="result-body">
-          {title && <GoodsList goodsList={goodsList} />}
+          {goodsList.elements && (
+            <GoodsList
+              haveAuth={!!state.token}
+              goodsList={goodsList.elements}
+              onClick={handlePostRouting}
+            />
+          )}
         </div>
-        <Pagination />
+        <div className="result-pagination">
+          <Pagination
+            paginate={setCurrentPage}
+            setStartPage={setCurrentPage}
+            postListLength={
+              goodsList.pageInfo && goodsList.pageInfo.totalElementCount
+            }
+          />
+        </div>
       </div>
     </div>
   )

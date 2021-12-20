@@ -36,17 +36,25 @@
         }
         
         &-goodsbox{
+            padding:0px 10px 0px 10px;
             line-height: 30px;
             border:solid 1px #CCCCCC;
             width: 324px;
             height: 36px;
             display: flex;
-            justify-content: center;
             margin-top:20px;
             margin-bottom: 10px;
             font-size: 14px;
             color: $FONT_GRAY_COLOR;
             gap:10px;
+            .goodsbox-title{
+                max-width:220px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+
+            }
+
         }
     }
 
@@ -56,16 +64,18 @@
         justify-content: center;
         margin-top: 30px;
         margin-bottom: 30px;
+
         .icon-list{
             display: flex;
             justify-content:space-between;
             margin-bottom: 20px;
-            .icon{
-                :hover{
-                    fill: $PRIMARY_COLOR;
-                }
-            }
+
         }
+        .icon{
+            display: none;
+            
+        }
+
         .writereview-area{
             border:solid 1px black;
             padding: 20px;
@@ -91,6 +101,7 @@
             justify-content:space-between;
             margin-bottom: 20px;
             .icon{
+                display:none;
                 :hover{
                     fill: $PRIMARY_COLOR;
                 }
@@ -122,6 +133,9 @@
             width:200px;
             height: 50px;
         }
+    }
+    .error{
+        color: red;
     }
 }
 

@@ -16,22 +16,22 @@ const ContentOffer = props => {
     },
     validate,
     onSubmit: async values => {
+      const postId = getItem('postId').replaceAll('"', '')
       const res = await articleApi.postOffer({
-        articleId: getItem('postId').replaceAll('"', ''),
+        articleId: postId,
         price: {
           price: values.offerPrice,
         },
       })
-      console.log(res)
       if (Number(res.code) === 200) {
         alert(`${values.offerPrice} 원 오퍼 완료!.`)
-        window.location.reload()
-        router.push(0)
+        router.reload(`/post/${postId}`)
       } else {
         alert(res.message)
       }
     },
   })
+
   return (
     <>
       <div className="modal-header">
@@ -50,13 +50,17 @@ const ContentOffer = props => {
                 placeholder="숫자로만 입력해주세요!"
                 value={formik.values.offerPrice}
                 onChange={formik.handleChange}
+                maxLength="9"
               />
             </div>
-            {formik.errors.offerPrice ? (
-              <div className="offer-error">{formik.errors.offerPrice}</div>
-            ) : null}
           </div>
+
           <div className="modal-body_btn-wrapper">
+            {formik.errors.offerPrice ? (
+              <div className="offer-error" style={{ color: 'red' }}>
+                {formik.errors.offerPrice}
+              </div>
+            ) : null}
             <Button type="submit" className="modal-body_btn offer">
               Offer
             </Button>

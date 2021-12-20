@@ -50,3 +50,7 @@ a {
   align-items: center;
   height: calc(100vh - 300px);
 }
+
+.swiper-pagination-horizontal {
+  bottom: 25px !important;
+}

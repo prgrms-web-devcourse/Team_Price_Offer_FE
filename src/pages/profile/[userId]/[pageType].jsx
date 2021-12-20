@@ -36,36 +36,52 @@ const ProfilePage = ({ userId, pageType }) => {
   const [visibleConfigModal, setVisibleConfigModal] = useState(false)
 
   useEffect(async () => {
-    const res =
-      Number(state.userData.id) === Number(userId)
+    const currentStateUserId = state.userData.id
+    await fetchUserProfile(currentStateUserId)
+
+    checkMyAcount(currentStateUserId)
+      ? setisMyAcount(true)
+      : setisMyAcount(false)
+  }, [userId, state.userData])
+
+  const fetchUserProfile = useCallback(
+    async currentStateUserId => {
+      const res = checkMyAcount(currentStateUserId)
         ? await authApi.getUserProfile()
         : await authApi.getOtherUserProfile(userId)
 
-    setUserInfo({
-      ...userInfo,
-      ...res.data.member,
-      sellingArticleCount: res.data.sellingArticleCount,
-      likedArticleCount: res.data.likedArticleCount,
-      offerCount: res.data.offerCount,
-      reviewCount: res.data.reviewCount,
-    })
+      setUserInfo({
+        ...userInfo,
+        ...res.data.member,
+        sellingArticleCount: res.data.sellingArticleCount,
+        likedArticleCount: res.data.likedArticleCount,
+        offerCount: res.data.offerCount,
+        reviewCount: res.data.reviewCount,
+      })
 
-    setIsLoading(false)
-    if (Number(state.userData.id) === Number(userId)) {
-      setisMyAcount(true)
+      setIsLoading(false)
+    },
+    [userId],
+  )
+
+  const checkMyAcount = useCallback(
+    (currentStateUserId = state.userData.id) => {
+      return Number(currentStateUserId) === Number(userId)
+    },
+    [userId, state.userData.id],
+  )
+
+  const dispatchEvent = useCallback(async e => {
+    if (e.target.name !== 'like') {
       return
+    }
+
+    if (checkMyAcount()) {
+      setTimeout(() => {
+        fetchUserProfile(state.userData.id)
+      }, 500)
     }
   }, [])
-
-  useEffect(() => {
-    if (Number(state.userData.id) === Number(userId)) {
-      setUserInfo(prevState => ({
-        ...state.userData,
-        isMyAcount: prevState.isMyAcount,
-      }))
-      return
-    }
-  }, [state.userData])
 
   const profileImgStyle = {
     width: '100px',
@@ -176,7 +192,12 @@ const ProfilePage = ({ userId, pageType }) => {
           </Link>
         </ul>
       </div>
-      <PageContents userId={userId} pageType={pageType} />
+      <PageContents
+        userId={userId}
+        pageType={pageType}
+        state={state}
+        onClick={dispatchEvent}
+      />
     </div>
   )
 }

@@ -29,10 +29,14 @@ export const userApi = {
     instance.get(`/articles?memberId=${memberId}&tradeStatusCode=8`, {
       params,
     }),
-  getUserBuyReviews: memberId =>
-    instance.get(`/reviews?memberId=${memberId}&role=buyer`),
-  getUserSellReviews: memberId =>
-    instance.get(`/reviews?memberId=${memberId}&role=seller`),
+  getUserBuyReviews: ({ memberId, params }) =>
+    auth.get(`/reviews?memberId=${memberId}&role=buyer`, {
+      params,
+    }),
+  getUserSellReviews: ({ memberId, params }) =>
+    auth.get(`/reviews?memberId=${memberId}&role=seller`, {
+      params,
+    }),
   getUserReview: articleId => auth.get(`/reviews/me?articleId=${articleId}`),
   postReview: ({ articleId, payload }) =>
     auth.post(`/reviews?articleId=${articleId}`, payload),
@@ -48,6 +52,7 @@ export const reviewApi = {
 }
 
 export const articleApi = {
+  searchArticlesWithAuth: params => auth.get(`/search`, { params }),
   searchArticles: params => instance.get(`/search`, { params }),
   editArticle: articleInfo => auth.put('/articles', articleInfo),
   getArticle: ({ articleId, params }) =>
@@ -77,10 +82,15 @@ export const messageApi = {
       `/messages/member/${memberId}/offerId/${offerId}?articleId=${articleId}`,
       content,
     ),
-  postMessageToUser: () => {},
-  postMessageToSeller: () => {},
-  deleteMsg: () => {},
-  getMessages: () => {},
+  postMessage: ({ messageRoomId, message }) =>
+    auth.post(`/messages/messageRoom/${messageRoomId}`, message),
+  getMessageList: ({ messageRoomId, params }) =>
+    auth.get(`/messages/messageRoom/${messageRoomId}/contents`, { params }),
+  getMessageRoomInfo: ({ messageRoomId }) =>
+    auth.get(`/messages/messageRoom/${messageRoomId}/messageRoomInfo`),
+  deleteMessageBox: ({ messageRoomId }) =>
+    auth.delete(`	/messages/messageRoomId/${messageRoomId}`),
+  getMessageBox: () => auth.get('/messages/messageBox'),
 }
 
 export const imgApi = {

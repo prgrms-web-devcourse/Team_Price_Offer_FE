@@ -34,7 +34,7 @@ const LoginContent = () => {
         <p className="login">구매자가 제안해요, Offer!</p>
       </div>
       <div className="modal-body">
-        <form onSubmit={formik.handleSubmit} className="modal-body_form">
+        <form onSubmit={formik.handleSubmit} className="modal-body_form login">
           <div className="modal-body_form-input email">
             <h3>이메일</h3>
             <Input
@@ -45,7 +45,7 @@ const LoginContent = () => {
               onChange={formik.handleChange}
               value={formik.values.email}
             />
-            {formik.errors.email ? <div>{formik.errors.email}</div> : null}
+            <div className="validation">{formik.errors.email}</div>
           </div>
           <div className="modal-body_form-input password">
             <h3>비밀번호</h3>
@@ -58,13 +58,15 @@ const LoginContent = () => {
               onChange={formik.handleChange}
               value={formik.values.password}
             />
-            {formik.errors.password ? (
-              <div>{formik.errors.password}</div>
-            ) : null}
+            <div className="validation login-password">
+              {formik.errors.password}
+            </div>
           </div>
-          <Button type="submit" className="modal-body_btn email">
-            이메일로 로그인
-          </Button>
+          <div className="modal-body_btn-wrapper">
+            <Button type="submit" className="modal-body_btn email">
+              이메일로 로그인
+            </Button>
+          </div>
         </form>
         <div className="modal-body_btn-wrapper">
           <Button className="modal-body_btn kakao" onClick={onKaKaoLogin}>

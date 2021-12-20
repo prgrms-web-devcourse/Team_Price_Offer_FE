@@ -2,7 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 
-const TextArea = ({ style, className, onChange, name, placeholder }) => {
+const TextArea = ({
+  style,
+  className,
+  onChange,
+  name,
+  placeholder,
+  maxLength,
+  onKeyUp,
+}) => {
   return (
     <ComonTextArea
       placeholder={placeholder}
@@ -10,6 +18,8 @@ const TextArea = ({ style, className, onChange, name, placeholder }) => {
       className={className}
       onChange={onChange}
       name={name}
+      maxLength={maxLength}
+      onKeyUp={onKeyUp}
     />
   )
 }

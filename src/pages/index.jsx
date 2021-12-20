@@ -2,6 +2,9 @@ import ICONBUTTON from '@components/templates/IconButton'
 import BANNER from '@components/templates/Banner'
 import GoodsList from '@components/ui/GoodsList'
 import {
+  MAIN_BANNER1,
+  MAIN_BANNER2,
+  MAIN_BANNER3,
   CATEGORY_BEST_GOODS,
   CATEGORY_BOOKS,
   CATEGORY_FORNITURE,
@@ -12,7 +15,10 @@ import {
   CATEGORY_SPORTS,
   CATEGORY_WOMEN_GOODS,
   CATEGORY_WOMAN_WEAR,
-} from '@utils/constant/icon'
+} from '@utils/constant'
+import { useCallback, useEffect, useState } from 'react'
+import { articleApi } from '@api/apis'
+import { useAuthContext } from '@hooks/useAuthContext'
 
 const Main = () => {
   const categoryList = [
@@ -67,111 +73,48 @@ const Main = () => {
       src: CATEGORY_SHARE,
     },
   ]
-  const goodsList = [
-    {
-      id: 1,
-      src: '',
-      title:
-        '급처급처급처급처급처급처급처급처급처급처급처급처급처급처급처급처급처급처급처급처',
-      address: '서울시 강북구',
-      time: '2분전',
-      price: 160,
-    },
-    {
-      id: 2,
-      src: '',
-      title: '급처급처',
-      address: '서울시 강북구',
-      time: '2분전',
-      price: 160,
-    },
-    {
-      id: 3,
-      src: '',
-      title: '급처급처',
-      address: '서울시 강북구',
-      time: '2분전',
-      price: 160,
-    },
-    {
-      id: 4,
-      src: '',
-      title: '급처급처',
-      address: '서울시 강북구',
-      time: '2분전',
-      price: 160,
-    },
-    {
-      id: 5,
-      src: '',
-      title: '급처급처',
-      address: '서울시 강북구',
-      time: '2분전',
-      price: 160,
-    },
-    {
-      id: 6,
-      src: '',
-      title: '급처급처',
-      address: '서울시 강북구',
-      time: '2분전',
-      price: 160,
-    },
-    {
-      id: 7,
-      src: '',
-      title: '급처급처',
-      address: '서울시 강북구',
-      time: '2분전',
-      price: 160,
-    },
-    {
-      id: 8,
-      src: '',
-      title: '급처급처',
-      address: '서울시 강북구',
-      time: '2분전',
-      price: 160,
-    },
-    {
-      id: 9,
-      src: '',
-      title: '급처급처',
-      address: '서울시 강북구',
-      time: '2분전',
-      price: 160,
-    },
-    {
-      id: 10,
-      src: '',
-      title: '급처급처',
-      address: '서울시 강북구',
-      time: '2분전',
-      price: 160,
-    },
-  ]
-  const categoryClick = () => {
-    // alert(`${categoryList.text} 선택`)
-    alert('a')
-  }
+
+  const { state } = useAuthContext()
+
+  const [goodsList, setGoodsList] = useState({
+    elements: [],
+    totalElementCount: 0,
+  })
+
+  const [searchOptions, _] = useState({
+    title: '',
+    page: 1,
+    size: 10,
+  })
+
+  const fetchGoodsList = useCallback(async () => {
+    const res = state.token
+      ? await articleApi.searchArticlesWithAuth(searchOptions)
+      : await articleApi.searchArticles(searchOptions)
+
+    setGoodsList({
+      elements: res.data.elements,
+      totalElementCount: res.data.pageInfo.totalElementCount,
+    })
+  }, [])
+
+  useEffect(async () => {
+    await fetchGoodsList()
+  }, [])
 
   return (
     <div className="main">
       <div className="banner-wrapper">
         <BANNER
-          imgUrls={[
-            'https://picsum.photos/200',
-            'https://picsum.photos/200',
-            'https://picsum.photos/200',
-          ]}
+          imgUrls={[MAIN_BANNER1, MAIN_BANNER2, MAIN_BANNER3]}
           style={{
             width: '100%',
             textAlign: 'center',
             verticalAlign: 'middle',
           }}
+          isPost={false}
         />
       </div>
-
       <div className="category-wrapper">
         <div className="category-list">
           {categoryList.map(categoryList => (
@@ -189,7 +132,7 @@ const Main = () => {
       </div>
 
       <div className="newgoods-title">신규상품</div>
-      <GoodsList goodsList={goodsList} />
+      <GoodsList goodsList={goodsList.elements} />
     </div>
   )
 }

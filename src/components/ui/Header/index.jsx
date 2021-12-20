@@ -18,6 +18,7 @@ import {
 } from '@utils/constant'
 import { useAuthContext } from '@hooks/useAuthContext'
 import { useRouter } from 'next/router'
+import { GetServerSideProps } from 'next'
 
 const Header = () => {
   const { state } = useAuthContext()
@@ -31,7 +32,6 @@ const Header = () => {
 
   const iconBtnStyleLg = { width: '30px', height: '30px' }
   const iconBtnStyleMd = { width: '24px', height: '24px' }
-  const iconBtnStyleSm = { width: '8px', height: '5px' }
 
   const dialogClick = e => {
     e.stopPropagation()
@@ -52,7 +52,7 @@ const Header = () => {
 
   return (
     <div className="header-wrapper">
-      <div className="header-right">
+      <div className="header-left">
         <Link href="/">
           <img src={LOGO} alt="logo" className="logo" />
         </Link>
@@ -108,8 +108,17 @@ const Header = () => {
           <div className="widget-islogin">
             <div className="widget-islogin_pc">
               <div className="sale-area">
-                <IconButton src={SALE} alt="sale" style={iconBtnStyleMd} />
-                <div className="sale_button_text">판매하기</div>
+                <IconButton
+                  src={SALE}
+                  alt="sale"
+                  style={iconBtnStyleMd}
+                  onClick={() => router.push('/posting/null')}
+                />
+                <div
+                  className="sale_button_text"
+                  onClick={() => router.push('/posting/null')}>
+                  판매하기
+                </div>
               </div>
               <Divider type="vertical" style={{ color: '#DDDDDD' }} />
               <div className="userprofile-area">
@@ -118,13 +127,14 @@ const Header = () => {
                   src={profileImageUrl || NO_IMAGE_SQUARE}
                 />
                 <div className="username">{nickname}</div>
-                <IconButton
-                  className="sidebar"
-                  src={MENU_ARROW}
-                  alt="user"
-                  style={iconBtnStyleSm}
-                  onClick={dialogClick}
-                />
+                <div className="sidebar-wrapper">
+                  <IconButton
+                    className="sidebar"
+                    src={MENU_ARROW}
+                    alt="user"
+                    onClick={dialogClick}
+                  />
+                </div>
                 <Dialog
                   className="sidear-list"
                   style={{ justifyContent: 'space-between' }}
@@ -135,7 +145,12 @@ const Header = () => {
               </div>
             </div>
             <div className="widget-islogin_mobile">
-              <IconButton src={SALE} alt="sale" style={iconBtnStyleLg} />
+              <IconButton
+                src={SALE}
+                alt="sale"
+                style={iconBtnStyleLg}
+                onClick={() => router.push('/posting/null')}
+              />
               <IconButton
                 className="sidebar"
                 src={USER_CIRCLE}
@@ -157,9 +172,9 @@ const Header = () => {
               <IconButton
                 src={USER_CIRCLE}
                 alt="user"
-                style={{ width: '24px', height: '24px' }}
+                className="widget-login_pc-sale"
               />
-              <div>로그인 / 회원가입</div>
+              <div className="widget-login_pc-user">로그인 / 회원가입</div>
             </div>
             <button
               className="widget-login_mobile"
@@ -174,6 +189,10 @@ const Header = () => {
       </div>
     </div>
   )
+}
+
+export const getStaticProps = ({ query }) => {
+  return { query }
 }
 
 export default Header

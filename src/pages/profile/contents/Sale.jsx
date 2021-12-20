@@ -3,34 +3,52 @@ import PropTypes from 'prop-types'
 import Divider from '@components/templates/Divider'
 import Button from '@components/templates/Button'
 import GoodsList from '@components/ui/GoodsList'
+import Pagination from '@components/templates/Pagination'
 import { userApi } from '@api/apis'
 
-const Sale = ({ userId }) => {
-  const [goodsList, setGoodsList] = useState([])
+const Sale = ({ userId, state }) => {
+  const [goodsList, setGoodsList] = useState({
+    elements: [],
+    totalElementCount: 0,
+  })
   const [goodsListStatus, setGoodsListStatus] = useState({
     isSelling: true,
   })
+  const [goodsPageOptions, setGoodsPageOptions] = useState({
+    page: 1,
+    size: 10,
+  })
 
-  useEffect(async () => {
-    if (goodsListStatus.isSelling) {
-      const res = await userApi.getUserTradingAtricles({ memberId: userId })
+  const handleCheckGoods = pageNum => {
+    setGoodsPageOptions({
+      ...goodsPageOptions,
+      page: pageNum,
+    })
+  }
 
-      if (Number(res.code) !== 200) {
-        return alert('판매중인 상품 조회 시, 문제가 발생하였습니다!')
-      }
-
-      setGoodsList(res.data.elements)
-      return
+  const fetchGoodsList = async () => {
+    const goodsOptions = {
+      memberId: userId,
+      params: goodsPageOptions,
     }
 
-    const res = await userApi.getUserCompletedArticles({ memberId: userId })
+    const res = goodsListStatus.isSelling
+      ? await userApi.getUserTradingAtricles(goodsOptions)
+      : await userApi.getUserCompletedArticles(goodsOptions)
 
     if (Number(res.code) !== 200) {
-      return alert('판매완료 상품 조회 시, 문제가 발생하였습니다!')
+      return alert('상품 조회 시, 문제가 발생하였습니다!')
     }
 
-    setGoodsList(res.data.elements)
-  }, [goodsListStatus])
+    setGoodsList({
+      elements: res.data.elements,
+      totalElementCount: res.data.pageInfo.totalElementCount,
+    })
+  }
+
+  useEffect(async () => {
+    await fetchGoodsList()
+  }, [goodsListStatus, goodsPageOptions, userId])
 
   return (
     <div className="result-container">
@@ -59,14 +77,25 @@ const Sale = ({ userId }) => {
         <span className="result-lineup_item">높은 가격순</span>
       </div>
       <div className="result-content">
-        <GoodsList goodsList={goodsList} className="sale-goodList" />
+        <GoodsList
+          haveAuth={!!state.token}
+          goodsList={goodsList.elements}
+          className="sale-goodList"
+        />
       </div>
+      <Pagination
+        size={goodsPageOptions.size}
+        postListLength={goodsList.totalElementCount}
+        paginate={handleCheckGoods}
+        setStartPage={handleCheckGoods}
+      />
     </div>
   )
 }
 
 Sale.propTypes = {
   userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  state: PropTypes.shape({ root: PropTypes.string }),
 }
 
 export default Sale
