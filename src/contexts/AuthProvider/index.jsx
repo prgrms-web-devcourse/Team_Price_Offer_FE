@@ -1,7 +1,7 @@
 import React, { createContext, useReducer } from 'react'
 import PropTypes from 'prop-types'
-import Header from '@components/ui/Header'
 import Spinner from '@components/templates/Spinner'
+import styled from '@emotion/styled'
 import initialState from './initalstate'
 import AuthReducer from './reducer'
 import useActions from './actions'
@@ -37,18 +37,14 @@ const AuthProvider = ({ children }) => {
         handleLoadingOn,
         handleLoadingOff,
       }}>
-      {state.isLoading ? (
-        <div className="container">
-          <div className="wrapper">
-            <Header />
-            <div className="spinner-wrapper">
-              <Spinner loading={state.isLoading} size={70} />
-            </div>
-          </div>
-        </div>
-      ) : (
-        children
-      )}
+      <>
+        {state.isLoading && (
+          <SpinnerContainer>
+            <Spinner loading={state.isLoading} size={70} />
+          </SpinnerContainer>
+        )}
+        {children}
+      </>
     </AuthContext.Provider>
   )
 }
@@ -56,5 +52,16 @@ const AuthProvider = ({ children }) => {
 AuthProvider.propTypes = {
   children: PropTypes.node.isRequired,
 }
+
+const SpinnerContainer = styled.div`
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+`
 
 export default AuthProvider
