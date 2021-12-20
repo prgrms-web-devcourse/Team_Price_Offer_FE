@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
+import useApi from '@api/useApi'
 import Avatar from '@components/templates/Avatar'
 import Button from '@components/templates/Button'
 import Divider from '@components/templates/Divider'
 import Pagination from '@components/templates/Pagination'
 import ModalMyReview from '@components/ui/modal/ModalMyReview'
 import ModalWriteReview from '@components/ui/modal/ModalWriteReview'
-import { userApi } from '@api/apis'
 
 const Review = ({ userId, state }) => {
+  const { userApi } = useApi()
+
   const [visibleReviewModal, setVisibleReviewModal] = useState(false)
   const [visibleWriteReviewModal, setVisibleWriteReviewModal] = useState(false)
   const [goodsListStatus, setGoodsListStatus] = useState({

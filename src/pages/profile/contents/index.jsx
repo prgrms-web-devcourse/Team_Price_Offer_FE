@@ -1,18 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useRouter } from 'next/dist/client/router'
-import Spinner from '@components/templates/Spinner'
 import Like from './Like'
 import Offer from './Offer'
 import Review from './Review'
 import Sale from './Sale'
 
 const ProfileContents = ({ userId, pageType, state, onClick }) => {
-  const SpinnerStyle = {
-    display: 'flex',
-    justifyContent: 'center',
-  }
-
   const handleClick = e => {
     onClick && onClick(e)
   }
@@ -48,11 +42,7 @@ const ProfileContents = ({ userId, pageType, state, onClick }) => {
         router.push('/')
       }
 
-      return (
-        <div style={SpinnerStyle}>
-          <Spinner />
-        </div>
-      )
+      return null
   }
 }
 

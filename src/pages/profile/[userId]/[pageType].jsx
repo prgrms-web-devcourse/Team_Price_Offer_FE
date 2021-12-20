@@ -1,15 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import { CONFIG, NOIMG } from '@utils/constant'
+import { useAuthContext } from '@hooks/useAuthContext'
+import useApi from '@api/useApi'
 import Link from 'next/dist/client/link'
 import Avatar from '@components/templates/Avatar'
 import IconButton from '@components/templates/IconButton'
 import ModalInfoModify from '@components/ui/modal/ModalInfoModify'
 import PageContents from '@pages/profile/contents'
-import { CONFIG, NOIMG } from '@utils/constant'
-import { useAuthContext } from '@hooks/useAuthContext'
-import { authApi } from '@api/apis'
-// import Spinner from '@components/templates/Spinner'
-import styled from '@emotion/styled'
-import { useAsyncContext } from '@hooks/useAsyncContext'
 
 export const getServerSideProps = async context => ({
   props: {
@@ -19,9 +16,8 @@ export const getServerSideProps = async context => ({
 })
 
 const ProfilePage = ({ userId, pageType }) => {
+  const { authApi } = useApi()
   const { state } = useAuthContext()
-  const { handleLoadingOn, handleLoadingOff } = useAsyncContext()
-  // const [isLoading, setIsLoading] = useState(true)
   const [isMyAcount, setisMyAcount] = useState(false)
   const [userInfo, setUserInfo] = useState({
     id: null,
@@ -38,16 +34,12 @@ const ProfilePage = ({ userId, pageType }) => {
   const [visibleConfigModal, setVisibleConfigModal] = useState(false)
 
   useEffect(async () => {
-    handleLoadingOn()
-
     const currentStateUserId = state.userData.id
     await fetchUserProfile(currentStateUserId)
 
     checkMyAcount(currentStateUserId)
       ? setisMyAcount(true)
       : setisMyAcount(false)
-
-    handleLoadingOff()
   }, [userId, state.userData])
 
   const fetchUserProfile = useCallback(
@@ -69,9 +61,8 @@ const ProfilePage = ({ userId, pageType }) => {
   )
 
   const checkMyAcount = useCallback(
-    (currentStateUserId = state.userData.id) => {
-      return Number(currentStateUserId) === Number(userId)
-    },
+    (currentStateUserId = state.userData.id) =>
+      Number(currentStateUserId) === Number(userId),
     [userId, state.userData.id],
   )
 
@@ -197,12 +188,5 @@ const ProfilePage = ({ userId, pageType }) => {
     </div>
   )
 }
-
-const SpinnerWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 50vh;
-`
 
 export default ProfilePage
