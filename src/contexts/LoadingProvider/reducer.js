@@ -1,6 +1,6 @@
-import { LOADING_ON, LOADING_OFF } from './type'
+import { LOADING_ON, LOADING_OFF } from './types'
 
-const AsyncReducer = (state, { type }) => {
+const LoadingReducer = (state, { type }) => {
   switch (type) {
     case LOADING_ON:
       return {
@@ -16,4 +16,4 @@ const AsyncReducer = (state, { type }) => {
   }
 }
 
-export default AsyncReducer
+export default LoadingReducer
