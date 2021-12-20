@@ -39,7 +39,7 @@ const Banner = ({ style, imgUrls, isPost }) => {
                   style={{
                     width: '100%',
                     height: '100%',
-                    objectFit: 'fill',
+                    objectFit: 'cover',
                   }}
                   alt="슬라이드 이미지"
                 />

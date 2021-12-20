@@ -4,8 +4,6 @@ import Modal from '@components/templates/Modal'
 import ContentcomfrimBuyer from '@components/ui/modal/contents/ContentConfirmBuyer'
 
 const ConfirmBuyer = ({ visible, onClose, postId, offerList, postData }) => {
-  console.log('1', offerList)
-  console.log('2', postData)
   return (
     <Modal visible={visible} onClose={onClose} className="modal">
       <ContentcomfrimBuyer
