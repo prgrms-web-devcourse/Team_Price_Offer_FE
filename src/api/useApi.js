@@ -162,6 +162,12 @@ const useApi = () => {
       },
       [instance],
     ),
+    searchFilterArticlesWithAuth: useCallback(
+      params => {
+        return auth.get(`/search/filters`, { params })
+      },
+      [auth],
+    ),
     editArticle: useCallback(
       articleInfo => {
         return auth.put('/articles', articleInfo)
