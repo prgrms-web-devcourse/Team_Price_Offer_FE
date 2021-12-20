@@ -6,17 +6,23 @@ import IconButton from '@components/templates/IconButton'
 import useClickAway from '@hooks/useClickAway'
 import GoodsList from '@components/ui/GoodsList'
 import { FILTER } from '@utils/constant/icon'
-import { articleApi } from '@api/apis'
 import { useRouter } from 'next/router'
 import Pagination from '@components/templates/Pagination'
 import { useAuthContext } from '@hooks/useAuthContext'
+import useApi from '@api/useApi'
 import { CATEGORIES } from '../data/dummy/categories'
 import { ORDERWAY } from '../data/dummy/orderway'
 
-const search = () => {
-  const { state } = useAuthContext()
+export const getServerSideProps = async context => ({
+  props: {
+    title: context.query.title,
+  },
+})
+
+const search = ({ title }) => {
   const router = useRouter()
-  const { title } = router.query
+  const { articleApi } = useApi()
+  const { state } = useAuthContext()
   const [filters, setFilters] = useState({
     categoryId: null,
     minPrice: null,
@@ -50,8 +56,8 @@ const search = () => {
       router.push('/')
       return
     }
+
     fetchGoodsList(title, currentPage)
-    console.log(currentPage)
   }, [title, currentPage])
 
   const fetchGoodsList = useCallback(async (title, currentPage) => {
@@ -206,9 +212,7 @@ const search = () => {
           <Pagination
             paginate={setCurrentPage}
             setStartPage={setCurrentPage}
-            postListLength={
-              goodsList.pageInfo && goodsList.pageInfo.totalElementCount
-            }
+            postListLength={goodsList.pageInfo?.totalElementCount}
           />
         </div>
       </div>
