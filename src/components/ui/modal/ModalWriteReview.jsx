@@ -11,10 +11,6 @@ const WriteReview = ({
   userNickname,
   needChangeStatus,
 }) => {
-  const hoverEvent = e => {
-    e.target.style.fill = '#F74F2A'
-  }
-
   return (
     <Modal visible={visible} onClose={onClose} className="modal">
       <ContentWriteReivew
