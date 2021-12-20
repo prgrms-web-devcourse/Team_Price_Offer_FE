@@ -7,8 +7,9 @@ import PageContents from '@pages/profile/contents'
 import { CONFIG, NOIMG } from '@utils/constant'
 import { useAuthContext } from '@hooks/useAuthContext'
 import { authApi } from '@api/apis'
-import Spinner from '@components/templates/Spinner'
+// import Spinner from '@components/templates/Spinner'
 import styled from '@emotion/styled'
+import { useAsyncContext } from '@hooks/useAsyncContext'
 
 export const getServerSideProps = async context => ({
   props: {
@@ -19,7 +20,8 @@ export const getServerSideProps = async context => ({
 
 const ProfilePage = ({ userId, pageType }) => {
   const { state } = useAuthContext()
-  const [isLoading, setIsLoading] = useState(true)
+  const { handleLoadingOn, handleLoadingOff } = useAsyncContext()
+  // const [isLoading, setIsLoading] = useState(true)
   const [isMyAcount, setisMyAcount] = useState(false)
   const [userInfo, setUserInfo] = useState({
     id: null,
@@ -36,12 +38,16 @@ const ProfilePage = ({ userId, pageType }) => {
   const [visibleConfigModal, setVisibleConfigModal] = useState(false)
 
   useEffect(async () => {
+    handleLoadingOn()
+
     const currentStateUserId = state.userData.id
     await fetchUserProfile(currentStateUserId)
 
     checkMyAcount(currentStateUserId)
       ? setisMyAcount(true)
       : setisMyAcount(false)
+
+    handleLoadingOff()
   }, [userId, state.userData])
 
   const fetchUserProfile = useCallback(
@@ -58,8 +64,6 @@ const ProfilePage = ({ userId, pageType }) => {
         offerCount: res.data.offerCount,
         reviewCount: res.data.reviewCount,
       })
-
-      setIsLoading(false)
     },
     [userId],
   )
@@ -87,14 +91,6 @@ const ProfilePage = ({ userId, pageType }) => {
     width: '100px',
     height: '100px',
     objectFit: 'cover',
-  }
-
-  if (isLoading) {
-    return (
-      <SpinnerWrapper>
-        <Spinner />
-      </SpinnerWrapper>
-    )
   }
 
   return (
