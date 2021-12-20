@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Avatar from '@components/templates/Avatar'
 import ICONBUTTON from '@components/templates/IconButton'
 import DIVIDER from '@components/templates/Divider'

@@ -80,7 +80,7 @@ const Sale = ({ userId, state }) => {
       </div>
       <div className="result-content">
         <GoodsList
-          haveAuth={!!state.token}
+          haveAuth={!!state?.token}
           goodsList={goodsList.elements}
           className="sale-goodList"
         />

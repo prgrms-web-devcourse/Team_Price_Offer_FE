@@ -1,13 +1,8 @@
 import React from 'react'
 import DIVIDER from '@components/templates/Divider'
 import Iconbutton from '@components/templates/IconButton'
-import TextArea from '@components/templates/Textarea'
 import Button from '@components/templates/Button'
-import { REVIEWSOSO, REVIEWGOOD, REVIEWBAD } from '@utils/constant/icon'
-
-const goodImgurl = REVIEWGOOD
-const sosoImgurl = REVIEWSOSO
-const badImgurl = REVIEWBAD
+import { REVIEW_GOOD, REVIEW_SOSO, REVIEW_BAD } from '@utils/constant'
 
 const ContentMyReview = ({ postInfo, onClose }) => {
   return (
@@ -38,9 +33,9 @@ const ContentMyReview = ({ postInfo, onClose }) => {
 
       <div className="mywritereview-middle-wrapper">
         <div className="icon-list">
-          <Iconbutton src={goodImgurl} className="icon" />
-          <Iconbutton src={sosoImgurl} className="icon" />
-          <Iconbutton src={badImgurl} className="icon" />
+          <Iconbutton src={REVIEW_GOOD} className="icon" />
+          <Iconbutton src={REVIEW_SOSO} className="icon" />
+          <Iconbutton src={REVIEW_BAD} className="icon" />
         </div>
         <div className="writereview-area">{postInfo?.reviewContent}</div>
       </div>
