@@ -1,23 +1,26 @@
 import '@styles/common/index.scss'
 import Header from '@components/ui/Header'
-import AsyncProvider from '@contexts/AsyncProvider'
+import LoadingProvider from '@contexts/LoadingProvider'
 import AuthProvider from '@contexts/AuthProvider'
+import AxiosProvider from '@contexts/AxiosProvider'
 import { Provider as BusProvider } from 'react-bus'
 
 function MyApp({ Component, pageProps }) {
   return (
-    <AsyncProvider>
-      <BusProvider>
+    <LoadingProvider>
+      <AxiosProvider>
         <AuthProvider>
-          <div className="container">
-            <div className="wrapper">
-              <Header />
-              <Component {...pageProps} />
+          <BusProvider>
+            <div className="container">
+              <div className="wrapper">
+                <Header />
+                <Component {...pageProps} />
+              </div>
             </div>
-          </div>
+          </BusProvider>
         </AuthProvider>
-      </BusProvider>
-    </AsyncProvider>
+      </AxiosProvider>
+    </LoadingProvider>
   )
 }
 
