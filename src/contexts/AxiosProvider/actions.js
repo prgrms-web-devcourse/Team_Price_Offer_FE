@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import axios from 'axios'
-import useInterceptor from '@hooks/useInterceptor'
+import useInterceptor from '@api/config/useInterceptor'
 import { SET_AXIOS_INSTANCE } from './types'
 
 const useActions = dispatch => {
