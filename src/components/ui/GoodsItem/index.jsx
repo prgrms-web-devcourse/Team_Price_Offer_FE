@@ -69,7 +69,7 @@ const GoodsItem = ({ item, haveAuth }) => {
         <p
           className="goods-cont_title"
           style={{ cursor: 'pointer' }}
-          onClick={() => handleOnClick(item.id)}>
+          onClick={e => handleOnClick(e, item.id)}>
           {item.title || '상품 이름 없음'}
         </p>
         <div className="goods-cont_meta">

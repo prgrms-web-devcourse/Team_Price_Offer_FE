@@ -2,22 +2,31 @@ import styled from '@emotion/styled'
 import useToggle from '@hooks/useToggle'
 import { articleApi } from '@api/apis'
 import { FAVORITE_LIGHT, FAVORITE_LIKE } from '@utils/constant/icon'
+import { useBus } from 'react-bus'
+import { useRouter } from 'next/router'
 
 const LikeButton = ({ name, className, alt, postId, isLiked, style }) => {
+  const bus = useBus()
+  const router = useRouter()
   const [checked, toggle] = useToggle(isLiked)
-  const img = checked ? FAVORITE_LIKE : FAVORITE_LIGHT
 
   const handleChange = async e => {
     const res = await articleApi.toggleLikeArticle(postId)
 
-    if (Number(res.code === 200)) {
-      toggle()
+    if (Number(res.code !== 200)) {
+      return
     }
+
+    if (router.pathname.includes('profile')) {
+      bus.emit('fetchUserProfile', null)
+    }
+
+    toggle()
   }
 
   return (
     <Icon
-      src={img}
+      src={checked ? FAVORITE_LIKE : FAVORITE_LIGHT}
       className={className}
       name={name}
       alt={alt}
