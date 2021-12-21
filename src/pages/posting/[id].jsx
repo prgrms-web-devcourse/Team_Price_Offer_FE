@@ -17,6 +17,7 @@ import useStorage from '@hooks/useStorage'
 
 const { getItem, removeItem } = useStorage()
 export const getServerSideProps = async context => {
+  context.query.id === 'null' && (removeItem('postData'), removeItem('imgUrl'))
   return {
     props: {
       postId: context.query.id,
@@ -39,6 +40,8 @@ const posting = ({ postId }) => {
       setDefaultData(''),
       setDefaultImgs(''))
     setIsMounted(true)
+    removeItem('postData')
+    removeItem('imgUrl')
   }, [postId])
 
   const commonDividerStyle = {
