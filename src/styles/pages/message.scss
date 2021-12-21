@@ -44,14 +44,26 @@
 
     &.chat {
       display: flex;
-      align-items: center;
+      justify-content: space-between;
 
-      img {
+
+      .header-icn_fetch {
         margin-left: 5px;
-        width: 24px;
-        height: 24px;
       }
     }
+
+    &_info-container{
+      display: flex;
+    }
+
+    &_icn-container{
+      width:16px;
+      height:16px;
+      .header-icn_close{
+        display: none;
+      }
+    }
+
   }
 
   .message-item {
@@ -135,6 +147,7 @@
 
     &_box {
       max-width: 260px !important;
+      border-radius: 20px;
     }
 
     &_seller {
@@ -214,6 +227,13 @@
     }
   }
 
+  &-last_text{
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+    color: $FONT_GRAY_COLOR;
+  }
+
   .message-textarea-wrapper {
     height: 120px;
     position: relative;
@@ -228,6 +248,7 @@
     padding : 5px 10px;
     font-size: 16px;
     font-family: Roboto,Noto Sans,Helvetica Neue,sans-serif;
+    resize: none;
   }
 
   .message-limit {
@@ -262,28 +283,66 @@
   }
 
   @include tablet {
+    &-header{
+      display: flex;
+      justify-content: space-between;
+    }
+
     &-list-wrapper {
       height: 100vh;
+      width: 100vw;
     }
 
     &-chat-wrapper {
-      display: none;
+      display: block;
+      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      left: 0;
+      background: $BACKGROUND_COLOR;
+
+      &.mobile{
+        display: none;
+      }
+
+
+    }
+
+    .message-header_icn-container{
+      .header-icn_close{
+        display: block;
+      }
     }
   }
 
   @include mobile {
+
+    &-header{
+      display: flex;
+      justify-content: space-between;
+    }
+
     &-list-wrapper {
       height: 100vh;
     }
 
     &-chat-wrapper {
-      // display: none;
+      display: block;
       position: absolute;
       width: 100vw;
       height: 100vh;
-      top: 0;
       left: 0;
       background: $BACKGROUND_COLOR;
+
+      &.mobile{
+        display: none;
+      }
+    }
+
+    .message-header_icn-container{
+      .header-icn_close{
+        display: block;
+      }
     }
   }
 }

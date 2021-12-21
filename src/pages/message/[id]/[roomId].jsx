@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react'
 import Avatar from '@components/templates/Avatar'
 import MessageBox from '@components/templates/Message'
 import IconButton from '@components/templates/IconButton'
-import { FETCH, MESSAGE_CHATTING_EMPTY } from '@utils/constant'
+import { FETCH, MESSAGE_CHATTING_EMPTY, CLOSE } from '@utils/constant'
 import { messageApi } from '@api/apis'
 import Image from '@components/templates/Image'
 import Router from 'next/router'
@@ -27,10 +27,12 @@ const MessagePage = ({ roomId }) => {
   const [messageRoomInfo, setMessageRoomInfo] = useState(null)
   const [messageBoxList, setMessageBoxList] = useState()
   const [messageList, setMessageList] = useState(null)
-  const currentPage = useRef(1)
-  const lastPage = useRef(null)
+  const [mobileMessageRoomVisible, setMobileMessageRoomVisible] =
+    useState(false)
+  const currentPage = useRef(null)
   const selectedMessageRoomId = useRef()
   const scrollBottomRef = useRef()
+  const scrollable = useRef(true)
   const { state } = useAuthContext()
   const { nickname, id } = state.userData
   const messageFormik = useFormik({
@@ -52,6 +54,7 @@ const MessagePage = ({ roomId }) => {
 
   const fetchSelectedMessageRoom = useCallback(async selectedRoomId => {
     const messageRoomId = selectedRoomId || roomId
+    setMobileMessageRoomVisible(true)
 
     if (
       messageRoomId === 'null' ||
@@ -60,18 +63,21 @@ const MessagePage = ({ roomId }) => {
       return
     }
 
-    selectedMessageRoomId.current = messageRoomId
-    currentPage.current = 1
-    lastPage.current = null
-    setMessageList(null)
-
     const roomInfoRes = await messageApi.getMessageRoomInfo({
       messageRoomId,
     })
+
+    selectedMessageRoomId.current = messageRoomId
+    currentPage.current = roomInfoRes.data.lastPageOfMessageContents
+    setMessageList(null)
+
     fetchMessageList()
+    if (currentPage.current !== 1) {
+      currentPage.current -= 1
+      fetchMessageList()
+    }
 
     setMessageRoomInfo(roomInfoRes.data)
-
     Router.replace(`/message/${id}/${messageRoomId}`)
   }, [])
 
@@ -80,11 +86,8 @@ const MessagePage = ({ roomId }) => {
       messageRoomId: selectedMessageRoomId.current,
       params: {
         page: currentPage.current,
-        size: 20,
       },
     })
-
-    !lastPage.current && (lastPage.current = data.pageInfo.lastPageNumber)
 
     setMessageList(prev => {
       const newMessageList =
@@ -106,6 +109,7 @@ const MessagePage = ({ roomId }) => {
       date.getMonth() + 1
     }-${date.getDate()}T${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
 
+    scrollable.current = true
     setMessageList([
       ...messageList,
       {
@@ -119,9 +123,9 @@ const MessagePage = ({ roomId }) => {
 
   const printMessageTime = time => {
     const newTime = time.split('T')[1].split(':')
-
+    console.log(time)
     return `${newTime[0] > 12 ? '오후' : '오전'} ${
-      newTime[0] > 12 ? newTime[0] - 12 : 12 - newTime[0]
+      newTime[0] > 12 ? newTime[0] - 12 : newTime[0]
     }:${newTime[1]}`
   }
 
@@ -132,8 +136,8 @@ const MessagePage = ({ roomId }) => {
   }, [])
 
   useEffect(() => {
-    scrollBottomRef.current &&
-      (scrollBottomRef.current.scrollTop = scrollBottomRef.current.scrollHeight)
+    scrollable.current &&
+      scrollBottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messageList])
 
   return (
@@ -182,18 +186,34 @@ const MessagePage = ({ roomId }) => {
           </div>
         </div>
       </div>
-      <div className="message-chat-wrapper">
+      <div
+        className={
+          mobileMessageRoomVisible
+            ? 'message-chat-wrapper'
+            : 'message-chat-wrapper mobile'
+        }>
         {messageList && messageRoomInfo ? (
           <>
             <div className="message-header chat">
-              <h2 className="message-header-title">
-                {messageRoomInfo.messagePartnerInfo.nickName}과의 쪽지
-              </h2>
-              <IconButton
-                src={fetchImgurl}
-                alt="fetch"
-                onClick={() => Router.reload(window.location.pathname)}
-              />
+              <div className="message-header_info-container">
+                <h2 className="message-header-title">
+                  {messageRoomInfo.messagePartnerInfo.nickName}과의 쪽지
+                </h2>
+                <IconButton
+                  src={fetchImgurl}
+                  alt="fetch"
+                  className="header-icn_fetch"
+                  onClick={() => Router.reload(window.location.pathname)}
+                />
+              </div>
+              <div className="message-header_icn-container">
+                <IconButton
+                  src={CLOSE}
+                  alt="close"
+                  className="header-icn_close"
+                  onClick={() => setMobileMessageRoomVisible(false)}
+                />
+              </div>
             </div>
             <div className="message-body">
               <div className="message-chat_info">
@@ -219,28 +239,31 @@ const MessagePage = ({ roomId }) => {
                 </div>
               </div>
               <div className="message-chat_cont">
-                <div className="message-chat" ref={scrollBottomRef}>
-                  {currentPage.current !== lastPage.current &&
-                    lastPage.current !== 1 && (
-                      <Button
-                        style={{
-                          width: '30%',
-                          height: '10%',
-                          textAlign: 'center',
-                          margin: '2% 35% 6% 35%',
-                        }}
-                        onClick={() => {
-                          if (currentPage.current + 1 > lastPage.current) {
-                            return
-                          }
+                <div className="message-chat">
+                  {currentPage.current !== 1 ? (
+                    <Button
+                      style={{
+                        width: '30%',
+                        height: '10%',
+                        textAlign: 'center',
+                        margin: '2% 35% 6% 35%',
+                      }}
+                      onClick={() => {
+                        if (currentPage.current - 1 < 1) {
+                          return
+                        }
 
-                          currentPage.current += 1
-                          fetchMessageList()
-                        }}>
-                        더보기
-                      </Button>
-                    )}
-
+                        currentPage.current -= 1
+                        fetchMessageList()
+                        scrollable.current = false
+                      }}>
+                      더보기
+                    </Button>
+                  ) : (
+                    <div className="message-last_text">
+                      마지막 메세지 입니다.
+                    </div>
+                  )}
                   {messageList?.map(message =>
                     message.isSendMessage ? (
                       <div
@@ -283,7 +306,9 @@ const MessagePage = ({ roomId }) => {
                       </div>
                     ),
                   )}
+                  <div className="scroll-to-bottom" ref={scrollBottomRef} />
                 </div>
+
                 <div className="message-textarea-wrapper">
                   <form onSubmit={messageFormik.handleSubmit}>
                     <textarea
