@@ -13,6 +13,7 @@ import ModalConfirmBuyer from '@components/ui/modal/ModalConfirmBuyer'
 import ModalChat from '@components/ui/modal/ModalChat'
 import Pagination from '@components/templates/Pagination'
 import Like from '@components/ui/InPostToggle'
+import swal from 'sweetalert'
 import { OFFER, OPTIONS } from '@utils/constant/icon'
 import useApi from '@api/useApi'
 import { useAuthContext } from '@hooks/useAuthContext'
@@ -268,15 +269,17 @@ const Post = ({ postId, data }) => {
                 )}
                 <div className="post-info-top">
                   <div className="post-title">{postData.title}</div>
-                  <Like
-                    className="like-button"
-                    style={{
-                      padding: '0px',
-                      height: '25px',
-                      lineHeight: '30px',
-                    }}
-                    isLiked={postData.isLiked}
-                  />
+                  {state.token && (
+                    <Like
+                      className="like-button"
+                      style={{
+                        padding: '0px',
+                        height: '25px',
+                        lineHeight: '30px',
+                      }}
+                      isLiked={postData.isLiked}
+                    />
+                  )}
                 </div>
 
                 <div className="post-price">
@@ -398,41 +401,58 @@ const Post = ({ postId, data }) => {
                   setStartPage={handleOffers}
                 />
                 <div className="offer-state">
-                  {tradeStatus ? (
+                  {state.token ? (
                     <>
-                      {isWriter ? (
-                        <div className="offer-state_ban">
-                          글 작성자는 오퍼를 할 수 없어요!
-                        </div>
-                      ) : (
+                      {tradeStatus ? (
                         <>
-                          <BUTTON
-                            className="offer-button"
-                            onClick={() =>
-                              state.token
-                                ? setVisible(true)
-                                : setLoginVisible(true)
-                            }>
-                            가격 제안하기(
-                            {offerList.offerCountOfCurrentMember}
-                            /2)
-                          </BUTTON>
-                          <ModalOffer
-                            visible={visible}
-                            onClose={() => setVisible(false)}>
-                            오퍼모달
-                          </ModalOffer>
-                          <ModalLogin
-                            visible={loginVisible}
-                            onClose={() => setLoginVisible(false)}>
-                            로그인 모달
-                          </ModalLogin>
+                          {isWriter ? (
+                            <div className="offer-state_ban">
+                              글 작성자는 오퍼를 할 수 없어요!
+                            </div>
+                          ) : (
+                            <>
+                              {offerList.offerCountOfCurrentMember < 2 ? (
+                                <BUTTON
+                                  className="offer-button"
+                                  onClick={() =>
+                                    state.token
+                                      ? setVisible(true)
+                                      : setLoginVisible(true)
+                                  }>
+                                  가격 제안하기(
+                                  {offerList.offerCountOfCurrentMember}
+                                  /2)
+                                </BUTTON>
+                              ) : (
+                                <BUTTON className="offer-ban-button" disabled>
+                                  가격 제안 횟수 초과 (
+                                  {offerList.offerCountOfCurrentMember}/2)
+                                </BUTTON>
+                              )}
+
+                              <ModalOffer
+                                visible={visible}
+                                onClose={() => setVisible(false)}>
+                                오퍼모달
+                              </ModalOffer>
+                              <ModalLogin
+                                visible={loginVisible}
+                                onClose={() => setLoginVisible(false)}>
+                                로그인 모달
+                              </ModalLogin>
+                            </>
+                          )}
                         </>
+                      ) : (
+                        <div className="offer-state_ban">
+                          예약중이거나 판매완료된 물건은 가격제안을 할 수
+                          없어요!
+                        </div>
                       )}
                     </>
                   ) : (
                     <div className="offer-state_ban">
-                      예약중이거나 판매완료된 물건은 가격제안을 할 수 없어요!
+                      로그인한 사용자만 가격제안 할 수 있어요!
                     </div>
                   )}
                 </div>
