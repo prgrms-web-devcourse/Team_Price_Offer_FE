@@ -15,7 +15,7 @@ const ProfileContents = ({ userId, pageType, state }) => {
     case 'review':
       return <Review userId={userId} state={state} />
     case 'sale':
-      return <Sale userId={userId} state={state} />
+      return <Sale userId={userId} />
     default:
       if (process.browser) {
         const router = useRouter()

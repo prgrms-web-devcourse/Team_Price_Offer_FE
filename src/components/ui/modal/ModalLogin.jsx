@@ -28,13 +28,22 @@ const ModalLogin = ({ visible, onClose }) => {
                 회원가입
               </span>
             </p>
-            <p>
-              비밀번호를 잊으셨나요? <span>비밀번호 찾기</span>
-            </p>
           </div>
         </div>
       ) : (
-        <ContentSignup />
+        <div className="signup-content">
+          <ContentSignup />
+          <div className="modal-footer">
+            <p>
+              기존 회원이시라면?{' '}
+              <span
+                style={{ cursor: 'pointer' }}
+                onClick={() => setIsLogin(true)}>
+                로그인하러 가기
+              </span>
+            </p>
+          </div>
+        </div>
       )}
     </Modal>
   )

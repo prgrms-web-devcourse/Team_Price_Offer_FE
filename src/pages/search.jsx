@@ -28,7 +28,7 @@ const search = ({ title }) => {
   const articleInfo = useRef(null)
   const filterFormik = useFormik({
     initialValues: {
-      categoryId: '',
+      categoryCode: '',
       minPrice: '',
       maxPrice: '',
       tradeMethodCode: '',
@@ -69,7 +69,7 @@ const search = ({ title }) => {
     console.log(searchOptions)
     const { data } = state.token
       ? filters
-        ? await articleApi.searchFilterArticlesWithAuth({
+        ? await articleApi.searchFilterArticles({
             ...searchOptions,
             ...filters,
           })
@@ -90,10 +90,10 @@ const search = ({ title }) => {
   }, [articleInfo])
 
   useEffect(() => {
-    if (!title) {
-      router.push('/')
-      return
-    }
+    // if (!title) {
+    //   router.push('/')
+    //   return
+    // }
     fetchGoodsList(title, currentPage)
   }, [title, currentPage])
 
@@ -137,10 +137,10 @@ const search = ({ title }) => {
                         className="search-filter_category"
                         htmlFor={name}
                         key={code}
-                        value={filterFormik.values.categoryId}>
+                        value={filterFormik.values.categoryCode}>
                         <input
                           type="radio"
-                          name="categoryId"
+                          name="categoryCode"
                           id={name}
                           className="filter_category-btn"
                           value={code}
@@ -255,7 +255,6 @@ const search = ({ title }) => {
         <div className="result-body">
           {goodsList.elements && (
             <GoodsList
-              haveAuth={!!state.token}
               goodsList={goodsList.elements}
               onClick={handlePostRouting}
             />

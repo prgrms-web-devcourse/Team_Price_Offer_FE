@@ -47,9 +47,7 @@ const ContentSignup = () => {
               onChange={formik.handleChange}
               value={formik.values.nickname}
             />
-            <div className="modal-body_form-validation">
-              {formik.errors.nickname}
-            </div>
+            <div className="validation">{formik.errors.nickname}</div>
           </div>
           <div className="modal-body_form-input address">
             <h3>지역</h3>
@@ -60,9 +58,7 @@ const ContentSignup = () => {
               onChange={formik.handleChange}
               value={formik.values.address}
             />
-            <div className="modal-body_form-validation">
-              {formik.errors.address}
-            </div>
+            <div className="validation">{formik.errors.address}</div>
           </div>
           <div className="modal-body_form-input email">
             <h3>이메일</h3>
@@ -88,9 +84,7 @@ const ContentSignup = () => {
                 중복검사
               </Button>
             </div>
-            <div className="modal-body_form-validation">
-              {formik.errors.email}
-            </div>
+            <div className="validation">{formik.errors.email}</div>
           </div>
           <div className="modal-body_form-input password">
             <h3>비밀번호</h3>
@@ -102,9 +96,7 @@ const ContentSignup = () => {
               onChange={formik.handleChange}
               value={formik.values.password}
             />
-            <div className="modal-body_form-validation">
-              {formik.errors.password}
-            </div>
+            <div className="validation">{formik.errors.password}</div>
           </div>
           <div
             style={{ marginTop: '15px' }}
@@ -117,9 +109,7 @@ const ContentSignup = () => {
               onChange={formik.handleChange}
               value={formik.values.confirmedPassword}
             />
-            <div className="modal-body_form-validation">
-              {formik.errors.confirmedPassword}
-            </div>
+            <div className="validation">{formik.errors.confirmedPassword}</div>
           </div>
           <div style={{ marginTop: '15px' }} className="modal-body_btn-wrapper">
             <Button type="submit" className="modal-body_btn signup">

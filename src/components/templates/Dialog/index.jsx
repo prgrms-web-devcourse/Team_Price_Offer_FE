@@ -6,6 +6,7 @@ import Router from 'next/router'
 import useStorage from '@hooks/useStorage'
 import { articleApi } from '@api/apis'
 import { useRouter } from 'next/dist/client/router'
+import { useLoadingContext } from '@hooks/useLoadingContext'
 
 const Dialog = ({
   style,
@@ -30,25 +31,32 @@ const Dialog = ({
   const handleClickItem = async code => {
     if (code === 'profile') {
       router.push(`/profile/${state.userData.id}/sale`)
+      onClose && onClose()
       return
     }
 
     if (code === 'logout') {
       await handleLogout()
+      onClose && onClose()
       return
     }
 
     if (code === 'message') {
       Router.push(`/message/${id}/${roomId}`)
+      onClose && onClose()
+      return
     }
 
     if (code === 'modify') {
       if (isFinishtrade) {
         alert('거래가 완료된 게시글은 수정 할 수 없어요!')
+        onClose && onClose()
         return
       }
+
       const getPostId = getItem('postId').replaceAll('"', '')
       router.push(`/posting/${getPostId}`)
+      onClose && onClose()
     }
 
     if (code === 'delete') {
