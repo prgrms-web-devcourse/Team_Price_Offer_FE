@@ -17,7 +17,7 @@ import useStorage from '@hooks/useStorage'
 
 const { getItem, removeItem } = useStorage()
 export const getServerSideProps = async context => {
-  context.query.id === 'null' && (removeItem('postData'), removeItem('imgUrl'))
+  context.query.id === 'new' && (removeItem('postData'), removeItem('imgUrl'))
   return {
     props: {
       postId: context.query.id,
@@ -34,14 +34,15 @@ const posting = ({ postId }) => {
   const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
-    postId === 'null' &&
+    postId === 'new' &&
       (removeItem('postData'),
       removeItem('imgUrl'),
       setDefaultData(''),
-      setDefaultImgs(''))
-    setIsMounted(true)
+      setDefaultImgs(''),
+      router.push('/posting/new'))
     removeItem('postData')
     removeItem('imgUrl')
+    setIsMounted(true)
   }, [postId])
 
   const commonDividerStyle = {
