@@ -4,11 +4,12 @@ import Button from '@components/templates/Button'
 import ImageUploader from '@components/templates/ImageUploader'
 import validate from '@utils/validation'
 import { useFormik } from 'formik'
-import { imgApi } from '@api/apis'
 import { PHOTO, NOIMG } from '@utils/constant'
 import { useAuthContext } from '@hooks/useAuthContext'
+import useApi from '@api/useApi'
 
 const ContentInfoModify = () => {
+  const { imgApi } = useApi()
   const { state, handleModifyUserInfo } = useAuthContext()
   const { userData } = state
 
