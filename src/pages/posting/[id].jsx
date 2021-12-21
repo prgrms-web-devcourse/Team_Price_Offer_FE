@@ -132,6 +132,8 @@ const posting = ({ postId }) => {
       const res = await articleApi.editArticle(userInfo)
       console.log(userInfo)
       if (Number(res.code) === 200) {
+        setDefaultData('')
+        setDefaultImgs('')
         swal({
           title: `게시글 등록 완료!`,
           icon: 'success',
