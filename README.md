@@ -2,9 +2,9 @@
 구매자가 가격을 제안하는 중고거래 플랫폼
 
 ## **🤑 Price 팀원 소개**
-- ### [조주영 (a.k.a 황금주영)](https://github.com/chojooyoung)
-- ### [신효정 (a.k.a 황금효정)](https://github.com/Shinhyojeong)
-- ### [손수림 (a.k.a 황금수림)](https://github.com/sonsurim)
+- [조주영 (a.k.a 황금주영)](https://github.com/chojooyoung)
+- [신효정 (a.k.a 황금효정)](https://github.com/Shinhyojeong)
+- [손수림 (a.k.a 황금수림)](https://github.com/sonsurim)
 
 ## **💸 기술 스택**
 - ### **커뮤니케이션**
