@@ -10,3 +10,5 @@ export const MAIN_BANNER2 = require('@assets/images/banner/banner2.png').default
   .src
 export const MAIN_BANNER3 = require('@assets/images/banner/banner3.png').default
   .src
+export const PLACE_HOLDER = require('@assets/images/placeholder.png').default
+  .src

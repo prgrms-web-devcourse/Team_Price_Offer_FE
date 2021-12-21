@@ -7,6 +7,7 @@ import styled from '@emotion/styled'
 import { useRouter } from 'next/router'
 import { timeForToday, convertPrice } from '@utils/functions'
 import { useAuthContext } from '@hooks/useAuthContext'
+import { PLACE_HOLDER } from '@utils/constant'
 
 const GoodsItem = ({ item }) => {
   const router = useRouter()
@@ -56,12 +57,13 @@ const GoodsItem = ({ item }) => {
           </ImgMask>
         )}
         <Image
+          lazy
           style={imgStyle}
           className="goods-img"
           src={item.mainImageUrl}
           mode="cover"
           ratio="rectangle-h"
-          placeholder="https://www.urbansplash.co.uk/images/placeholder-16-9.jpg"
+          placeholder={PLACE_HOLDER}
           alt={item.title}
         />
         {state.token && isNeedShowLikedBtn() && (
