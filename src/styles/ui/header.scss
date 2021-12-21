@@ -1,209 +1,332 @@
 @import "../common/variables";
 @import "../common/mixins";
 
-.header-wrapper {
-  background: #ffffff;
-  display: flex;
-  justify-content: space-between;
-  height: 150px;
-  align-items: center;
-  .logo {
-    cursor: pointer;
-    width: 100px;
 
-    @media (max-width: 706px) {
-      width: 66px;
-      height: 34px;
+.header{
+  display:grid;
+  grid-template-columns: 2fr 1fr;
+  margin: 35px 0 45px 0;
+
+  &-logo{
+    width: 110px;
+    cursor: pointer;
+  }
+
+  &-left-section{
+    display: flex;
+    gap : 0 20px;
+  }
+
+  &-search-wrapper{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 70%;
+
+    .search{
+      &-input{
+        width: 55%;
+        height: 100%;
+        position: relative;
+        font-size: 14px;
+        padding: 10px 15px;
+
+        &.pc{
+          padding: 10px 16px;
+          width: 100%;
+        }
+
+        &.mobile{
+          display: none;
+        }
+      }
+
+      &-button{
+        &.pc{
+          margin-right: 15px;
+          position: absolute;
+          z-index: 999;
+        }
+
+        &.mobile{
+          display: none;
+        }
+      }
     }
   }
-}
 
-.header-search-wrapper {
-  position: relative;
-  max-width: 479px;
-  width: 100%;
-}
-
-.header-left {
-  width: 100%;
-  display: flex;
-}
-
-.header-search-input {
-  max-width: 479px;
-  width: 100%;
-  height: 40px;
-  font-size: 16px;
-  padding: 11px 15px;
-  @media (max-width: 706px) {
-    display: none;
-  }
-}
-.header-search-input_mobile {
-  position: absolute;
-  left: 100px;
-  top: 100px;
-  max-width: 255px;
-  width: 100%;
-  height: 30px;
-  font-size: 9px;
-  padding: 11px 15px;
-  &::placeholder {
-    font-size: 13px;
-  }
-  @media (min-width: 706px) {
-    display: none;
-  }
-}
-
-.search-button_pc {
-  top: 6px;
-  left: 93%;
-  position: absolute;
-  @media (max-width: 706px) {
-    display: none;
-  }
-}
-.search-button_mobile {
-  top: 3px;
-  left: 93%;
-  position: absolute;
-  @media (min-width: 706px) {
-    display: none;
-  }
-  @media (max-width: 706px) {
-    position: static;
-    margin-left: auto;
-  }
-}
-
-.header-widget-wrapper {
-  position: relative;
-  max-width: 216px;
-  width: 100%;
-  /* line-height: 150px; */
-  border: none;
-}
-/* =====================================로그인===================================== */
-
-.widget-islogin_pc {
-  margin: 0px;
-  padding: 0px;
-  width: 100%;
-  min-width: 190px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-grow: 1;
-  @media (max-width: 706px) {
-    display: none;
-  }
-}
-
-.sale-area {
-  display: flex;
-  align-items: center;
-}
-
-.userprofile-area {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 0px;
-}
-
-.widget-islogin_mobile {
-  align-items: center;
-  display: none;
-  max-width: 61px;
-  width: 100%;
-  font-size: 13px;
-  color: rgba(0, 0, 0, 0.9);
-  @media (max-width: 706px) {
+  &-right-section{
     display: flex;
-  }
-}
-/* =====================================비로그인===================================== */
-.wiget-login {
-}
-
-.widget-login_pc {
-  margin: 0px;
-  padding: 0px;
-  width: 100%;
-  min-width: 147px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  @media (max-width: 706px) {
-    display: none;
-  }
-}
-
-.widget-login_mobile {
-  display: none;
-  font-family: noto-sans;
-  cursor: pointer;
-  max-width: 61px;
-  width: 100%;
-  height: 31px;
-  padding: 8px 12px;
-  border: solid 1px black;
-  border-radius: 3px;
-  background-color: #ffffff;
-  font-size: 13px;
-  color: rgba(0, 0, 0, 0.9);
-
-  @media (max-width: 706px) {
-    display: flex;
-    justify-content: center;
-  }
-}
-
-.widget-login_pc-sale{
-  width: 100%;
-  height: 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.widget-login_pc-user{
-  display: flex;
-    width: 100%;
-    gap: 0 6%;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-}
+  }
 
-.sidebar-wrapper{
-  display: flex;
-}
+  &-login-wrapper{
+    .login{
+      &-container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-.widget-login_mobile_text {
-  font-size: 13px;
-  min-width: 39px;
-}
+        &.mobile{
+          display: none;
+        }
 
-.sidear-list {
-  display: flex;
-  z-index: 100;
-  position: absolute;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 8px;
-  width: 90px;
-  height: 109px;
-  border: solid black;
-  font-size: 13px;
-  top: 30px;
-  left: 40px;
+        .sale{
+          &-container{
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+          }
 
-  @media (max-width: 706px) {
-    z-index: 100;
-    left: -91px;
-    height: 109px;
+          &-btn_icn{
+            width: 24px;
+            height: 24px;
+          }
+
+          &-btn_text{
+            background-color: transparent;
+          }
+        }
+
+        .user{
+          &-container{
+            display: flex;
+            justify-content: flex-end;
+            gap: 0 3px;
+          }
+
+          &-btn{
+            &_img{
+              width: 28px;
+              height: 28px;
+              cursor: pointer;
+            }
+
+            &_text{
+              background-color: transparent;
+              max-width: 100px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+
+            &_dialog-icn{
+              width: 10px;
+            }
+          }
+        }
+
+        .search-btn_icn{
+          width: 30px;
+        }
+      }
+    }
+
+    .user-btn_dialog{
+      font-size: 13px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 0;
+      position: absolute;
+      z-index: 999;
+      top: 70px;
+      right: 3%;
+    }
+  }
+
+  &-logout-wrapper{
+    .logout{
+      &-container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .search-btn_icn{
+          display: none;
+        }
+      }
+
+      &-btn_text{
+        background-color: transparent;
+        font-size: 14px;
+
+        &::before{
+          content:'로그인 / 회원가입'
+        }
+      }
+    }
+
+  }
+
+  @include tablet{
+    grid-template-columns: 2fr 1fr;
+    margin : 30px 0 40px 0;
+
+    &-logo{
+      width: 100px;
+    }
+
+    &-search-wrapper{
+      display: flex;
+      justify-content:flex-start;
+      width: 100%;
+
+      .search{
+        &-input{
+          width: 100%;
+          display:block;
+
+          &.pc{
+            display: none;
+          }
+
+          &.mobile{
+            display: block;
+          }
+        }
+
+        &-button{
+          &.pc{
+            display: none;
+          }
+        }
+      }
+    }
+
+    &-login-wrapper{
+      .login{
+        &-container{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          &.pc{
+            display: none;
+          }
+
+          &.mobile{
+            display: flex;
+            gap: 0 5px;
+          }
+
+          .search-btn_icn{
+            margin-top: 2px;
+            margin-left: 2px;
+          }
+
+          .user-btn_dialog_icn{
+            margin-top: 5px;
+          }
+        }
+      }
+    }
+
+    .logout{
+      &-container{
+        gap: 0 8px;
+
+        .search-btn_icn{
+          display: block;
+        }
+      }
+
+      &-btn_icn{
+        display: none;
+      }
+
+      &-btn_text{
+        border: 1px solid black;
+        padding: 5px 10px;
+
+        &::before{
+          content: '로그인';
+        }
+      }
+    }
+  }
+
+  @include mobile{
+    grid-template-columns: 3fr 1fr;
+    margin : 30px 0 40px 0;
+
+    &-logo{
+      width: 100px;
+    }
+
+    &-search-wrapper{
+      display: flex;
+      justify-content:flex-start;
+      width: 100%;
+
+      .search{
+        &-input{
+          width: 100%;
+
+          &.pc{
+            display: none;
+          }
+
+          &.mobile{
+            display: block;
+          }
+        }
+
+        &-button{
+          &.pc{
+            display: none;
+          }
+        }
+      }
+    }
+
+    &-login-wrapper{
+      .login{
+        &-container{
+
+          &.pc{
+            display: none;
+          }
+
+          &.mobile{
+            display: flex;
+            gap: 0 5px;
+          }
+
+          .search-btn_icn{
+            margin-top: 2px;
+            margin-left: 2px;
+          }
+
+          .user-btn_dialog_icn{
+            margin-top: 5px;
+          }
+        }
+      }
+    }
+
+    .logout{
+      &-container{
+        gap: 0 8px;
+
+        .search-btn_icn{
+          display: block;
+        }
+      }
+
+      &-btn_icn{
+        display: none;
+      }
+
+      &-btn_text{
+        border: 1px solid black;
+        padding: 5px 10px;
+
+        &::before{
+          content: '로그인';
+        }
+      }
+    }
   }
 }
