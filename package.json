@@ -18,6 +18,7 @@
     "axios": "^0.24.0",
     "formik": "^2.2.9",
     "next": "12.0.4",
+    "nextjs-progressbar": "^0.0.13",
     "node-sass": "^6.0.1",
     "react": "17.0.2",
     "react-bus": "^3.0.0",
