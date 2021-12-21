@@ -84,6 +84,8 @@ const Post = ({ postId, data }) => {
   }, [state, checkOfferOptions])
 
   const dialogClick = e => {
+    setItem('postData', postData)
+    setItem('imgUrl', imgUrls)
     e.stopPropagation()
     setDialogVisible(true)
   }
@@ -187,6 +189,7 @@ const Post = ({ postId, data }) => {
                     }}
                     src="https://picsum.photos/200"
                     ratio="r"
+                    isPost
                   />
                   {finishTrade ? (
                     <div className="finish-message">거래완료</div>
