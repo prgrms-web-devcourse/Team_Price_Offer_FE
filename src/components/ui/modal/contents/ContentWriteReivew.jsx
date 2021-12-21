@@ -84,10 +84,15 @@ const ContentWriteReivew = ({
           swal({
             // className: 'finish-alert',
             title: '해당 상품의 거래가 종료되었습니다!',
-            icon: 'sucess',
+            icon: 'success',
             button: '확인',
+          }).then(async chat => {
+            if (chat) {
+              router.reload(`/post/${postId}`)
+            } else {
+            }
+            router.reload(`/post/${postId}`)
           })
-          router.reload(`/post/${postId}`)
         } else {
           swal({
             // className: 'finish-alert',
