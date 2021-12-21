@@ -8,6 +8,7 @@ import { timeForToday } from '@utils/functions'
 import router from 'next/router'
 import useStorage from '@hooks/useStorage'
 import WriteReview from '@components/ui/modal/ModalWriteReview'
+import swal from 'sweetalert'
 
 const { getItem } = useStorage()
 
@@ -37,12 +38,25 @@ const ContentConfirmBuyer = ({ postId }) => {
   const confirmClick = async () => {
     const res = await articleApi.selectOffer(offerId)
     if (Number(res.code) === 200) {
-      alert('구매자 확정 완료!')
+      swal('구매자를 확정했어요!! 이제 리뷰를 남겨 거래를 종료시켜보아요', {
+        icon: 'success',
+      })
       setReviewVisible(true)
     } else {
-      alert(res.message)
+      swal({
+        // className: 'finish-alert',
+        title: '해당 상품은 이미 선택된 offer가 존재합니다.',
+        icon: 'error',
+        button: '확인',
+      })
       if (res.message === '이미 선택된 offer가 존재합니다.') {
-        alert('리뷰를 작성해서 거래를 종료하세요!')
+        swal(
+          '이미 선택된 offer가 존재합니다. 리뷰를 남겨 거래를 종료시키세요!',
+          {
+            icon: 'error',
+            button: '확인',
+          },
+        )
         setReviewVisible(true)
         return
       }

@@ -6,6 +6,7 @@ import validate from '@utils/validation'
 import { articleApi } from '@api/apis'
 import useStorage from '@hooks/useStorage'
 import router from 'next/router'
+import swal from 'sweetalert'
 
 const { getItem } = useStorage()
 
@@ -24,10 +25,21 @@ const ContentOffer = props => {
         },
       })
       if (Number(res.code) === 200) {
-        alert(`${values.offerPrice} 원 오퍼 완료!.`)
-        router.reload(`/post/${postId}`)
+        swal({
+          title: `${values.offerPrice} 원 오퍼 완료!.`,
+          icon: 'success',
+        }).then(async chat => {
+          if (chat) {
+            router.reload(`/post/${postId}`)
+          } else {
+          }
+          router.reload(`/post/${postId}`)
+        })
       } else {
-        alert(res.message)
+        swal({
+          title: res.message,
+          icon: 'error',
+        })
       }
     },
   })

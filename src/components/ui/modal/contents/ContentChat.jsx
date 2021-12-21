@@ -6,6 +6,7 @@ import { articleApi, messageApi } from '@api/apis'
 import { useFormik } from 'formik'
 import router from 'next/router'
 import validate from '@utils/validation'
+import swal from 'sweetalert'
 
 const ContentChat = ({ postId, offerId }) => {
   const [postData, setPostData] = useState([{}])
@@ -44,10 +45,17 @@ const ContentChat = ({ postId, offerId }) => {
         },
       })
       if (Number(res.code) === 200) {
-        alert(`${nickname} 님께 쪽지를 보냈습니다. 쪽지함에서 확인해 보세요!`)
-        router.reload(`/post/${postId}`)
+        swal({
+          title: `${nickname} 님께 쪽지를 보냈습니다. 쪽지함에서 확인해 보세요!`,
+          icon: 'success',
+          button: '네',
+        })
       } else {
-        alert(res.message)
+        swal({
+          title: `${res.message}`,
+          icon: 'error',
+          button: '네',
+        })
       }
     },
   })
