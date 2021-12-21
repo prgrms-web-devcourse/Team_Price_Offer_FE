@@ -79,7 +79,9 @@ const BackgroundDIM = styled.div`
 const ModalContainer = styled.div`
   position: fixed;
   background-color: white;
-  width: 404px;
+  width: 90vw;
+  min-width: 350px;
+  max-width: 400px;
   height: 500px;
   border-radius: 10px;
   padding: 60px 40px 50px 40px;
