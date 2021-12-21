@@ -3,7 +3,6 @@ import Avatar from '@components/templates/Avatar'
 import MessageBox from '@components/templates/Message'
 import IconButton from '@components/templates/IconButton'
 import { FETCH, MESSAGE_CHATTING_EMPTY, CLOSE } from '@utils/constant'
-import { messageApi } from '@api/apis'
 import Image from '@components/templates/Image'
 import Router from 'next/router'
 import { useAuthContext } from '@hooks/useAuthContext'
@@ -11,6 +10,7 @@ import Button from '@components/templates/Button'
 import { useFormik } from 'formik'
 import validate from '@utils/validation'
 import { timeForToday, convertPrice } from '@utils/functions'
+import useApi from '@api/useApi'
 
 const fetchImgurl = FETCH
 
@@ -24,6 +24,7 @@ export const getServerSideProps = async context => {
 }
 
 const MessagePage = ({ roomId }) => {
+  const { messageApi } = useApi()
   const [messageRoomInfo, setMessageRoomInfo] = useState(null)
   const [messageBoxList, setMessageBoxList] = useState()
   const [messageList, setMessageList] = useState(null)
