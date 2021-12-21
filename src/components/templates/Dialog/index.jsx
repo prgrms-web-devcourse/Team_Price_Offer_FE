@@ -22,12 +22,7 @@ const Dialog = ({
   const { handleLogout, state } = useAuthContext()
   const { id } = state.userData
   const roomId = null
-  // const router = useRouter
-
-  // const handleClickItem = async code => {
-  //   console.log(code)
-  //   console.log(id)
-  const { getItem, setItem, clear } = useStorage()
+  const { getItem, setItem, removeItem, clear } = useStorage()
 
   const handleClickItem = async code => {
     if (code === 'profile') {
@@ -77,6 +72,8 @@ const Dialog = ({
         dangerMode: true,
       }).then(async deletPost => {
         if (deletPost) {
+          removeItem('postData')
+          removeItem('imgUrl')
           const res = await articleApi.deleteArticle(getPostId)
           if (Number(res.code) === 200) {
             swal({
@@ -84,8 +81,14 @@ const Dialog = ({
               title: '게시글이 정상적으로 삭제되었어요!',
               icon: 'success',
               button: '네',
+            }).then(confirm => {
+              if (confirm) {
+                // router.reload('/')
+                router.push('/')
+              } else {
+                router.push('/')
+              }
             })
-            router.push('/')
           } else {
             swal({
               // className: 'finish-alert',
