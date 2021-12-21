@@ -186,6 +186,32 @@
     &_box-wrapper:not(:first-child) {
       margin-top: 10px;
     }
+
+    &-empty{
+      display: flex;
+      justify-content: center;
+      /* align-items: center; */
+      height: 100%;
+
+      .chat-empty{
+        &_container{
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap : 10px 0;
+        }
+
+        &_icn{
+          width: 100px;
+        }
+
+        &_text{
+          color: $FONT_GRAY_COLOR;
+          font-size: 16px;
+        }
+      }
+    }
   }
 
   .message-textarea-wrapper {

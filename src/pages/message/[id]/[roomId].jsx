@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react'
 import Avatar from '@components/templates/Avatar'
 import MessageBox from '@components/templates/Message'
 import IconButton from '@components/templates/IconButton'
-import { FETCH } from '@utils/constant/icon'
+import { FETCH, MESSAGE_CHATTING_EMPTY } from '@utils/constant'
 import { messageApi } from '@api/apis'
 import Image from '@components/templates/Image'
 import Router from 'next/router'
@@ -183,7 +183,7 @@ const MessagePage = ({ roomId }) => {
         </div>
       </div>
       <div className="message-chat-wrapper">
-        {messageList && messageRoomInfo && (
+        {messageList && messageRoomInfo ? (
           <>
             <div className="message-header chat">
               <h2 className="message-header-title">
@@ -326,6 +326,17 @@ const MessagePage = ({ roomId }) => {
               </div>
             </div>
           </>
+        ) : (
+          <div className="message-chat-empty">
+            <div className="chat-empty_container">
+              <img
+                src={MESSAGE_CHATTING_EMPTY}
+                alt="chat-empty_icn"
+                className="chat-empty_icn"
+              />
+              <div className="chat-empty_text">쪽지할 상대를 선택해주세요.</div>
+            </div>
+          </div>
         )}
       </div>
     </div>
