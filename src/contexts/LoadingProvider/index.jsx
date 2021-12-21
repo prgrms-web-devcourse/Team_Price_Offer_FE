@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useEffect, useReducer } from 'react'
+import React, { createContext, useReducer } from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import Spinner from '@components/templates/Spinner'
@@ -42,7 +42,6 @@ const SpinnerContainer = styled.div`
   align-items: center;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
   z-index: 99999;
 `
 
