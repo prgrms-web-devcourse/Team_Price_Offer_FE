@@ -2,9 +2,12 @@ import ICONBUTTON from '@components/templates/IconButton'
 import BANNER from '@components/templates/Banner'
 import GoodsList from '@components/ui/GoodsList'
 import {
-  MAIN_BANNER1,
-  MAIN_BANNER2,
-  MAIN_BANNER3,
+  MAIN_BANNER1_PC,
+  MAIN_BANNER2_PC,
+  MAIN_BANNER3_PC,
+  MAIN_BANNER1_MOBILE,
+  MAIN_BANNER2_MOBILE,
+  MAIN_BANNER3_MOBILE,
   CATEGORY_BEST_GOODS,
   CATEGORY_BOOKS,
   CATEGORY_FORNITURE,
@@ -19,6 +22,7 @@ import {
 import { useCallback, useEffect, useState } from 'react'
 import { articleApi } from '@api/apis'
 import { useAuthContext } from '@hooks/useAuthContext'
+import { debounce } from 'lodash'
 
 const Main = () => {
   const categoryList = [
@@ -76,6 +80,8 @@ const Main = () => {
 
   const { state } = useAuthContext()
 
+  const [isPcSize, setIsPcSize] = useState(true)
+
   const [goodsList, setGoodsList] = useState({
     elements: [],
     totalElementCount: 0,
@@ -86,6 +92,17 @@ const Main = () => {
     page: 1,
     size: 10,
   })
+
+  const imgUrlPc = [MAIN_BANNER1_PC, MAIN_BANNER2_PC, MAIN_BANNER3_PC]
+  const imgUrlMobile = [
+    MAIN_BANNER1_MOBILE,
+    MAIN_BANNER2_MOBILE,
+    MAIN_BANNER3_MOBILE,
+  ]
+
+  const handleResizeBrowser = debounce(() => {
+    setIsPcSize(window.innerWidth > 700)
+  }, 500)
 
   const fetchGoodsList = useCallback(async () => {
     const res = state.token
@@ -99,14 +116,18 @@ const Main = () => {
   }, [])
 
   useEffect(async () => {
+    window.addEventListener('resize', handleResizeBrowser)
     await fetchGoodsList()
+    return () => {
+      window.removeEventListener('resize', handleResizeBrowser)
+    }
   }, [])
 
   return (
     <div className="main">
       <div className="banner-wrapper">
         <BANNER
-          imgUrls={[MAIN_BANNER1, MAIN_BANNER2, MAIN_BANNER3]}
+          imgUrls={isPcSize ? imgUrlPc : imgUrlMobile}
           style={{
             width: '100%',
             textAlign: 'center',
