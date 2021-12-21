@@ -7,12 +7,11 @@ import SelectBox from '@components/templates/Selectbox'
 import validate from '@utils/validation'
 import ImageUploader from '@components/templates/ImageUploader'
 import router from 'next/router'
-import { articleApi, imgApi } from '@api/apis'
+import useApi from '@api/useApi'
 import { CATEGORIES } from '@data/dummy/categories'
 import { ORDERWAY } from '@data/dummy/orderway'
 import { PRODUCT_STATUS } from '@data/dummy/productstatus'
 import { useFormik } from 'formik'
-import Spinner from '@components/templates/Spinner'
 import useStorage from '@hooks/useStorage'
 
 const { getItem, removeItem } = useStorage()
@@ -26,11 +25,11 @@ export const getServerSideProps = async context => {
 }
 
 const posting = ({ postId }) => {
+  const { articleApi, imgApi } = useApi()
   const [defaultData, setDefaultData] = useState(
     JSON.parse(getItem('postData')),
   )
   const [defaultImgs, setDefaultImgs] = useState(JSON.parse(getItem('imgUrl')))
-  const [isLoading, setIsLoading] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
@@ -64,7 +63,6 @@ const posting = ({ postId }) => {
   const imgRef3 = useRef(null)
 
   const handleChange = async e => {
-    setIsLoading(true)
     const formData = new FormData()
     const imageFile = e.target.files[0]
     formData.append('image', imageFile)
@@ -73,17 +71,14 @@ const posting = ({ postId }) => {
     if (Number(res.code) === 200) {
       if (e.target.id === 'imgRef1') {
         imgRef1.current.src = res.data?.imageUrl
-        setIsLoading(false)
         return
       }
       if (e.target.id === 'imgRef2') {
         imgRef2.current.src = res.data?.imageUrl
-        setIsLoading(false)
         return
       }
       if (e.target.id === 'imgRef3') {
         imgRef3.current.src = res.data?.imageUrl
-        setIsLoading(false)
         return
       }
     } else {
@@ -114,8 +109,6 @@ const posting = ({ postId }) => {
     },
     validate,
     onSubmit: async values => {
-      setIsLoading(true)
-
       const imgUrl1 =
         imgRef1.current.src === imgSrc || null ? 'no-Img' : imgRef1.current.src
       const imgUrl2 =
@@ -124,13 +117,13 @@ const posting = ({ postId }) => {
         imgRef3.current.src === imgSrc || null ? 'no-Img' : imgRef3.current.src
 
       const userInfo = {
-        id: postId,
+        id: Number(postId),
         title: values.title,
         content: values.content,
-        categoryCode: values.category,
+        categoryCode: Number(values.category),
         tradeArea: values.tradeArea,
         quantity: values.quantity,
-        tradeMethodCode: values.tradeMethod,
+        tradeMethodCode: Number(values.tradeMethod),
         productStatusCode: values.productStatus,
         price: values.price,
         imageUrls: [imgUrl1, imgUrl2, imgUrl3],
@@ -138,7 +131,6 @@ const posting = ({ postId }) => {
       const res = await articleApi.editArticle(userInfo)
       console.log(userInfo)
       if (Number(res.code) === 200) {
-        setIsLoading(false)
         alert('게시글 등록 완료')
         router.push(`/post/${res.data.id}`)
       }
@@ -147,9 +139,6 @@ const posting = ({ postId }) => {
 
   return (
     <div className="posting">
-      <div className="page-spinner-wrapper">
-        <Spinner loading={isLoading} size={70} />
-      </div>
       {isMounted && (
         <>
           <div className="posting-title">상품정보</div>

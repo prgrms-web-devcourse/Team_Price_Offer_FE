@@ -46,7 +46,7 @@ const Like = () => {
     })
   }
 
-  const fetchUserLikes = useCallback(async () => {
+  const fetchUserLikes = async () => {
     const tradeStatusCode = goodsListStatus.isSelling ? 4 : 8
     const res = await userApi.getUserLikeArticles({
       tradeStatusCode,
@@ -61,7 +61,7 @@ const Like = () => {
       elements: res.data.elements,
       totalElementCount: res.data.pageInfo.totalElementCount,
     })
-  }, [])
+  }
 
   return (
     <div className="result-container">
@@ -90,11 +90,7 @@ const Like = () => {
         <span className="result-lineup_item">높은 가격순</span>
       </div>
       <div className="result-content">
-        <GoodsList
-          haveAuth
-          goodsList={goodsList.elements}
-          className="sale-goodList"
-        />
+        <GoodsList goodsList={goodsList.elements} className="sale-goodList" />
       </div>
       <Pagination
         size={checkGoodsOptions.params.size}

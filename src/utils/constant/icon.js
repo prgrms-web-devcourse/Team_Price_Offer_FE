@@ -1,4 +1,5 @@
 export const LOGO = require('@assets/images/logo.svg').default.src
+export const CLOSE = require('@assets/images/icon/close.svg').default.src
 export const CATEGORY_BEST_GOODS =
   require('@assets/images/icon/category_bestgoods.svg').default.src
 export const CATEGORY_BOOKS = require('@assets/images/icon/category_book.svg')

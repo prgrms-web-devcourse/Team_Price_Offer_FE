@@ -19,7 +19,7 @@ const validate = values => {
       } else if (
         value === 'minPrice' ||
         value === 'maxPrice' ||
-        value === 'categoryId' ||
+        value === 'categoryCode' ||
         value === 'tradeMethodCode'
       ) {
         return

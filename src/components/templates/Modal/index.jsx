@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import useClickAway from '@hooks/useClickAway'
 import ReactDOM from 'react-dom'
+import { CLOSE } from '@utils/constant'
+import IconButton from '../IconButton'
 
 const Modal = ({
   style,
@@ -16,8 +18,18 @@ const Modal = ({
   if (typeof window !== 'object') {
     return null
   }
+
+  const closeIconStyle = {
+    position: 'absolute',
+    top: '20px',
+    right: '25px',
+    width: '15px',
+    height: '15px',
+  }
+
   const containerStyle = useMemo(
     () => ({
+      position: 'relative',
       width,
       height,
     }),
@@ -43,7 +55,17 @@ const Modal = ({
         ref={ref}
         style={{ ...containerStyle, ...style }}
         className={className}>
-        {children}
+        <>
+          {onClose && (
+            <IconButton
+              src={CLOSE}
+              alt="close modal"
+              style={closeIconStyle}
+              onClick={onClose}
+            />
+          )}
+          {children}
+        </>
       </ModalContainer>
     </BackgroundDIM>,
     topElement,
@@ -79,12 +101,19 @@ const BackgroundDIM = styled.div`
 const ModalContainer = styled.div`
   position: fixed;
   background-color: white;
-  width: 404px;
+  width: 90vw;
+  min-width: 350px;
+  max-width: 400px;
   height: 500px;
   border-radius: 10px;
   padding: 60px 40px 50px 40px;
   box-shadow: 0 3px 20px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
+
+  button {
+    color: #fff;
+    background: #f74f2a;
+  }
 `
 
 export default Modal

@@ -3,10 +3,6 @@
 .modal {
   height: auto !important;
 
-  &.signup{
-    padding : 30px 40px 15px 40px;
-  }
-
   .modal-header {
     text-align: center;
 
@@ -30,13 +26,16 @@
       margin-top: 40px;
       margin-bottom: 40px;
 
+      h3 {
+        margin-bottom: 10px;
+      }
+
       &.login {
         margin-bottom: 0;
       }
       input {
         width: 100%;
         height: 40px;
-        margin-top: 10px;
         margin-right: 10px;
         border-radius: 3px;
         font-size: 13px;
@@ -71,7 +70,7 @@
 
       &-photo {
         position: absolute;
-        right: 105px;
+        right: 32%;
         bottom: 5px;
         width: 30px;
         height: 30px;
@@ -86,7 +85,7 @@
       }
 
       &-input:not(:first-child) {
-        margin-top: 25px;
+        margin-top: 20px;
       }
 
       &-input.email {
@@ -116,7 +115,7 @@
       }
 
       &-input.password p{
-        margin-top: 6px;
+        margin-bottom: 10px;
         font-size: 13px;
         color: $FONT_GRAY_COLOR;
 
@@ -183,7 +182,7 @@
   }
 
   .modal-footer {
-    margin-top: 30px;
+    margin-top: 20px;
     text-align: center;
     line-height: 20px;
 
@@ -209,8 +208,9 @@
   margin-top: 5px;
   font-size: 14px;
   min-height: 14px;
+  margin-top: 10px;
 
   &.login-password{
-    margin-bottom: 40px;
+    margin-bottom: 20px;
   }
 }
