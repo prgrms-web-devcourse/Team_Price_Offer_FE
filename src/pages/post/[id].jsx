@@ -189,6 +189,7 @@ const Post = ({ postId, data }) => {
                     }}
                     src="https://picsum.photos/200"
                     ratio="r"
+                    isPost
                   />
                   {finishTrade ? (
                     <div className="finish-message">거래완료</div>
