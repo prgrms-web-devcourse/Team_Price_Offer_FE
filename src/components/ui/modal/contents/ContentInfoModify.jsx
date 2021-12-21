@@ -14,8 +14,8 @@ const ContentInfoModify = () => {
 
   const formik = useFormik({
     initialValues: {
-      nickname: userData.nickname,
-      address: userData.address,
+      nickname: userData?.nickname || '',
+      address: userData?.address || '',
     },
     validate,
     onSubmit: async values => {

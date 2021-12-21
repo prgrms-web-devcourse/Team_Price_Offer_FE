@@ -156,6 +156,7 @@
         }
 
         &-lineup-box {
+            display: none;
             text-align: right;
             margin: 30px 0;
         }
@@ -166,6 +167,10 @@
             &.selected {
                 color: $PRIMARY_COLOR;
             }
+        }
+
+        &-content {
+            margin-top: 30px;
         }
     }
 
