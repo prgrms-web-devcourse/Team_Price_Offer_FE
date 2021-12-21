@@ -7,6 +7,7 @@ import useStorage from '@hooks/useStorage'
 import { articleApi } from '@api/apis'
 import { useRouter } from 'next/dist/client/router'
 import { useLoadingContext } from '@hooks/useLoadingContext'
+import swal from 'sweetalert'
 
 const Dialog = ({
   style,
@@ -49,7 +50,13 @@ const Dialog = ({
 
     if (code === 'modify') {
       if (isFinishtrade) {
-        alert('거래가 완료된 게시글은 수정 할 수 없어요!')
+        swal({
+          // className: 'finish-alert',
+          title: '거래가 완료된 게시글은 수정 할 수 없어요!',
+          text: '다른 상품을 등록하거나 찾아볼까요?',
+          icon: 'error',
+          button: '네',
+        })
         onClose && onClose()
         return
       }
@@ -61,15 +68,34 @@ const Dialog = ({
 
     if (code === 'delete') {
       const getPostId = getItem('postId').replaceAll('"', '')
-      if (confirm('정말 삭제하시겠습니까?')) {
-        const res = await articleApi.deleteArticle(getPostId)
-        if (Number(res.code) === 200) {
-          alert('게시글이 삭제 되었습니다.')
-          router.push('/')
-        } else {
-          alert(res.message)
+
+      swal({
+        title: '정말 삭제할까요?',
+        text: '삭제한 게시물은 되돌릴 수 없어요',
+        icon: 'warning',
+        buttons: true,
+        dangerMode: true,
+      }).then(async deletPost => {
+        if (deletPost) {
+          const res = await articleApi.deleteArticle(getPostId)
+          if (Number(res.code) === 200) {
+            swal({
+              // className: 'finish-alert',
+              title: '게시글이 정상적으로 삭제되었어요!',
+              icon: 'success',
+              button: '네',
+            })
+            router.push('/')
+          } else {
+            swal({
+              // className: 'finish-alert',
+              title: res.message,
+              icon: 'error',
+              button: '네',
+            })
+          }
         }
-      }
+      })
     }
   }
 

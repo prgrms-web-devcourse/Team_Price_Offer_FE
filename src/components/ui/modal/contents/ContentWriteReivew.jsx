@@ -7,6 +7,7 @@ import { useFormik } from 'formik'
 import { useRouter } from 'next/router'
 import { useBus } from 'react-bus'
 import validate from '@utils/validation'
+import swal from 'sweetalert'
 import {
   REVIEW_SOSO,
   REVIEW_GOOD,
@@ -62,8 +63,12 @@ const ContentWriteReivew = ({
       })
 
       if (Number(res.code) === 200) {
-        alert(`${userNickname} 님께 거래후기를 남겼습니다!`)
-
+        swal({
+          // className: 'finish-alert',
+          title: `${userNickname} 님께 거래후기를 남겼습니다!`,
+          icon: 'sucess',
+          button: '확인',
+        })
         if (!needChangeStatus && router.pathname.includes('profile')) {
           onClose && onClose()
           bus.emit('fetchUserReview', null)
@@ -76,13 +81,28 @@ const ContentWriteReivew = ({
           },
         })
         if (Number(resTradeStatus.code) === 200) {
-          alert('해당 상품의 거래가 종료되었습니다!')
+          swal({
+            // className: 'finish-alert',
+            title: '해당 상품의 거래가 종료되었습니다!',
+            icon: 'sucess',
+            button: '확인',
+          })
           router.reload(`/post/${postId}`)
         } else {
-          alert(resTradeStatus.message)
+          swal({
+            // className: 'finish-alert',
+            title: resTradeStatus.message,
+            icon: 'error',
+            button: '확인',
+          })
         }
       } else {
-        alert(res.message)
+        swal({
+          // className: 'finish-alert',
+          title: res.message,
+          icon: 'error',
+          button: '확인',
+        })
       }
     },
   })

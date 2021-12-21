@@ -13,6 +13,7 @@ import ModalConfirmBuyer from '@components/ui/modal/ModalConfirmBuyer'
 import ModalChat from '@components/ui/modal/ModalChat'
 import Pagination from '@components/templates/Pagination'
 import Like from '@components/ui/InPostToggle'
+import swal from 'sweetalert'
 import { OFFER, OPTIONS } from '@utils/constant/icon'
 import useApi from '@api/useApi'
 import { useAuthContext } from '@hooks/useAuthContext'
@@ -93,7 +94,13 @@ const Post = ({ postId, data }) => {
 
   const handleChange = async e => {
     if (finishTrade) {
-      alert('해당 상품은 이미 거래가 완료되었습니다.')
+      swal({
+        // className: 'finish-alert',
+        title: '해당 상품은 거래가 종료되었어요!',
+        text: '다른 상품을 등록하거나 찾아볼까요?',
+        icon: 'error',
+        button: '네',
+      })
       e.target.value = await postData.tradeStatus.code
       return
     }
@@ -102,58 +109,115 @@ const Post = ({ postId, data }) => {
 
     if (code === 2) {
       if (offerList.elements.length === 0) {
-        alert('오퍼가 없는 게시글은 예약을 할 수 없어요')
+        swal({
+          // className: 'finish-alert',
+          title: '오퍼가 없는 게시글은 예약을 할 수 없어요!',
+          text: '아직 오퍼가 없어요',
+          icon: 'error',
+          button: '네',
+        })
         e.target.value = await postData.tradeStatus.code
         return
       }
       // 예약중
-      if (confirm('예약중으로 변경하시겠습니까?')) {
-        const res = await articleApi.changeTradeStatus({
-          articleId: getPostId,
-          option: {
-            code: 2,
-          },
-        })
-        setTradeStatus(false)
-        setFinishTrade(false)
-      } else {
-        e.target.value = await postData.tradeStatus.code
-      }
+      swal({
+        title: '예약중으로 변경하시겠습니까?',
+        text: '판매중에서 예약중으로 변경하면 다른 사람의 오퍼를 받지 못해요',
+        icon: 'warning',
+        buttons: true,
+        dangerMode: true,
+      }).then(async changeStatus => {
+        if (changeStatus) {
+          const res = await articleApi.changeTradeStatus({
+            articleId: getPostId,
+            option: {
+              code: 2,
+            },
+          })
+          swal('상품이 예약중으로 변경되었어요!', {
+            icon: 'success',
+          })
+          setTradeStatus(false)
+          setFinishTrade(false)
+        } else {
+          swal('변경을 취소하셨어요!')
+          e.target.value = await postData.tradeStatus.code
+        }
+      })
     }
     if (code === 4) {
-      // 판매중
-      if (confirm('예약을 취소하고 판매중으로 변경하시겠습니까?')) {
-        const res = await articleApi.changeTradeStatus({
-          articleId: getPostId,
-          option: {
-            code: 4,
-          },
-        })
-        setTradeStatus(true)
-        setFinishTrade(false)
-      } else {
-        e.target.value = await postData.tradeStatus.code
-      }
+      swal({
+        title: '예약을 취소하고 판매중으로 변경할까요?',
+        text: '상품을 판매중으로 바꿔서 오퍼를 다시 받아요',
+        icon: 'warning',
+        buttons: true,
+        dangerMode: true,
+      }).then(async changeStatus => {
+        if (changeStatus) {
+          const res = await articleApi.changeTradeStatus({
+            articleId: getPostId,
+            option: {
+              code: 4,
+            },
+          })
+          setTradeStatus(true)
+          setFinishTrade(false)
+          swal('상품이 판매중으로 변경되었어요!', {
+            icon: 'success',
+          })
+        } else {
+          swal('변경을 취소하셨어요!')
+          e.target.value = await postData.tradeStatus.code
+        }
+      })
     }
     if (code === 8) {
       // 거래완료
       if (offerList.elements.length === 0) {
-        alert('오퍼가 없는 게시글은 거래를 완료 할 수 없어요')
+        swal({
+          // className: 'finish-alert',
+          title: '오퍼가 없는 게시글은 거래를 완료 할 수 없어요',
+          text: '아직 오퍼가 없어요',
+          icon: 'error',
+          button: '네',
+        })
         e.target.value = await postData.tradeStatus.code
         return
       }
-      if (confirm('거래완료를 누르면 되돌릴 수 없습니다. 계속하시겠습니까?')) {
-        setTradeStatus(false)
-        setConfirmVisible(true)
-      } else {
-        e.target.value = await postData.tradeStatus.code
-      }
+      swal({
+        title: '거래완료를 누르면 되돌릴 수 없어요. 계속할까요?',
+        text: '구매자를 확정하고 판매후기를 써서 거래를 종료해요',
+        icon: 'warning',
+        buttons: true,
+        dangerMode: true,
+      }).then(async changeStatus => {
+        if (changeStatus) {
+          setTradeStatus(false)
+          setConfirmVisible(true)
+        } else {
+          swal('변경을 취소하셨어요!')
+          e.target.value = await postData.tradeStatus.code
+        }
+      })
+      // if (confirm('거래완료를 누르면 되돌릴 수 없습니다. 계속하시겠습니까?')) {
+      //   setTradeStatus(false)
+      //   setConfirmVisible(true)
+      // } else {
+      //   e.target.value = await postData.tradeStatus.code
+      // }
     }
   }
 
   const chatClick = async (offerId, e) => {
     if (finishTrade) {
-      alert('해당 상품은 이미 거래가 완료되었습니다.')
+      swal({
+        // className: 'finish-alert',
+        title: '해당 상품은 거래가 종료되었어요!',
+        text: '다른 상품을 등록하거나 찾아볼까요?',
+        icon: 'error',
+        button: '네',
+      })
+
       return
     }
     await setChatVisible(true)
@@ -265,15 +329,17 @@ const Post = ({ postId, data }) => {
                 )}
                 <div className="post-info-top">
                   <div className="post-title">{postData.title}</div>
-                  <Like
-                    className="like-button"
-                    style={{
-                      padding: '0px',
-                      height: '25px',
-                      lineHeight: '30px',
-                    }}
-                    isLiked={postData.isLiked}
-                  />
+                  {state.token && (
+                    <Like
+                      className="like-button"
+                      style={{
+                        padding: '0px',
+                        height: '25px',
+                        lineHeight: '30px',
+                      }}
+                      isLiked={postData.isLiked}
+                    />
+                  )}
                 </div>
 
                 <div className="post-price">
@@ -395,41 +461,58 @@ const Post = ({ postId, data }) => {
                   setStartPage={handleOffers}
                 />
                 <div className="offer-state">
-                  {tradeStatus ? (
+                  {state.token ? (
                     <>
-                      {isWriter ? (
-                        <div className="offer-state_ban">
-                          글 작성자는 오퍼를 할 수 없어요!
-                        </div>
-                      ) : (
+                      {tradeStatus ? (
                         <>
-                          <BUTTON
-                            className="offer-button"
-                            onClick={() =>
-                              state.token
-                                ? setVisible(true)
-                                : setLoginVisible(true)
-                            }>
-                            가격 제안하기(
-                            {offerList.offerCountOfCurrentMember}
-                            /2)
-                          </BUTTON>
-                          <ModalOffer
-                            visible={visible}
-                            onClose={() => setVisible(false)}>
-                            오퍼모달
-                          </ModalOffer>
-                          <ModalLogin
-                            visible={loginVisible}
-                            onClose={() => setLoginVisible(false)}>
-                            로그인 모달
-                          </ModalLogin>
+                          {isWriter ? (
+                            <div className="offer-state_ban">
+                              글 작성자는 오퍼를 할 수 없어요!
+                            </div>
+                          ) : (
+                            <>
+                              {offerList.offerCountOfCurrentMember < 2 ? (
+                                <BUTTON
+                                  className="offer-button"
+                                  onClick={() =>
+                                    state.token
+                                      ? setVisible(true)
+                                      : setLoginVisible(true)
+                                  }>
+                                  가격 제안하기(
+                                  {offerList.offerCountOfCurrentMember}
+                                  /2)
+                                </BUTTON>
+                              ) : (
+                                <BUTTON className="offer-ban-button" disabled>
+                                  가격 제안 횟수 초과 (
+                                  {offerList.offerCountOfCurrentMember}/2)
+                                </BUTTON>
+                              )}
+
+                              <ModalOffer
+                                visible={visible}
+                                onClose={() => setVisible(false)}>
+                                오퍼모달
+                              </ModalOffer>
+                              <ModalLogin
+                                visible={loginVisible}
+                                onClose={() => setLoginVisible(false)}>
+                                로그인 모달
+                              </ModalLogin>
+                            </>
+                          )}
                         </>
+                      ) : (
+                        <div className="offer-state_ban">
+                          예약중이거나 판매완료된 물건은 가격제안을 할 수
+                          없어요!
+                        </div>
                       )}
                     </>
                   ) : (
                     <div className="offer-state_ban">
-                      예약중이거나 판매완료된 물건은 가격제안을 할 수 없어요!
+                      로그인한 사용자만 가격제안 할 수 있어요!
                     </div>
                   )}
                 </div>

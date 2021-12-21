@@ -12,6 +12,7 @@ import { CATEGORIES } from '@data/dummy/categories'
 import { ORDERWAY } from '@data/dummy/orderway'
 import { PRODUCT_STATUS } from '@data/dummy/productstatus'
 import { useFormik } from 'formik'
+import swal from 'sweetalert'
 import useStorage from '@hooks/useStorage'
 
 const { getItem, removeItem } = useStorage()
@@ -131,8 +132,23 @@ const posting = ({ postId }) => {
       const res = await articleApi.editArticle(userInfo)
       console.log(userInfo)
       if (Number(res.code) === 200) {
-        alert('게시글 등록 완료')
-        router.push(`/post/${res.data.id}`)
+        swal({
+          title: `게시글 등록 완료!`,
+          icon: 'success',
+          text: '등록한 게시글로 이동합니다.',
+          button: '확인',
+        }).then(async comfirm => {
+          if (comfirm) {
+            router.push(`/post/${res.data.id}`)
+          } else {
+          }
+          router.push(`/post/${res.data.id}`)
+        })
+      } else {
+        swal({
+          title: res.message,
+          icon: 'error',
+        })
       }
     },
   })
