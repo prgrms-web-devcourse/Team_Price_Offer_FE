@@ -107,7 +107,7 @@ GoodsItem.propTypes = {
 const ImgContainer = styled.div`
   position: relative;
   width: 100%;
-  height: 300px;
+  height: 280px;
   margin-bottom: 10px;
   cursor: pointer;
 `
@@ -118,7 +118,7 @@ const ImgMask = styled.div`
   justify-content: center;
   position: absolute;
   width: 100%;
-  height: 300px;
+  height: 280px;
   background: rgba(0, 0, 0, 0.5);
   color: #fff;
   font-size: 17px;
