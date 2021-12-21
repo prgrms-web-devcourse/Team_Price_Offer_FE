@@ -1,11 +1,16 @@
+<div align="center">
+<img width="300" alt="offerlogo" src="https://user-images.githubusercontent.com/55920132/146873000-a3b69146-f06b-44aa-828e-75e36f7a2463.png">
+</div>
+
 # **구매자가 제안해요, Offer! 🤑**
 구매자가 가격을 제안하는 중고거래 플랫폼
 
-## **🤑 Price 팀원 소개**
-- [조주영 (a.k.a 황금주영)](https://github.com/chojooyoung)
-- [신효정 (a.k.a 황금효정)](https://github.com/Shinhyojeong)
-- [손수림 (a.k.a 황금수림)](https://github.com/sonsurim)
-
+## **🤑 Price 팀원 소개**  
+ |정수현 <img src="https://user-images.githubusercontent.com/55920132/120939947-86a46380-c755-11eb-979e-d5441c0bb286.png"  width="18px;">  |박건희 <img src="https://user-images.githubusercontent.com/55920132/120939947-86a46380-c755-11eb-979e-d5441c0bb286.png"  width="18px;"> |황지훈 <img src="https://user-images.githubusercontent.com/55920132/120939947-86a46380-c755-11eb-979e-d5441c0bb286.png"  width="18px;"> |손수림 <img src="https://user-images.githubusercontent.com/55920132/146872476-32eec75f-6ae1-44d4-9ab9-e361064cf687.png"  width="18px;">  |조주영 <img src="https://user-images.githubusercontent.com/55920132/146872476-32eec75f-6ae1-44d4-9ab9-e361064cf687.png"  width="18px;"> |신효정 <img src="https://user-images.githubusercontent.com/55920132/146872476-32eec75f-6ae1-44d4-9ab9-e361064cf687.png"  width="18px;"> |
+| :----: | :----: | :----: | :----: | :----: | :----: |
+| [@awesomeo184](https://github.com/awesomeo184) | [@BeautterLife](https://github.com/BeautterLife) | [@Jihun-Hwang](https://github.com/Jihun-Hwang)  | [@sonsurim](https://github.com/sonsurim) | [@chojooyoung](https://github.com/chojooyoung) | [@Shinhyojeong](https://github.com/Shinhyojeong)  | 
+| 백엔드 | 백엔드 | 백엔드 | 프론트엔드 | 프론트엔드 | 프론트엔드 |
+  
 ## **💸 기술 스택**
 - ### **커뮤니케이션**
   - **[Github Project](https://github.com/prgrms-web-devcourse/Team_Price_Offer_FE/projects)**
