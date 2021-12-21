@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Divider from '@components/templates/Divider'
 import Link from 'next/link'
 import Input from '@components/templates/Input'
@@ -18,7 +18,7 @@ import {
 } from '@utils/constant'
 import { useAuthContext } from '@hooks/useAuthContext'
 import { useRouter } from 'next/router'
-import { GetServerSideProps } from 'next'
+import Button from '@components/templates/Button'
 
 const Header = () => {
   const { state } = useAuthContext()
@@ -30,12 +30,9 @@ const Header = () => {
   const [isSearchToggle, setSearch] = useState(false)
   const [searchWord, setSearchWord] = useState('')
 
-  const iconBtnStyleLg = { width: '30px', height: '30px' }
-  const iconBtnStyleMd = { width: '24px', height: '24px' }
-
   const dialogClick = e => {
     e.stopPropagation()
-    setDialogVisible(true)
+    setDialogVisible(!dialogVisible)
   }
 
   const handleSearchRouting = () => {
@@ -51,32 +48,14 @@ const Header = () => {
   }
 
   return (
-    <div className="header-wrapper">
-      <div className="header-left">
+    <div className="header">
+      <div className="header-left-section">
         <Link href="/">
-          <img src={LOGO} alt="logo" className="logo" />
+          <img src={LOGO} alt="logo" className="header-logo" />
         </Link>
-        {isSearchToggle ? (
-          <Input
-            style={{ width: '100%' }}
-            className="header-search-input_mobile"
-            type="text"
-            name="search"
-            placeholder="상품명으로 원하는 물건을 검색해보세요!"
-            value={searchWord || ''}
-            onChange={e => setSearchWord(e.target.value)}
-            onKeyUp={e => e.key === 'Enter' && handleSearchRouting()}
-          />
-        ) : (
-          <Input
-            style={{ width: '100%', display: 'none' }}
-            className="header-search-input_mobile"
-          />
-        )}
         <div className="header-search-wrapper">
           <Input
-            style={{ width: '100%' }}
-            className="header-search-input"
+            className="search-input pc"
             type="text"
             name="search"
             placeholder="상품명으로 원하는 물건을 검색해보세요!"
@@ -84,108 +63,113 @@ const Header = () => {
             onChange={e => setSearchWord(e.target.value)}
             onKeyUp={e => e.key === 'Enter' && handleSearchRouting()}
           />
+          {isSearchToggle && (
+            <Input
+              className="search-input mobile"
+              type="text"
+              name="search"
+              placeholder="주문할 상품을 검색하세요!"
+              value={searchWord || ''}
+              onChange={e => setSearchWord(e.target.value)}
+              onKeyUp={e => e.key === 'Enter' && handleSearchRouting()}
+            />
+          )}
           <IconButton
-            className="search-button_pc"
+            className="search-button pc"
             src={SEARCH_LIGHT}
             alt="user"
-            style={iconBtnStyleMd}
             onClick={handleSearchRouting}
-          />
-          <IconButton
-            className="search-button_mobile"
-            src={SEARCH_BLACK}
-            alt="user"
-            style={iconBtnStyleLg}
-            onClick={() => {
-              !searchWord && setSearch(isOpenSearch => !isOpenSearch)
-              searchWord && handleSearchRouting()
-            }}
           />
         </div>
       </div>
-      <div className="header-widget-wrapper">
-        {state.token ? (
-          <div className="widget-islogin">
-            <div className="widget-islogin_pc">
-              <div className="sale-area">
+      <div className="header-right-section">
+        <div className="header-login-wrapper">
+          {state.token && (
+            <>
+              <div className="login-container pc">
+                <div
+                  className="sale-container"
+                  onClick={() => router.push('/posting/new')}>
+                  <IconButton src={SALE} alt="sale" className="sale-btn_icn" />
+                  <Button className="sale-btn_text">판매하기</Button>
+                </div>
+                <Divider type="vertical" />
+                <div className="user-container" onClick={dialogClick}>
+                  <Avatar
+                    src={profileImageUrl || NO_IMAGE_SQUARE}
+                    alt="user-img"
+                    className="user-btn_img"
+                  />
+                  <Button className="user-btn_text">{nickname}</Button>
+                  <IconButton
+                    className="user-btn_dialog-icn"
+                    src={MENU_ARROW}
+                    alt="user-dialog"
+                  />
+                </div>
+              </div>
+              <div className="login-container mobile">
+                <IconButton
+                  className="search-btn_icn"
+                  src={SEARCH_BLACK}
+                  alt="user"
+                  onClick={() => {
+                    !searchWord && setSearch(isOpenSearch => !isOpenSearch)
+                    searchWord && handleSearchRouting()
+                  }}
+                />
                 <IconButton
                   src={SALE}
                   alt="sale"
-                  style={iconBtnStyleMd}
-                  onClick={() => router.push('/posting/null')}
+                  className="sale-btn_icn"
+                  onClick={() => router.push('/posting/new')}
                 />
-                <div
-                  className="sale_button_text"
-                  onClick={() => router.push('/posting/null')}>
-                  판매하기
-                </div>
-              </div>
-              <Divider type="vertical" style={{ color: '#DDDDDD' }} />
-              <div className="userprofile-area">
-                <Avatar
-                  style={iconBtnStyleLg}
-                  src={profileImageUrl || NO_IMAGE_SQUARE}
-                />
-                <div className="username">{nickname}</div>
-                <div className="sidebar-wrapper">
-                  <IconButton
-                    className="sidebar"
-                    src={MENU_ARROW}
-                    alt="user"
-                    onClick={dialogClick}
-                  />
-                </div>
-                <Dialog
-                  className="sidear-list"
-                  style={{ justifyContent: 'space-between' }}
-                  items={DIALOGLIST}
-                  visible={dialogVisible}
-                  onClose={() => setDialogVisible(false)}
+                <IconButton
+                  className="user-btn_dialog_icn"
+                  src={USER_CIRCLE}
+                  alt="user"
+                  onClick={dialogClick}
                 />
               </div>
-            </div>
-            <div className="widget-islogin_mobile">
-              <IconButton
-                src={SALE}
-                alt="sale"
-                style={iconBtnStyleLg}
-                onClick={() => router.push('/posting/null')}
-              />
-              <IconButton
-                className="sidebar"
-                src={USER_CIRCLE}
-                alt="user"
-                style={iconBtnStyleLg}
-                onClick={dialogClick}
-              />
               <Dialog
-                className="sidear-list"
+                className="user-btn_dialog"
                 items={DIALOGLIST}
                 visible={dialogVisible}
                 onClose={() => setDialogVisible(false)}
               />
-            </div>
-          </div>
-        ) : (
-          <div className="widget-login">
-            <div className="widget-login_pc" onClick={() => setVisible(true)}>
-              <IconButton
-                src={USER_CIRCLE}
-                alt="user"
-                className="widget-login_pc-sale"
-              />
-              <div className="widget-login_pc-user">로그인 / 회원가입</div>
-            </div>
-            <button
-              className="widget-login_mobile"
-              onClick={() => setVisible(true)}>
-              <div className="widget-login_mobile_text">로그인</div>
-            </button>
-            <ModalLogin visible={visible} onClose={() => setVisible(false)}>
-              로그인 모달
-            </ModalLogin>
-          </div>
-        )}
+            </>
+          )}
+        </div>
+        <div className="header-logout-wrapper">
+          {!state.token && (
+            <>
+              <div className="logout-container">
+                <IconButton
+                  className="search-btn_icn"
+                  src={SEARCH_BLACK}
+                  alt="user"
+                  onClick={() => {
+                    !searchWord && setSearch(isOpenSearch => !isOpenSearch)
+                    searchWord && handleSearchRouting()
+                  }}
+                />
+                <IconButton
+                  src={USER_CIRCLE}
+                  alt="user-icon"
+                  className="logout-btn_icn"
+                  onClick={() => setVisible(true)}
+                />
+                <Button
+                  className="logout-btn_text"
+                  onClick={() => setVisible(true)}
+                />
+              </div>
+              <ModalLogin visible={visible} onClose={() => setVisible(false)}>
+                로그인 모달
+              </ModalLogin>
+            </>
+          )}
+        </div>
       </div>
     </div>
   )
