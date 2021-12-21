@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useRef, useEffect } from 'react'
 import Radio from '@components/templates/Radio'
 import Input from '@components/templates/Input'
 import Button from '@components/templates/Button'
@@ -6,37 +6,49 @@ import IconButton from '@components/templates/IconButton'
 import useClickAway from '@hooks/useClickAway'
 import GoodsList from '@components/ui/GoodsList'
 import { FILTER } from '@utils/constant/icon'
-import { articleApi } from '@api/apis'
 import { useRouter } from 'next/router'
 import Pagination from '@components/templates/Pagination'
 import { useAuthContext } from '@hooks/useAuthContext'
-import { CATEGORIES } from '../data/dummy/categories'
-import { ORDERWAY } from '../data/dummy/orderway'
+import { useFormik } from 'formik'
+import validate from '@utils/validation'
+import useApi from '@api/useApi'
 
-const search = () => {
-  const { state } = useAuthContext()
+export const getServerSideProps = async context => ({
+  props: {
+    title: context.query.title,
+  },
+})
+
+const search = ({ title }) => {
   const router = useRouter()
-  const { title } = router.query
-  const [filters, setFilters] = useState({
-    categoryId: null,
-    minPrice: null,
-    maxPrice: null,
-    tradeMethodCode: null,
-  })
+  const { articleApi } = useApi()
+  const { state } = useAuthContext()
   const [goodsList, setGoodsList] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
+  const articleInfo = useRef(null)
+  const filterFormik = useFormik({
+    initialValues: {
+      categoryCode: '',
+      minPrice: '',
+      maxPrice: '',
+      tradeMethodCode: '',
+    },
+    validate,
+    onSubmit: filters => {
+      fetchGoodsList(title, currentPage, filters)
+      router.push({
+        pathname: '/search',
+        query: {
+          title,
+          ...filters,
+        },
+      })
+    },
+  })
 
   const ref = useClickAway(e => {
     setIsopenedFilter(false)
   })
-
-  const handleSetFilters = e => {
-    const { name, value } = e.target
-    setFilters({
-      ...filters,
-      [name]: value,
-    })
-  }
 
   const handlePostRouting = postId => {
     postId &&
@@ -45,29 +57,45 @@ const search = () => {
       })
   }
 
-  useEffect(() => {
-    if (!title) {
-      router.push('/')
-      return
-    }
-    fetchGoodsList(title, currentPage)
-    console.log(currentPage)
-  }, [title, currentPage])
-
-  const fetchGoodsList = useCallback(async (title, currentPage) => {
+  const fetchGoodsList = useCallback(async (title, currentPage, filters) => {
     const searchOptions = {
       title,
       page: currentPage,
       size: 10,
-      ...filters,
     }
 
-    const { data } = state.token
-      ? await articleApi.searchArticlesWithAuth(searchOptions)
-      : await articleApi.searchArticles(searchOptions)
+    filters && articleApi.searchFilterArticlesWithAuth
 
+    console.log(searchOptions)
+    const { data } = state.token
+      ? filters
+        ? await articleApi.searchFilterArticles({
+            ...searchOptions,
+            ...filters,
+          })
+        : await articleApi.searchArticlesWithAuth(searchOptions)
+      : filters
+      ? await articleApi.searchFilterArticles({
+          ...searchOptions,
+          ...filters,
+        })
+      : await articleApi.searchArticles(searchOptions)
     title && setGoodsList(data)
   }, [])
+
+  useEffect(async () => {
+    const { data } = await articleApi.getArticlesInfos()
+
+    articleInfo.current = data
+  }, [articleInfo])
+
+  useEffect(() => {
+    // if (!title) {
+    //   router.push('/')
+    //   return
+    // }
+    fetchGoodsList(title, currentPage)
+  }, [title, currentPage])
 
   const [isopenedFilter, setIsopenedFilter] = useState(false)
 
@@ -96,65 +124,96 @@ const search = () => {
       <div className={isopenedFilter ? 'filter-mask show' : 'filter-mask'}>
         <div className="filter-container" ref={ref}>
           <div className="filter-wrapper">
-            <div className="filter-cont-wrapper">
-              <div className="filter-cont">
-                <h3 className="filter-cont_title">카테고리</h3>
-                <ul className="filter-cont_item-list category">
-                  {CATEGORIES.map(({ code, name }) => (
-                    <li key={code} className="filter-cont_item">
-                      <Button
-                        value={code}
-                        name="categoryId"
-                        onClick={handleSetFilters}>
+            <form
+              onSubmit={filterFormik.handleSubmit}
+              method="post"
+              encType="multipart/form-data">
+              <div className="filter-cont-wrapper">
+                <div className="filter-cont">
+                  <h3 className="filter-cont_title">카테고리</h3>
+                  <ul className="filter-cont_item-list category">
+                    {articleInfo.current?.categories.map(({ code, name }) => (
+                      <label
+                        className="search-filter_category"
+                        htmlFor={name}
+                        key={code}
+                        value={filterFormik.values.categoryCode}>
+                        <input
+                          type="radio"
+                          name="categoryCode"
+                          id={name}
+                          className="filter_category-btn"
+                          value={code}
+                          onChange={filterFormik.handleChange}
+                        />
                         {name}
-                      </Button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="filter-cont">
-                <h3 className="filter-cont_title">거래방식</h3>
-                <div className="filter-cont_item-list orderway">
-                  <Radio
-                    formName="tradeMethodCode"
-                    items={ORDERWAY}
-                    className="filter-cont_item"
-                    size="21px"
-                    fontSize="14px"
-                    radioDirection="vertical"
-                    onChange={handleSetFilters}
-                  />
+                      </label>
+                    ))}
+                  </ul>
                 </div>
-              </div>
-              <div className="filter-cont">
-                <h3 className="filter-cont_title">가격</h3>
-                <div className="filter-cont_item-list">
-                  <div className="filter-cont_item-input">
-                    <Input
-                      name="minPrice"
-                      placeholder="최소 가격"
-                      style={inputStyle}
-                      onChange={handleSetFilters}
-                    />
-                    <Input
-                      name="maxPrice"
-                      placeholder="최대 가격"
-                      style={inputStyle}
-                      onChange={handleSetFilters}
-                    />
+                <div className="filter-cont">
+                  <h3 className="filter-cont_title">거래방식</h3>
+                  <div className="filter-cont_item-list orderway">
+                    {articleInfo.current?.tradeMethod.map(({ code, name }) => (
+                      <label
+                        className="search-filter_trade-method"
+                        htmlFor={name}
+                        key={code}
+                        value={filterFormik.values.tradeMethodCode}>
+                        <input
+                          type="radio"
+                          name="tradeMethodCode"
+                          id={name}
+                          className="filter_trademethod-btn"
+                          value={code}
+                          onChange={filterFormik.handleChange}
+                        />
+                        {name}
+                      </label>
+                    ))}
                   </div>
-                  <p className="filter-cont_item-notice">
-                    가격은 숫자로만 입력할 수 있어요!
-                  </p>
+                </div>
+                <div className="filter-cont">
+                  <h3 className="filter-cont_title">가격</h3>
+                  <div className="filter-cont_item-list">
+                    <div className="filter-cont_item-input">
+                      <Input
+                        name="minPrice"
+                        placeholder="최소 가격"
+                        style={inputStyle}
+                        className="filter_minprice-input"
+                        type="number"
+                        onChange={filterFormik.handleChange}
+                        value={filterFormik.values.minPrice}
+                      />
+                      <Input
+                        name="maxPrice"
+                        placeholder="최대 가격"
+                        style={inputStyle}
+                        className="filter_maxprice-input"
+                        type="number"
+                        onChange={filterFormik.handleChange}
+                        value={filterFormik.values.maxPrice}
+                      />
+                      <div className="validation search">
+                        {filterFormik.errors.maxPrice}
+                      </div>
+                    </div>
+                    <p className="filter-cont_item-notice">
+                      가격은 숫자로만 입력할 수 있어요!
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="filter-btn-wrapper">
-              <Button style={{ ...btnStyle, ...resetBtnStyle }}>초기화</Button>
-              <Button style={btnStyle} onClick={fetchGoodsList}>
-                필터 적용
-              </Button>
-            </div>
+              <div className="filter-btn-wrapper">
+                <Button type="reset" style={{ ...btnStyle, ...resetBtnStyle }}>
+                  초기화
+                </Button>
+                <Button type="submit" style={btnStyle}>
+                  필터 적용
+                </Button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -175,7 +234,7 @@ const search = () => {
                   src={FILTER}
                   alt="필터"
                   onClick={() => {
-                    console.log('필터')
+                    // console.log('필터')
                   }}
                 />
               </div>
@@ -196,7 +255,6 @@ const search = () => {
         <div className="result-body">
           {goodsList.elements && (
             <GoodsList
-              haveAuth={!!state.token}
               goodsList={goodsList.elements}
               onClick={handlePostRouting}
             />
@@ -206,9 +264,7 @@ const search = () => {
           <Pagination
             paginate={setCurrentPage}
             setStartPage={setCurrentPage}
-            postListLength={
-              goodsList.pageInfo && goodsList.pageInfo.totalElementCount
-            }
+            postListLength={goodsList.pageInfo?.totalElementCount}
           />
         </div>
       </div>

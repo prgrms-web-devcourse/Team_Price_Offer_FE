@@ -54,6 +54,7 @@ export const reviewApi = {
 export const articleApi = {
   searchArticlesWithAuth: params => auth.get(`/search`, { params }),
   searchArticles: params => instance.get(`/search`, { params }),
+  searchFilterArticles: params => instance.get(`/search/filters`, { params }),
   editArticle: articleInfo => auth.put('/articles', articleInfo),
   getArticle: ({ articleId, params }) =>
     instance.get(`/articles${articleId ? `/${articleId}` : ''}`, { params }),

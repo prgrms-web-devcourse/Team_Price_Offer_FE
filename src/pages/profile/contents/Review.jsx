@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
+import useApi from '@api/useApi'
 import Avatar from '@components/templates/Avatar'
 import Button from '@components/templates/Button'
 import Divider from '@components/templates/Divider'
 import Pagination from '@components/templates/Pagination'
 import ModalMyReview from '@components/ui/modal/ModalMyReview'
 import ModalWriteReview from '@components/ui/modal/ModalWriteReview'
-import { userApi } from '@api/apis'
+import { useListener } from 'react-bus'
+import { useRouter } from 'next/router'
 
 const Review = ({ userId, state }) => {
+  const { userApi } = useApi()
+  const router = useRouter()
+
   const [visibleReviewModal, setVisibleReviewModal] = useState(false)
   const [visibleWriteReviewModal, setVisibleWriteReviewModal] = useState(false)
   const [goodsListStatus, setGoodsListStatus] = useState({
@@ -31,6 +36,16 @@ const Review = ({ userId, state }) => {
     nickname: null,
     reviewContent: null,
   })
+
+  useListener('fetchUserReview', async () => {
+    await fetchReviews()
+  })
+
+  useEffect(() => {
+    return () => {
+      window.removeEventListener('fetchUserReview', null)
+    }
+  }, [])
 
   useEffect(async () => {
     await fetchReviews()
@@ -156,7 +171,10 @@ const Review = ({ userId, state }) => {
                         </div>
                         <Button
                           className="review-goods_btn-wrapper"
-                          style={{ border: '1px solid #ccc' }}>
+                          style={{ border: '1px solid #ccc' }}
+                          onClick={() =>
+                            router.push(`/post/${item.article.id}`)
+                          }>
                           <div className="review-goods_btn">
                             <div className="review-goods_btn_text">
                               {goodsListStatus.isSellingReview

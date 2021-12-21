@@ -4,18 +4,19 @@ import Button from '@components/templates/Button'
 import ImageUploader from '@components/templates/ImageUploader'
 import validate from '@utils/validation'
 import { useFormik } from 'formik'
-import { imgApi } from '@api/apis'
 import { PHOTO, NOIMG } from '@utils/constant'
 import { useAuthContext } from '@hooks/useAuthContext'
+import useApi from '@api/useApi'
 
 const ContentInfoModify = () => {
+  const { imgApi } = useApi()
   const { state, handleModifyUserInfo } = useAuthContext()
   const { userData } = state
 
   const formik = useFormik({
     initialValues: {
-      nickname: '',
-      address: '',
+      nickname: userData?.nickname || '',
+      address: userData?.address || '',
     },
     validate,
     onSubmit: async values => {
@@ -74,7 +75,7 @@ const ContentInfoModify = () => {
               <Input
                 type="text"
                 name="nickname"
-                placeholder={userData.nickname}
+                placeholder="닉네임 (2~15자)"
                 value={formik.values.nickname}
                 onChange={formik.handleChange}
               />
@@ -86,7 +87,7 @@ const ContentInfoModify = () => {
                 <Input
                   type="text"
                   name="address"
-                  placeholder={userData.address}
+                  placeholder="ex) 서울시 동작구"
                   value={formik.values.address}
                   onChange={formik.handleChange}
                 />
@@ -101,9 +102,9 @@ const ContentInfoModify = () => {
           </div>
         </form>
       </div>
-      <div className="modal-footer withdrawal">
+      {/* <div className="modal-footer withdrawal">
         <p>회원탈퇴</p>
-      </div>
+      </div> */}
     </>
   )
 }

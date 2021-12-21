@@ -1,58 +1,28 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useRouter } from 'next/dist/client/router'
-import Spinner from '@components/templates/Spinner'
 import Like from './Like'
 import Offer from './Offer'
 import Review from './Review'
 import Sale from './Sale'
 
-const ProfileContents = ({ userId, pageType, state, onClick }) => {
-  const SpinnerStyle = {
-    display: 'flex',
-    justifyContent: 'center',
-  }
-
-  const handleClick = e => {
-    onClick && onClick(e)
-  }
-
+const ProfileContents = ({ userId, pageType, state }) => {
   switch (pageType) {
     case 'like':
-      return (
-        <div onClick={handleClick}>
-          <Like />
-        </div>
-      )
+      return <Like />
     case 'offer':
-      return (
-        <div onClick={handleClick}>
-          <Offer />
-        </div>
-      )
+      return <Offer />
     case 'review':
-      return (
-        <div onClick={handleClick}>
-          <Review userId={userId} state={state} />
-        </div>
-      )
+      return <Review userId={userId} state={state} />
     case 'sale':
-      return (
-        <div onClick={handleClick}>
-          <Sale userId={userId} state={state} />
-        </div>
-      )
+      return <Sale userId={userId} />
     default:
       if (process.browser) {
         const router = useRouter()
         router.push('/')
       }
 
-      return (
-        <div style={SpinnerStyle}>
-          <Spinner />
-        </div>
-      )
+      return null
   }
 }
 

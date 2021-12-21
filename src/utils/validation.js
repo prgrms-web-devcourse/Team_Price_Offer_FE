@@ -10,10 +10,19 @@ const validate = values => {
   const havemessageContent = fieldKeys.includes('messageContent')
   const haveEvaluation = fieldKeys.includes('evaluation')
   const haveReviewContent = fieldKeys.includes('reviewContent')
+  const havePriceRange = fieldKeys.includes('minPrice', 'maxPrice')
+
   fieldKeys.forEach(value => {
     if (!values[value]) {
       if (value === 'evaluation') {
         errors.evaluation = '상대방에 대한 평가를 선택해주세요'
+      } else if (
+        value === 'minPrice' ||
+        value === 'maxPrice' ||
+        value === 'categoryCode' ||
+        value === 'tradeMethodCode'
+      ) {
+        return
       } else {
         errors[value] = '필수값을 입력해주세요!'
       }
@@ -61,6 +70,15 @@ const validate = values => {
   }
   if (haveReviewContent && values.reviewContent.length >= 100) {
     errors.reviewContent = '리뷰는 100자를 넘을 수 없습니다.'
+  }
+
+  if (
+    havePriceRange &&
+    values.minPrice &&
+    values.maxPrice &&
+    values.minPrice > values.maxPrice
+  ) {
+    errors.maxPrice = '최소 가격이 최대 가격을 넘길 수 없습니다.'
   }
   return errors
 }

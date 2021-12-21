@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+import { useListener } from 'react-bus'
+import useApi from '@api/useApi'
 import Divider from '@components/templates/Divider'
 import Button from '@components/templates/Button'
 import GoodsList from '@components/ui/GoodsList'
 import Pagination from '@components/templates/Pagination'
-import { userApi } from '@api/apis'
 
 const Like = () => {
+  const { userApi } = useApi()
+
   const [goodsList, setGoodsList] = useState({
     elements: [],
     totalElementCount: 0,
@@ -20,6 +23,20 @@ const Like = () => {
     },
   })
 
+  useListener('fetchUserProfile', async () => {
+    await fetchUserLikes()
+  })
+
+  useEffect(() => {
+    return () => {
+      window.removeEventListener('fetchUserProfile', null)
+    }
+  }, [])
+
+  useEffect(async () => {
+    await fetchUserLikes()
+  }, [goodsListStatus, checkGoodsOptions])
+
   const handleCheckGoods = pageNum => {
     setCheckGoodsOptions({
       params: {
@@ -29,7 +46,7 @@ const Like = () => {
     })
   }
 
-  useEffect(async () => {
+  const fetchUserLikes = async () => {
     const tradeStatusCode = goodsListStatus.isSelling ? 4 : 8
     const res = await userApi.getUserLikeArticles({
       tradeStatusCode,
@@ -44,7 +61,7 @@ const Like = () => {
       elements: res.data.elements,
       totalElementCount: res.data.pageInfo.totalElementCount,
     })
-  }, [goodsListStatus, checkGoodsOptions])
+  }
 
   return (
     <div className="result-container">
@@ -73,11 +90,7 @@ const Like = () => {
         <span className="result-lineup_item">높은 가격순</span>
       </div>
       <div className="result-content">
-        <GoodsList
-          haveAuth
-          goodsList={goodsList.elements}
-          className="sale-goodList"
-        />
+        <GoodsList goodsList={goodsList.elements} className="sale-goodList" />
       </div>
       <Pagination
         size={checkGoodsOptions.params.size}

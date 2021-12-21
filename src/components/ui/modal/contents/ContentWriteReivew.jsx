@@ -4,7 +4,8 @@ import TextArea from '@components/templates/Textarea'
 import Button from '@components/templates/Button'
 import { userApi, articleApi } from '@api/apis'
 import { useFormik } from 'formik'
-import router from 'next/router'
+import { useRouter } from 'next/router'
+import { useBus } from 'react-bus'
 import validate from '@utils/validation'
 import {
   REVIEW_SOSO,
@@ -26,6 +27,8 @@ const ContentWriteReivew = ({
   needChangeStatus,
   onClose,
 }) => {
+  const bus = useBus()
+  const router = useRouter()
   const [badImg, setbadImg] = useState(REVIEW_BAD)
   const [goodImg, setGoodImg] = useState(REVIEW_GOOD)
   const [sosoImg, setSosoImg] = useState(REVIEW_SOSO)
@@ -50,7 +53,6 @@ const ContentWriteReivew = ({
     },
     validate,
     onSubmit: async values => {
-      await console.log(values)
       const res = await userApi.postReview({
         articleId: postId,
         payload: {
@@ -58,11 +60,13 @@ const ContentWriteReivew = ({
           content: values.reviewContent,
         },
       })
+
       if (Number(res.code) === 200) {
         alert(`${userNickname} 님께 거래후기를 남겼습니다!`)
 
-        if (!needChangeStatus) {
+        if (!needChangeStatus && router.pathname.includes('profile')) {
           onClose && onClose()
+          bus.emit('fetchUserReview', null)
           return
         }
         const resTradeStatus = await articleApi.changeTradeStatus({

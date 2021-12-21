@@ -6,9 +6,18 @@ import LikeButton from '@components/ui/LikeButton'
 import styled from '@emotion/styled'
 import { useRouter } from 'next/router'
 import { timeForToday, convertPrice } from '@utils/functions'
+import { useAuthContext } from '@hooks/useAuthContext'
 
-const GoodsItem = ({ item, haveAuth }) => {
+const GoodsItem = ({ item }) => {
   const router = useRouter()
+  const { state } = useAuthContext()
+
+  const isNeedShowLikedBtn = () =>
+    !(
+      router.pathname.includes('profile') &&
+      router.query.pageType === 'sale' &&
+      Number(router.query.userId) === Number(state.userData.id)
+    )
 
   const imgStyle = {
     width: '100%',
@@ -55,7 +64,7 @@ const GoodsItem = ({ item, haveAuth }) => {
           placeholder="https://www.urbansplash.co.uk/images/placeholder-16-9.jpg"
           alt={item.title}
         />
-        {haveAuth && (
+        {state.token && isNeedShowLikedBtn() && (
           <LikeButton
             name="like"
             className="goods-icon_heart"
@@ -69,7 +78,7 @@ const GoodsItem = ({ item, haveAuth }) => {
         <p
           className="goods-cont_title"
           style={{ cursor: 'pointer' }}
-          onClick={() => handleOnClick(item.id)}>
+          onClick={e => handleOnClick(e, item.id)}>
           {item.title || '상품 이름 없음'}
         </p>
         <div className="goods-cont_meta">
@@ -98,7 +107,7 @@ GoodsItem.propTypes = {
 const ImgContainer = styled.div`
   position: relative;
   width: 100%;
-  height: 300px;
+  height: 280px;
   margin-bottom: 10px;
   cursor: pointer;
 `
@@ -109,7 +118,7 @@ const ImgMask = styled.div`
   justify-content: center;
   position: absolute;
   width: 100%;
-  height: 300px;
+  height: 280px;
   background: rgba(0, 0, 0, 0.5);
   color: #fff;
   font-size: 17px;

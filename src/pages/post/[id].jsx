@@ -14,7 +14,7 @@ import ModalChat from '@components/ui/modal/ModalChat'
 import Pagination from '@components/templates/Pagination'
 import Like from '@components/ui/InPostToggle'
 import { OFFER, OPTIONS } from '@utils/constant/icon'
-import { articleApi } from '@api/apis'
+import useApi from '@api/useApi'
 import { useAuthContext } from '@hooks/useAuthContext'
 import { timeForToday } from '@utils/functions'
 import { USER } from '@utils/constant'
@@ -30,6 +30,7 @@ export const getServerSideProps = async context => {
 const { setItem } = useStorage()
 
 const Post = ({ postId, data }) => {
+  const { articleApi } = useApi()
   const { state } = useAuthContext()
   const userId = state.userData.id
   setItem('postId', postId)
@@ -87,6 +88,8 @@ const Post = ({ postId, data }) => {
   setItem('imgUrl', imgUrls)
 
   const dialogClick = e => {
+    setItem('postData', postData)
+    setItem('imgUrl', imgUrls)
     e.stopPropagation()
     setDialogVisible(true)
   }
@@ -162,7 +165,7 @@ const Post = ({ postId, data }) => {
 
   return (
     <div className="detail">
-      {isMounted ? (
+      {isMounted && (
         <>
           <div className="detail-info-wrapper">
             <div className="img-wrapper">
@@ -190,6 +193,7 @@ const Post = ({ postId, data }) => {
                     }}
                     src="https://picsum.photos/200"
                     ratio="r"
+                    isPost
                   />
                   {finishTrade ? (
                     <div className="finish-message">거래완료</div>
@@ -217,7 +221,7 @@ const Post = ({ postId, data }) => {
                     width: '100%',
                   }}
                 />
-                {isWriter ? (
+                {isWriter && (
                   <div className="status-wrapper">
                     <SelectBox
                       style={{
@@ -261,8 +265,6 @@ const Post = ({ postId, data }) => {
                       onClose={() => setDialogVisible(false)}
                     />
                   </div>
-                ) : (
-                  ''
                 )}
                 <div className="post-info-top">
                   <div className="post-title">{postData.title}</div>
@@ -452,8 +454,6 @@ const Post = ({ postId, data }) => {
             쪽지 모달
           </ModalChat>
         </>
-      ) : (
-        ''
       )}
     </div>
   )
