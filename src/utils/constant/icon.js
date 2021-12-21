@@ -64,3 +64,5 @@ export const PAGINATION_ARROW_LEFT =
   require('@assets/images/icon/pagination_arrow_left.svg').default.src
 export const PAGINATION_ARROW_RIGHT =
   require('@assets/images/icon/pagination_arrow_right.svg').default.src
+export const MESSAGE_CHATTING_EMPTY =
+  require('@assets/images/icon/message_chatting_empty.svg').default.src
