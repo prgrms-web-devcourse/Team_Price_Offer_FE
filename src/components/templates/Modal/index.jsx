@@ -56,12 +56,14 @@ const Modal = ({
         style={{ ...containerStyle, ...style }}
         className={className}>
         <>
-          <IconButton
-            src={CLOSE}
-            alt="close modal"
-            style={closeIconStyle}
-            onClick={onClose}
-          />
+          {onClose && (
+            <IconButton
+              src={CLOSE}
+              alt="close modal"
+              style={closeIconStyle}
+              onClick={onClose}
+            />
+          )}
           {children}
         </>
       </ModalContainer>
