@@ -329,7 +329,7 @@ const Post = ({ postId, data }) => {
                 )}
                 <div className="post-info-top">
                   <div className="post-title">{postData.title}</div>
-                  {state.token && (
+                  {!state.token && (
                     <Like
                       className="like-button"
                       style={{
