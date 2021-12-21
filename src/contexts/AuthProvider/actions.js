@@ -96,7 +96,6 @@ const useActions = dispatch => {
     try {
       clear()
       dispatch({ type: LOGOUT })
-      alert('정상적으로 로그아웃 되었습니다!')
     } catch (e) {
       alert('로그아웃에 실패하셨습니다!')
     }
