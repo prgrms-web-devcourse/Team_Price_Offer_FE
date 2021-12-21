@@ -90,11 +90,7 @@ const Like = () => {
         <span className="result-lineup_item">높은 가격순</span>
       </div>
       <div className="result-content">
-        <GoodsList
-          haveAuth
-          goodsList={goodsList.elements}
-          className="sale-goodList"
-        />
+        <GoodsList goodsList={goodsList.elements} className="sale-goodList" />
       </div>
       <Pagination
         size={checkGoodsOptions.params.size}

@@ -255,7 +255,6 @@ const search = ({ title }) => {
         <div className="result-body">
           {goodsList.elements && (
             <GoodsList
-              haveAuth={!!state.token}
               goodsList={goodsList.elements}
               onClick={handlePostRouting}
             />

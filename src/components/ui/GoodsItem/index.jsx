@@ -6,9 +6,18 @@ import LikeButton from '@components/ui/LikeButton'
 import styled from '@emotion/styled'
 import { useRouter } from 'next/router'
 import { timeForToday, convertPrice } from '@utils/functions'
+import { useAuthContext } from '@hooks/useAuthContext'
 
-const GoodsItem = ({ item, haveAuth }) => {
+const GoodsItem = ({ item }) => {
   const router = useRouter()
+  const { state } = useAuthContext()
+
+  const isNeedShowLikedBtn = () =>
+    !(
+      router.pathname.includes('profile') &&
+      router.query.pageType === 'sale' &&
+      Number(router.query.userId) === Number(state.userData.id)
+    )
 
   const imgStyle = {
     width: '100%',
@@ -55,7 +64,7 @@ const GoodsItem = ({ item, haveAuth }) => {
           placeholder="https://www.urbansplash.co.uk/images/placeholder-16-9.jpg"
           alt={item.title}
         />
-        {haveAuth && (
+        {state.token && isNeedShowLikedBtn() && (
           <LikeButton
             name="like"
             className="goods-icon_heart"
