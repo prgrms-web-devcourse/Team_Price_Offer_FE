@@ -84,6 +84,8 @@ const Post = ({ postId, data }) => {
   }, [state, checkOfferOptions])
 
   const dialogClick = e => {
+    setItem('postData', postData)
+    setItem('imgUrl', imgUrls)
     e.stopPropagation()
     setDialogVisible(true)
   }
