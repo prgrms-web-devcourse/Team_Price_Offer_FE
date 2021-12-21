@@ -179,9 +179,7 @@ const posting = ({ postId }) => {
               onChange={formik.handleChange}
               value={formik.values.title}
             />
-            {formik.errors.title ? (
-              <div className="posting-validation">{formik.errors.title}</div>
-            ) : null}
+            <div className="posting-validation">{formik.errors.title}</div>
 
             <Divider style={commonDividerStyle} marginSize={50} />
 
@@ -249,9 +247,7 @@ const posting = ({ postId }) => {
               onChange={formik.handleChange}
               value={formik.values.category}
             />
-            {formik.errors.category && (
-              <div className="posting-validation">{formik.errors.category}</div>
-            )}
+            <div className="posting-validation">{formik.errors.category}</div>
 
             <Divider style={commonDividerStyle} marginSize={50} />
 
@@ -265,11 +261,7 @@ const posting = ({ postId }) => {
               onChange={formik.handleChange}
               value={formik.values.tradeArea}
             />
-            {formik.errors.tradeArea && (
-              <div className="posting-validation">
-                {formik.errors.tradeArea}
-              </div>
-            )}
+            <div className="posting-validation">{formik.errors.tradeArea}</div>
 
             <Divider style={commonDividerStyle} marginSize={50} />
             <div className="posting-subtitle">상품상태</div>
@@ -283,11 +275,9 @@ const posting = ({ postId }) => {
               onChange={formik.handleChange}
               value={formik.values.productStatus}
             />
-            {formik.errors.productStatus && (
-              <div className="posting-validation">
-                {formik.errors.productStatus}
-              </div>
-            )}
+            <div className="posting-validation">
+              {formik.errors.productStatus}
+            </div>
 
             <Divider style={commonDividerStyle} marginSize={50} />
 
@@ -295,24 +285,20 @@ const posting = ({ postId }) => {
 
             <Radio
               id="tradeMethod"
-              style={{ marginTop: '50px' }}
               items={ORDERWAY}
               formName="tradeMethod"
-              className="posting-radio"
+              className="posting-radio trade-method"
               InputClassName="posting-radio_input"
               onChange={formik.handleChange}
               value={formik.values.tradeMethod}
             />
-            {formik.errors.tradeMethod && (
-              <div className="posting-validation">
-                {formik.errors.tradeMethod}
-              </div>
-            )}
+            <div className="posting-validation">
+              {formik.errors.tradeMethod}
+            </div>
             <Divider style={commonDividerStyle} marginSize={50} />
 
             <div className="posting-subtitle">수량</div>
             <Input
-              style={{ marginTop: '50px' }}
               id="quantity"
               name="quantity"
               className="posting-input"
@@ -322,9 +308,7 @@ const posting = ({ postId }) => {
               value={formik.values.quantity}
             />
             <span className="posting-form_unit">개</span>
-            {formik.errors.quantity && (
-              <div className="posting-validation">{formik.errors.quantity}</div>
-            )}
+            <div className="posting-validation">{formik.errors.quantity}</div>
             <Divider style={commonDividerStyle} marginSize={50} />
 
             <div className="posting-subtitle">가격</div>
@@ -338,15 +322,10 @@ const posting = ({ postId }) => {
               value={formik.values.price}
             />
             <span className="posting-form_unit">원</span>
-            {formik.errors.price && (
-              <div className="posting-validation">{formik.errors.price}</div>
-            )}
+            <div className="posting-validation">{formik.errors.price}</div>
             <Divider style={commonDividerStyle} marginSize={50} />
 
             <div className="posting-subtitle">상품 설명</div>
-            {formik.errors.content && (
-              <div className="posting-validation">{formik.errors.content}</div>
-            )}
             <textarea
               id="content"
               name="content"
@@ -360,6 +339,7 @@ const posting = ({ postId }) => {
                 placeholder: 'color: #888888',
               }}
             />
+            <div className="posting-validation">{formik.errors.content}</div>
 
             <div className="posting-button-container">
               <Button type="submit" className="posting-button">

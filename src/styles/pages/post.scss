@@ -23,6 +23,20 @@
             position: absolute
         }
     }
+
+    .swiper-button{
+        &-prev{
+            color:  rgb(228, 228, 228);
+        }
+
+        &-next{
+            color:  rgb(228, 228, 228);
+        }
+    }
+
+    .swiper-pagination-bullet-active{
+        background-color: white;
+    }
 }
 
 
@@ -71,7 +85,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
-        word-wrap:break-word; 
+        word-wrap:break-word;
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
     }
@@ -236,8 +250,6 @@
             }
         }
     }
-
-
 }
 
 
@@ -245,7 +257,7 @@
     .img-wrapper{
         width:100%;
         padding:0px;
-        
+
     }
 
     .post-info-wrapper{
@@ -371,7 +383,7 @@
     font-size: 13px;
     top: 30px;
     left: 300px;
-  
+
     @media (max-width: 706px) {
       z-index: 100;
       left: 300px;
