@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
-import USER from '@utils/constant/icon'
-import { USER_CIRCLE } from '@utils/constant'
+import { USER } from '@utils/constant/icon'
 
 const Avatar = ({ style, className, src }) => {
   const onError = e => {

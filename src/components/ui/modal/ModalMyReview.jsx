@@ -4,10 +4,6 @@ import Modal from '@components/templates/Modal'
 import ContentMyReview from './contents/ContentMyReview'
 
 const Myreivew = ({ visible, onClose, postInfo }) => {
-  const hoverEvent = e => {
-    e.target.style.fill = '#F74F2A'
-  }
-
   return (
     <Modal
       visible={visible}
