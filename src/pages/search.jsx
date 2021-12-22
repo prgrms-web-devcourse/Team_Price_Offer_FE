@@ -110,6 +110,8 @@ const search = ({ title }) => {
     width: '150px',
     height: '40px',
     fontSize: '14px',
+    color: '#fff',
+    background: '#f74f2a',
   }
 
   const resetBtnStyle = {
@@ -133,11 +135,7 @@ const search = ({ title }) => {
                   <h3 className="filter-cont_title">카테고리</h3>
                   <ul className="filter-cont_item-list category">
                     {articleInfo.current?.categories.map(({ code, name }) => (
-                      <label
-                        className="search-filter_category"
-                        htmlFor={name}
-                        key={code}
-                        value={filterFormik.values.categoryCode}>
+                      <>
                         <input
                           type="radio"
                           name="categoryCode"
@@ -146,8 +144,14 @@ const search = ({ title }) => {
                           value={code}
                           onChange={filterFormik.handleChange}
                         />
-                        {name}
-                      </label>
+                        <label
+                          className="search-filter_category"
+                          htmlFor={name}
+                          key={code}
+                          value={code}>
+                          {name}
+                        </label>
+                      </>
                     ))}
                   </ul>
                 </div>
@@ -199,9 +203,9 @@ const search = ({ title }) => {
                         {filterFormik.errors.maxPrice}
                       </div>
                     </div>
-                    <p className="filter-cont_item-notice">
+                    {/* <p className="filter-cont_item-notice">
                       가격은 숫자로만 입력할 수 있어요!
-                    </p>
+                    </p> */}
                   </div>
                 </div>
               </div>
